@@ -1,0 +1,8 @@
+numpy==1.23.5
+pandas==1.4.0
+scikit-learn==1.5.1
+scikit-surprise==1.1.4
+Django==3.2.25
+djangorestframework==3.13.1
+tqdm==4.66.5
+konlpy==0.6.0
