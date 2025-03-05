@@ -5,7 +5,7 @@ import shutil
 
 def sort_stores_by_score(dataframes, n=20, min_reviews=30):
     """
-    Req. 1-2-1 각 음식점의 평균 평점을 계산하여 높은 평점의 음식점 순으로 `n`개의 음식점을 정렬하여 리턴합니다
+    Req. 1-2-1 각 음식점의 평균 평점을 계산하여 높은 평점의 음식점 순으로 n개의 음식점을 정렬하여 리턴합니다
     Req. 1-2-2 리뷰 개수가 `min_reviews` 미만인 음식점은 제외합니다.
     """
     stores_reviews = pd.merge(
@@ -26,7 +26,7 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
 
 def get_most_reviewed_stores(dataframes, n=20):
     """
-    Req. 1-2-3 가장 많은 리뷰를 받은 `n`개의 음식점을 정렬하여 리턴합니다
+    Req. 1-2-3 가장 많은 리뷰를 받은 n개의 음식점을 정렬하여 리턴합니다
     """
     review_counts = dataframes["reviews"].groupby("store").size().reset_index(name="review_count")
     review_counts = pd.merge(review_counts, dataframes["stores"], left_on="store", right_on="id")
@@ -36,7 +36,7 @@ def get_most_reviewed_stores(dataframes, n=20):
 
 def get_most_active_users(dataframes, n=20):
     """
-    Req. 1-2-4 가장 많은 리뷰를 작성한 `n`명의 유저를 정렬하여 리턴합니다.
+    Req. 1-2-4 가장 많은 리뷰를 작성한 n명의 유저를 정렬하여 리턴합니다.
     """
     user_reviews = dataframes["reviews"].groupby("user").size().reset_index(name="review_count")
     user_reviews = pd.merge(user_reviews, dataframes["users"], left_on="user", right_on="id")
