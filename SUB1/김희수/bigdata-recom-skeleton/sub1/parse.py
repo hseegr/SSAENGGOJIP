@@ -77,10 +77,11 @@ def import_data(data_path=DATA_FILE):
             )
 
         # 메뉴 정보
-        for menu in d["menu_list"]:
-            menus.append(
-                [menu["id"], d["id"], menu["menu_name"], menu["price"]]
-            )
+        for i, menu in enumerate(d["menu_list"]):
+            menu_id = menu.get("id", f"{d['id']}_menu_{i}")  # ID가 없으면 자동 생성
+            menu_name = menu.get("menu", "Unknown")  # "menu" 키 사용
+            menu_price = menu.get("price", 0)  # 가격이 없으면 0으로 설정
+            menus.append([menu_id, d["id"], menu_name, menu_price])
 
     store_frame = pd.DataFrame(data=stores, columns=store_columns)
     review_frame = pd.DataFrame(data=reviews, columns=review_columns)
