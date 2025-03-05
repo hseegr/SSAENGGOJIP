@@ -56,7 +56,7 @@ def import_data(data_path=DATA_FILE):
     stores = []  # 음식점 테이블
     reviews = []  # 리뷰 테이블
     menus = []  # 메뉴 테이블
-    users = {} # 유저 테이블 (유저 중복 방지)
+    users = {} # 유저 테이블 (중복 방지)
 
     menu_id = 1  # 메뉴 ID 자동 증가 값
     
