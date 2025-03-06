@@ -23,7 +23,7 @@ review_columns = (
     "id",  # 리뷰 고유번호
     "store",  # 음식점 고유번호
     "user",  # 유저 고유번호
-    "score",  # 평점
+    "total_score",  # 평점
     "content",  # 리뷰 내용
     "reg_time",  # 리뷰 등록 시간
 )
@@ -65,14 +65,14 @@ def import_data(data_path=DATA_FILE):
         categories = [c["category"] for c in d.get("category_list", [])]
         stores.append(
             [
-                d["id"],
-                d["name"],
-                d.get("branch", ""),
-                d.get("area", ""),
-                d.get("tel", ""),
-                d.get("address", ""),
-                d.get("latitude"),
-                d.get("longitude"),
+                int(d["id"]),
+                str(d["name"]),
+                str(d.get("branch", "")),
+                str(d.get("area", "")),
+                str(d.get("tel", "")),
+                str(d.get("address", "")),
+                float(d["latitude"]) if d["latitude"] is not None else 0.0,  # None 값 처리
+                float(d["longitude"]) if d["longitude"] is not None else 0.0,  # None 값 처리
                 "|".join(categories),
             ]
         )
@@ -81,9 +81,9 @@ def import_data(data_path=DATA_FILE):
             menus.append(
                 [
                     menu_id,
-                    d["id"],
-                    menu.get("menu", ""),
-                    menu.get("price", 0)
+                    int(d["id"]),
+                    str(menu.get("menu", "")),
+                    int(menu.get("price", 0) or 0)
                 ]
             )
             menu_id += 1
@@ -92,16 +92,37 @@ def import_data(data_path=DATA_FILE):
             r = review["review_info"]
             u = review["writer_info"]
 
-            reviews.append(
-                [r["id"], d["id"], u["id"], r["score"], r["content"], r["reg_time"]]
-            )
+            reviews.append([
+                int(r["id"]),
+                int(d["id"]),
+                int(u["id"]),
+                int(r["score"]),  # int형 total_score
+                str(r["content"]),
+                str(r["reg_time"])
+            ])
             
-            users[u["id"]] = [u["id"], u["gender"], u["born_year"]]
+            users[u["id"]] = [
+                int(u["id"]),
+                str(u["gender"]),
+                int(u["born_year"])
+            ]
 
-    store_frame = pd.DataFrame(data=stores, columns=store_columns)
-    review_frame = pd.DataFrame(data=reviews, columns=review_columns)
-    menu_frame = pd.DataFrame(data=menus, columns=menu_columns)
-    user_frame = pd.DataFrame(data=list(users.values()), columns=user_columns)
+    # 데이터 프레임 생성 및 데이터 타입 변환
+    store_frame = pd.DataFrame(data=stores, columns=store_columns).astype({
+        "id": "int32", "latitude": "float64", "longitude": "float64"
+    })
+
+    review_frame = pd.DataFrame(data=reviews, columns=review_columns).astype({
+        "id": "int32", "store": "int32", "user": "int32", "total_score": "int32"
+    })
+
+    menu_frame = pd.DataFrame(data=menus, columns=menu_columns).astype({
+        "id": "int32", "store": "int32", "price": "int32"
+    })
+
+    user_frame = pd.DataFrame(data=list(users.values()), columns=user_columns).astype({
+        "id": "int32", "gender": "string", "age": "int32"
+    })
 
     return {"stores": store_frame, "reviews": review_frame, "menus": menu_frame, "users": user_frame}
 

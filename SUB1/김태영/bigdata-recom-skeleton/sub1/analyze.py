@@ -12,7 +12,7 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
         dataframes["stores"], dataframes["reviews"], left_on="id", right_on="store"
     )
     scores_group = stores_reviews.groupby(["store", "store_name"])
-    scores = scores_group["score"].mean().reset_index()
+    scores = scores_group["total_score"].mean().reset_index()
     review_counts = scores_group.size().reset_index(name="review_count")
     scores = pd.merge(scores, review_counts, on=["store", "store_name"])
     
@@ -20,7 +20,7 @@ def sort_stores_by_score(dataframes, n=20, min_reviews=30):
     scores = scores[scores["review_count"] >= min_reviews]
     
     # 평점 기준 정렬 후 상위 n개 음식점 반환
-    scores = scores.sort_values(by=["score", "review_count"], ascending=[False, False])
+    scores = scores.sort_values(by=["total_score", "review_count"], ascending=[False, False])
     return scores.head(n)
 
 
@@ -59,7 +59,7 @@ def main():
     for i, store in stores_most_scored.iterrows():
         print(
             "{rank}위: {store}({score}점)".format(
-                rank=i + 1, store=store.store_name, score=store.score
+                rank=i + 1, store=store["store_name"], score=store["total_score"]
             )
         )
     print(f"\n{separater}\n\n")
