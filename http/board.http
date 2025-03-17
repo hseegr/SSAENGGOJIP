@@ -1,0 +1,33 @@
+GET http://localhost:8080/api/bbs/NOTICE/boards
+Authorization: Bearer {{accessToken}}
+
+###
+
+POST http://localhost:8080/api/bbs/NOTICE/boards
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "title": "test",
+  "content": "test",
+  "attachmentFileIds": [
+    "0f4ef12b-e456-4eeb-8cc9-b578a1b2acb2",
+    "4ade3eb3-2381-4fe0-aba1-95a0453f6cf2",
+    "5a902fd8-8bbd-4a7f-af4a-0f4539e1373c"
+  ]
+}
+
+###
+
+PATCH http://localhost:8080/api/bbs/NOTICE/boards/BD20240718164532489813626063
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "title": "test",
+  "content": "test",
+  "attachmentFileIds": [
+    "0f4ef12b-e456-4eeb-8cc9-b578a1b2acb2"
+  ]
+}
+

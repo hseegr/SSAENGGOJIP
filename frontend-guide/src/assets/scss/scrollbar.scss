@@ -1,0 +1,15 @@
+$scroll-bar-size: 0.3em;
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: $scroll-bar-size;
+
+  &-thumb {
+    background-color: #aaa;
+    border-radius: 6px;
+
+    &:hover {
+      background-color: black;
+    }
+  }
+}

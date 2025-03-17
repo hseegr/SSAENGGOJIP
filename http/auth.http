@@ -1,0 +1,11 @@
+###
+POST http://localhost:9090/api/auth/login
+Content-Type: application/json;charset=UTF-8
+
+{"username":"{{id}}","password":"{{pw}}"}
+
+> {%
+    //response handler
+    client.global.set("accessToken", response.body.jwt);
+    client.log(client.global.get("accessToken"));
+%}

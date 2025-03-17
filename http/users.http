@@ -1,0 +1,22 @@
+###
+GET http://localhost:9090/api/users?size=10&page=0
+Authorization: Bearer {{accessToken}}
+
+###
+GET http://localhost:9090/api/users/my-info?for=auth
+Authorization: Bearer {{accessToken}}
+
+###
+OPTIONS http://localhost:9090/api/users/my-info?for=auth
+Authorization: Bearer {{accessToken}}
+
+###
+POST http://localhost:9090/api/users
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "loginId": "test13@test.com",
+  "name": "tester13",
+  "password": "test"
+}

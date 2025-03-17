@@ -1,0 +1,19 @@
+GET http://localhost:8080/api/ip-allowlist
+Authorization: Bearer {{accessToken}}
+
+###
+
+POST http://localhost:8080/api/ip-allowlist
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "ipAddr": "127.0.0.3",
+  "description": "local"
+}
+
+
+###
+
+DELETE http://localhost:8080/api/ip-allowlist?ips=127.0.0.3&ips=127.0.0.4
+Authorization: Bearer {{accessToken}}
