@@ -18,7 +18,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
+Backend/.idea
 *.iws
 *.iml
 *.ipr
@@ -36,4 +36,4 @@ out/
 ### VS Code ###
 .vscode/
 
-/src/main/generated/
+/Backend/src/main/generated/
