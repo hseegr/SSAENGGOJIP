@@ -1,8 +1,0 @@
-GET http://localhost:8080/api/common-codes?key=REGION
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwiZXhwIjoxNzIwNTk5NjM5fQ.lC7NrHNZ3O_zYxWrBsDqFmwJ725c-yBFcY28m9s3LlPWX-j5YSgrLJFpIDk5JM3S9ANtjtNbMis2CZRgJlfHjw
-
-
-###
-
-GET http://localhost:8080/api/common-codes?keys=REGION&keys=REGION2
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QHRlc3QuY29tIiwiZXhwIjoxNzIwNTk5NjM5fQ.lC7NrHNZ3O_zYxWrBsDqFmwJ725c-yBFcY28m9s3LlPWX-j5YSgrLJFpIDk5JM3S9ANtjtNbMis2CZRgJlfHjw
