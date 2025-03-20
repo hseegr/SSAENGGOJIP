@@ -1,15 +1,35 @@
-import {defineConfig} from 'vite'
-import vue from '@vitejs/plugin-vue'
-import {fileURLToPath, URL} from "node:url";
+import { defineConfig } from "vite";
+import react from '@vitejs/plugin-react'
+import { fileURLToPath } from "node:url";
 
-// https://vitejs.dev/config/
-export default defineConfig({
+const viteConfig = defineConfig({
+    base: '/',
+    // dev server
     server: {
-        port: 8080,
+        port: 3000,
     },
-    plugins: [vue()],
+
+    // preview server
+    preview: {
+        port: 3010,
+    },
+    
+    css:{
+        devSourcemap:true,
+    },
+
     resolve: {
-        extensions: ['.js', '.json', '.jsx', '.mjs', '.ts', '.tsx', '.vue',],
-        alias: {"@": fileURLToPath(new URL("./src", import.meta.url))},
-    }
+        alias: {
+            '@': fileURLToPath(new URL('./src', import.meta.url)),
+        }
+    },
+    
+    plugins: [
+        react({
+            jsxRuntime: 'automatic'
+        }),
+    ],
+
 })
+
+export default viteConfig
