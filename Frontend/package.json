@@ -1,6 +1,8 @@
 {
   "name": "ssafy-specialized-project",
   "description": "SSAFY 특화 프로젝트 - 쌩Go집",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
@@ -25,7 +27,9 @@
     "vite": "6.2.2"
   },
   "dependencies": {
+    "@tanstack/react-query": "5.69.0",
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "zustand": "5.0.3"
   }
 }
