@@ -10,6 +10,7 @@ build:
     - runner  # 이 태그를 가진 러너에서만 실행
   image: gradle:7.6-jdk17  # Gradle 빌드 이미지
   script:
+    - cd Backend/ssaeng-go-jip
     - echo "Building the Spring Boot application"
     - chmod +x gradlew  # 실행 권한 부여
     - ./gradlew build -x test  # 테스트 제외하고 빌드
@@ -31,6 +32,7 @@ docker_build_push:
     - echo "Logging into Docker Hub"
     - echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
   script:
+    - cd backend
     - echo "Building Docker image"
     - docker build -t ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} .
     - echo "Pushing Docker image to Docker Hub"
