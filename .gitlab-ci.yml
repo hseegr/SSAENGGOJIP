@@ -16,7 +16,7 @@ build:
     - ./gradlew build -x test  # 테스트 제외하고 빌드
   artifacts:
     paths:
-      - build/libs/*.jar  # 빌드된 JAR 파일 저장
+      - Backend/ssaeng-go-jip/build/libs/*.jar  # 빌드된 JAR 파일 저장
   only:
     - backend  # backend 브랜치에서만 실행
 
