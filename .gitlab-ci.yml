@@ -32,7 +32,7 @@ docker_build_push:
     - echo "Logging into Docker Hub"
     - echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
   script:
-    - cd backend
+    - cd Backend/ssaeng-go-jip
     - echo "Building Docker image"
     - docker build -t ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} .
     - echo "Pushing Docker image to Docker Hub"
