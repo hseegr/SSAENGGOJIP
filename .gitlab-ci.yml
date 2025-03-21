@@ -50,12 +50,12 @@ deploy:
   tags:
     - runner  # 이 태그를 가진 러너에서만 실행
   before_script:
-    - apt-get update && apt-get install -y openssh-client
+    - apk update && apk add openssh-client
   script:
     - echo "Deploying to the server"
     - mkdir -p ~/.ssh
     - echo "${SSH_PRIVATE_KEY}" | base64 -d > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
-    - ssh-agent bash -c "ssh-add ~/.ssh/id_rsa && ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} 'sudo docker pull ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} && sudo docker stop my-backend-container || true && sudo docker rm my-backend-container || true && sudo docker run -d --name my-backend-container -p 8080:8080 -e POSTGRESQL_URL=${POSTGRESQL_URL} -e POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME} -e POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} && sudo docker image prune -f'"
+    - ssh-agent sh -c "ssh-add ~/.ssh/id_rsa && ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} 'sudo docker pull ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} && sudo docker stop my-backend-container || true && sudo docker rm my-backend-container || true && sudo docker run -d --name my-backend-container -p 8080:8080 -e POSTGRESQL_URL=${POSTGRESQL_URL} -e POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME} -e POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} && sudo docker image prune -f'"
   only:
     - backend
