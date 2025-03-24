@@ -9,18 +9,21 @@ import NotFound from '@/pages/NotFound/NotFound'
 import BaseLayout from '@/components/layout/BaseLayout'
 
 const router = createBrowserRouter([
-  // 온보딩 페이지 (공통 레이아웃 없음)
+  // 온보딩 (공통 레이아웃 없이)
   {
     path: '/',
     element: <OnboardingPage />,
   },
 
-  // 공통 레이아웃이 적용되는 내부 페이지들
+  // 메인 페이지
   {
-    path: '/app', // ✅ 필수: 이 BaseLayout이 적용되는 기준 경로
+    path: '/main',
     element: <BaseLayout />,
     children: [
-      { path: 'main', element: <MainPage /> }, // ✅ 절대경로 ❌, 상대경로 ✅
+      {
+        index: true, // index 속성 추가
+        element: <MainPage />,
+      },
     ],
   },
 
