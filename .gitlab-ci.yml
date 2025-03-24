@@ -1,0 +1,64 @@
+stages:
+  - build
+  - docker
+  - deploy
+
+# React App Build Stage
+react_build:
+  stage: build
+  tags:
+    - runner
+  image: node:18
+  script:
+    - cd react/vite-project-test
+    - npm i react-easy-crop
+    - npm i styled-components
+    - npm i lucide-react
+    - npm i react-webcam
+    - npm i prop-types
+    - npm i @mui/material @emotion/react @emotion/styled
+    - npm i react-slick 
+    - npm i slick-carousel
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - react/vite-project-test/dist
+  only:
+    - frontend
+
+# React Docker Build & Push
+react_docker:
+  stage: docker
+  tags:
+    - runner
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - echo "Logging into Docker Hub"
+    - echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
+  script:
+    - cd react/vite-project-test
+    - docker build -t ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME} .
+    - docker push ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME}
+  after_script:
+    - docker logout
+  only:
+    - frontend
+
+# React Deploy
+react_deploy:
+  stage: deploy
+  tags:
+    - runner
+  before_script:
+    - apt-get update && apt-get install -y openssh-client
+  script:
+    - echo "Deploying to the server"
+    - mkdir -p ~/.ssh
+    - echo "${SSH_PRIVATE_KEY}" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-agent bash -c "ssh-add ~/.ssh/id_rsa && ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} 'docker pull ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME} && docker stop my-frontend || true && docker rm my-frontend || true && docker run -d --name my-frontend -p 3000:3000 ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME}'"
+  only:
+    - frontend
