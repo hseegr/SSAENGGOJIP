@@ -10,20 +10,12 @@ react_build:
     - runner
   image: node:18
   script:
-    - cd react/vite-project-test
-    - npm i react-easy-crop
-    - npm i styled-components
-    - npm i lucide-react
-    - npm i react-webcam
-    - npm i prop-types
-    - npm i @mui/material @emotion/react @emotion/styled
-    - npm i react-slick 
-    - npm i slick-carousel
+    - cd Frontend
     - npm install
     - npm run build
   artifacts:
     paths:
-      - react/vite-project-test/dist
+      - Frontend/dist
   only:
     - frontend
 
@@ -39,7 +31,7 @@ react_docker:
     - echo "Logging into Docker Hub"
     - echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
   script:
-    - cd react/vite-project-test
+    - cd Frontend
     - docker build -t ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME} .
     - docker push ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME}
   after_script:
