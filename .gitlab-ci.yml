@@ -47,12 +47,12 @@ react_deploy:
   tags:
     - runner
   before_script:
-    - apt-get update && apt-get install -y openssh-client
+    - apk update && apk add openssh-client
   script:
     - echo "Deploying to the server"
     - mkdir -p ~/.ssh
     - echo "${SSH_PRIVATE_KEY}" | base64 -d > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
-    - ssh-agent bash -c "ssh-add ~/.ssh/id_rsa && ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} 'docker pull ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME} && docker stop my-frontend || true && docker rm my-frontend || true && docker run -d --name my-frontend -p 3000:3000 ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME}'"
+    - ssh-agent sh -c "ssh-add ~/.ssh/id_rsa && ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} 'docker pull ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME} && docker stop my-frontend || true && docker rm my-frontend || true && docker run -d --name my-frontend -p 3000:3000 ${DOCKER_USERNAME}/${DOCKER_FRONTEND_IMAGE_NAME}'"
   only:
     - frontend
