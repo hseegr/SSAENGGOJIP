@@ -9,25 +9,17 @@ import NotFound from '@/pages/NotFound/NotFound'
 import BaseLayout from '@/components/layout/BaseLayout'
 
 const router = createBrowserRouter([
-  // 온보딩 (공통 레이아웃 없이)
+  // 공통 레이아웃이 적용되는 페이지들
   {
     path: '/',
-    element: <OnboardingPage />,
-  },
-
-  // 메인 페이지
-  {
-    path: '/main',
     element: <BaseLayout />,
     children: [
-      {
-        index: true, // index 속성 추가
-        element: <MainPage />,
-      },
+      { index: true, element: <OnboardingPage /> }, // ✅ path: '' 대신 index route
+      { path: 'main', element: <MainPage /> }, // /main
     ],
   },
 
-  // 404 Not Found
+  // 404 NotFound: 최상위에 둬야 함!
   {
     path: '*',
     element: <NotFound />,
