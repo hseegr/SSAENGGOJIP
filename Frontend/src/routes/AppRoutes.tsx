@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import OnboardingPage from '@/pages/OnboardingPage/OnboardingPage'
 import MainPage from '@/pages/MainPage/MainPage'
 import NotFound from '@/pages/NotFound/NotFound'
+import Login from '@/pages/Account/LoginPage/LoginPage'
 
 // 레이아웃
 import BaseLayout from '@/components/layout/BaseLayout'
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <OnboardingPage /> }, // ✅ path: '' 대신 index route
       { path: 'main', element: <MainPage /> }, // /main
+      { path: 'account/login', element: <Login /> },
     ],
   },
 
