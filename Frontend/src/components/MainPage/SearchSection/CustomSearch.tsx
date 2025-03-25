@@ -1,6 +1,6 @@
 const CustomSearch = () => {
   return (
-    <div>
+    <div className="flex justify-center items-center">
       <div>CustomSearch</div>
     </div>
   )

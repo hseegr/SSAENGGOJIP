@@ -1,6 +1,6 @@
 const GeneralSearch = () => {
   return (
-    <div>
+    <div className="flex justify-center items-center">
       <div>GeneralSearch</div>
     </div>
   )

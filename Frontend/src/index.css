@@ -71,7 +71,7 @@
 
 @font-face {
   font-family: 'Montserrat';
-  src: url(/src/assets/fonts/Montserrat-VariableFont_wght.ttf)
+  src: url('/src/assets/fonts/Montserrat-VariableFont_wght.ttf')
     format('truetype');
 }
 
