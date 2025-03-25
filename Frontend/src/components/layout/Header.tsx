@@ -36,6 +36,7 @@ const Header = () => {
           <Link
             to="/account/login"
             className="px-4 py-1 text-sm font-semibold text-white rounded-full bg-ssaeng-purple ml-10"
+            viewTransition
           >
             Login
           </Link>
