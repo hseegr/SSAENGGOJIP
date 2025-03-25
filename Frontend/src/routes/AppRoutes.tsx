@@ -5,6 +5,7 @@ import OnboardingPage from '@/pages/OnboardingPage/OnboardingPage'
 import MainPage from '@/pages/MainPage/MainPage'
 import NotFound from '@/pages/NotFound/NotFound'
 import Login from '@/pages/Account/LoginPage/LoginPage'
+import RedirectHandlerPage from '@/pages/Account/LoginPage/RedirectHandlerPage'
 
 // 레이아웃
 import BaseLayout from '@/components/layout/BaseLayout'
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { index: true, element: <OnboardingPage /> }, // ✅ path: '' 대신 index route
       { path: 'main', element: <MainPage /> }, // /main
       { path: 'account/login', element: <Login /> },
+      { path: 'account/login/:socialType', element: <RedirectHandlerPage /> },
     ],
   },
 
