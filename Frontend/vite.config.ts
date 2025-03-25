@@ -1,6 +1,7 @@
 // vite.config.ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr';
 import path from 'path' // ← 이거 추가!
 
 const viteConfig = defineConfig({
@@ -23,6 +24,7 @@ const viteConfig = defineConfig({
     react({
       jsxRuntime: 'automatic',
     }),
+    svgr()
   ],
 })
 

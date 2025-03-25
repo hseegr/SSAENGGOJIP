@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import OnboardingPage from '@/pages/OnboardingPage/OnboardingPage'
 import MainPage from '@/pages/MainPage/MainPage'
 import NotFound from '@/pages/NotFound/NotFound'
-import ExplorePage from '@/pages/ExplorePage/Explorepage'
+import ExplorePage from '@/pages/ExplorePage/ExplorePage'
 // 레이아웃
 import BaseLayout from '@/components/layout/BaseLayout'
 
