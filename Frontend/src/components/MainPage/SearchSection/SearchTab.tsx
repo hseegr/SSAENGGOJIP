@@ -5,10 +5,10 @@ type Props = {
 
 const SearchTab = ({ activeTab, setActiveTab }: Props) => {
   return (
-    <div className="flex justify-center items-center text-base font-semibold border-b border-ssaeng-gray-1 w-52 mx-auto">
+    <div className="flex justify-center items-center text-base font-semibold border-b border-ssaeng-gray-2 w-52 mx-auto">
       {/* 일반 검색 */}
       <button
-        className={`flex-1 pb-1 flex justify-center ${activeTab === 'general' ? 'text-ssaeng-purple border-b-4 border-ssaeng-purple w-28' : 'text-ssaeng-gray-1'}`}
+        className={`flex-1 pb-1 flex justify-center ${activeTab === 'general' ? 'text-ssaeng-purple border-b-4 border-ssaeng-purple w-28' : 'text-ssaeng-gray-2'}`}
         onClick={() => setActiveTab('general')}
       >
         일반 검색
@@ -16,7 +16,7 @@ const SearchTab = ({ activeTab, setActiveTab }: Props) => {
 
       {/* 맞춤 검색 */}
       <button
-        className={`flex-1 pb-1 flex justify-center ${activeTab === 'custom' ? 'text-ssaeng-purple border-b-4 border-ssaeng-purple w-28' : 'text-ssaeng-gray-1'}`}
+        className={`flex-1 pb-1 flex justify-center ${activeTab === 'custom' ? 'text-ssaeng-purple border-b-4 border-ssaeng-purple w-28' : 'text-ssaeng-gray-2'}`}
         onClick={() => setActiveTab('custom')}
       >
         맞춤 검색
