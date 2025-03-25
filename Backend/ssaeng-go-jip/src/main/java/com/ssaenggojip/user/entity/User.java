@@ -2,6 +2,7 @@ package com.ssaenggojip.user.entity;
 
 import com.ssaenggojip.common.enums.SocialLoginType;
 import com.ssaenggojip.common.entity.BaseEntity;
+import com.ssaenggojip.common.utils.PGVectorConverter;
 import com.ssaenggojip.targetAddress.entity.TargetAddress;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,4 +39,8 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TargetAddress> targetAddressList;
+
+    @Convert(converter = PGVectorConverter.class)
+    @Column
+    private float[] facilityPreferences;
 }
