@@ -4,6 +4,7 @@ import GeneralSearch from './GeneralSearch'
 import CustomSearch from './CustomSearch'
 
 const SearchSection = () => {
+  // 어떤 탭이 활성화되어 있는지 상태로 관리 ('general' | 'custom')
   const [activeTab, setActiveTab] = useState<'general' | 'custom'>('general')
 
   return (
