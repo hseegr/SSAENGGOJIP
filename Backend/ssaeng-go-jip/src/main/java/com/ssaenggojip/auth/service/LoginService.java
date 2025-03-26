@@ -11,6 +11,7 @@ import com.ssaenggojip.auth.infrastructure.NaverOAuthProvider;
 import com.ssaenggojip.auth.infrastructure.NaverUserInfo;
 import com.ssaenggojip.common.enums.SocialLoginType;
 import com.ssaenggojip.common.service.RedisService;
+import com.ssaenggojip.common.util.NicknameWordProvider;
 import com.ssaenggojip.user.entity.User;
 import com.ssaenggojip.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,6 @@ import java.time.Duration;
 
 @Service
 @Slf4j
-@Transactional
 @RequiredArgsConstructor
 public class LoginService {
 
@@ -33,6 +33,7 @@ public class LoginService {
     private final JwtUtil jwtUtil;
     private final RedisService redisService;
     private final UserRepository userRepository;
+    private final NicknameWordProvider nicknameWordProvider;
 
     private final KakaoOAuthProvider kakaoOAuthProvider;
     private final NaverOAuthProvider naverOAuthProvider;
@@ -106,17 +107,27 @@ public class LoginService {
         return user.getId();
     }
 
-    protected User findOrCreateUser(String email, String socialLoginId, SocialLoginType socialLoginType) {
+    @Transactional(readOnly = true)
+    public User findOrCreateUser(String email, String socialLoginId, SocialLoginType socialLoginType) {
         return userRepository.findBySocialLoginId(socialLoginId)
                 .orElseGet(() -> createUser(email, socialLoginId, socialLoginType));
     }
 
-    protected User createUser(String email, String socialLoginId, SocialLoginType socialLoginType) {
-        return userRepository.save(User.builder()
-                .nickname("영롱한 콜레우스")
-                .email(email)
-                .socialLoginId(socialLoginId)
-                .socialLoginType(socialLoginType)
-                .build());
+    @Transactional
+    public User createUser(String email, String socialLoginId, SocialLoginType socialLoginType) {
+        for (int i = 0; i < 10; i++) {
+            String nickname = nicknameWordProvider.getRandomNickname();
+
+            if (userRepository.findByNickname(nickname).isEmpty()) {
+                return userRepository.save(User.builder()
+                        .nickname(nickname)
+                        .email(email)
+                        .socialLoginId(socialLoginId)
+                        .socialLoginType(socialLoginType)
+                        .build());
+            }
+        }
+
+        throw new GeneralException(ErrorStatus.FAILED_TO_GENERATE_NICKNAME);
     }
 }
