@@ -6,10 +6,7 @@ import com.ssaenggojip.auth.JwtUtil;
 import com.ssaenggojip.auth.entity.RefreshToken;
 import com.ssaenggojip.auth.entity.UserTokens;
 import com.ssaenggojip.auth.entity.response.AccessTokenResponse;
-import com.ssaenggojip.auth.infrastructure.KakaoOAuthProvider;
-import com.ssaenggojip.auth.infrastructure.KakaoUserInfo;
-import com.ssaenggojip.auth.infrastructure.NaverOAuthProvider;
-import com.ssaenggojip.auth.infrastructure.NaverUserInfo;
+import com.ssaenggojip.auth.infrastructure.*;
 import com.ssaenggojip.common.enums.SocialLoginType;
 import com.ssaenggojip.common.service.RedisService;
 import com.ssaenggojip.common.util.NicknameWordProvider;
@@ -38,6 +35,7 @@ public class LoginService {
 
     private final KakaoOAuthProvider kakaoOAuthProvider;
     private final NaverOAuthProvider naverOAuthProvider;
+    private final GoogleOAuthProvider googleOAuthProvider;
 
     @Transactional
     public UserTokens login(String code, SocialLoginType socialLoginType) {
@@ -52,6 +50,11 @@ public class LoginService {
             }
             case NAVER -> {
                 NaverUserInfo userInfo = naverOAuthProvider.getUserInfo(code);
+                socialLoginId = userInfo.getSocialLoginId();
+                email = userInfo.getEmail();
+            }
+            case GOOGLE -> {
+                GoogleUserInfo userInfo = googleOAuthProvider.getUserInfo(code);
                 socialLoginId = userInfo.getSocialLoginId();
                 email = userInfo.getEmail();
             }
