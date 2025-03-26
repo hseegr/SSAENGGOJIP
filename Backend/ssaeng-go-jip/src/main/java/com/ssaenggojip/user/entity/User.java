@@ -19,9 +19,11 @@ public class User extends BaseEntity {
     @Column(unique = true, nullable = false, length = 30)
     private String nickname;
 
+    @Setter
     @Column(nullable = false, length = 100)
     private String email;
 
+    @Setter
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean emailVerified;
 
