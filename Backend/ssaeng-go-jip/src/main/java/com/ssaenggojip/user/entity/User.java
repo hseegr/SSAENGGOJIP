@@ -40,6 +40,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TargetAddress> targetAddressList;
 
+    @Setter
     @Convert(converter = PGVectorConverter.class)
     @Column
     private float[] facilityPreferences;
