@@ -15,12 +15,6 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-body {
-  font-family: 'Montserrat', 'Pretendard', sans-serif;
-  background-color: #fff;
-  color: #000;
-}
-
 #root {
   margin: 0;
   padding: 0;
