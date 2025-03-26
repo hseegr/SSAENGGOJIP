@@ -1,4 +1,5 @@
-import { useRef, useEffect } from 'react'
+import { useCommunityStore } from '@/store/communityStore'
+import { useRef, useEffect, useState } from 'react'
 
 // ts를 위한 코드
 declare global {
@@ -12,34 +13,84 @@ const MapView = () => {
   // useRef는 React에서 DOM을 안전하게 다루는 방법
   // 지도를 넣을 <div>를 기억
   const mapRef = useRef<HTMLDivElement>(null)
+  const [map, setMap] = useState<any>(null) // 지도 객체 상태로 보관
+  const overlayRef = useRef<any>(null) // 오버레이 참조 저장
 
-  // 컴포넌트가 화면에 나타났을 때 실행 (한 번)
+  // ✅ Zustand 상태 불러오기
+  const markerChatRooms = useCommunityStore((s) => s.markerChatRooms) // 마커로 표시할 채팅방들
+  const selectedChatRoom = useCommunityStore((s) => s.selectedChatRoom) // 선택된 채팅방
+  const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom) // 선택 상태 저장 함수
+
+  // ✅ 초기 지도 생성 (한 번만 실행)
   useEffect(() => {
-    // mapRef.current가 존재하고, window.kakao도 준비되어 있으면
-    if (mapRef.current && window.kakao) {
-      // 지도 중심 위치와 줌 레벨 설정
-      const options = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3, // 지도 확대 정도 (숫자가 작을수록 더 가까움)
-      }
+    if (!mapRef.current || !window.kakao) return
 
-      // 지도 그리기
-      const map = new window.kakao.maps.Map(mapRef.current, options)
-
-      // 화면 크기가 변경될 때 지도를 재정렬
-      const handleResize = () => {
-        map.relayout()
-      }
-
-      // resize 이벤트 발생 시 handleResize 실행
-      window.addEventListener('resize', handleResize)
-
-      // 컴포넌트가 사라질 때는 이벤트 제거 (메모리 쌓임 방지)
-      return () => {
-        window.removeEventListener('resize', handleResize)
-      }
+    const mapOption = {
+      center: new window.kakao.maps.LatLng(37.55, 127.04),
+      level: 3,
     }
+    const createdMap = new window.kakao.maps.Map(mapRef.current, mapOption)
+    setMap(createdMap)
+
+    const handleResize = () => createdMap.relayout()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  // ✅ 마커 & 오버레이 표시 (markerChatRooms 또는 선택된 채팅방이 바뀔 때마다 실행)
+  useEffect(() => {
+    if (!map || !window.kakao) return
+
+    // 기존 오버레이 제거
+    if (overlayRef.current) {
+      overlayRef.current.setMap(null)
+    }
+
+    // 마커 표시
+    markerChatRooms.forEach((room) => {
+      const marker = new window.kakao.maps.Marker({
+        map,
+        position: new window.kakao.maps.LatLng(
+          room.location.lat,
+          room.location.lng,
+        ),
+      })
+
+      // 마커 클릭 시 해당 채팅방 선택
+      window.kakao.maps.event.addListener(marker, 'click', () => {
+        setSelectedChatRoom(room)
+      })
+    })
+
+    // 오버레이 표시 + 좌표 이동
+    if (selectedChatRoom) {
+      const overlayContent = document.createElement('div')
+      overlayContent.innerHTML = `
+        <div style="padding:10px; background:rgba(255,255,255,0.9); border-radius:8px; box-shadow:0 0 3px rgba(0,0,0,0.2); display: flex; flex-direction: column;">
+          <div style="font-weight:bold; font-size: 14px; color: #000;">${selectedChatRoom.name}</div>
+          <div style="display: flex; justify-content: flex-end;">
+            <button style="margin-top:6px; color:white; background:#7171D7; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size: 12px;">참여하기</button>
+          </div>
+        </div>
+      `
+
+      const position = new window.kakao.maps.LatLng(
+        selectedChatRoom.location.lat,
+        selectedChatRoom.location.lng,
+      )
+
+      const overlay = new window.kakao.maps.CustomOverlay({
+        position,
+        content: overlayContent,
+        yAnchor: 1,
+      })
+
+      overlay.setMap(map)
+      overlayRef.current = overlay // 오버레이 참조 저장
+
+      map.setCenter(position) // ✅ 선택된 채팅방 위치로 지도 이동
+    }
+  }, [map, markerChatRooms, selectedChatRoom])
 
   // 실제 화면에 보일 div. 이 div 안에 지도가 들어감
   return (
