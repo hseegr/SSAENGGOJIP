@@ -25,7 +25,10 @@ public enum ErrorStatus implements BaseErrorCode {
     // 토큰 관련 에러
     INVALID_REFRESH_TOKEN(HttpStatus.BAD_REQUEST , "TOKEN4001", "유효하지 않은 Refresh Token입니다."),
     FAILED_TO_VALIDATE_TOKEN(HttpStatus.BAD_REQUEST , "TOKEN4002", "토큰 검증에 실패했습니다."),
-    INVALID_ACCESS_TOKEN(HttpStatus.BAD_REQUEST , "TOKEN4003", "유효하지 않은 Access Token입니다.");
+    INVALID_ACCESS_TOKEN(HttpStatus.BAD_REQUEST , "TOKEN4003", "유효하지 않은 Access Token입니다."),
+
+    // 사용자 관련 에러
+    SAME_EMAIL(HttpStatus.BAD_REQUEST , "USER4001", "기존과 동일한 이메일입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
