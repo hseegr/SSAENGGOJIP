@@ -11,6 +11,10 @@ body {
   overflow-x: hidden;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   font-family: 'Montserrat', 'Pretendard', sans-serif;
   background-color: #fff;

@@ -1,8 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import { defineConfig } from 'vite'
-import path from 'path'
-
-export default {
+module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
