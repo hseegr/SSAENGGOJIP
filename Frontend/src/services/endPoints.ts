@@ -1,6 +1,7 @@
 export const USER_END_POINT = {
   SOCIAL_LOGIN: (socialType: string, code: string) =>
     `/auth/login/${socialType}?code=${code}`,
+  LOGOUT: '/auth/logout',
 }
 
 // 메인 페이지 -> mainService
