@@ -52,7 +52,7 @@ public class LoginController {
             @RequestHeader("Authorization") String authHeader
     ) {
         String reissuedToken = loginService.reissueAccessToken(refreshToken, authHeader);
-        return ApiResponse.onSuccess(new AccessTokenResponse(true, reissuedToken));
+        return ApiResponse.onSuccess(new AccessTokenResponse(false, reissuedToken));
     }
 
     @PostMapping(value = "/logout")
