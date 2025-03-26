@@ -71,13 +71,12 @@
 
 @font-face {
   font-family: 'Montserrat';
-  src: url('/src/assets/fonts/Montserrat-VariableFont_wght.ttf')
-    format('truetype');
+  src: url('/fonts/Montserrat-VariableFont_wght.ttf');
 }
 
 @font-face {
   font-family: 'Pretendard';
-  src: url('/src/assets/fonts/PretendardVariable.ttf') format('truetype');
+  src: url('/fonts/PretendardVariable.ttf');
   font-weight: 100 900; /* 가변 폰트 지원 */
   font-style: normal;
 }

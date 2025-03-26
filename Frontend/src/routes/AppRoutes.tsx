@@ -9,6 +9,7 @@ import RedirectHandlerPage from '@/pages/Account/LoginPage/RedirectHandlerPage'
 
 // 레이아웃
 import BaseLayout from '@/components/layout/BaseLayout'
+import CommunityPage from '@/pages/CommunityPage/CommunityPage'
 
 const router = createBrowserRouter([
   // 공통 레이아웃이 적용되는 페이지들
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
     element: <BaseLayout />,
     children: [
       { index: true, element: <OnboardingPage /> }, // ✅ path: '' 대신 index route
-      { path: 'main', element: <MainPage /> }, // /main
+      { path: 'main', element: <MainPage /> }, // 메인 페이지
+      { path: 'community', element: <CommunityPage /> }, // 커뮤니티 페이지
       { path: 'account/login', element: <Login /> },
       { path: 'account/login/:socialType', element: <RedirectHandlerPage /> },
     ],
