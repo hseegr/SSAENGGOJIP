@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccessTokenResponse {
+    private Boolean isNew;
     private String accessToken;
 }

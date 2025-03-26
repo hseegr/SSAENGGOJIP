@@ -22,6 +22,9 @@ public class User extends BaseEntity {
     @Column(nullable = false, length = 100)
     private String email;
 
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean emailVerified;
+
     @Column(nullable = false, length = 1024)
     private String socialLoginId;
 
