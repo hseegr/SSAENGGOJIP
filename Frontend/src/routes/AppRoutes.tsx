@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import OnboardingPage from '@/pages/OnboardingPage/OnboardingPage'
 import MainPage from '@/pages/MainPage/MainPage'
 import NotFound from '@/pages/NotFound/NotFound'
+import ExplorePage from '@/pages/ExplorePage/ExplorePage'
 import Login from '@/pages/Account/LoginPage/LoginPage'
 import RedirectHandlerPage from '@/pages/Account/LoginPage/RedirectHandlerPage'
 
@@ -20,10 +21,13 @@ const router = createBrowserRouter([
       { index: true, element: <OnboardingPage /> }, // ✅ path: '' 대신 index route
       { path: 'main', element: <MainPage /> }, // 메인 페이지
       { path: 'community', element: <CommunityPage /> }, // 커뮤니티 페이지
+      { path: 'main', element: <MainPage /> }, // /main
+      { path: 'explore', element: <ExplorePage /> }, // /map
       { path: 'account/login', element: <Login /> },
       { path: 'account/login/:socialType', element: <RedirectHandlerPage /> },
     ],
   },
+  
 
   // 404 NotFound: 최상위에 둬야 함!
   {
