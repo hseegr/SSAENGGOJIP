@@ -5,6 +5,7 @@ import com.ssaenggojip.apiPayload.exception.GeneralException;
 import com.ssaenggojip.auth.JwtUtil;
 import com.ssaenggojip.auth.entity.RefreshToken;
 import com.ssaenggojip.auth.entity.UserTokens;
+import com.ssaenggojip.auth.entity.response.AccessTokenResponse;
 import com.ssaenggojip.auth.infrastructure.KakaoOAuthProvider;
 import com.ssaenggojip.auth.infrastructure.KakaoUserInfo;
 import com.ssaenggojip.auth.infrastructure.NaverOAuthProvider;
@@ -38,6 +39,7 @@ public class LoginService {
     private final KakaoOAuthProvider kakaoOAuthProvider;
     private final NaverOAuthProvider naverOAuthProvider;
 
+    @Transactional
     public UserTokens login(String code, SocialLoginType socialLoginType) {
         String socialLoginId = "";
         String email = "";
@@ -60,10 +62,11 @@ public class LoginService {
             throw new GeneralException(ErrorStatus._BAD_REQUEST);
         }
 
+        Boolean isNew = userRepository.findBySocialLoginId(socialLoginId).isEmpty();
         User user = findOrCreateUser(email, socialLoginId, socialLoginType);
         log.info("user id: {}", user.getId());
 
-        UserTokens userTokens = jwtUtil.createLoginToken(user.getId().toString());
+        UserTokens userTokens = jwtUtil.createLoginToken(isNew, user.getId().toString());
         RefreshToken refreshToken = new RefreshToken(user.getId(), userTokens.getRefreshToken());
         redisService.setValue(redisPrefix + "::refresh-token::" + user.getId(), userTokens.getRefreshToken(), Duration.ofDays(7));
 
@@ -107,7 +110,7 @@ public class LoginService {
         return user.getId();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public User findOrCreateUser(String email, String socialLoginId, SocialLoginType socialLoginType) {
         return userRepository.findBySocialLoginId(socialLoginId)
                 .orElseGet(() -> createUser(email, socialLoginId, socialLoginType));
@@ -122,6 +125,7 @@ public class LoginService {
                 return userRepository.save(User.builder()
                         .nickname(nickname)
                         .email(email)
+                        .emailVerified(false)
                         .socialLoginId(socialLoginId)
                         .socialLoginType(socialLoginType)
                         .build());
