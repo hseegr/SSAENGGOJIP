@@ -1,8 +1,6 @@
-const MatchSearch = () => {
-    return(
-        <div>
-            <p>여기는 맞춤검색이에요</p>
-        </div>
-    )}
+// MatchSearch.tsx
+const MatchSearch: React.FC = () => {
+  return <div>맞춤 검색 내용</div>
+}
 
 export default MatchSearch
