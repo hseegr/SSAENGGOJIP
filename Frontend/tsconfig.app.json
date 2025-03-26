@@ -10,7 +10,8 @@
       "paths":{
         "@/*": ["./src/*"]
       },
-      "types": ["vite-plugin-svgr/client"],
+      "types": ["vite-plugin-svgr/client",
+    "kakao.maps.d.ts"],
   
       /* 번들러 모드 */
       "moduleResolution": "bundler",

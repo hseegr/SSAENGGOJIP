@@ -19,6 +19,7 @@ const router = createBrowserRouter([
       { path: 'explore', element: <ExplorePage /> }, // /map
     ],
   },
+  
 
   // 404 NotFound: 최상위에 둬야 함!
   {
