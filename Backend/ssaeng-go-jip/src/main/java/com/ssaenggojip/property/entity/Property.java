@@ -2,6 +2,7 @@ package com.ssaenggojip.property.entity;
 
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.PropertyType;
+import com.ssaenggojip.common.utils.PGVectorConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -48,5 +49,10 @@ public class Property {
 
     @Column(nullable = false)
     private Integer dCode;
+
+    @Setter
+    @Convert(converter = PGVectorConverter.class)
+    @Column
+    private float[] facilityNearness;
 
 }
