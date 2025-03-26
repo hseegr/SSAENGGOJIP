@@ -1,4 +1,4 @@
-package com.ssaenggojip.property.domain;
+package com.ssaenggojip.property.entity;
 
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.PropertyType;
