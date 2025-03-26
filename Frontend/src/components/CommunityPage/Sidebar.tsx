@@ -1,7 +1,8 @@
 import { ChatRoom } from '@/types/community'
 import { Search } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ChatRoomCard from './ChatRoomCard'
+import { useCommunityStore } from '@/store/communityStore'
 
 // 목업 데이터: 실제 API 연결 전 임시로 사용하는 데이터
 const popularChatRooms: ChatRoom[] = [
@@ -96,8 +97,18 @@ const Sidebar = () => {
         : [...searchedChatRooms, ...fallbackRooms]
       : myChatRooms
 
+  // ✅ Zustand 상태 저장 함수 불러오기
+  const setMarkerChatRooms = useCommunityStore((s) => s.setMarkerChatRooms)
+
+  // ✅ chatRooms가 바뀔 때마다 지도 마커 상태를 업데이트
+  useEffect(() => {
+    setMarkerChatRooms(chatRooms)
+  }, [chatRooms])
+
+  const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom)
+
   const handleClickRoom = (room: ChatRoom) => {
-    console.log('선택된 채팅방', room)
+    setSelectedChatRoom(room) // ✅ 클릭한 채팅방을 선택 상태로 저장
   }
 
   return (
