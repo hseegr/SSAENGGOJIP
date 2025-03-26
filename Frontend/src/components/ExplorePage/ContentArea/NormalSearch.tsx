@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Search } from 'lucide-react' // Lucide 아이콘 가져오기
 import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
+import Modal from './Modals/NormalModal' // 분리된 Modal 컴포넌트 가져오기
 
 const NormalSearch: React.FC = () => {
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+
   return (
     <>
       {/* 검색창 */}
@@ -17,11 +20,17 @@ const NormalSearch: React.FC = () => {
           />
         </div>
         {/* 필터 버튼 */}
-        <div className="flex items-center ml-4 cursor-pointer whitespace-nowrap">
+        <button
+          className="flex items-center ml-4 cursor-pointer whitespace-nowrap"
+          onClick={() => setIsFilterOpen(true)}
+        >
           <SearchBlueIcon className="text-ssaeng-purple w-5 h-5" />
           <span className="ml-1 text-ssaeng-purple">필터</span>
-        </div>
+        </button>
       </div>
+
+      {/* 모달 */}
+      <Modal isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />
     </>
   )
 }
