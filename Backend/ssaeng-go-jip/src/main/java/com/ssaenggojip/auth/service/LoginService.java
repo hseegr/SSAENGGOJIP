@@ -5,7 +5,6 @@ import com.ssaenggojip.apiPayload.exception.GeneralException;
 import com.ssaenggojip.auth.JwtUtil;
 import com.ssaenggojip.auth.entity.RefreshToken;
 import com.ssaenggojip.auth.entity.UserTokens;
-import com.ssaenggojip.auth.entity.response.AccessTokenResponse;
 import com.ssaenggojip.auth.infrastructure.*;
 import com.ssaenggojip.common.enums.SocialLoginType;
 import com.ssaenggojip.common.service.RedisService;
@@ -36,6 +35,7 @@ public class LoginService {
     private final KakaoOAuthProvider kakaoOAuthProvider;
     private final NaverOAuthProvider naverOAuthProvider;
     private final GoogleOAuthProvider googleOAuthProvider;
+    private final SsafyOAuthProvider ssafyOAuthProvider;
 
     @Transactional
     public UserTokens login(String code, SocialLoginType socialLoginType) {
@@ -55,6 +55,11 @@ public class LoginService {
             }
             case GOOGLE -> {
                 GoogleUserInfo userInfo = googleOAuthProvider.getUserInfo(code);
+                socialLoginId = userInfo.getSocialLoginId();
+                email = userInfo.getEmail();
+            }
+            case SSAFY -> {
+                SsafyUserInfo userInfo = ssafyOAuthProvider.getUserInfo(code);
                 socialLoginId = userInfo.getSocialLoginId();
                 email = userInfo.getEmail();
             }
