@@ -9,7 +9,7 @@ const BaseLayout = () => {
   const shouldHideFooter = hideFooterRoutes.includes(location.pathname)
 
   return (
-    <div className="flex flex-col w-screen h-screen min-w-[1440px] ">
+    <div className="flex flex-col w-screen h-screen min-w-[1440px]">
       <Header />
       <main className="flex-1 px-10">
         <Outlet />
