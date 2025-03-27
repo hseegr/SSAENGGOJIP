@@ -16,7 +16,7 @@ const ChatRoomCard = ({ chatRoom, onClick }: Props) => {
           🚉 {chatRoom.name}
         </div>
         <div className="flex justify-end text-xs text-gray-300 font-light">
-          {chatRoom.participants}명 참여중
+          {chatRoom.userCount}명 참여중
         </div>
       </li>
     </div>

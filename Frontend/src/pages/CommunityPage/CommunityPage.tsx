@@ -8,9 +8,11 @@ const CommunityPage = () => {
   const [chatOpen, setChatOpen] = useState(false)
 
   return (
-    <div className="relative flex h-full w-full min-w-[1440px]">
-      {/* 사이드바 */}
-      <Sidebar onChatOpen={() => setChatOpen(true)} />
+    <div className="relative flex h-full min-w-[1440px]">
+      {/* 사이드바 - 고정 너비 */}
+      <div className="w-[302px]">
+        <Sidebar onChatOpen={() => setChatOpen(true)} />
+      </div>
 
       {/* 지도 */}
       <MapView onChatOpen={() => setChatOpen(true)} />
