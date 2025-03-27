@@ -20,7 +20,7 @@ const Header = () => {
   }
 
   return (
-    <header className="sticky top-0 z-10 w-full bg-white border-b h-16 border-[#F4F4F4]">
+    <header className="sticky top-0 z-20 w-full bg-white border-b h-16 border-[#F4F4F4]">
       <div className="flex items-center justify-between h-16 w-full px-10 mx-auto">
         {/* 로고 */}
         <Link to="/main" className="flex items-center">
