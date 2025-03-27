@@ -1,10 +1,17 @@
 package com.ssaenggojip.property.entity;
 
+import com.pgvector.PGvector;
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.PropertyType;
 import com.ssaenggojip.common.utils.PGVectorConverter;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes;
+import org.hibernate.vector.VectorJdbcType;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -52,7 +59,7 @@ public class Property {
 
     @Setter
     @Convert(converter = PGVectorConverter.class)
-    @Column
+    @Column(name = "facility_nearness", columnDefinition = "vector(6)")
     private float[] facilityNearness;
 
 }

@@ -1,11 +1,16 @@
 package com.ssaenggojip.user.entity;
 
+import com.pgvector.PGvector;
 import com.ssaenggojip.common.enums.SocialLoginType;
 import com.ssaenggojip.common.entity.BaseEntity;
 import com.ssaenggojip.common.utils.PGVectorConverter;
 import com.ssaenggojip.targetAddress.entity.TargetAddress;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -42,6 +47,6 @@ public class User extends BaseEntity {
 
     @Setter
     @Convert(converter = PGVectorConverter.class)
-    @Column
+    @Column(name = "facility_preferences", columnDefinition = "vector(6)")
     private float[] facilityPreferences;
 }
