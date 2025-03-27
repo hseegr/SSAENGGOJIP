@@ -7,6 +7,7 @@ import Favorites from './ContentArea/Favorite'
 const ContentArea: React.FC = () => {
   const activeTab = useSidebarStore((state) => state.activeTab)
   const setActiveTab = useSidebarStore((state) => state.setActiveTab)
+  const { setSelectedCard } = useSidebarStore()
 
   if (!activeTab) {
     return null
@@ -30,10 +31,13 @@ const ContentArea: React.FC = () => {
       {/* 상단 영역 */}
       <div className="flex justify-between items-center p-2">
         <span></span>
-        <button
-          className="text-gray-600 hover:text-black"
-          onClick={() => setActiveTab(null)}
-        >
+          <button
+            className="text-gray-600 hover:text-black"
+            onClick={() => {
+              setActiveTab(null)
+              setSelectedCard(null)
+            }}
+          >
           ✖
         </button>
       </div>

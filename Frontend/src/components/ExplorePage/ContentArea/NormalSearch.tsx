@@ -5,6 +5,7 @@ import Modal from './Modals/NormalModal'
 import Card from '../SearchCard'
 import FilterDropdown from './Modals/FilterDropdown'
 
+
 const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
@@ -111,6 +112,7 @@ const NormalSearch: React.FC = () => {
         {data.map((item, index) => (
           <Card
             key={index}
+            id={item.id}
             title={item.title}
             propertyType={item.propertyType}
             dealType={item.dealType}
