@@ -29,9 +29,9 @@ const RedirectHandlerPage = () => {
 
                     // 경로 이동
                     if (isNew) {
-                        navigate('/main')
-                    } else {
                         navigate('/survey')
+                    } else {
+                        navigate('/main')
                     }
                 })
                 .catch((error) => {

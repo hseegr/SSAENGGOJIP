@@ -20,7 +20,7 @@ const Header = () => {
   }
 
   return (
-    <header className="sticky top-0 z-10 w-full bg-white border-b h-16 border-[#F4F4F4]">
+    <header className="sticky top-0 z-20 w-full bg-white border-b h-16 border-[#F4F4F4]">
       <div className="flex items-center justify-between h-16 w-full px-10 mx-auto">
         {/* 로고 */}
         <Link to="/main" className="flex items-center">
@@ -41,7 +41,7 @@ const Header = () => {
                 마이페이지
               </Link>
             ) : (
-              <Link to="/account/register" className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10">
+              <Link to="/account/login" className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10">
                 회원가입
               </Link>
             )}
@@ -68,14 +68,14 @@ const Header = () => {
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="px-4 py-1 text-sm font-semibold text-white rounded-full bg-gray-400"
+                className="w-20 py-1 text-sm font-semibold text-white text-center rounded-full bg-gray-400"
               >
                 Logout
               </button>
             ) : (
               <Link
                 to="/account/login"
-                className="px-4 py-1 text-sm font-semibold text-white rounded-full bg-ssaeng-purple"
+                className="w-20 py-1 text-sm font-semibold text-white text-center rounded-full bg-ssaeng-purple"
               >
                 Login
               </Link>
