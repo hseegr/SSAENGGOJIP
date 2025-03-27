@@ -3,7 +3,7 @@ import SearchSection from '@/components/MainPage/SearchSection/SearchSection'
 
 const MainPage = () => {
   return (
-    <div className="h-full">
+    <div className="h-full px-10">
       <div className="flex flex-row justify-center">
         <SearchSection />
       </div>
