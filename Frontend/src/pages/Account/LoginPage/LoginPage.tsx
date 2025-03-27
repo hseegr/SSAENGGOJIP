@@ -52,7 +52,7 @@ const LoginPage = () => {
                     onClick={() => handleSocialLogin('naver')}
                 />
                 <SocialLoginButton
-                    bgColor="bg-gray-100"
+                    bgColor="bg-[#F2F2F2]"
                     logoSrc={googleLogo}
                     text="구글로 시작하기"
                     onClick={() => handleSocialLogin('google')}
