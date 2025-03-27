@@ -1,28 +1,31 @@
-import { defineConfig } from "vite";
+// vite.config.ts
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import svgr from 'vite-plugin-svgr';
+import path from 'path' // ← 이거 추가!
 
 const viteConfig = defineConfig({
-    base: '/',
-    // dev server
-    server: {
-        port: 3000,
+  base: '/',
+  server: {
+    port: 3000,
+  },
+  preview: {
+    port: 3010,
+  },
+  css: {
+    devSourcemap: true,
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'), // ✅ alias 설정 추가
     },
-
-    // preview server
-    preview: {
-        port: 3010,
-    },
-    
-    css:{
-        devSourcemap:true,
-    },
-    
-    plugins: [
-        react({
-            jsxRuntime: 'automatic'
-        }),
-    ],
-
+  },
+  plugins: [
+    react({
+      jsxRuntime: 'automatic',
+    }),
+    svgr()
+  ],
 })
 
 export default viteConfig
