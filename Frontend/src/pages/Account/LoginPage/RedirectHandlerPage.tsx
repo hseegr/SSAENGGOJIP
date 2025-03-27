@@ -8,7 +8,7 @@ const RedirectHandlerPage = () => {
     const navigate = useNavigate()
     const hasRun = useRef(false)
 
-    // ✅ 구조분해로 상태 훅 불러오기
+    // 구조분해로 상태 훅 불러오기
     const { setAccessToken, setIsLoggedIn } = useUserStore()
 
     useEffect(() => {
@@ -23,15 +23,15 @@ const RedirectHandlerPage = () => {
                 .then((response) => {
                     const { accessToken, isNew } = response
 
-                    // ✅ 상태 업데이트 (localStorage + zustand 동기화)
+                    // 상태 업데이트 (localStorage + zustand 동기화)
                     setAccessToken(accessToken)
                     setIsLoggedIn(true)
 
-                    // ✅ 경로 이동
+                    // 경로 이동
                     if (isNew) {
                         navigate('/main')
                     } else {
-                        navigate('/main') // 필요 시 '/survey'로 수정 가능
+                        navigate('/survey')
                     }
                 })
                 .catch((error) => {

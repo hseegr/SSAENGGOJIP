@@ -7,6 +7,7 @@ import NotFound from '@/pages/NotFound/NotFound'
 import ExplorePage from '@/pages/ExplorePage/ExplorePage'
 import Login from '@/pages/Account/LoginPage/LoginPage'
 import RedirectHandlerPage from '@/pages/Account/LoginPage/RedirectHandlerPage'
+import SurveyPage from '@/pages/Account/SurveyPage/SurveyPage'
 
 // 레이아웃
 import BaseLayout from '@/components/layout/BaseLayout'
@@ -25,9 +26,10 @@ const router = createBrowserRouter([
       { path: 'explore', element: <ExplorePage /> }, // /map
       { path: 'account/login', element: <Login /> },
       { path: 'account/login/:socialType', element: <RedirectHandlerPage /> },
+      { path: 'survey', element: <SurveyPage /> },
     ],
   },
-  
+
 
   // 404 NotFound: 최상위에 둬야 함!
   {
