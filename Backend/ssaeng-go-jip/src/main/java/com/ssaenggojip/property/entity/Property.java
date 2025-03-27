@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-@Table(name = "properties")
+@Table(name = "property")
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,34 +19,49 @@ public class Property {
     @Column(nullable = false, length = 255)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DealType dealType;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PropertyType propertyType;
 
     @Column(nullable = false)
     private Integer price;
 
-    @Column(nullable = false)
-    private Double area;
+    private Integer rentPrice;
 
-    @Column(nullable = false, length = 255)
-    private String address;
+    private Integer maintenancePrice;
 
-    @Column(nullable = false)
-    private Integer floor;
+    @Column(nullable = false, precision = 10, scale = 2)
+    private Double exclusiveArea;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
+    private Double supplyArea;
+
+    @Column(nullable = false, length = 8)
+    private String floor;
+
+    @Column(nullable = false, length = 8)
+    private String totalFloor;
+
+    @Column(nullable = false, precision = 9, scale = 6)
     private Double latitude;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 9, scale = 6)
     private Double longitude;
 
-    @Column(nullable = false)
-    private Integer guCode;
+    @Column(nullable = false, length = 32)
+    private String sido;
 
-    @Column(nullable = false)
-    private Integer dCode;
+    @Column(nullable = false, length = 32)
+    private String sigungu;
+
+    @Column(nullable = false, length = 32)
+    private String dong;
+
+    @Column(nullable = false, length = 256)
+    private String address;
 
 }
