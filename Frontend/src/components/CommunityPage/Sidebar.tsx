@@ -4,6 +4,10 @@ import { useEffect, useState } from 'react'
 import ChatRoomCard from './ChatRoomCard'
 import { useCommunityStore } from '@/store/communityStore'
 
+type Props = {
+  onChatOpen: () => void
+}
+
 // 목업 데이터: 실제 API 연결 전 임시로 사용하는 데이터
 const popularChatRooms: ChatRoom[] = [
   {
@@ -70,7 +74,7 @@ const searchableStations: ChatRoom[] = [
   },
 ]
 
-const Sidebar = () => {
+const Sidebar = ({ onChatOpen }: Props) => {
   // 탭 상태 관리 -> list : 채팅방 목록 / my : 내가 참여한 채팅방
   const [activeTab, setActiveTab] = useState<'list' | 'my'>('list')
 
@@ -97,10 +101,10 @@ const Sidebar = () => {
         : [...searchedChatRooms, ...fallbackRooms]
       : myChatRooms
 
-  // ✅ Zustand 상태 저장 함수 불러오기
+  // Zustand 상태 저장 함수 불러오기
   const setMarkerChatRooms = useCommunityStore((s) => s.setMarkerChatRooms)
 
-  // ✅ chatRooms가 바뀔 때마다 지도 마커 상태를 업데이트
+  // chatRooms가 바뀔 때마다 지도 마커 상태를 업데이트
   useEffect(() => {
     setMarkerChatRooms(chatRooms)
   }, [chatRooms])
@@ -108,7 +112,11 @@ const Sidebar = () => {
   const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom)
 
   const handleClickRoom = (room: ChatRoom) => {
-    setSelectedChatRoom(room) // ✅ 클릭한 채팅방을 선택 상태로 저장
+    setSelectedChatRoom(room) // 클릭한 채팅방을 선택 상태로 저장
+    // '내 채팅방' 탭일 때만 즉시 모달 열기
+    if (activeTab === 'my') {
+      onChatOpen()
+    }
   }
 
   return (

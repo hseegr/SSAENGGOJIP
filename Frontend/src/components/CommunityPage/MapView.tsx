@@ -8,27 +8,31 @@ declare global {
   }
 }
 
-// MapView 컴포넌트 생성하기
-const MapView = () => {
-  // useRef는 React에서 DOM을 안전하게 다루는 방법
-  // 지도를 넣을 <div>를 기억
+// props: 모달을 열기 위한 콜백 함수 전달
+type Props = {
+  onChatOpen: () => void
+}
+
+// MapView 컴포넌트
+const MapView = ({ onChatOpen }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null)
-  const [map, setMap] = useState<any>(null) // 지도 객체 상태로 보관
-  const overlayRef = useRef<any>(null) // 오버레이 참조 저장
+  const [map, setMap] = useState<any>(null)
+  const overlayRef = useRef<any>(null)
 
-  // ✅ Zustand 상태 불러오기
-  const markerChatRooms = useCommunityStore((s) => s.markerChatRooms) // 마커로 표시할 채팅방들
-  const selectedChatRoom = useCommunityStore((s) => s.selectedChatRoom) // 선택된 채팅방
-  const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom) // 선택 상태 저장 함수
+  // Zustand 상태
+  const markerChatRooms = useCommunityStore((s) => s.markerChatRooms)
+  const selectedChatRoom = useCommunityStore((s) => s.selectedChatRoom)
+  const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom)
 
-  // ✅ 초기 지도 생성 (한 번만 실행)
+  // 초기 지도 생성 (1회만 실행)
   useEffect(() => {
     if (!mapRef.current || !window.kakao) return
 
     const mapOption = {
-      center: new window.kakao.maps.LatLng(37.55, 127.04),
+      center: new window.kakao.maps.LatLng(37.496, 127.028),
       level: 3,
     }
+
     const createdMap = new window.kakao.maps.Map(mapRef.current, mapOption)
     setMap(createdMap)
 
@@ -37,16 +41,16 @@ const MapView = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // ✅ 마커 & 오버레이 표시 (markerChatRooms 또는 선택된 채팅방이 바뀔 때마다 실행)
+  // 마커 표시 및 오버레이 제어
   useEffect(() => {
     if (!map || !window.kakao) return
 
-    // 기존 오버레이 제거
+    // 이전 오버레이 제거
     if (overlayRef.current) {
       overlayRef.current.setMap(null)
     }
 
-    // 마커 표시
+    // 채팅방 마커 생성
     markerChatRooms.forEach((room) => {
       const marker = new window.kakao.maps.Marker({
         map,
@@ -62,14 +66,17 @@ const MapView = () => {
       })
     })
 
-    // 오버레이 표시 + 좌표 이동
+    // 오버레이 표시
     if (selectedChatRoom) {
       const overlayContent = document.createElement('div')
+
       overlayContent.innerHTML = `
         <div style="padding:10px; background:rgba(255,255,255,0.9); border-radius:8px; box-shadow:0 0 3px rgba(0,0,0,0.2); display: flex; flex-direction: column;">
           <div style="font-weight:bold; font-size: 14px; color: #000;">${selectedChatRoom.name}</div>
           <div style="display: flex; justify-content: flex-end;">
-            <button style="margin-top:6px; color:white; background:#7171D7; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size: 12px;">참여하기</button>
+            <button id="joinChatButton" style="margin-top:6px; color:white; background:#7171D7; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size: 12px;">
+              참여하기
+            </button>
           </div>
         </div>
       `
@@ -86,13 +93,22 @@ const MapView = () => {
       })
 
       overlay.setMap(map)
-      overlayRef.current = overlay // 오버레이 참조 저장
+      overlayRef.current = overlay
 
-      map.setCenter(position) // ✅ 선택된 채팅방 위치로 지도 이동
+      // 오버레이 표시 후 참여하기 버튼 이벤트 연결
+      const joinBtn =
+        overlayContent.querySelector<HTMLButtonElement>('#joinChatButton')
+      if (joinBtn) {
+        joinBtn.addEventListener('click', () => {
+          onChatOpen() // 참여하기 버튼 클릭 시 모달 열기
+        })
+      }
+
+      // 지도 위치 이동
+      map.setCenter(position)
     }
   }, [map, markerChatRooms, selectedChatRoom])
 
-  // 실제 화면에 보일 div. 이 div 안에 지도가 들어감
   return (
     <div
       id="map"
