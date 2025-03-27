@@ -1,16 +1,34 @@
-export interface ChatRoom {
-  id: number // 채팅방 고유 ID
-  name: string // 역 이름 (ex: 강남역)
-  line: string[] // 호선 배열 (ex: ["2호선", "신분당선"])
-  userCount: number // 참여자 수
-  lastMessage: string // 마지막 메시지
-  latitude: number // 위도
-  longitude: number // 경도
+// 공통 응답 타입
+export interface CommonResponse<T> {
+  isSuccess: boolean
+  code: string
+  message: string
+  result: T
 }
 
-export interface Message {
-  id: string
-  user: string
-  content: string
-  createdAt: string
+// 채팅방 기본 정보 타입
+export interface ChatRoom {
+  id: number
+  name: string
+  line: string[]
+  userCount: number
+  lastMessage: string
+  latitude: number
+  longitude: number
 }
+
+// 채팅방 목록 응답 타입 (내 채팅방, 인기, 검색)
+export type ChatRoomListResponse = CommonResponse<ChatRoom[]>
+
+// 채팅방 입장/퇴장/삭제 요청 바디 타입
+export interface ChatRoomActionRequest {
+  memberImageUrl: string
+  coordinationId: number
+  itemImageUrl: string[]
+}
+
+// 합성 결과 응답 타입 (입장/퇴장/삭제 공통)
+export interface ChackshotResponse {
+  chackshotUrl: string
+}
+export type ChatRoomActionResponse = CommonResponse<ChackshotResponse>
