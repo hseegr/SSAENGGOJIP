@@ -1,6 +1,6 @@
 import React from 'react';
 import useSidebarStore from '@/store/sidebar';
-
+import LazyLoadSlider from './slider';
 const DetailInfo: React.FC = () => {
   const { selectedCard, setSelectedCard } = useSidebarStore(); // Zustand store에서 상태 가져오기
 
@@ -58,42 +58,38 @@ const DetailInfo: React.FC = () => {
 
       {/* 이미지 영역 */}
       <div className="mb-4">
-        <img
-          src={propertyData.imageUrls[0]}
-          alt={propertyData.name}
-          className="w-full h-[200px] object-cover rounded-md"
-        />
+        <LazyLoadSlider imageUrls={propertyData.imageUrls} />
       </div>
 
-{/* 매물 상세 정보 */}
-<div className="mb-6">
-  <h1 className="text-xl font-bold mb-4">매물 상세 정보 🏠</h1>
-  <div className="grid grid-cols-2 gap-x-2 gap-y-2">
-    <span className="font-semibold text-gray-700">매물 이름</span>
-    <span>{propertyData.name}</span>
+    {/* 매물 상세 정보 */}
+    <div className="mb-6 border-b">
+    <h1 className="text-xl font-bold mb-4">매물 상세 정보 🏠</h1>
+    <div className="grid grid-cols-2 gap-x-2 gap-y-2">
+        <span className="font-semibold text-gray-700">매물 이름</span>
+        <span>{propertyData.name}</span>
 
-    <span className="font-semibold text-gray-700">매물 유형</span>
-    <span>{propertyData.propertyType}</span>
+        <span className="font-semibold text-gray-700">매물 유형</span>
+        <span>{propertyData.propertyType}</span>
 
-    <span className="font-semibold text-gray-700">거래 유형</span>
-    <span>{propertyData.dealType}</span>
+        <span className="font-semibold text-gray-700">거래 유형</span>
+        <span>{propertyData.dealType}</span>
 
-    <span className="font-semibold text-gray-700">금&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;액</span>
-    <span>{propertyData.price.toLocaleString()}원</span>
+        <span className="font-semibold text-gray-700">금&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;액</span>
+        <span>{propertyData.price.toLocaleString()}원</span>
 
-    <span className="font-semibold text-gray-700">관&nbsp;&nbsp;리&nbsp;&nbsp;비</span>
-    <span>{propertyData.price.toLocaleString()}원</span>
+        <span className="font-semibold text-gray-700">관&nbsp;&nbsp;리&nbsp;&nbsp;비</span>
+        <span>{propertyData.price.toLocaleString()}원</span>
 
-    <span className="font-semibold text-gray-700">층&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수</span>
-    <span>{propertyData.floor}층 / {propertyData.totalFloor}층</span>
+        <span className="font-semibold text-gray-700">층&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;수</span>
+        <span>{propertyData.floor}층 / {propertyData.totalFloor}층</span>
 
-    <span className="font-semibold text-gray-700">평수(면적)</span>
-    <span>{propertyData.area}평</span>
+        <span className="font-semibold text-gray-700">평수(면적)</span>
+        <span>{propertyData.area}평</span>
 
-    <span className="font-semibold text-gray-700">매물 위치</span>
-    <span>{propertyData.address}</span>
-  </div>
-</div>
+        <span className="font-semibold text-gray-700">매물 위치</span>
+        <span>{propertyData.address}</span>
+    </div>
+    </div>
 
 
       {/* 교통 정보 */}

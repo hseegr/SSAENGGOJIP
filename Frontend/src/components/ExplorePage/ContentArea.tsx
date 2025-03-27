@@ -42,7 +42,7 @@ const ContentArea: React.FC = () => {
         </button>
       </div>
       {/* 하단 영역 */}
-      <div className="flex-grow overflow-auto p-4">{renderContent()}</div>
+      <div className="flex-grow overflow-auto">{renderContent()}</div>
     </div>
   )
 }

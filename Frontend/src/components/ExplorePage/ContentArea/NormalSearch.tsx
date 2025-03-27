@@ -81,7 +81,7 @@ const NormalSearch: React.FC = () => {
   return (
     <>
       {/* 검색창 */}
-      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md px-4 py-2">
+      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-2 px-4 py-2">
         <div className="flex items-center w-full">
           <Search className="mr-2 text-gray-400" size={20} />
           <input
@@ -99,7 +99,7 @@ const NormalSearch: React.FC = () => {
         </button>
       </div>
     {/* 검색 시 나올 필터링 버튼 */}
-    <div className="flex items-center justify-between w-full pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
+    <div className="flex items-center justify-between w-full px-2 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
       {/* 다른 요소가 있을 경우 */}
       <p className="text-gray-700 font-medium">검색 결과</p>
 

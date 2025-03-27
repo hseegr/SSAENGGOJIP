@@ -40,25 +40,25 @@ const Card: React.FC<CardProps> = ({
   
   return (
     <button
-      className={`flex rounded-lg overflow-hidden cursor-pointer ${
-        isSelected ? 'bg-[#AFAFFF]' : 'hover:bg-gray-100'
+      className={`flex overflow-hidden cursor-pointer ${
+        isSelected ? 'bg-[rgba(175,175,255,0.40)]' : 'hover:bg-gray-100'
       }`}
       onClick={handleClick}
     >
       {/* 이미지 영역 */}
       <div className="h-40 w-1/2 relative">
-        <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
-        <span className="absolute top-2 right-2 text-red-500 text-xl">❤️</span>
+        <img src={imageUrl} alt={title} className="w-full h-full object-cover rounded-lg p-2" />
+        <span className="absolute top-1 right-1 text-red-500 text-xl">❤️</span>
       </div>
 
       {/* 텍스트 영역 */}
       <div className="p-4 w-1/2">
-        <p className="text-md">{propertyType}</p>
+        <p className="flex text-md">{propertyType}</p>
         <div className="flex">
           <p className="text-lg font-bold text-gray-700 pr-2">{dealType}</p>
           <p className="text-lg font-bold text-gray-700">{formatPrice(price)}</p>
         </div>
-        <p className="text-sm text-gray-500">
+        <p className="flex text-sm text-gray-500">
           관리비 {managementFee ? `${managementFee.toLocaleString()}원` : '없음'}
         </p>
         <div className="flex">
