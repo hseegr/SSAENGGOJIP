@@ -8,6 +8,7 @@ import ExplorePage from '@/pages/ExplorePage/ExplorePage'
 import Login from '@/pages/Account/LoginPage/LoginPage'
 import RedirectHandlerPage from '@/pages/Account/LoginPage/RedirectHandlerPage'
 import SurveyPage from '@/pages/Account/SurveyPage/SurveyPage'
+import MyPage from '@/pages/Account/MyPage/MyPage'
 
 // 레이아웃
 import BaseLayout from '@/components/layout/BaseLayout'
@@ -22,11 +23,11 @@ const router = createBrowserRouter([
       { index: true, element: <OnboardingPage /> }, // ✅ path: '' 대신 index route
       { path: 'main', element: <MainPage /> }, // 메인 페이지
       { path: 'community', element: <CommunityPage /> }, // 커뮤니티 페이지
-      { path: 'main', element: <MainPage /> }, // /main
       { path: 'explore', element: <ExplorePage /> }, // /map
       { path: 'account/login', element: <Login /> },
       { path: 'account/login/:socialType', element: <RedirectHandlerPage /> },
       { path: 'survey', element: <SurveyPage /> },
+      { path: 'mypage', element: <MyPage /> },
     ],
   },
 
