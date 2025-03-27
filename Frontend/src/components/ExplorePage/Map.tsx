@@ -147,21 +147,23 @@ const KakaoMap = () => {
   }, [])
 
   return (
-    <div className="relative w-[95vw] h-screen m-0 p-0">
-      {/* 지도 영역 */}
-      <div id="map" ref={mapRef} className="w-full h-full" />
-
-      {/* 주소 정보를 표시할 영역 */}
-      <div
-        id="centerAddr"
-        className="fixed top-[12%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[260px] h-[45px]
-         flex-shrink-0 rounded-[6px] bg-[#7171D7] shadow-md flex items-center justify-center text-white font-bold text-sm z-[10]"
-      >
-        로딩 중...
-      </div>
-      {/* 커뮤니티 영역 */}
-      <CommunityModal />
+<div className="relative w-[95vw] h-screen m-0 p-0">
+  {/* 지도 영역 */}
+  <div id="map" ref={mapRef} className="relative w-full h-full">
+    {/* 주소 정보를 표시할 영역 */}
+    <div
+      id="centerAddr"
+      className="absolute top-[6%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[260px] h-[45px]
+       flex-shrink-0 rounded-[6px] bg-[#7171D7] shadow-md flex items-center justify-center text-white font-bold text-sm z-[10]"
+    >
+      로딩 중...
     </div>
+  </div>
+
+  {/* 커뮤니티 영역 */}
+  <CommunityModal />
+</div>
+
   )
 }
 

@@ -26,7 +26,7 @@ const ContentArea: React.FC = () => {
   }
 
   return (
-    <div className="w-[400px] h-[500px] overflow-hidden bg-white border border-ssaeng-gray-1 flex flex-col">
+    <div className="w-[400px] h-screen overflow-hidden bg-white border border-ssaeng-gray-1 flex flex-col">
       {/* 상단 영역 */}
       <div className="flex justify-between items-center p-2">
         <span></span>
