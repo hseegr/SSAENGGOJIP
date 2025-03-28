@@ -1,9 +1,33 @@
 import { Search } from 'lucide-react'
 import { useState } from 'react'
 import SearchDropdown from './SearchDropdown'
+import { MOCK_RESULTS } from './SearchDropdown'
 
 const GeneralSearch = () => {
   const [query, setQuery] = useState('')
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false)
+
+  const handleSelect = (name: string) => {
+    setQuery(name)
+    setShowSearchDropdown(false)
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showSearchDropdown) return
+
+    if (e.key === 'ArrowDown') {
+      setHighlightedIndex((prev) => prev + 1)
+    } else if (e.key === 'ArrowUp') {
+      setHighlightedIndex((prev) => Math.max(prev - 1, 0))
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      const filtered = MOCK_RESULTS.filter((item) => item.name.includes(query))
+      if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
+        handleSelect(filtered[highlightedIndex].name)
+      }
+    }
+  }
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -13,9 +37,14 @@ const GeneralSearch = () => {
           {/* 입력창 */}
           <input
             type="text"
-            placeholder="검색어를 입력하세요."
+            placeholder="지역명, 지하철역을 입력해 주세요."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              setShowSearchDropdown(true)
+              setHighlightedIndex(-1)
+            }}
+            onKeyDown={handleKeyDown}
             className="flex-1 text-ssaeng-purple focus:outline-none placeholder:text-ssaeng-gray-2 placeholder:text-sm"
           />
 
@@ -25,7 +54,11 @@ const GeneralSearch = () => {
           </button>
         </div>
         {/* 전체 검색 결과 드롭다운 */}
-        <SearchDropdown query={query} />
+        <SearchDropdown
+          query={query}
+          onSelect={handleSelect}
+          highlightedIndex={highlightedIndex}
+        />
       </div>
     </div>
   )
