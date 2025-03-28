@@ -1,18 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Search } from 'lucide-react'
 import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
 import Modal from './Modals/NormalModal'
 import Card from '../SearchCard'
 import FilterDropdown from './Modals/FilterDropdown'
-
+import useSidebarStore from '@/store/sidebar'
 
 const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-
-  // 임시 데이터 작성
-  const [data] = useState([
+  const { titles } = useSidebarStore()
+  const [initialData] = useState([
     {
-      id: 1,
+      id: 4412314,
       title: '서울 아파트',
       price: 500000000,
       managementFee: 200000,
@@ -22,7 +21,7 @@ const NormalSearch: React.FC = () => {
       dealType: '매매',
       floor: 10,
       totalFloor: 20,
-      area: 25.0, // 평수
+      area: 25.0,
     },
     {
       id: 2,
@@ -35,7 +34,7 @@ const NormalSearch: React.FC = () => {
       dealType: '전세',
       floor: 7,
       totalFloor: 20,
-      area: 11.0, // 평수
+      area: 11.0,
     },
     {
       id: 3,
@@ -48,10 +47,10 @@ const NormalSearch: React.FC = () => {
       dealType: '월세',
       floor: 2,
       totalFloor: 5,
-      area: 18.0, // 평수
+      area: 18.0,
     },
     {
-      id: 4,
+      id: 4412312,
       title: '인천 원룸',
       price: 70000000,
       managementFee: 30000,
@@ -61,22 +60,42 @@ const NormalSearch: React.FC = () => {
       dealType: '월세',
       floor: 1,
       totalFloor: 4,
-      area: 8.0, // 평수
+      area: 8.0,
     },
     {
-      id: 5,
+      id: 4412313,
       title: '광주 주택',
       price: 250000000,
-      managementFee: 0, // 관리비 없음
+      managementFee: 0,
       details: '넓은 마당과 정원 포함',
       imageUrl: '/images/apartment5.jpg',
       propertyType: '주택',
       dealType: '매매',
-      floor: 1, // 단독주택이므로 층 정보 없음
-      totalFloor: 1, // 단독주택이므로 총 층수 없음
-      area: 50.0, // 평수
+      floor: 1,
+      totalFloor: 1,
+      area: 50.0,
     },
-  ]);
+  ])
+  const { setSelectedCard } = useSidebarStore();
+  const [filteredData, setFilteredData] = useState(initialData);
+
+  useEffect(() => {
+    if (titles && Array.isArray(titles)) {
+      // titles 배열의 문자열을 숫자로 변환하여 item.id와 비교
+      const NewfilteredData = initialData.filter((item) =>
+        titles.map(Number).includes(item.id)
+      );
+      
+      if (NewfilteredData.length === 0){
+        setFilteredData(initialData)
+        setSelectedCard(null)
+      } else{
+  
+      // 필터링된 데이터를 업데이트
+      setFilteredData(NewfilteredData);}
+      setSelectedCard(null)
+    } 
+  }, [titles]);
 
   return (
     <>
@@ -98,20 +117,18 @@ const NormalSearch: React.FC = () => {
           <span className="ml-1 text-ssaeng-purple">필터</span>
         </button>
       </div>
+
     {/* 검색 시 나올 필터링 버튼 */}
     <div className="flex items-center justify-between w-full px-2 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
-      {/* 다른 요소가 있을 경우 */}
-      <p className="text-gray-700 font-medium">검색 결과</p>
-
-      {/* 필터링 버튼 */}
-      <FilterDropdown />
+        <p className="text-gray-700 font-medium">검색 결과</p>
+        <FilterDropdown />
     </div>
 
-      {/* 카드 목록 */}
-      <div className="flex flex-col gap-4">
-        {data.map((item, index) => (
+    {/* 카드 목록 */}
+    <div className="flex flex-col gap-4">
+        {filteredData.map((item) => (
           <Card
-            key={index}
+            key={item.id}
             id={item.id}
             title={item.title}
             propertyType={item.propertyType}
@@ -125,9 +142,10 @@ const NormalSearch: React.FC = () => {
             imageUrl={item.imageUrl}
           />
         ))}
-      </div>
-      {/* 모달 */}
-      <Modal isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />
+    </div>
+
+    {/* 모달 */}
+    <Modal isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />
     </>
   )
 }
