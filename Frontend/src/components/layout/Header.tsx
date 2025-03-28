@@ -41,7 +41,7 @@ const Header = () => {
                 마이페이지
               </Link>
             ) : (
-              <Link to="/account/login" className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10">
+              <Link to="/account/login" className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10" viewTransition>
                 회원가입
               </Link>
             )}
@@ -76,6 +76,7 @@ const Header = () => {
               <Link
                 to="/account/login"
                 className="w-20 py-1 text-sm font-semibold text-white text-center rounded-full bg-ssaeng-purple"
+                viewTransition
               >
                 Login
               </Link>
