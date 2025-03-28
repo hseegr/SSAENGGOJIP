@@ -11,6 +11,10 @@ body {
   overflow-x: hidden;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 #root {
   margin: 0;
   padding: 0;

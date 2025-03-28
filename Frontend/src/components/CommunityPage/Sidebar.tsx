@@ -1,75 +1,96 @@
 import { ChatRoom } from '@/types/community'
 import { Search } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ChatRoomCard from './ChatRoomCard'
+import { useCommunityStore } from '@/store/communityStore'
+
+type Props = {
+  onChatOpen: () => void
+}
 
 // 목업 데이터: 실제 API 연결 전 임시로 사용하는 데이터
 const popularChatRooms: ChatRoom[] = [
   {
-    id: '1',
-    name: '뚝섬역 커뮤니티',
-    station: '뚝섬역',
-    location: { lat: 37.5472, lng: 127.0473 },
-    participants: 123,
+    id: 1,
+    name: '강남역',
+    line: ['2호선', '신분당선'],
+    userCount: 152,
+    lastMessage: '강남역 근처 카페 추천해요!',
+    latitude: 37.501163,
+    longitude: 127.025756,
   },
   {
-    id: '2',
-    name: '강남역 커뮤니티',
-    station: '강남역',
-    location: { lat: 37.4979, lng: 127.0276 },
-    participants: 89,
+    id: 2,
+    name: '홍대입구역',
+    line: ['2호선'],
+    userCount: 98,
+    lastMessage: '홍대에서 밥 같이 드실 분~',
+    latitude: 37.5572,
+    longitude: 126.9245,
   },
   {
-    id: '3',
-    name: '사당역 커뮤니티',
-    station: '사당역',
-    location: { lat: 37.4769, lng: 126.9816 },
-    participants: 52,
+    id: 3,
+    name: '사당역',
+    line: ['2호선', '4호선'],
+    userCount: 52,
+    lastMessage: '사당역 공원 어디 있나요?',
+    latitude: 37.4769,
+    longitude: 126.9816,
   },
 ]
 
 const myChatRooms: ChatRoom[] = [
   {
-    id: '2',
-    name: '강남역 커뮤니티',
-    station: '강남역',
-    location: { lat: 37.4979, lng: 127.0276 },
-    participants: 89,
+    id: 2,
+    name: '홍대입구역',
+    line: ['2호선'],
+    userCount: 98,
+    lastMessage: '홍대에서 밥 같이 드실 분~',
+    latitude: 37.5572,
+    longitude: 126.9245,
   },
   {
-    id: '4',
-    name: '잠실역 커뮤니티',
-    station: '잠실역',
-    location: { lat: 37.5133, lng: 127.1002 },
-    participants: 44,
+    id: 4,
+    name: '잠실역',
+    line: ['2호선', '8호선'],
+    userCount: 44,
+    lastMessage: '잠실역 근처 병원 추천 부탁!',
+    latitude: 37.5133,
+    longitude: 127.1002,
   },
 ]
 
 const searchableStations: ChatRoom[] = [
   {
-    id: '100',
-    name: '홍대입구역 커뮤니티',
-    station: '홍대입구역',
-    location: { lat: 37.5572, lng: 126.9245 },
-    participants: 0, // 아직 채팅방 없음
+    id: 100,
+    name: '신촌역',
+    line: ['2호선'],
+    userCount: 0,
+    lastMessage: '',
+    latitude: 37.5551,
+    longitude: 126.9368,
   },
   {
-    id: '101',
-    name: '신촌역 커뮤니티',
-    station: '신촌역',
-    location: { lat: 37.5551, lng: 126.9368 },
-    participants: 0,
+    id: 101,
+    name: '건대입구역',
+    line: ['2호선', '7호선'],
+    userCount: 0,
+    lastMessage: '',
+    latitude: 37.54,
+    longitude: 127.0694,
   },
   {
-    id: '102',
-    name: '건대입구역 커뮤니티',
-    station: '건대입구역',
-    location: { lat: 37.54, lng: 127.0694 },
-    participants: 0,
+    id: 102,
+    name: '성수역',
+    line: ['2호선'],
+    userCount: 0,
+    lastMessage: '',
+    latitude: 37.5444,
+    longitude: 127.0565,
   },
 ]
 
-const Sidebar = () => {
+const Sidebar = ({ onChatOpen }: Props) => {
   // 탭 상태 관리 -> list : 채팅방 목록 / my : 내가 참여한 채팅방
   const [activeTab, setActiveTab] = useState<'list' | 'my'>('list')
 
@@ -78,14 +99,14 @@ const Sidebar = () => {
 
   // 검색어가 있을 경우 해당 역 이름이 포함된 채팅방만 필터링
   const searchedChatRooms = popularChatRooms.filter((room) =>
-    room.station.includes(searchKeyword),
+    room.name.includes(searchKeyword),
   )
 
   // 인기 채팅방에 없는 역 중 검색어와 일치하는 경우 (아직 생성되지 않은 채팅방)
   const fallbackRooms = searchableStations.filter(
     (stationRoom) =>
-      stationRoom.station.includes(searchKeyword) &&
-      !popularChatRooms.find((room) => room.station === stationRoom.station),
+      stationRoom.name.includes(searchKeyword) &&
+      !popularChatRooms.find((room) => room.name === stationRoom.name),
   )
 
   // 렌더링 채팅방 리스트 출력하기
@@ -96,12 +117,26 @@ const Sidebar = () => {
         : [...searchedChatRooms, ...fallbackRooms]
       : myChatRooms
 
+  // Zustand 상태 저장 함수 불러오기
+  const setMarkerChatRooms = useCommunityStore((s) => s.setMarkerChatRooms)
+
+  // chatRooms가 바뀔 때마다 지도 마커 상태를 업데이트
+  useEffect(() => {
+    setMarkerChatRooms(chatRooms)
+  }, [chatRooms])
+
+  const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom)
+
   const handleClickRoom = (room: ChatRoom) => {
-    console.log('선택된 채팅방', room)
+    setSelectedChatRoom(room) // 클릭한 채팅방을 선택 상태로 저장
+    // '내 채팅방' 탭일 때만 즉시 모달 열기
+    if (activeTab === 'my') {
+      onChatOpen()
+    }
   }
 
   return (
-    <aside className="w-96 border-r border-ssaeng-gray-1 bg-white py-6 min-w-72">
+    <aside className="w-96 border-r border-ssaeng-gray-1 bg-white py-6">
       {/* 탭 */}
       <div className="flex -ml-0 text-base font-semibold border-b border-ssaeng-gray-2 w-64">
         <button

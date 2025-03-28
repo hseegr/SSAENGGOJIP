@@ -14,9 +14,9 @@ const Sidebar: React.FC = () => {
   const { selectedCard } = useSidebarStore(); // 선택된 카드 상태
 
   return (
-    <div className="flex h-screen">
+    <div className="flex">
       {/* Sidebar Content */}
-      <div className="w-20 bg-white border border-ssaeng-gray-1 flex flex-col items-center pt-5 h-screen">
+      <div className="w-20 bg-white border-r border-ssaeng-gray-1 flex flex-col items-center pt-5">
         <button
           className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
           onClick={() => setActiveTab('normal_search')}
@@ -80,7 +80,7 @@ const Sidebar: React.FC = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

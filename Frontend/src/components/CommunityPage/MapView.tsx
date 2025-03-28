@@ -1,4 +1,5 @@
-import { useRef, useEffect } from 'react'
+import { useCommunityStore } from '@/store/communityStore'
+import { useRef, useEffect, useState } from 'react'
 
 // ts를 위한 코드
 declare global {
@@ -7,41 +8,104 @@ declare global {
   }
 }
 
-// MapView 컴포넌트 생성하기
-const MapView = () => {
-  // useRef는 React에서 DOM을 안전하게 다루는 방법
-  // 지도를 넣을 <div>를 기억
+// props: 모달을 열기 위한 콜백 함수 전달
+type Props = {
+  onChatOpen: () => void
+}
+
+// MapView 컴포넌트
+const MapView = ({ onChatOpen }: Props) => {
   const mapRef = useRef<HTMLDivElement>(null)
+  const [map, setMap] = useState<any>(null)
+  const overlayRef = useRef<any>(null)
 
-  // 컴포넌트가 화면에 나타났을 때 실행 (한 번)
+  // Zustand 상태
+  const markerChatRooms = useCommunityStore((s) => s.markerChatRooms)
+  const selectedChatRoom = useCommunityStore((s) => s.selectedChatRoom)
+  const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom)
+
+  // 초기 지도 생성 (1회만 실행)
   useEffect(() => {
-    // mapRef.current가 존재하고, window.kakao도 준비되어 있으면
-    if (mapRef.current && window.kakao) {
-      // 지도 중심 위치와 줌 레벨 설정
-      const options = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3, // 지도 확대 정도 (숫자가 작을수록 더 가까움)
-      }
+    if (!mapRef.current || !window.kakao) return
 
-      // 지도 그리기
-      const map = new window.kakao.maps.Map(mapRef.current, options)
-
-      // 화면 크기가 변경될 때 지도를 재정렬
-      const handleResize = () => {
-        map.relayout()
-      }
-
-      // resize 이벤트 발생 시 handleResize 실행
-      window.addEventListener('resize', handleResize)
-
-      // 컴포넌트가 사라질 때는 이벤트 제거 (메모리 쌓임 방지)
-      return () => {
-        window.removeEventListener('resize', handleResize)
-      }
+    const mapOption = {
+      center: new window.kakao.maps.LatLng(37.496, 127.028),
+      level: 3,
     }
+
+    const createdMap = new window.kakao.maps.Map(mapRef.current, mapOption)
+    setMap(createdMap)
+
+    const handleResize = () => createdMap.relayout()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  // 실제 화면에 보일 div. 이 div 안에 지도가 들어감
+  // 마커 표시 및 오버레이 제어
+  useEffect(() => {
+    if (!map || !window.kakao) return
+
+    // 이전 오버레이 제거
+    if (overlayRef.current) {
+      overlayRef.current.setMap(null)
+    }
+
+    // 채팅방 마커 생성
+    markerChatRooms.forEach((room) => {
+      const marker = new window.kakao.maps.Marker({
+        map,
+        position: new window.kakao.maps.LatLng(room.latitude, room.longitude),
+      })
+
+      // 마커 클릭 시 해당 채팅방 선택
+      window.kakao.maps.event.addListener(marker, 'click', () => {
+        setSelectedChatRoom(room)
+      })
+    })
+
+    // 오버레이 표시
+    if (selectedChatRoom) {
+      const overlayContent = document.createElement('div')
+
+      overlayContent.innerHTML = `
+        <div style="padding:10px; background:rgba(255,255,255,0.9); border-radius:8px; box-shadow:0 0 3px rgba(0,0,0,0.2); display: flex; flex-direction: column;">
+          <div style="font-weight:bold; font-size: 14px; color: #000;">${selectedChatRoom.name} 커뮤니티 </div>
+          <div style="display: flex; justify-content: flex-end;">
+            <button id="joinChatButton" style="margin-top:6px; color:white; background:#7171D7; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size: 12px;">
+              참여하기
+            </button>
+          </div>
+        </div>
+      `
+
+      const position = new window.kakao.maps.LatLng(
+        selectedChatRoom.latitude,
+        selectedChatRoom.longitude,
+      )
+
+      const overlay = new window.kakao.maps.CustomOverlay({
+        position,
+        content: overlayContent,
+        yAnchor: 1,
+      })
+
+      overlay.setMap(map)
+      overlayRef.current = overlay
+
+      // 오버레이 표시 후 참여하기 버튼 이벤트 연결
+      const joinBtn =
+        overlayContent.querySelector<HTMLButtonElement>('#joinChatButton')
+      if (joinBtn) {
+        joinBtn.addEventListener('click', () => {
+          onChatOpen() // 참여하기 버튼 클릭 시 모달 열기
+        })
+      }
+
+      // 지도 위치 이동
+      map.setCenter(position)
+    }
+  }, [map, markerChatRooms, selectedChatRoom])
+
   return (
     <div
       id="map"

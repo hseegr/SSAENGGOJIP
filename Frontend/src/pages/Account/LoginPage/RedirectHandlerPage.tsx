@@ -1,26 +1,37 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { fetchSocialLogin } from '@/services/userService'
+import { useUserStore } from '@/store/userStore'
 
 const RedirectHandlerPage = () => {
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
+    const hasRun = useRef(false)
+
+    // 구조분해로 상태 훅 불러오기
+    const { setAccessToken, setIsLoggedIn } = useUserStore()
 
     useEffect(() => {
+        if (hasRun.current) return
+        hasRun.current = true
+
         const code = searchParams.get('code')
         const socialType = window.location.pathname.split('/').pop()
 
         if (code && socialType) {
             fetchSocialLogin(socialType, code)
                 .then((response) => {
-                    const { accessToken, alreadyJoin } = response
-                    localStorage.setItem('accessToken', accessToken)
+                    const { accessToken, isNew } = response
 
-                    // 회원가입 되어 있으면 메인으로, 아니면 설문조사 페이지로 이동
-                    if (alreadyJoin) {
-                        navigate('/main')
-                    } else {
+                    // 상태 업데이트 (localStorage + zustand 동기화)
+                    setAccessToken(accessToken)
+                    setIsLoggedIn(true)
+
+                    // 경로 이동
+                    if (isNew) {
                         navigate('/survey')
+                    } else {
+                        navigate('/main')
                     }
                 })
                 .catch((error) => {
