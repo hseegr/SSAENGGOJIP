@@ -19,16 +19,3 @@ export interface ChatRoom {
 
 // 채팅방 목록 응답 타입 (내 채팅방, 인기, 검색)
 export type ChatRoomListResponse = CommonResponse<ChatRoom[]>
-
-// 채팅방 입장/퇴장/삭제 요청 바디 타입
-export interface ChatRoomActionRequest {
-  memberImageUrl: string
-  coordinationId: number
-  itemImageUrl: string[]
-}
-
-// 합성 결과 응답 타입 (입장/퇴장/삭제 공통)
-export interface ChackshotResponse {
-  chackshotUrl: string
-}
-export type ChatRoomActionResponse = CommonResponse<ChackshotResponse>

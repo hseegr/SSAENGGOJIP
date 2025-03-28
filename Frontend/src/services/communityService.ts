@@ -1,11 +1,7 @@
 import http from './http-common'
 import { COMMUNITY_END_POINT } from './endPoints'
 
-import {
-  ChatRoomListResponse,
-  ChatRoomActionRequest,
-  ChatRoomActionResponse,
-} from '@/types/community'
+import { ChatRoomListResponse } from '@/types/community'
 
 // 내 채팅방 조회
 export const fetchMyChatRooms = async (): Promise<ChatRoomListResponse> => {
@@ -29,33 +25,10 @@ export const fetchSearchChatRooms = async (
 }
 
 // 채팅방 입장
-export const fetchJoinChatRoom = async (
-  chatRoomId: number,
-  body: ChatRoomActionRequest,
-): Promise<ChatRoomActionResponse> => {
-  const res = await http.post(
-    COMMUNITY_END_POINT.JOIN_CHAT_ROOM(chatRoomId),
-    body,
-  )
-  return res.data
-}
+// export const fetchJoinChatRoom = async()
 
 // 채팅방 퇴장
-export const fetchLeaveChatRoom = async (
-  body: ChatRoomActionRequest,
-): Promise<ChatRoomActionResponse> => {
-  const res = await http.post(COMMUNITY_END_POINT.LEAVE_CHAT_ROOM, body)
-  return res.data
-}
+// export const fetchLeaveChatRoom = async()
 
 // 채팅 메시지 삭제
-export const fetchDeleteChatMessage = async (
-  chatMessageId: number,
-  body: ChatRoomActionRequest,
-): Promise<ChatRoomActionResponse> => {
-  const res = await http.patch(
-    COMMUNITY_END_POINT.DELETE_CHAT_MESSAGE(chatMessageId),
-    body,
-  )
-  return res.data
-}
+//export const fetchDeleteChatMessage = async()
