@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -26,6 +28,16 @@ public class UserController {
     @PatchMapping
     public ApiResponse<UserResponseDto> modifyUserEmail(@AuthUser User user, @RequestBody @Valid UserRequestDto userRequestDto) {
         return ApiResponse.onSuccess(userService.updateUser(user, userRequestDto));
+    }
+
+    @PostMapping("/emails/send")
+    public ApiResponse<CompletableFuture<Boolean>> sendEmail(@AuthUser User user) {
+        return ApiResponse.onSuccess(userService.sendEmail(user));
+    }
+
+    @PostMapping("/emails/verify")
+    public ApiResponse<Boolean> verifyEmailCode(@AuthUser User user, @RequestParam("code") String code) {
+        return ApiResponse.onSuccess(userService.verifyEmailCode(user, code));
     }
 
     @DeleteMapping
