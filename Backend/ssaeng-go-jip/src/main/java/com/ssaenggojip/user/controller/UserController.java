@@ -27,4 +27,10 @@ public class UserController {
     public ApiResponse<UserResponseDto> modifyUserEmail(@AuthUser User user, @RequestBody @Valid UserRequestDto userRequestDto) {
         return ApiResponse.onSuccess(userService.updateUser(user, userRequestDto));
     }
+
+    @DeleteMapping
+    public ApiResponse<Void> withdrawUser(@AuthUser User user) {
+        userService.deleteUser(user);
+        return ApiResponse.onSuccess(null);
+    }
 }

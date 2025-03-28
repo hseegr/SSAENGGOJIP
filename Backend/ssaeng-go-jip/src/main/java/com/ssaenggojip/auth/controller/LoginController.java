@@ -24,7 +24,7 @@ public class LoginController {
     private static final int ONE_WEEK_SECONDS = 604800;
     private final LoginService loginService;
 
-    @PostMapping("/login/{provider}")
+    @GetMapping("/login/{provider}")
     public ApiResponse<AccessTokenResponse> socialLogin(
             @PathVariable("provider") String provider,
             @RequestParam("code") String code,
