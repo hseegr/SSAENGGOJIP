@@ -30,7 +30,12 @@ public enum ErrorStatus implements BaseErrorCode {
     // 사용자 관련 에러
     SAME_EMAIL(HttpStatus.BAD_REQUEST , "USER4001", "기존과 동일한 이메일입니다."),
     EMAIL_EXIST(HttpStatus.BAD_REQUEST, "USER4003", "이미 사용 중인 이메일입니다."),
-    UNABLE_TO_SEND_EMAIL(HttpStatus.BAD_REQUEST, "USER4004", "이메일 전송에 실패하였습니다.");
+    UNABLE_TO_SEND_EMAIL(HttpStatus.BAD_REQUEST, "USER4004", "이메일 전송에 실패하였습니다."),
+
+    // 타겟 주소 관련 에러
+    MAX_TARGET_ADDRESS(HttpStatus.BAD_REQUEST , "TARGETADDRESS4001", "이미 타겟 주소를 최대로 등록했습니다."),
+    NOT_FOUND_TARGET_ADDRESS_ID(HttpStatus.BAD_REQUEST , "TARGETADDRESS4002", "해당하는 타겟 주소가 없습니다."),
+    CANNOT_DELETE_DEFAULT_TARGET_ADDRESS(HttpStatus.BAD_REQUEST , "TARGETADDRESS4003", "기본 타겟 주소는 삭제할 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
