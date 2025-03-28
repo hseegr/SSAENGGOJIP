@@ -75,4 +75,11 @@ public class RecommendController {
         return ApiResponse.onSuccess(null);
     }
 
+    @GetMapping("/topk")
+    public ApiResponse<Void> topk() {
+        User user = userRepository.getReferenceById(1L);
+        recommendService.findTopKByPreferences(user, 10);
+        return ApiResponse.onSuccess(null);
+    }
+
 }
