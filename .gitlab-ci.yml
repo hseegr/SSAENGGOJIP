@@ -10,6 +10,8 @@ build:
     - runner
   image: node:18
   script:
+    - export VITE_APP_BASE_URL=${VITE_APP_BASE_URL}
+    - export VITE_KAKAO_MAP_KEY=${VITE_KAKAO_MAP_KEY}
     - cd Frontend
     - npm install
     - npm run build
