@@ -6,8 +6,8 @@ import naverLogo from '@/assets/images/naver.png'
 import ssafyLogo from '@/assets/images/ssafy.png'
 
 const LoginPage = () => {
-    const FRONT_BASE_URL = 'http://localhost:3000' // 배포된 프론트 주소
-    // const FRONT_BASE_URL = 'https://j12a406.p.ssafy.io'
+    // const FRONT_BASE_URL = 'http://localhost:3000'
+    const FRONT_BASE_URL = 'https://j12a406.p.ssafy.io' // 배포된 프론트 주소
     const REDIRECT_URIS: Record<string, string> = {
         kakao: `${FRONT_BASE_URL}/account/login/kakao`,
         naver: `${FRONT_BASE_URL}/account/login/naver`,
