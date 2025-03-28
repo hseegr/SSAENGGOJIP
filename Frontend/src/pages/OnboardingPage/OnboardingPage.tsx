@@ -1,11 +1,114 @@
+import React, { useState } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+
+// 온보딩에 표시할 슬라이드 데이터 배열 (아이콘, 제목, 설명 포함)
+const onboardingSlides = [
+  {
+    icon: '✅',
+    title: '맞춤 매물',
+    description:
+      '타겟 주소와 이동 시간을 설정하고,\n내 상황에 딱 맞는 매물을 추천받아보세요.',
+  },
+  {
+    icon: '🚆',
+    title: '교통 정보',
+    description:
+      '출퇴근 시간 기준 지하철 혼잡도와\n이동 시간을 실시간으로 확인할 수 있어요.\n혼잡한 노선은 피해서 이사하세요! 😉',
+  },
+  {
+    icon: '🏪',
+    title: '주변 인프라 체크',
+    description:
+      '병원, 약국, 세탁소 등\n생활 편의시설 선호도를 체크하면,\n그에 맞는 매물을 우선 추천해드려요!',
+  },
+  {
+    icon: '🏠',
+    title: '관심 매물 비교',
+    description:
+      '눈에 띄는 매물을 관심 매물로 등록하고 비교해서,\n내게 더 맞는 집을 선택해보세요!',
+  },
+]
+
 const OnboardingPage = () => {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h1 className="text-3xl font-bold">👋 온보딩 페이지</h1>
-        <p className="mt-2 text-gray-600">서비스의 시작을 알리는 페이지입니다.</p>
-      </div>
-    )
+  // 현재 보여줄 슬라이드의 인덱스를 상태로 관리
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  // 이전 슬라이드로 이동 (첫 번째일 경우 비활성화)
+  const goPrev = () => {
+    if (currentSlide > 0) setCurrentSlide((prev) => prev - 1)
   }
-  
-  export default OnboardingPage
-  
+
+  // 다음 슬라이드로 이동 (마지막일 경우 비활성화)
+  const goNext = () => {
+    if (currentSlide < onboardingSlides.length - 1)
+      setCurrentSlide((prev) => prev + 1)
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-start min-h-screen bg-white px-4 mt-16">
+      {/* 상단 안내 문구 + 시작하기 버튼 */}
+      <div className="text-center mb-8">
+        <p className="text-base">간편하게 로그인하고,</p>
+        <p className="text-base font-semibold">
+          <span className="font-semibold text-[#7171D7]">쌩Go집</span>의 맞춤형
+          서비스를 경험해 보세요.
+        </p>
+        <button className="mt-6 px-6 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-sm">
+          시작하기
+        </button>
+      </div>
+
+      {/* 슬라이드 영역 전체 */}
+      <div className="flex items-center justify-center gap-4">
+        {/* 왼쪽 화살표 버튼 */}
+        <button
+          onClick={goPrev}
+          disabled={currentSlide === 0}
+          className="p-2 text-gray-200 hover:text-[#7171D7] disabled:opacity-30"
+        >
+          <ChevronLeft size={32} />
+        </button>
+
+        {/* 슬라이드 컨테이너 (가로 슬라이드 전환을 위한 transform 처리) */}
+        <div className="w-[1100px] h-[400px] overflow-hidden rounded-2xl bg-white">
+          <div
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {onboardingSlides.map((slide, index) => (
+              <div
+                key={index}
+                className="min-w-[1100px] px-12 py-8 flex items-center justify-between"
+              >
+                {/* 왼쪽: 이미지 자리 */}
+                <div className="w-[629px] h-[354px] bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 text-sm">
+                  이미지 영역
+                </div>
+                {/* 오른쪽: 텍스트 설명 */}
+                <div className="text-left w-[300px]">
+                  <p className="text-2xl font-semibold mb-2">
+                    {slide.icon} {slide.title}
+                  </p>
+                  <p className="text-gray-600 whitespace-pre-line text-sm font-medium">
+                    {slide.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 오른쪽 화살표 버튼 */}
+        <button
+          onClick={goNext}
+          disabled={currentSlide === onboardingSlides.length - 1}
+          className="p-2 text-gray-200 hover:text-[#7171D7] disabled:opacity-30"
+        >
+          <ChevronRight size={32} />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+export default OnboardingPage
