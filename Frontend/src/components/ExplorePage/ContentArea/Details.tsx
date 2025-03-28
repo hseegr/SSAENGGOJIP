@@ -1,6 +1,17 @@
 import React from 'react';
 import useSidebarStore from '@/store/sidebar';
 import LazyLoadSlider from './slider';
+import TrafficInfo from './Detail/TrafficInfo';
+import NearbyStations from './Detail/NearbyStation';
+
+// 역 정보를 나타내는 타입
+interface Station {
+  id: number | string; // 역 ID (고유값)
+  name: string; // 역 이름
+  line: string; // 호선 이름
+}
+
+
 const DetailInfo: React.FC = () => {
   const { selectedCard, setSelectedCard } = useSidebarStore(); // Zustand store에서 상태 가져오기
 
@@ -19,6 +30,8 @@ const DetailInfo: React.FC = () => {
     stations: [
       [1234, "선릉역", "분당선"],
       [1233, "선릉역", "2호선"],
+      [1237, "오리역", "분당선"],
+      [1239, "역삼역", "1호선"],
     ],
     facilites: [
       ["CONVINIENT", 37.5012863640697, 127.039602741448],
@@ -31,6 +44,12 @@ const DetailInfo: React.FC = () => {
       "https://upload3.inven.co.kr/upload/2020/10/12/bbs/i15928571308.jpg",
     ],
   };
+
+  const stations: Station[] = propertyData.stations.map(([id, name, line]) => ({
+    id: Number(id), // id를 숫자로 변환
+    name: String(name), // 혹시 모를 타입 오류 방지
+    line: String(line),
+  }));
 
   if (!selectedCard) return null; // 선택된 카드가 없으면 렌더링하지 않음
 
@@ -94,20 +113,15 @@ const DetailInfo: React.FC = () => {
 
       {/* 교통 정보 */}
       <div className="mb-6">
-        <h3 className="text-md font-semibold mb-2">교통 정보 🚇</h3>
-        {propertyData.stations.map((station, index) => (
-          <p key={index}>
-            {station[1]} ({station[2]})
-          </p>
-        ))}
+        <h3 className="text-xl font-bold mb-2">교통 정보 🚇</h3>
       </div>
-
+      <div className="mb-6">
+      {/* 주소 검색창 */}
+      <TrafficInfo />
+      </div>
       {/* 주변 시설 정보 */}
       <div>
-        <h3 className="text-md font-semibold mb-2">주변 시설 🏢</h3>
-        {propertyData.facilites.map((facility, index) => (
-          <p key={index}>{facility[0]}</p>
-        ))}
+      <NearbyStations stations={stations}/>
       </div>
     </div>
   );

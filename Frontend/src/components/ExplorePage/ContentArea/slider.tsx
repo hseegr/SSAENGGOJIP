@@ -18,7 +18,7 @@ interface ArrowProps {
           return (
             <button
               onClick={onClick}
-              className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700 z-10"
+              className="absolute top-1/2 right-4 transform -translate-y-1/2 text-black p-2 rounded-full z-10"
               aria-label="Next"
             >
               <ChevronRight size={24} />
@@ -30,7 +30,7 @@ interface ArrowProps {
         return (
           <button
             onClick={onClick}
-            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700 z-10"
+            className="absolute top-1/2 left-4 transform -translate-y-1/2 text-black p-2 rounded-full z-10"
             aria-label="Previous"
           >
             <ChevronLeft size={24} />
@@ -40,7 +40,7 @@ interface ArrowProps {
       const defaultImage = "/src/assets/react.svg"; // 기본 이미지 경로
 
   const settings = {
-    dots: true, // 하단 점 표시
+    // dots: true, // 하단 점 표시
     lazyLoad: "ondemand", // Lazy Load 활성화 ('ondemand' 또는 'progressive')
     infinite: true, // 무한 반복
     speed: 500, // 슬라이드 전환 속도
