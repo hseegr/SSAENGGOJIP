@@ -1,6 +1,5 @@
 package com.ssaenggojip.recommend.service;
 
-import com.pgvector.PGvector;
 import com.ssaenggojip.recommend.dto.FacilityPreferencesResponse;
 import com.ssaenggojip.recommend.dto.UpdateFacilityPreferencesRequest;
 import com.ssaenggojip.user.entity.User;
@@ -19,17 +18,11 @@ public class RecommendService {
         return FacilityPreferencesResponse.builder()
                 .facilityPreferences(user.getFacilityPreferences())
                 .build();
-//        PGvector pgvector = user.getFacilityPreferences();
-//        float[] floats = pgvector.toArray();
-//        return FacilityPreferencesResponse.builder()
-//                .facilityPreferences(floats)
-//                .build();
     }
 
     @Transactional
     public void updatePreferences(UpdateFacilityPreferencesRequest request, User user) {
         user.setFacilityPreferences(request.getFacilityPreferences());
-//        user.setFacilityPreferences(new PGvector(request.getFacilityPreferences()));
         userRepository.save(user);
     }
 }

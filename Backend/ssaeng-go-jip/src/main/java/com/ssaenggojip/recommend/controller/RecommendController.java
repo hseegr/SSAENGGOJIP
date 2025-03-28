@@ -1,6 +1,5 @@
 package com.ssaenggojip.recommend.controller;
 
-import com.pgvector.PGvector;
 import com.ssaenggojip.apiPayload.ApiResponse;
 import com.ssaenggojip.auth.annotation.AuthUser;
 import com.ssaenggojip.common.enums.SocialLoginType;
