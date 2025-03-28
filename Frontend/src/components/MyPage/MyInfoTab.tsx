@@ -1,10 +1,39 @@
+import { useEffect, useState } from 'react'
+import { getUserInfo, UserInfo } from '@/services/userService'
 import kakaoLogo from '@/assets/images/kakao.png'
 import naverLogo from '@/assets/images/naver.png'
 import googleLogo from '@/assets/images/google.png'
 import ssafyLogo from '@/assets/images/ssafy.png'
-import { mockUserInfo, SocialLoginType } from '@/mocks/mockUser'
+// import { mockUserInfo, SocialLoginType } from '@/mocks/mockUser'
 
-const socialLoginStyles: Record<SocialLoginType, { bgColor: string; textColor?: string; logo: string; label: string }> = {
+// const socialLoginStyles: Record<SocialLoginType, { bgColor: string; textColor?: string; logo: string; label: string }> = {
+//     KAKAO: {
+//         bgColor: 'bg-[#FEE500]',
+//         textColor: 'text-black',
+//         logo: kakaoLogo,
+//         label: '카카오 로그인',
+//     },
+//     NAVER: {
+//         bgColor: 'bg-[#03C75A]',
+//         textColor: 'text-white',
+//         logo: naverLogo,
+//         label: '네이버 로그인',
+//     },
+//     GOOGLE: {
+//         bgColor: 'bg-[#F2F2F2]',
+//         textColor: 'text-black',
+//         logo: googleLogo,
+//         label: '구글 로그인',
+//     },
+//     SSAFY: {
+//         bgColor: 'bg-[#73A9F3]',
+//         textColor: 'text-white',
+//         logo: ssafyLogo,
+//         label: 'SSAFY 로그인',
+//     },
+// }
+
+const socialLoginStyles = {
     KAKAO: {
         bgColor: 'bg-[#FEE500]',
         textColor: 'text-black',
@@ -29,10 +58,30 @@ const socialLoginStyles: Record<SocialLoginType, { bgColor: string; textColor?: 
         logo: ssafyLogo,
         label: 'SSAFY 로그인',
     },
-}
+} as const
 
 const MyInfoTab = () => {
-    const { nickname, email, emailVerified, socialLoginType } = mockUserInfo
+    // const { nickname, email, emailVerified, socialLoginType } = mockUserInfo
+    // const style = socialLoginStyles[socialLoginType]
+
+    const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+
+    useEffect(() => {
+        const loadUserInfo = async () => {
+            try {
+                const data = await getUserInfo()
+                setUserInfo(data)
+            } catch (error) {
+                console.error('❌ 사용자 정보 불러오기 실패:', error)
+            }
+        }
+
+        loadUserInfo()
+    }, [])
+
+    if (!userInfo) return <div className="p-10">로딩 중...</div>
+
+    const { nickname, email, emailVerified, socialLoginType } = userInfo
     const style = socialLoginStyles[socialLoginType]
 
     return (

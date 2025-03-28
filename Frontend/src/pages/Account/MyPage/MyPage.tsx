@@ -23,7 +23,7 @@ const MyPage = () => {
     return (
         <div className="min-h-screen flex bg-white">
             {/* 왼쪽 사이드 메뉴 */}
-            <aside className="w-[304px] relative py-10 pr-10">
+            <aside className="w-[340px] relative py-10 pl-10 pr-10">
                 <div className="absolute top-10 bottom-10 right-0 w-px bg-gray-200" />
                 <SideMenu activeTab={activeTab} onChangeTab={setActiveTab} />
             </aside>
