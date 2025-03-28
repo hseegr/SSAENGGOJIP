@@ -37,4 +37,19 @@ public class TargetAddressController {
             @PathVariable Long targetAddressId) {
         return ApiResponse.onSuccess(targetAddressService.updateDefaultTargetAddress(user, targetAddressId));
     }
+
+    @PatchMapping("/{targetAddressId}")
+    public ApiResponse<List<TargetAddressResponseDto>> modifyTargetAddress(
+            @AuthUser User user,
+            @PathVariable Long targetAddressId,
+            @RequestBody @Valid TargetAddressRequestDto request) {
+        return ApiResponse.onSuccess(targetAddressService.updateTargetAddress(user, targetAddressId, request));
+    }
+
+    @DeleteMapping("/{targetAddressId}")
+    public ApiResponse<List<TargetAddressResponseDto>> removeTargetAddress(
+            @AuthUser User user,
+            @PathVariable Long targetAddressId) {
+        return ApiResponse.onSuccess(targetAddressService.deleteTargetAddress(user, targetAddressId));
+    }
 }

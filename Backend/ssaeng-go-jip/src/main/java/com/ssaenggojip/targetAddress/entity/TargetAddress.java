@@ -1,6 +1,7 @@
 package com.ssaenggojip.targetAddress.entity;
 
 import com.ssaenggojip.common.enums.TransportMode;
+import com.ssaenggojip.targetAddress.dto.TargetAddressRequestDto;
 import com.ssaenggojip.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,4 +47,14 @@ public class TargetAddress {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void update(TargetAddressRequestDto dto) {
+        this.address = dto.getAddress();
+        this.name = dto.getName();
+        this.latitude = dto.getLatitude();
+        this.longitude = dto.getLongitude();
+        this.transportMode = dto.getTransportMode();
+        this.travelTime = dto.getTravelTime();
+        this.walkTime = dto.getWalkTime();
+    }
 }

@@ -60,4 +60,26 @@ public class TargetAddressService {
         targetAddress.setIsDefault(true);
         return getTargetAddress(user);
     }
+
+    @Transactional
+    public List<TargetAddressResponseDto> updateTargetAddress(User user, Long id, TargetAddressRequestDto request) {
+        TargetAddress targetAddress = targetAddressRepository.findById(id)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_FOUND_TARGET_ADDRESS_ID));
+
+        targetAddress.update(request);
+        return getTargetAddress(user);
+    }
+
+    @Transactional
+    public List<TargetAddressResponseDto> deleteTargetAddress(User user, Long id) {
+        TargetAddress targetAddress = targetAddressRepository.findById(id)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_FOUND_TARGET_ADDRESS_ID));
+
+        if (targetAddress.getIsDefault()) {
+            throw new GeneralException(ErrorStatus.CANNOT_DELETE_DEFAULT_TARGET_ADDRESS);
+        }
+
+        targetAddressRepository.delete(targetAddress);
+        return getTargetAddress(user);
+    }
 }
