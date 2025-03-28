@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 // 온보딩에 표시할 슬라이드 데이터 배열 (아이콘, 제목, 설명 포함)
 const onboardingSlides = [
@@ -30,6 +31,7 @@ const onboardingSlides = [
 ]
 
 const OnboardingPage = () => {
+  const navigate = useNavigate()
   // 현재 보여줄 슬라이드의 인덱스를 상태로 관리
   const [currentSlide, setCurrentSlide] = useState(0)
 
@@ -53,7 +55,10 @@ const OnboardingPage = () => {
           <span className="font-semibold text-[#7171D7]">쌩Go집</span>의 맞춤형
           서비스를 경험해 보세요.
         </p>
-        <button className="mt-6 px-6 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-sm">
+        <button
+          onClick={() => navigate('/main')}
+          className="mt-6 px-10 py-2 rounded-full bg-gray-100 hover:bg-[#7171D7] hover:text-white text-sm transition-colors duration-200"
+        >
           시작하기
         </button>
       </div>
