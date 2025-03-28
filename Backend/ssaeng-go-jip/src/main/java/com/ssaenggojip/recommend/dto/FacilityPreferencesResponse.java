@@ -10,5 +10,5 @@ import java.util.List;
 @Builder
 @ToString
 public class FacilityPreferencesResponse {
-    private float[] facilityPreferences;
+    private List<Double> facilityPreferences;
 }

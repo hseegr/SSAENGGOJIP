@@ -12,5 +12,5 @@ import java.util.List;
 @ToString
 public class UpdateFacilityPreferencesRequest {
     @NotNull
-    private float[] facilityPreferences;
+    private List<Double> facilityPreferences;
 }
