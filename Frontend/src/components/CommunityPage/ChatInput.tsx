@@ -33,7 +33,7 @@ const ChatInput = ({
         {/* 전송 버튼 */}
         <button
           onClick={onSend}
-          className="text-blue-500 hover:text-blue-700 font-semibold"
+          className="text-gray-200 hover:text-[#7171D7] font-semibold"
         >
           ➤
         </button>
