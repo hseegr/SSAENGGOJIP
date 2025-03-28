@@ -23,6 +23,7 @@ public class TargetAddress {
     @Column(nullable = false, length = 10)
     private String name;
 
+    @Setter
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isDefault;
 
@@ -41,6 +42,7 @@ public class TargetAddress {
     @Column(nullable = false)
     private Integer walkTime;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
