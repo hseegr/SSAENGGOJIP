@@ -3,7 +3,7 @@ import Map from '@/components/ExplorePage/Map'
 
 const ExplorePage = () => {
   return (
-    <div className="flex -ml-10 -mr-10">
+    <div className="flex">
       {/* Sidebar */}
       <Sidebar />
 

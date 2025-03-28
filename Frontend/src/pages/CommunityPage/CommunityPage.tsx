@@ -8,16 +8,20 @@ const CommunityPage = () => {
   const [chatOpen, setChatOpen] = useState(false)
 
   return (
-    <div className="relative flex h-full w-full min-w-[1440px]">
-      {/* 사이드바 */}
-      <Sidebar onChatOpen={() => setChatOpen(true)} />
+    <div className="relative flex h-full min-w-[1440px] px-10">
+      {/* 사이드바 - 고정 너비 */}
+      <div className="w-[302px]">
+        <Sidebar onChatOpen={() => setChatOpen(true)} />
+      </div>
 
       {/* 지도 */}
-      <MapView onChatOpen={() => setChatOpen(true)} />
+      <div>
+        <MapView onChatOpen={() => setChatOpen(true)} />
+      </div>
 
       {/* 채팅방 모달 - 지도 오른쪽에 덮어지게 absolute 위치 */}
       {chatOpen && (
-        <div className="absolute top-0 left-[302px] right-10 h-full bottom-0 z-10 bg-ssaeng-gray-3 border-l">
+        <div className="absolute top-0 left-[341px] right-0 h-full bottom-0 z-10 bg-ssaeng-gray-3 border-l">
           <ChatRoomModal onClose={() => setChatOpen(false)} />
         </div>
       )}
