@@ -33,7 +33,8 @@ public enum ErrorStatus implements BaseErrorCode {
     UNABLE_TO_SEND_EMAIL(HttpStatus.BAD_REQUEST, "USER4004", "이메일 전송에 실패하였습니다."),
 
     // 타겟 주소 관련 에러
-    MAX_TARGET_ADDRESS(HttpStatus.BAD_REQUEST , "TARGETADDRESS4001", "이미 타겟 주소를 최대로 등록했습니다.");
+    MAX_TARGET_ADDRESS(HttpStatus.BAD_REQUEST , "TARGETADDRESS4001", "이미 타겟 주소를 최대로 등록했습니다."),
+    NOT_FOUND_TARGET_ADDRESS_ID(HttpStatus.BAD_REQUEST , "TARGETADDRESS4002", "해당하는 타겟 주소가 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

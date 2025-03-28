@@ -28,6 +28,13 @@ public class TargetAddressController {
     public ApiResponse<List<TargetAddressResponseDto>> addTargetAddress(
             @AuthUser User user,
             @RequestBody @Valid TargetAddressRequestDto request) {
-        return ApiResponse.onSuccess(targetAddressService.addTargetAddress(user, request));
+        return ApiResponse.onSuccess(targetAddressService.createTargetAddress(user, request));
+    }
+
+    @PatchMapping("/{targetAddressId}/default")
+    public ApiResponse<List<TargetAddressResponseDto>> setDefaultTargetAddress(
+            @AuthUser User user,
+            @PathVariable Long targetAddressId) {
+        return ApiResponse.onSuccess(targetAddressService.updateDefaultTargetAddress(user, targetAddressId));
     }
 }

@@ -24,7 +24,7 @@ public class TargetAddressService {
 
     @Transactional(readOnly = true)
     public List<TargetAddressResponseDto> getTargetAddress(User user) {
-        List<TargetAddress> targetAddressList = targetAddressRepository.findByUser(user);
+        List<TargetAddress> targetAddressList = targetAddressRepository.findByUserOrderByIsDefaultDesc(user);
 
         return targetAddressList.stream()
                 .map(TargetAddressConverter::toTargetAddressResponseDto)
@@ -32,7 +32,7 @@ public class TargetAddressService {
     }
 
     @Transactional
-    public List<TargetAddressResponseDto> addTargetAddress(User user, TargetAddressRequestDto request) {
+    public List<TargetAddressResponseDto> createTargetAddress(User user, TargetAddressRequestDto request) {
         TargetAddress targetAddress = TargetAddressConverter.toTargetAddress(request);
         int size = getTargetAddress(user).size();
 
@@ -46,6 +46,18 @@ public class TargetAddressService {
 
         targetAddress.setUser(user);
         targetAddressRepository.save(targetAddress);
+        return getTargetAddress(user);
+    }
+
+    @Transactional
+    public List<TargetAddressResponseDto> updateDefaultTargetAddress(User user, Long id) {
+        targetAddressRepository.findByUserAndIsDefault(user, true)
+                .ifPresent(targetAddress -> targetAddress.setIsDefault(false));
+
+        TargetAddress targetAddress = targetAddressRepository.findById(id)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_FOUND_TARGET_ADDRESS_ID));
+
+        targetAddress.setIsDefault(true);
         return getTargetAddress(user);
     }
 }
