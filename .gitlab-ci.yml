@@ -13,6 +13,7 @@ build:
     - cd Frontend
     - echo "VITE_APP_BASE_URL=${VITE_APP_BASE_URL}" >> .env
     - echo "VITE_KAKAO_MAP_KEY=${VITE_KAKAO_MAP_KEY}" >> .env
+    - cat .env
     - npm install
     - npm run build
   artifacts:
