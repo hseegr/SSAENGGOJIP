@@ -40,38 +40,37 @@ public class RecommendController {
     private final UserRepository userRepository;
     @GetMapping("/test")
     public ApiResponse<Void> test() {
-        List<Double> test1 = new ArrayList<Double>();
-        List<Double> test2 = new ArrayList<Double>();
-        test1.add(0.1);
-        test1.add(0.1);
-        test1.add(0.1);
-        test1.add(0.1);
-        test1.add(0.1);
-        test1.add(0.1);
-        test2.add(0.2);
-        test2.add(0.2);
-        test2.add(0.2);
-        test2.add(0.2);
-        test2.add(0.2);
-        test2.add(0.2);
-        System.out.println(test1.toString());
-        System.out.println(test2.toString());
-        float[] test1f = new float[] {0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f};
-        float[] test2f = new float[] {0.2f, 0.2f, 0.2f, 0.2f, 0.2f, 0.2f};
+        List<Double> vec1 = new ArrayList<>();
+        vec1.add(0.1);
+        vec1.add(0.1);
+        vec1.add(0.1);
+        vec1.add(0.1);
+        vec1.add(0.1);
+        vec1.add(0.1);
+        vec1.add(0.1);
+        vec1.add(0.1);
+        List<Double> vec2 = new ArrayList<>();
+        vec2.add(0.2);
+        vec2.add(0.2);
+        vec2.add(0.2);
+        vec2.add(0.2);
+        vec2.add(0.2);
+        vec2.add(0.2);
+        vec2.add(0.2);
+        vec2.add(0.2);
 
         User user = User.builder()
                 .nickname("test")
                 .email("test@example.com")
+                .emailVerified(true)
                 .socialLoginId("test")
                 .socialLoginType(SocialLoginType.GOOGLE)
-                .facilityPreferences(test1f)
                 .build();
+        user.setFacilityPreferences(vec1);
         userRepository.save(user);
         System.out.println(recommendService.getPreferences(user).toString());
-        UpdateFacilityPreferencesRequest request = UpdateFacilityPreferencesRequest.builder()
-                .facilityPreferences(test2f)
-                .build();
-        recommendService.updatePreferences(request, user);
+        user.setFacilityPreferences(vec2);
+        userRepository.save(user);
         System.out.println(recommendService.getPreferences(user).toString());
         return ApiResponse.onSuccess(null);
     }
