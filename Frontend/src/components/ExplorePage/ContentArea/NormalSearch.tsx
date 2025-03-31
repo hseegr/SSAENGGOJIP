@@ -78,6 +78,15 @@ const NormalSearch: React.FC = () => {
   ])
   const { setSelectedCard } = useSidebarStore()
   const [filteredData, setFilteredData] = useState(initialData)
+  // 정렬 변경 함수
+  const handleSortChange = (sortType: string) => {
+    const sortedData = [...filteredData].sort((a, b) => {
+      if (sortType === '금액 비싼 순') return b.price - a.price
+      if (sortType === '금액 싼 순') return a.price - b.price
+      return 0
+    })
+    setFilteredData(sortedData)
+  }
 
   useEffect(() => {
     if (titles && Array.isArray(titles)) {
@@ -122,7 +131,7 @@ const NormalSearch: React.FC = () => {
       {filteredData.length > 0 && (
         <div className="flex items-center justify-between w-full px-2 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
           <p className="text-gray-700 font-medium">검색 결과</p>
-          <FilterDropdown />
+          <FilterDropdown onSortChange={handleSortChange} />
         </div>
       )}
 

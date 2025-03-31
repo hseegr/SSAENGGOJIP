@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react'; // Lucide 아이콘 사용
+import { useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 
-const FilterDropdown: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false); // 드롭다운 열림/닫힘 상태
-  const [selectedOption, setSelectedOption] = useState("금액 순"); // 선택된 옵션
+interface FilterDropdownProps {
+  onSortChange: (sortType: string) => void // 정렬 변경 콜백
+}
 
-  const options = ["금액 순", "시간 순", "가격 비싼 순"]; // 드롭다운 옵션
+const FilterDropdown = ({ onSortChange }: FilterDropdownProps) => {
+  const [isOpen, setIsOpen] = useState(false) // 드롭다운 열림/닫힘 상태
+  const [selectedOption, setSelectedOption] = useState('금액 비싼 순') // 기본 선택 옵션
+
+  const options = ['금액 비싼 순', '금액 싼 순'] // 드롭다운 옵션
 
   const handleOptionClick = (option: string) => {
-    setSelectedOption(option); // 선택된 옵션 업데이트
-    setIsOpen(false); // 드롭다운 닫기
-  };
+    setSelectedOption(option) // 선택된 옵션 업데이트
+    setIsOpen(false) // 드롭다운 닫기
+    onSortChange(option) // 부모 컴포넌트에 정렬 타입 전달
+  }
 
   return (
     <div className="relative">
@@ -25,20 +30,20 @@ const FilterDropdown: React.FC = () => {
 
       {/* 드롭다운 메뉴 */}
       {isOpen && (
-        <ul className="absolute mt-2 w-full bg-white border border-gray-300 rounded-md shadow-md z-50">
+        <div className="absolute mt-2 w-full bg-white border border-gray-300 rounded-md shadow-md z-50">
           {options.map((option, index) => (
-            <li
+            <button
               key={index}
-              className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+              className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
               onClick={() => handleOptionClick(option)} // 옵션 클릭 시 실행
             >
               {option}
-            </li>
+            </button>
           ))}
-        </ul>
+        </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default FilterDropdown;
+export default FilterDropdown
