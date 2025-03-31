@@ -11,6 +11,7 @@ import com.ssaenggojip.user.entity.User;
 import com.ssaenggojip.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,9 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
+    @Value("${spring.application.name}")
+    private String redisPrefix;
 
     private final MailService mailService;
     private final RedisService redisService;
@@ -59,7 +63,7 @@ public class UserService {
                     "<h1>" + authCode + "</h1>";
 
             mailService.sendEmail(email, title, text);  // 이메일 전송
-            redisService.setValue("AuthCode " + email, authCode, Duration.ofMillis(600000)); // Redis 저장, 만료 기간 10분
+            redisService.setValue(redisPrefix + "::auth-code::" + email, authCode, Duration.ofMillis(600000)); // Redis 저장, 만료 기간 10분
 
             return CompletableFuture.completedFuture(true);  // 성공 시 true 반환
         } catch (Exception e) {
@@ -70,7 +74,7 @@ public class UserService {
     @Transactional
     public Boolean verifyEmailCode(User user, String authCode) {
         String email = user.getEmail();
-        String storedCode = (String) redisService.getValue("AuthCode " + email);
+        String storedCode = (String) redisService.getValue(redisPrefix + "::auth-code::" + email);
 
         if (storedCode != null && storedCode.equals(authCode)) {
             user.setEmailVerified(true);
