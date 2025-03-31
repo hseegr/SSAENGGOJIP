@@ -6,9 +6,10 @@ import useMatchInfoStore from '@/store/matchInfoStore'
 interface ModalProps {
   isOpen: boolean
   onClose: () => void
+  boxId: number // 선택된 박스의 ID
 }
 
-const Modal = ({ isOpen, onClose }: ModalProps) => {
+const Modal = ({ isOpen, onClose, boxId }: ModalProps) => {
   const [currentPage, setCurrentPage] = useState(1) // 현재 페이지 상태
   const [address, setAddress] = useState('')
   const [name, setName] = useState('')
@@ -16,9 +17,11 @@ const Modal = ({ isOpen, onClose }: ModalProps) => {
   const [travelTime, setTravelTime] = useState(0)
   const [walkTime, setWalkTime] = useState(0)
 
-  const setModalData = useMatchInfoStore((state) => state.setModalData)
+  const { updateMatchInfo } = useMatchInfoStore()
+
   if (!isOpen) return null
 
+  // 페이지 이동 핸들러
   const handleNextPage = () => {
     setCurrentPage((prev) => prev + 1)
   }
@@ -28,8 +31,7 @@ const Modal = ({ isOpen, onClose }: ModalProps) => {
   }
 
   const handleComplete = () => {
-    // Zustand store에 데이터 저장
-    setModalData({
+    updateMatchInfo(boxId, {
       address,
       name,
       transportMode,
@@ -37,7 +39,10 @@ const Modal = ({ isOpen, onClose }: ModalProps) => {
       walkTime,
     })
     setCurrentPage(1) // 페이지 초기화
-    onClose() // 모달 닫기
+    // 상태 변경이 반영될 시간을 주기 위해 살짝 지연
+    setTimeout(() => {
+      onClose()
+    }, 100) // 0.1초 후 모달 닫기
   }
 
   return (
