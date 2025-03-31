@@ -82,4 +82,10 @@ public class RecommendController {
         return ApiResponse.onSuccess(null);
     }
 
+    @GetMapping("/coord")
+    public ApiResponse<Void> coord() {
+        recommendService.findByCoordinates(126.978, 37.5665, 2000.);
+        return ApiResponse.onSuccess(null);
+    }
+
 }
