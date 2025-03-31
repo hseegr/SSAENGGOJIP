@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import PropertyTransactionSelector from './PropertySelector'
-import DepositSlider from './DepositSlider'
-import MonthlySlider from './MonthlySlider'
-import AdditionalFilters from './AdditionalFilter'
+import PropertyTransactionSelector from './Normal/PropertySelector'
+import DepositSlider from './Normal/DepositSlider'
+import MonthlySlider from './Normal/MonthlySlider'
+import AdditionalFilters from './Normal/AdditionalFilter'
 import useFilterStore from '@/store/filterStore' // Zustand Store
 
 interface ModalProps {

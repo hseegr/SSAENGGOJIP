@@ -3,7 +3,7 @@ import axios from 'axios'
 // 검색 API 요청 함수
 export const fetchSearchResults = async (
   query: string,
-  filters: Record<string, []>,
+  filters: Record<string, any>,
 ) => {
   try {
     const response = await axios.get('/api/search', {

@@ -1,15 +1,8 @@
-import React, { useState } from 'react'
-import Modal from './Modals/MatchModal'
+import React from 'react'
 
 const CustomInfo: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
   const handleBoxClick = () => {
-    setIsModalOpen(true)
-  }
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
+    alert('맞춤 정보를 설정하는 창으로 이동합니다.')
   }
 
   return (
@@ -24,14 +17,11 @@ const CustomInfo: React.FC = () => {
 
       {/* 클릭 가능한 회색 박스 */}
       <button
-        className="flex justify-center items-center w-full h-72 bg-gray-200 rounded-lg text-gray-500 cursor-pointer hover:bg-gray-300 transition"
+        className="flex justify-center items-center w-full h-96 bg-gray-200 rounded-lg text-gray-500 cursor-pointer hover:bg-gray-300 transition"
         onClick={handleBoxClick}
       >
         이곳을 클릭해 맞춤 정보를 설정해주세요.
       </button>
-
-      {/* 모달 컴포넌트 */}
-      <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   )
 }
