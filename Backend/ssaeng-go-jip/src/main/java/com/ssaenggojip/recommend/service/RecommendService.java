@@ -40,4 +40,13 @@ public class RecommendService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public void findByCoordinates(Double longitude, Double latitude, Double radius) {
+        List<Property> properties = propertyRepository.findByFacilityNearness(longitude, latitude, radius);
+        System.out.println(properties.size());
+        for (Property property : properties) {
+            System.out.println(property.toString());
+        }
+    }
+
 }
