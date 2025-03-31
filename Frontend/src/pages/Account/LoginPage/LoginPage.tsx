@@ -45,6 +45,23 @@ const LoginPage = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const [originalSocialType, setOriginalSocialType] = useState<SocialType | null>(null)
 
+    const FRONT_BASE_URL = 'http://localhost:3000'
+    // const FRONT_BASE_URL = 'https://j12a406.p.ssafy.io' // 배포된 프론트 주소
+
+    const REDIRECT_URIS: Record<SocialType, string> = {
+        kakao: `${FRONT_BASE_URL}/account/login/kakao`,
+        naver: `${FRONT_BASE_URL}/account/login/naver`,
+        google: `${FRONT_BASE_URL}/account/login/google`,
+        ssafy: `${FRONT_BASE_URL}/account/login/ssafy`,
+    }
+
+    const OAUTH_URLS: Record<SocialType, string> = {
+        kakao: `https://kauth.kakao.com/oauth/authorize?client_id=718ce25c291f8df2a0c47fb96b652c80&redirect_uri=${REDIRECT_URIS.kakao}&response_type=code`,
+        naver: `https://nid.naver.com/oauth2.0/authorize?client_id=6_93CkviDfSFm_GrMYaL&redirect_uri=${REDIRECT_URIS.naver}&response_type=code&state=test`,
+        google: `https://accounts.google.com/o/oauth2/v2/auth?client_id=809999665942-voo0ol6ab29sin9oqh3ipjlugmg3u6jk.apps.googleusercontent.com&redirect_uri=${REDIRECT_URIS.google}&response_type=code&scope=email`,
+        ssafy: `https://project.ssafy.com/oauth/sso-check?client_id=70ffec42-e719-4a38-9f27-f991ef8b1dce&redirect_uri=${REDIRECT_URIS.ssafy}&response_type=code`,
+    }
+
     useEffect(() => {
         const msg = searchParams.get('message')
         const socialType = searchParams.get('socialType') as SocialType | null
@@ -58,21 +75,6 @@ const LoginPage = () => {
 
     const handleRedirectToOriginal = () => {
         if (originalSocialType) {
-            const FRONT_BASE_URL = 'http://localhost:3000' // 배포 시 변경
-            const REDIRECT_URIS: Record<SocialType, string> = {
-                kakao: `${FRONT_BASE_URL}/account/login/kakao`,
-                naver: `${FRONT_BASE_URL}/account/login/naver`,
-                google: `${FRONT_BASE_URL}/account/login/google`,
-                ssafy: `${FRONT_BASE_URL}/account/login/ssafy`,
-            }
-
-            const OAUTH_URLS: Record<SocialType, string> = {
-                kakao: `https://kauth.kakao.com/oauth/authorize?client_id=718ce25c291f8df2a0c47fb96b652c80&redirect_uri=${REDIRECT_URIS.kakao}&response_type=code`,
-                naver: `https://nid.naver.com/oauth2.0/authorize?client_id=6_93CkviDfSFm_GrMYaL&redirect_uri=${REDIRECT_URIS.naver}&response_type=code&state=test`,
-                google: `https://accounts.google.com/o/oauth2/v2/auth?client_id=809999665942-voo0ol6ab29sin9oqh3ipjlugmg3u6jk.apps.googleusercontent.com&redirect_uri=${REDIRECT_URIS.google}&response_type=code&scope=email`,
-                ssafy: `https://project.ssafy.com/oauth/sso-check?client_id=70ffec42-e719-4a38-9f27-f991ef8b1dce&redirect_uri=${REDIRECT_URIS.ssafy}&response_type=code`,
-            }
-
             window.location.href = OAUTH_URLS[originalSocialType]
         }
     }
@@ -84,15 +86,8 @@ const LoginPage = () => {
 
     const handleSocialLogin = (type: string) => {
         handleClose()
-        // 위에서 모달 닫고 로그인 시작
-        const OAUTH_URLS: Record<string, string> = {
-            kakao: `https://kauth.kakao.com/oauth/authorize?client_id=718ce25c291f8df2a0c47fb96b652c80&redirect_uri=http://localhost:3000/account/login/kakao&response_type=code`,
-            naver: `https://nid.naver.com/oauth2.0/authorize?client_id=6_93CkviDfSFm_GrMYaL&redirect_uri=http://localhost:3000/account/login/naver&response_type=code&state=test`,
-            google: `https://accounts.google.com/o/oauth2/v2/auth?client_id=809999665942-voo0ol6ab29sin9oqh3ipjlugmg3u6jk.apps.googleusercontent.com&redirect_uri=http://localhost:3000/account/login/google&response_type=code&scope=email`,
-            ssafy: `https://project.ssafy.com/oauth/sso-check?client_id=70ffec42-e719-4a38-9f27-f991ef8b1dce&redirect_uri=http://localhost:3000/account/login/ssafy&response_type=code`,
-        }
-
-        window.location.href = OAUTH_URLS[type]
+        const selected = type as SocialType
+        window.location.href = OAUTH_URLS[selected]
     }
 
     return (
