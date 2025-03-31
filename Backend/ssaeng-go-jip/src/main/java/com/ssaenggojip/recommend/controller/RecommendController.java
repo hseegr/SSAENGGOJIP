@@ -3,8 +3,10 @@ package com.ssaenggojip.recommend.controller;
 import com.ssaenggojip.apiPayload.ApiResponse;
 import com.ssaenggojip.auth.annotation.AuthUser;
 import com.ssaenggojip.common.enums.SocialLoginType;
-import com.ssaenggojip.recommend.dto.FacilityPreferencesResponse;
-import com.ssaenggojip.recommend.dto.UpdateFacilityPreferencesRequest;
+import com.ssaenggojip.recommend.dto.response.FacilityPreferencesResponse;
+import com.ssaenggojip.recommend.dto.request.RecommendByLocationRequest;
+import com.ssaenggojip.recommend.dto.request.UpdateFacilityPreferencesRequest;
+import com.ssaenggojip.recommend.dto.response.RecommendPropertyListResponse;
 import com.ssaenggojip.recommend.service.RecommendService;
 import com.ssaenggojip.user.entity.User;
 import com.ssaenggojip.user.repository.UserRepository;
@@ -82,10 +84,9 @@ public class RecommendController {
         return ApiResponse.onSuccess(null);
     }
 
-    @GetMapping("/coord")
-    public ApiResponse<Void> coord() {
-        recommendService.findByCoordinates(126.978, 37.5665, 2000.);
-        return ApiResponse.onSuccess(null);
+    @GetMapping("/locations")
+    public ApiResponse<RecommendPropertyListResponse> recommendByLocation(RecommendByLocationRequest request) {
+        return ApiResponse.onSuccess(recommendService.findByLocation(request));
     }
 
 }
