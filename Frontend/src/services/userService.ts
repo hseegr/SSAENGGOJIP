@@ -6,17 +6,32 @@ export const fetchSocialLogin = async (
     socialType: string,
     code: string
 ): Promise<{ accessToken: string; isNew: boolean }> => {
-    console.log('🔽 fetchSocialLogin 호출됨')
-    console.log('👉 전달된 socialType:', socialType)
-    console.log('👉 전달된 code:', code)
+    try {
+        const response = await http.post(USER_END_POINT.SOCIAL_LOGIN(socialType, code))
 
-    const response = await http.post(USER_END_POINT.SOCIAL_LOGIN(socialType, code))
+        const { accessToken, isNew } = response.data?.result ?? {}
 
-    console.log('✅ 응답 결과:', response)
-    const { accessToken, isNew } = response.data?.result ?? {}
+        if (!accessToken) {
+            throw new Error('accessToken 없음')
+        }
 
-    if (!accessToken) throw new Error('accessToken 없음')
-    return { accessToken, isNew }
+        return { accessToken, isNew }
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || '소셜 로그인 중 문제가 발생했습니다.'
+
+        const matchedSocial =
+            message.includes('GOOGLE') ? 'google' :
+                message.includes('KAKAO') ? 'kakao' :
+                    message.includes('NAVER') ? 'naver' :
+                        message.includes('SSAFY') ? 'ssafy' :
+                            null
+
+        throw {
+            message,
+            socialType: matchedSocial,
+        }
+    }
 }
 
 // 로그아웃
