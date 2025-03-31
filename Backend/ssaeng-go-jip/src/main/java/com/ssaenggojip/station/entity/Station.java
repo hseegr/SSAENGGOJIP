@@ -1,5 +1,6 @@
 package com.ssaenggojip.station.entity;
 
+import com.ssaenggojip.common.enums.Line;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,21 @@ public class Station {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
+    private Long communityId;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private Line line;
+
+    @Column(nullable = false)
+    private Double longitude;
+
+    @Column(nullable = false)
+    private Double latitude;
 
 
 }

@@ -7,6 +7,8 @@ import com.ssaenggojip.property.entity.request.RecommendSearchRequest;
 import com.ssaenggojip.property.entity.request.SearchRequest;
 import com.ssaenggojip.property.entity.request.TransportTimeRequest;
 import com.ssaenggojip.property.entity.response.RecommendSearchResponse;
+import com.ssaenggojip.property.entity.response.SearchResponse;
+import com.ssaenggojip.property.service.PropertyFacade;
 import com.ssaenggojip.property.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +19,19 @@ import org.springframework.web.bind.annotation.*;
 public class PropertyController {
 
     private final PropertyService propertyService;
+    private final PropertyFacade propertyFacade;
 
 
     @PostMapping("/search")
     public ApiResponse<?> searchProperty(@RequestBody SearchRequest searchRequest) {
-        return null;
+        SearchResponse response = propertyFacade.searchProperties(searchRequest);
+        return ApiResponse.onSuccess(response);
     }
 
     @GetMapping("/{propertyId}")
     public ApiResponse<?> getPropertyDetail(@PathVariable Long propertyId) {
+
+
         return null;
     }
 

@@ -1,15 +1,16 @@
 package com.ssaenggojip.property.service;
 
 import com.ssaenggojip.property.entity.Property;
-import com.ssaenggojip.property.entity.request.RecommendDetailRequest;
-import com.ssaenggojip.property.entity.request.RecommendSearchRequest;
+import com.ssaenggojip.property.entity.PropertyImage;
 import com.ssaenggojip.property.entity.request.SearchRequest;
-import com.ssaenggojip.property.entity.request.TransportTimeRequest;
-import com.ssaenggojip.property.entity.response.*;
+import com.ssaenggojip.property.entity.response.SearchProperty;
+import com.ssaenggojip.property.entity.response.SearchResponse;
+import com.ssaenggojip.property.repository.PropertyImageRepository;
 import com.ssaenggojip.property.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,63 +18,50 @@ import java.util.List;
 public class PropertyService {
 
     private final PropertyRepository propertyRepository;
+    private final PropertyImageRepository propertyImageRepository;
 
-    public SearchResponse searchProperty(SearchRequest request) {
-        String search = request.getSearch();
-        Double searchLat = null;
-        Double searchLng = null;
-        boolean isStationSearch = false;
 
-        if (search != null && search.endsWith("역")) {
-            isStationSearch = true;
-
-            // 역 이름 기반 좌표 검색
-            Station station = stationRepository.findByName(search);
-            if (station == null) {
-                return SearchResponse.builder()
-                        .total(0)
-                        .properties(new SearchProperty[0])
-                        .build(); // 존재하지 않는 역이면 바로 빈 결과
-            }
-
-            searchLat = station.getLatitude();
-            searchLng = station.getLongitude();
-        }
-
+    public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lat, Double lng) {
         List<Property> properties = propertyRepository.searchFilteredProperties(
-                request, searchLat, searchLng, isStationSearch
+                request, lat, lng, isStationSearch
         );
 
-        List<SearchProperty> searchProperties = properties.stream()
+        List<SearchProperty> result = properties.stream()
                 .map(this::mapToDto)
                 .toList();
 
         return SearchResponse.builder()
-                .total(searchProperties.size())
-                .properties(searchProperties.toArray(new SearchProperty[0]))
+                .total(result.size())
+                .properties(result.toArray(new SearchProperty[0]))
                 .build();
-
-        //TODO: 유저가 관심 등록했는지 확인하는 로직 추가
-
-        //TODO: 추천 라벨 박는 로직 추가
-
-        return null;
     }
 
-    public DetailResponse getPropertyDetail(Long id) {
-        return null;
+    private SearchProperty mapToDto(Property p) {
+        return SearchProperty.builder()
+                .id(p.getId().intValue())
+                .dealType(p.getDealType())
+                .price(p.getPrice())
+                .rentPrice(p.getRentPrice())
+                .totalFloor(p.getTotalFloor())
+                .floor(p.getFloor())
+                .area(p.getSupplyArea())
+                .address(p.getAddress())
+                .latitude(p.getLatitude())
+                .longitude(p.getLongitude())
+                .maintenancePrice(p.getMaintenancePrice())
+                .isInterest(false)     // TODO:관심 매물 여부: 추후 구현
+                .isRecommend(false)    // TODO:추천 여부: 추후 구현
+                .build();
     }
 
-    public TransportTimeResponse getTransportTime(TransportTimeRequest request) {
-        return null;
+    public Property getDetail(Long id) {
+        return propertyRepository.findById(id).orElse(null);
     }
 
-    public RecommendSearchResponse searchRecommend(RecommendSearchRequest request) {
-        return null;
+    public List<String> getDetailImage(Long id) {
+        List<String> imageUrls = new ArrayList<>();
+        for(PropertyImage propertyImage: propertyImageRepository.findByProperty_Id(id))
+            imageUrls.add(propertyImage.getImageUrl());
+        return imageUrls;
     }
-
-    public RecommendSearchResponse getRecommendDetail(RecommendDetailRequest request) {
-        return null;
-    }
-
 }
