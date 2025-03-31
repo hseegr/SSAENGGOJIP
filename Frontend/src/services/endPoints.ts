@@ -3,6 +3,7 @@ export const USER_END_POINT = {
     `/auth/login/${socialType}?code=${code}`,
   LOGOUT: '/auth/logout',
   GET_USER_INFO: '/users',
+
 }
 
 // 메인 페이지 -> mainService
