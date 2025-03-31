@@ -6,7 +6,13 @@ export const USER_END_POINT = {
 }
 
 // 메인 페이지 -> mainService
-// export const MAIN_END_POINT = {}
+export const MAIN_END_POINT = {
+  // 로그인 한 유저 선호도 기반 추천 매물
+  RECOMMEND_PREFERENCE: '/recommends/by-preferences',
+
+  // 비로그인 유저 위치 기반 추천 매물
+  RECOMMEND_LOCATION: '/recommends/by-locations',
+}
 
 // 커뮤니티(채팅) 페이지 -> communityService
 export const COMMUNITY_END_POINT = {
