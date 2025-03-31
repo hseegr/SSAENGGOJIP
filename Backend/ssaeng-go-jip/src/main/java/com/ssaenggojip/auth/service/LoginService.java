@@ -70,7 +70,12 @@ public class LoginService {
             throw new GeneralException(ErrorStatus._BAD_REQUEST);
         }
 
-        Boolean isNew = userRepository.findBySocialLoginId(socialLoginId).isEmpty();
+        boolean isNew = userRepository.findBySocialLoginId(socialLoginId).isEmpty();
+
+        if (isNew && userRepository.findByEmail(email).isPresent()) {
+            throw new GeneralException(ErrorStatus.ALREADY_JOIN, socialLoginType.toString());
+        }
+
         User user = findOrCreateUser(email, socialLoginId, socialLoginType);
         log.info("user id: {}", user.getId());
 

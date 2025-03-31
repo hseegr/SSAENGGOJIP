@@ -28,6 +28,7 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_ACCESS_TOKEN(HttpStatus.BAD_REQUEST , "TOKEN4003", "유효하지 않은 Access Token입니다."),
 
     // 사용자 관련 에러
+    ALREADY_JOIN(HttpStatus.BAD_REQUEST, "USER4004", "이미 %s로 로그인한 이메일입니다."),
     SAME_EMAIL(HttpStatus.BAD_REQUEST , "USER4001", "기존과 동일한 이메일입니다."),
     EMAIL_EXIST(HttpStatus.BAD_REQUEST, "USER4003", "이미 사용 중인 이메일입니다."),
     UNABLE_TO_SEND_EMAIL(HttpStatus.BAD_REQUEST, "USER4004", "이메일 전송에 실패하였습니다.");
@@ -45,10 +46,27 @@ public enum ErrorStatus implements BaseErrorCode {
                 .build();
     }
 
+    public ErrorReasonDto getReason(Object... args) {
+        return ErrorReasonDto.builder()
+                .message(String.format(message, args))
+                .code(code)
+                .isSuccess(false)
+                .build();
+    }
+
     @Override
     public ErrorReasonDto getReasonHttpStatus(){
         return ErrorReasonDto.builder()
                 .message(message)
+                .code(code)
+                .isSuccess(false)
+                .httpStatus(httpStatus)
+                .build();
+    }
+
+    public ErrorReasonDto getReasonHttpStatus(Object... args) {
+        return ErrorReasonDto.builder()
+                .message(String.format(message, args))
                 .code(code)
                 .isSuccess(false)
                 .httpStatus(httpStatus)
