@@ -6,6 +6,7 @@ export const USER_END_POINT = {
   UPDATE_EMAIL: '/users',
   SEND_EMAIL_CODE: '/users/emails/send',
   VERIFY_EMAIL_CODE: (code: string) => `/users/emails/verify?code=${code}`,
+  DELETE_USER: '/users',
 }
 
 // 메인 페이지 -> mainService

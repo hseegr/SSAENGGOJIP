@@ -4,6 +4,7 @@ import {
     updateEmail,
     sendEmailCode,
     verifyEmailCode,
+    deleteUser,
     UserInfo,
 } from '@/services/userService'
 import kakaoLogo from '@/assets/images/kakao.png'
@@ -13,6 +14,8 @@ import ssafyLogo from '@/assets/images/ssafy.png'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import DeleteAccountModal from '@/components/MyPage/DeleteAccountModal'
+import { useUserStore } from '@/store/userStore'
 
 const socialLoginStyles = {
     KAKAO: {
@@ -44,12 +47,14 @@ const socialLoginStyles = {
 const MyInfoTab = () => {
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false)
     const [emailInput, setEmailInput] = useState('')
     const [verificationCode, setVerificationCode] = useState('')
     const [step, setStep] = useState<'send' | 'verify'>('send')
     const [mode, setMode] = useState<'verify-only' | 'change-and-verify'>('verify-only')
     const [errorMessage, setErrorMessage] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
+    const logout = useUserStore((state) => state.logout)
 
     const fetchUser = async () => {
         try {
@@ -106,6 +111,17 @@ const MyInfoTab = () => {
         }
     }
 
+    const handleDeleteAccount = async () => {
+        try {
+            await deleteUser()
+            useUserStore.getState().logout() // accessToken 제거 + 상태 초기화
+            setIsWithdrawalModalOpen(false)
+            window.location.href = '/' // 탈퇴 후 홈으로 이동
+        } catch (e) {
+            alert('회원 탈퇴에 실패했습니다.')
+        }
+    }
+
     if (!userInfo) return <div className="p-10">로딩 중...</div>
 
     const { nickname, email, emailVerified, socialLoginType } = userInfo
@@ -141,7 +157,7 @@ const MyInfoTab = () => {
                             <span className="text-green-500">인증 완료 ✔</span>
                         ) : (
                             <>
-                                <span className="text-red-500">인증을 완료해 주세요 ❗</span>
+                                <span className="text-red-500">인증을 완료해 주세요❗</span>
                                 <Button
                                     variant="destructive"
                                     size="sm"
@@ -161,7 +177,12 @@ const MyInfoTab = () => {
                 </div>
 
                 {/* 회원 탈퇴 */}
-                <div className="text-base font-light mb-1 text-gray-400">회원 탈퇴 &gt;</div>
+                <div
+                    className="text-base font-light mb-1 text-gray-400 hover:underline cursor-pointer"
+                    onClick={() => setIsWithdrawalModalOpen(true)}
+                >
+                    회원 탈퇴 &gt;
+                </div>
             </div>
 
             {/* 이메일 인증/수정 모달 */}
@@ -214,6 +235,13 @@ const MyInfoTab = () => {
                     {successMessage && <p className="text-sm text-green-600 mt-2">{successMessage}</p>}
                 </DialogContent>
             </Dialog>
+
+            {/* 회원 탈퇴 모달 */}
+            <DeleteAccountModal
+                open={isWithdrawalModalOpen}
+                onClose={() => setIsWithdrawalModalOpen(false)}
+                onConfirm={handleDeleteAccount}
+            />
         </div>
     )
 }

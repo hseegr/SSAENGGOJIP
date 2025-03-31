@@ -65,3 +65,8 @@ export const verifyEmailCode = async (code: string): Promise<boolean> => {
     const response = await http.post(USER_END_POINT.VERIFY_EMAIL_CODE(code))
     return response.data.result === true
 }
+
+// 회원 탈퇴
+export const deleteUser = async (): Promise<void> => {
+    await http.delete(USER_END_POINT.DELETE_USER)
+}
