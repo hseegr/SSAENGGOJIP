@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -50,14 +50,7 @@ public class RecommendService {
         Double longitude = request.getLongitude();
         Double radius = request.getRadius();
         List<Property> properties = propertyRepository.findByFacilityNearness(longitude, latitude, radius);
-        List<PropertyResponse> propertyResponses = new ArrayList<>();
-        for (Property property : properties) {
-            propertyResponses.add(PropertyResponse.from(property));
-        }
-        return RecommendPropertyListResponse.builder()
-                .total(propertyResponses.size())
-                .properties(propertyResponses)
-                .build();
+        return RecommendPropertyListResponse.from(properties);
     }
 
 }
