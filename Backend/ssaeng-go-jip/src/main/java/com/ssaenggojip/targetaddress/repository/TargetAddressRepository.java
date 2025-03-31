@@ -1,6 +1,6 @@
-package com.ssaenggojip.targetAddress.repository;
+package com.ssaenggojip.targetaddress.repository;
 
-import com.ssaenggojip.targetAddress.entity.TargetAddress;
+import com.ssaenggojip.targetaddress.entity.TargetAddress;
 import com.ssaenggojip.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

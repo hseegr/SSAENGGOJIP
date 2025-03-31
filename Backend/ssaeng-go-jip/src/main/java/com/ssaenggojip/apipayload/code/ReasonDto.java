@@ -1,4 +1,4 @@
-package com.ssaenggojip.apiPayload.code;
+package com.ssaenggojip.apipayload.code;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @Builder
-public class ErrorReasonDto {
+public class ReasonDto {
     private HttpStatus httpStatus;
 
     private final boolean isSuccess;

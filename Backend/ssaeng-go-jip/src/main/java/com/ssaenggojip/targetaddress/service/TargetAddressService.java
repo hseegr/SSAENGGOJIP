@@ -1,12 +1,12 @@
-package com.ssaenggojip.targetAddress.service;
+package com.ssaenggojip.targetaddress.service;
 
-import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
-import com.ssaenggojip.apiPayload.exception.GeneralException;
-import com.ssaenggojip.targetAddress.converter.TargetAddressConverter;
-import com.ssaenggojip.targetAddress.dto.TargetAddressRequestDto;
-import com.ssaenggojip.targetAddress.dto.TargetAddressResponseDto;
-import com.ssaenggojip.targetAddress.entity.TargetAddress;
-import com.ssaenggojip.targetAddress.repository.TargetAddressRepository;
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.targetaddress.converter.TargetAddressConverter;
+import com.ssaenggojip.targetaddress.dto.TargetAddressRequestDto;
+import com.ssaenggojip.targetaddress.dto.TargetAddressResponseDto;
+import com.ssaenggojip.targetaddress.entity.TargetAddress;
+import com.ssaenggojip.targetaddress.repository.TargetAddressRepository;
 import com.ssaenggojip.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

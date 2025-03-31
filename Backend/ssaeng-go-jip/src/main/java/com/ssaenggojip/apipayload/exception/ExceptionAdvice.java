@@ -1,8 +1,8 @@
-package com.ssaenggojip.apiPayload.exception;
+package com.ssaenggojip.apipayload.exception;
 
-import com.ssaenggojip.apiPayload.ApiResponse;
-import com.ssaenggojip.apiPayload.code.ErrorReasonDto;
-import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.ApiResponse;
+import com.ssaenggojip.apipayload.code.ErrorReasonDto;
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

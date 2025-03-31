@@ -1,8 +1,8 @@
-package com.ssaenggojip.targetAddress.converter;
+package com.ssaenggojip.targetaddress.converter;
 
-import com.ssaenggojip.targetAddress.dto.TargetAddressRequestDto;
-import com.ssaenggojip.targetAddress.dto.TargetAddressResponseDto;
-import com.ssaenggojip.targetAddress.entity.TargetAddress;
+import com.ssaenggojip.targetaddress.dto.TargetAddressRequestDto;
+import com.ssaenggojip.targetaddress.dto.TargetAddressResponseDto;
+import com.ssaenggojip.targetaddress.entity.TargetAddress;
 
 public class TargetAddressConverter {
 
