@@ -51,3 +51,17 @@ export const getUserInfo = async (): Promise<UserInfo> => {
     const response = await http.get(USER_END_POINT.GET_USER_INFO)
     return response.data.result
 }
+
+// 이메일 인증 관련
+export const updateEmail = async (email: string): Promise<void> => {
+    await http.patch(USER_END_POINT.UPDATE_EMAIL, { email });
+};
+
+export const sendEmailCode = async (email: string) => {
+    return http.post(USER_END_POINT.SEND_EMAIL_CODE, { email })
+}
+
+export const verifyEmailCode = async (code: string): Promise<boolean> => {
+    const response = await http.post(USER_END_POINT.VERIFY_EMAIL_CODE(code))
+    return response.data.result === true
+}
