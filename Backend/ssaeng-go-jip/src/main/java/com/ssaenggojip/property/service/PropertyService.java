@@ -1,16 +1,16 @@
 package com.ssaenggojip.property.service;
 
+import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.entity.request.RecommendDetailRequest;
 import com.ssaenggojip.property.entity.request.RecommendSearchRequest;
 import com.ssaenggojip.property.entity.request.SearchRequest;
 import com.ssaenggojip.property.entity.request.TransportTimeRequest;
-import com.ssaenggojip.property.entity.response.DetailResponse;
-import com.ssaenggojip.property.entity.response.RecommendSearchResponse;
-import com.ssaenggojip.property.entity.response.SearchResponse;
-import com.ssaenggojip.property.entity.response.TransportTimeResponse;
+import com.ssaenggojip.property.entity.response.*;
 import com.ssaenggojip.property.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,24 +19,39 @@ public class PropertyService {
     private final PropertyRepository propertyRepository;
 
     public SearchResponse searchProperty(SearchRequest request) {
+        String search = request.getSearch();
+        Double searchLat = null;
+        Double searchLng = null;
+        boolean isStationSearch = false;
 
+        if (search != null && search.endsWith("역")) {
+            isStationSearch = true;
 
+            // 역 이름 기반 좌표 검색
+            Station station = stationRepository.findByName(search);
+            if (station == null) {
+                return SearchResponse.builder()
+                        .total(0)
+                        .properties(new SearchProperty[0])
+                        .build(); // 존재하지 않는 역이면 바로 빈 결과
+            }
 
-        if (request.getSearch().isEmpty()){
-            // 필터링 로직만
+            searchLat = station.getLatitude();
+            searchLng = station.getLongitude();
         }
-        else if(request.getSearch().split(" ").length == 1 && request.getSearch().endsWith("역")){
-            // 역 주변
-        }
-        else if(request.getSearch().split(" ").length == 1 && (request.getSearch().endsWith("도") || request.getSearch().startsWith("서울"))){
-            // 시
-        }
-        else if(request.getSearch().split(" ").length == 1 && request.getSearch().endsWith("동")){
-            // 동
-        }
-        else{
-            // 군구
-        }
+
+        List<Property> properties = propertyRepository.searchFilteredProperties(
+                request, searchLat, searchLng, isStationSearch
+        );
+
+        List<SearchProperty> searchProperties = properties.stream()
+                .map(this::mapToDto)
+                .toList();
+
+        return SearchResponse.builder()
+                .total(searchProperties.size())
+                .properties(searchProperties.toArray(new SearchProperty[0]))
+                .build();
 
         //TODO: 유저가 관심 등록했는지 확인하는 로직 추가
 

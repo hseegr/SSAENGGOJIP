@@ -9,7 +9,6 @@ import java.util.List;
 @Data
 public class SearchRequest {
     String search;
-    Double distance;
     List<PropertyType> propertyTypes;
     DealType dealType;
     Integer price;
