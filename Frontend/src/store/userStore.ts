@@ -15,7 +15,7 @@ export const useUserStore = create<UserState>((set) => ({
     setAccessToken: (token) => {
         if (token) localStorage.setItem('accessToken', token)
         else localStorage.removeItem('accessToken')
-        set({ accessToken: token })
+        set({ accessToken: token, isLoggedIn: !!token })
     },
     setIsLoggedIn: (value) => set({ isLoggedIn: value }),
     logout: () => {
