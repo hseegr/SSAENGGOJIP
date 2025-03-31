@@ -10,11 +10,9 @@ import com.ssaenggojip.recommend.dto.response.RecommendPropertyListResponse;
 import com.ssaenggojip.recommend.service.RecommendService;
 import com.ssaenggojip.user.entity.User;
 import com.ssaenggojip.user.repository.UserRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,7 @@ public class RecommendController {
 
     @PatchMapping("/facility-preferences")
     public ApiResponse<Void> updateFacilityPreferences(
-            UpdateFacilityPreferencesRequest request,
+            @RequestBody @Valid UpdateFacilityPreferencesRequest request,
             @AuthUser User user
     ) {
         recommendService.updatePreferences(request, user);
@@ -85,7 +83,9 @@ public class RecommendController {
     }
 
     @GetMapping("/locations")
-    public ApiResponse<RecommendPropertyListResponse> recommendByLocation(RecommendByLocationRequest request) {
+    public ApiResponse<RecommendPropertyListResponse> recommendByLocation(
+            @RequestBody @Valid RecommendByLocationRequest request
+    ) {
         return ApiResponse.onSuccess(recommendService.findByLocation(request));
     }
 
