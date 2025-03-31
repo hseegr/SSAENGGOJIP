@@ -1,26 +1,103 @@
-import React from 'react'
+import { useState } from 'react'
+import Address from './Match/Address'
+import Transport from './Match/Transport'
+import useMatchInfoStore from '@/store/matchInfoStore'
 
 interface ModalProps {
   isOpen: boolean
   onClose: () => void
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const Modal = ({ isOpen, onClose }: ModalProps) => {
+  const [currentPage, setCurrentPage] = useState(1) // 현재 페이지 상태
+  const [address, setAddress] = useState('')
+  const [name, setName] = useState('')
+  const [transportMode, setTransportMode] = useState('')
+  const [travelTime, setTravelTime] = useState(0)
+  const [walkTime, setWalkTime] = useState(0)
+
+  const setModalData = useMatchInfoStore((state) => state.setModalData)
   if (!isOpen) return null
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => prev + 1)
+  }
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => prev - 1)
+  }
+
+  const handleComplete = () => {
+    // Zustand store에 데이터 저장
+    setModalData({
+      address,
+      name,
+      transportMode,
+      travelTime,
+      walkTime,
+    })
+    setCurrentPage(1) // 페이지 초기화
+    onClose() // 모달 닫기
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
-        <h2 className="text-xl font-bold mb-4">맞춤 정보 설정</h2>
-        <p className="text-gray-600 mb-6">
-          여기서 맞춤 정보를 설정할 수 있습니다.
-        </p>
+      <div className="bg-white p-6 rounded-lg shadow-lg relative h-3/4 w-1/4">
+        {/* 닫기 버튼 */}
         <button
-          className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
           onClick={onClose}
         >
-          닫기
+          ✕
         </button>
+
+        {/* 페이지 렌더링 */}
+        {currentPage === 1 && (
+          <Address
+            address={address}
+            setAddress={setAddress}
+            name={name}
+            setName={setName}
+          />
+        )}
+        {currentPage === 2 && (
+          <Transport
+            transportMode={transportMode}
+            setTransportMode={setTransportMode}
+            travelTime={travelTime}
+            setTravelTime={setTravelTime}
+            walkTime={walkTime}
+            setWalkTime={setWalkTime}
+          />
+        )}
+
+        {/* 페이지네이션 버튼 */}
+        <div className="flex justify-between mt-6">
+          {currentPage === 2 && (
+            <button
+              onClick={handlePrevPage}
+              className="py-2 px-4 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
+            >
+              이전
+            </button>
+          )}
+          {currentPage === 1 && (
+            <button
+              onClick={handleNextPage}
+              className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            >
+              다음
+            </button>
+          )}
+          {currentPage === 2 && (
+            <button
+              onClick={handleComplete}
+              className="py-2 px-4 bg-purple-500 text-white rounded-lg hover:bg-purple-600"
+            >
+              완료
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )
