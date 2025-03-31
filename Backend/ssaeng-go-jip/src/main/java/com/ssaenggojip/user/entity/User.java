@@ -3,8 +3,10 @@ package com.ssaenggojip.user.entity;
 import com.ssaenggojip.common.enums.SocialLoginType;
 import com.ssaenggojip.common.entity.BaseEntity;
 import com.ssaenggojip.targetAddress.entity.TargetAddress;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import java.util.List;
 
@@ -38,4 +40,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TargetAddress> targetAddressList;
+
+    @Setter
+    @Type(value = JsonType.class)
+    @Column(name = "facility_preferences", columnDefinition = "vector(8)")
+    private List<Double> facilityPreferences;
 }
