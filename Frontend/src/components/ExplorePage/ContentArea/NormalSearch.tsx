@@ -76,26 +76,26 @@ const NormalSearch: React.FC = () => {
       area: 50.0,
     },
   ])
-  const { setSelectedCard } = useSidebarStore();
-  const [filteredData, setFilteredData] = useState(initialData);
+  const { setSelectedCard } = useSidebarStore()
+  const [filteredData, setFilteredData] = useState(initialData)
 
   useEffect(() => {
     if (titles && Array.isArray(titles)) {
       // titles 배열의 문자열을 숫자로 변환하여 item.id와 비교
       const NewfilteredData = initialData.filter((item) =>
-        titles.map(Number).includes(item.id)
-      );
-      
-      if (NewfilteredData.length === 0){
-        setFilteredData(initialData)
+        titles.map(Number).includes(item.id),
+      )
+
+      if (NewfilteredData.length === 0) {
+        // setFilteredData(initialData)
         setSelectedCard(null)
-      } else{
-  
-      // 필터링된 데이터를 업데이트
-      setFilteredData(NewfilteredData);}
+      } else {
+        // 필터링된 데이터를 업데이트
+        setFilteredData(NewfilteredData)
+      }
       setSelectedCard(null)
-    } 
-  }, [titles]);
+    }
+  }, [titles, initialData, setSelectedCard])
 
   return (
     <>
@@ -118,14 +118,16 @@ const NormalSearch: React.FC = () => {
         </button>
       </div>
 
-    {/* 검색 시 나올 필터링 버튼 */}
-    <div className="flex items-center justify-between w-full px-2 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
-        <p className="text-gray-700 font-medium">검색 결과</p>
-        <FilterDropdown />
-    </div>
+      {/* 검색 결과가 있을 때만 필터링 버튼 표시 */}
+      {filteredData.length > 0 && (
+        <div className="flex items-center justify-between w-full px-2 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
+          <p className="text-gray-700 font-medium">검색 결과</p>
+          <FilterDropdown />
+        </div>
+      )}
 
-    {/* 카드 목록 */}
-    <div className="flex flex-col gap-4">
+      {/* 카드 목록 */}
+      <div className="flex flex-col gap-4">
         {filteredData.map((item) => (
           <Card
             key={item.id}
@@ -142,10 +144,10 @@ const NormalSearch: React.FC = () => {
             imageUrl={item.imageUrl}
           />
         ))}
-    </div>
+      </div>
 
-    {/* 모달 */}
-    <Modal isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />
+      {/* 모달 */}
+      <Modal isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />
     </>
   )
 }
