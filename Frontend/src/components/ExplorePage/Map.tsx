@@ -15,27 +15,35 @@ const KakaoMap = () => {
 
   const mapRef = useRef<HTMLDivElement>(null)
 
-  // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
-  function displayCenterInfo(result: any, status: any) {
-    if (status === window.kakao.maps.services.Status.OK) {
-      const infoDiv = document.getElementById('centerAddr')
+  // // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+  // function displayCenterInfo(result: any, status: any) {
+  //   if (status === window.kakao.maps.services.Status.OK) {
+  //     const infoDiv = document.getElementById('centerAddrButton')
 
-      for (let i = 0; i < result.length; i++) {
-        // 행정동의 region_type 값은 'H' 이므로
-        if (result[i].region_type === 'H') {
-          if (infoDiv) {
-            // address_name에서 마지막 부분(법정동) 추출
-            const addressParts = result[i].address_name.split(' ')
-            const lastPart = addressParts[addressParts.length - 1] // 예: "조원동"
+  //     for (let i = 0; i < result.length; i++) {
+  //       // 행정동의 region_type 값은 'H' 이므로
+  //       if (result[i].region_type === 'H') {
+  //         if (infoDiv) {
+  //           // address_name에서 마지막 부분(법정동) 추출
+  //           const addressParts = result[i].address_name.split(' ')
+  //           const lastPart = addressParts[addressParts.length - 1] // 예: "조원동"
 
-            // HTML에 반영할 텍스트 생성
-            infoDiv.innerHTML = `${lastPart} 인근 매물 보기`
-          }
-          break
-        }
-      }
-    }
-  }
+  //           // HTML에 반영할 텍스트 생성
+  //           infoDiv.innerHTML = `${lastPart} 인근 매물 보기`
+  //           infoDiv.onclick=()=>{
+  //             const coord = new window.kakao.maps.LatLng(
+  //               map.getCenter().getLat(),
+  //               map.getCenter().getLng()
+  //             )
+  //             map.setCenter(coord)
+  //           }
+  //         }
+  //         break
+  //       }
+  //     }
+  //   }
+  // }
+
 
   useEffect(() => {
     if (mapRef.current && window.kakao) {
@@ -206,7 +214,33 @@ const KakaoMap = () => {
 
     });
 
+      // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+  function displayCenterInfo(result: any, status: any) {
+    if (status === window.kakao.maps.services.Status.OK) {
+      const infoDiv = document.getElementById('centerAddrButton')
 
+      for (let i = 0; i < result.length; i++) {
+        // 행정동의 region_type 값은 'H' 이므로
+        if (result[i].region_type === 'H') {
+          if (infoDiv) {
+            // address_name에서 마지막 부분(법정동) 추출
+            const addressParts = result[i].address_name.split(' ')
+            const lastPart = addressParts[addressParts.length - 1] // 예: "조원동"
+
+            // HTML에 반영할 텍스트 생성
+            infoDiv.innerHTML = `${lastPart} 인근 매물 보기`
+            infoDiv.onclick=()=>{
+              geocoder.addressSearch(result[i].address_name, function (searchResult, searchStatus) {
+                if (searchStatus === window.kakao.maps.services.Status.OK) {
+                  const coords = new window.kakao.maps.LatLng(searchResult[0].y, searchResult[0].x)
+                  map.setCenter(coords)}})
+            }
+          }
+          break
+        }
+      }
+    }
+  }
       // 주소-좌표 변환 객체를 생성합니다
       const geocoder = new window.kakao.maps.services.Geocoder()
 
@@ -222,6 +256,9 @@ const KakaoMap = () => {
       window.kakao.maps.event.addListener(map, 'idle', function () {
         searchAddrFromCoords(map.getCenter(), displayCenterInfo)
       })
+
+
+
 
       // 화면 크기가 변경될 때 지도를 재정렬
       const handleResize = () => {
@@ -265,13 +302,13 @@ const KakaoMap = () => {
   {/* 지도 영역 */}
   <div id="map" ref={mapRef} className="relative w-full h-full">
     {/* 주소 정보를 표시할 영역 */}
-    <div
-      id="centerAddr"
+    <button
+      id="centerAddrButton"
       className="absolute top-[6%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[260px] h-[45px]
        flex-shrink-0 rounded-[6px] bg-[#7171D7] shadow-md flex items-center justify-center text-white font-bold text-sm z-[10]"
     >
       로딩 중...
-    </div>
+    </button>
   </div>
 
   {/* 커뮤니티 영역 */}

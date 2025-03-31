@@ -5,9 +5,9 @@ interface FilterState {
   propertyTypes: string[]
   setPropertyTypes: (types: string[]) => void
 
-  // 거래 유형 (다중 선택 가능)
-  transactionTypes: string[]
-  setTransactionTypes: (types: string[]) => void
+  // 거래 유형
+  transactionTypes: string
+  setTransactionTypes: (types: string) => void
 
   // 가격 (보증금과 월세)
   MindepositPrice: number
@@ -30,7 +30,7 @@ interface FilterState {
 const useFilterStore = create<FilterState>((set) => ({
   // 초기 상태
   propertyTypes: [],
-  transactionTypes: [],
+  transactionTypes: '',
   MindepositPrice: 0,
   MinmonthlyPrice: 10000000000,
   MaxdepositPrice: 0,
@@ -56,7 +56,7 @@ const useFilterStore = create<FilterState>((set) => ({
   resetFilters: () =>
     set({
       propertyTypes: [],
-      transactionTypes: [],
+      transactionTypes: '',
       MindepositPrice: 0,
       MinmonthlyPrice: 10000000000,
       MaxdepositPrice: 0,
