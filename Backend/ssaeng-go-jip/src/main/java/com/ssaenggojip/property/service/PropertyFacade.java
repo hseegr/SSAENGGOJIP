@@ -1,7 +1,9 @@
 package com.ssaenggojip.property.service;
 
+import com.ssaenggojip.common.enums.TransportationType;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.entity.request.SearchRequest;
+import com.ssaenggojip.property.entity.request.TransportTimeRequest;
 import com.ssaenggojip.property.entity.response.*;
 import com.ssaenggojip.station.entity.Station;
 import com.ssaenggojip.station.service.StationService;
@@ -81,6 +83,16 @@ public class PropertyFacade {
                 .build();
     }
 
+    public TransportTimeResponse getTransportTime(TransportTimeRequest request) {
+        TransportTimeResponse response = new TransportTimeResponse();
+        switch (request.getTransportationType()) {
+            case WALK -> response = propertyService.getTransportTime(request);
+            case SUBWAY -> response = stationService.getTransportTime(requset);
+            default -> response = null; // TODO: 예외처리로 변경
+        }
+
+        return response;
+    }
 
 
 }

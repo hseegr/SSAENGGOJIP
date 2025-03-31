@@ -6,6 +6,7 @@ import com.ssaenggojip.property.entity.request.RecommendDetailRequest;
 import com.ssaenggojip.property.entity.request.RecommendSearchRequest;
 import com.ssaenggojip.property.entity.request.SearchRequest;
 import com.ssaenggojip.property.entity.request.TransportTimeRequest;
+import com.ssaenggojip.property.entity.response.DetailResponse;
 import com.ssaenggojip.property.entity.response.RecommendSearchResponse;
 import com.ssaenggojip.property.entity.response.SearchResponse;
 import com.ssaenggojip.property.service.PropertyFacade;
@@ -30,9 +31,8 @@ public class PropertyController {
 
     @GetMapping("/{propertyId}")
     public ApiResponse<?> getPropertyDetail(@PathVariable Long propertyId) {
-
-
-        return null;
+        DetailResponse detailResponse = propertyFacade.getDetail(propertyId);
+        return ApiResponse.onSuccess(detailResponse);
     }
 
     @PostMapping("/get-transport-time")
