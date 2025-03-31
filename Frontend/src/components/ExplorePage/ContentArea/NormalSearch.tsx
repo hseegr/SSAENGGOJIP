@@ -3,7 +3,7 @@ import { Search } from 'lucide-react'
 import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
 import Modal from './Modals/NormalModal'
 import Card from '../SearchCard'
-import FilterDropdown from './Modals/FilterDropdown'
+import FilterDropdown from './Modals/Normal/FilterDropdown'
 import useSidebarStore from '@/store/sidebar'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
 import { fetchSearchResults } from '@/apis/searchAPI' // 검색 API 함수 가져오기
