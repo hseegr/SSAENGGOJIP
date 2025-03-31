@@ -1,4 +1,4 @@
-package com.ssaenggojip.recommend.dto;
+package com.ssaenggojip.recommend.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
