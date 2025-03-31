@@ -5,7 +5,6 @@ import com.ssaenggojip.property.repository.PropertyRepository;
 import com.ssaenggojip.recommend.dto.request.RecommendByLocationRequest;
 import com.ssaenggojip.recommend.dto.response.FacilityPreferencesResponse;
 import com.ssaenggojip.recommend.dto.request.UpdateFacilityPreferencesRequest;
-import com.ssaenggojip.recommend.dto.response.PropertyResponse;
 import com.ssaenggojip.recommend.dto.response.RecommendPropertyListResponse;
 import com.ssaenggojip.user.entity.User;
 import com.ssaenggojip.user.repository.UserRepository;
@@ -36,12 +35,10 @@ public class RecommendService {
     }
 
     @Transactional(readOnly = true)
-    public void findTopKByPreferences(User user, int k) {
-        String preferences = user.getFacilityPreferences().toString();
+    public RecommendPropertyListResponse findTopKByPreferences(User user, int k) {
+        String preferences = Arrays.toString(user.getFacilityPreferences().toArray());
         List<Property> properties = propertyRepository.findTopKByFacilityNearness(preferences, k);
-        for (Property property : properties) {
-            System.out.println(property.toString());
-        }
+        return RecommendPropertyListResponse.from(properties);
     }
 
     @Transactional(readOnly = true)
