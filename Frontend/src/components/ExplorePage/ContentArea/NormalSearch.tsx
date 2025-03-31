@@ -5,9 +5,12 @@ import Modal from './Modals/NormalModal'
 import Card from '../SearchCard'
 import FilterDropdown from './Modals/FilterDropdown'
 import useSidebarStore from '@/store/sidebar'
+import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
+import { fetchSearchResults } from '@/apis/searchAPI' // 검색 API 함수 가져오기
 
 const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('') // 검색어 상태 추가
   const { titles } = useSidebarStore()
   const [initialData] = useState([
     {
@@ -76,6 +79,16 @@ const NormalSearch: React.FC = () => {
       area: 50.0,
     },
   ])
+  // 필터 스토어에서 데이터 가져오기
+  const {
+    propertyTypes,
+    transactionTypes,
+    MindepositPrice,
+    MinmonthlyPrice,
+    MaxdepositPrice,
+    MaxmonthlyPrice,
+    additionalFilters,
+  } = useFilterStore()
   const { setSelectedCard } = useSidebarStore()
   const [filteredData, setFilteredData] = useState(initialData)
   // 정렬 변경 함수
@@ -86,6 +99,34 @@ const NormalSearch: React.FC = () => {
       return 0
     })
     setFilteredData(sortedData)
+  }
+  // 엔터 키 입력 시 검색 실행
+  const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      // 엔터 키 감지
+      if (searchQuery.trim() !== '') {
+        // 빈 값이 아닐 때만 검색 실행
+        try {
+          // 필터 데이터를 구성
+          const filters = {
+            propertyTypes: propertyTypes.join(','), // 배열을 문자열로 변환 (예: "아파트,빌라")
+            transactionTypes,
+            MindepositPrice,
+            MinmonthlyPrice,
+            MaxdepositPrice,
+            MaxmonthlyPrice,
+            additionalFilters: additionalFilters.join(','), // 배열을 문자열로 변환
+          }
+          const searchResults = await fetchSearchResults(searchQuery, filters) // 검색 API 호출
+          setFilteredData(searchResults) // 응답 데이터를 상태에 저장
+        } catch (error) {
+          console.error('검색 중 오류 발생:', error)
+          setFilteredData([]) // 오류 발생 시 빈 배열 설정
+        }
+      } else {
+        setFilteredData(initialData) // 검색어가 없으면 초기 데이터로 복원
+      }
+    }
   }
 
   useEffect(() => {
@@ -116,6 +157,9 @@ const NormalSearch: React.FC = () => {
             type="text"
             placeholder="지역명, 지하철역명 검색"
             className="w-full focus:outline-none"
+            value={searchQuery} // 검색어 상태 연결
+            onChange={(e) => setSearchQuery(e.target.value)} // 입력값 변경 시 상태 업데이트
+            onKeyDown={void handleKeyPress} // 엔터 키 입력 시 검색 실행
           />
         </div>
         <button
