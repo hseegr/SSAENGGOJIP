@@ -15,8 +15,9 @@ public class DetailResponse {
     private String name;
     private PropertyType propertyType; // ONEROOM, etc.
     private DealType dealType;     // MONTH, etc.
-    private Integer price;       // 월세 or 전세/매매 금액
-    private Integer rentPrice;   // 월세 금액
+    private Long price;       // 월세 or 전세/매매 금액
+    private Long rentPrice;   // 월세 금액
+    private Long maintenancePrice;
     private String totalFloor;
     private String floor;
     private Double area;

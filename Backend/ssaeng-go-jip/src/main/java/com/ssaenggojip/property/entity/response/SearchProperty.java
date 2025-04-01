@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class SearchProperty {
-    Integer id;
+    Long id;
     Boolean isRecommend;
     DealType dealType;
     Integer price;

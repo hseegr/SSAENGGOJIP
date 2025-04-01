@@ -22,5 +22,30 @@ public interface StationRepository extends JpaRepository<Station, Long> {
 """, nativeQuery = true)
     List<Station> findStationsWithin1km(@Param("lng") Double lng, @Param("lat") Double lat);
 
+//    @Query(value = """
+//        SELECT
+//            s."stationId",
+//            snc."stationName",
+//            snc."lineName",
+//            ceiling(s.distance / 80) as "walkMinute"
+//        FROM (
+//            SELECT
+//                "stationId",
+//                ST_Distance(
+//                    ST_Transform("geom", 3857),
+//                    ST_Transform(ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), 3857)
+//                ) AS distance
+//            FROM "StationCoordinate"
+//            WHERE ST_DWithin(
+//                    ST_Transform("geom", 3857),
+//                    ST_Transform(ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326), 3857),
+//                    1000
+//            )
+//        ) s
+//        JOIN "StationNametoCode" snc USING("stationId")
+//        """, nativeQuery = true)
+//    List<NearbyStationResult> findNearbyStationsWithWalkTime(@Param("latitude") double lat, @Param("longitude") double lon);
+// }
+
 
 }

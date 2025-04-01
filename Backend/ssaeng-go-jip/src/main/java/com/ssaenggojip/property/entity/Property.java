@@ -28,11 +28,11 @@ public class Property {
     private PropertyType propertyType;
 
     @Column(nullable = false)
-    private Integer price;
+    private Long price;
 
-    private Integer rentPrice;
+    private Long rentPrice;
 
-    private Integer maintenancePrice;
+    private Long maintenancePrice;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private Double exclusiveArea;

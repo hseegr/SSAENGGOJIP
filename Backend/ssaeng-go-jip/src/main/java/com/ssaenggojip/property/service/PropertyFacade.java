@@ -73,6 +73,7 @@ public class PropertyFacade {
                 .dealType(property.getDealType())
                 .price(property.getPrice())
                 .rentPrice(property.getRentPrice())
+                .maintenancePrice(property.getMaintenancePrice())
                 .totalFloor(property.getTotalFloor())
                 .floor(property.getFloor())
                 .area(property.getExclusiveArea())
@@ -87,7 +88,7 @@ public class PropertyFacade {
         TransportTimeResponse response = new TransportTimeResponse();
         switch (request.getTransportationType()) {
             case WALK -> response = propertyService.getTransportTime(request);
-            case SUBWAY -> response = stationService.getTransportTime(requset);
+            case SUBWAY -> response = stationService.getTransportTime(request);
             default -> response = null; // TODO: 예외처리로 변경
         }
 

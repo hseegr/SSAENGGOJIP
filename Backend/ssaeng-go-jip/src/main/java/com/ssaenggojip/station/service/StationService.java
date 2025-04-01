@@ -1,5 +1,7 @@
 package com.ssaenggojip.station.service;
 
+import com.ssaenggojip.property.entity.request.TransportTimeRequest;
+import com.ssaenggojip.property.entity.response.TransportTimeResponse;
 import com.ssaenggojip.station.entity.Station;
 import com.ssaenggojip.station.repository.StationRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +23,9 @@ public class StationService {
 
     public List<Station> findStationsWithin1km(Double longitude, Double latitude) {
         return stationRepository.findStationsWithin1km(longitude, latitude);
+    }
+
+    public TransportTimeResponse getTransportTime(TransportTimeRequest request) {
+
     }
 }
