@@ -29,7 +29,7 @@ const NormalSearch: React.FC = () => {
       price: 300000000,
       managementFee: 100000,
       details: '바다 전망, 최신 시설',
-      imageUrl: '/images/apartment2.jpg',
+      // imageUrl: '/images/apartment2.jpg',
       propertyType: '오피스텔',
       dealType: '전세',
       floor: 7,
@@ -42,7 +42,7 @@ const NormalSearch: React.FC = () => {
       price: 150000000,
       managementFee: 50000,
       details: '조용한 주택가, 넓은 공간',
-      imageUrl: '/images/apartment3.jpg',
+      // imageUrl: '/images/apartment3.jpg',
       propertyType: '빌라',
       dealType: '월세',
       floor: 2,
@@ -100,7 +100,7 @@ const NormalSearch: React.FC = () => {
   return (
     <>
       {/* 검색창 */}
-      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-2 px-4 py-2">
+      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-4 px-4 py-2">
         <div className="flex items-center w-full">
           <Search className="mr-2 text-gray-400" size={20} />
           <input
@@ -119,7 +119,7 @@ const NormalSearch: React.FC = () => {
       </div>
 
       {/* 검색 시 나올 필터링 버튼 */}
-      <div className="flex items-center justify-between w-full px-2 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
+      <div className="flex items-center justify-between w-full px-4 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
         <p className="text-gray-500 font-medium">검색 결과</p>
         <FilterDropdown />
       </div>
