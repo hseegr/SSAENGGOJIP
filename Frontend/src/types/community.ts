@@ -8,7 +8,7 @@ export interface CommonResponse<T> {
 
 // 채팅방 기본 정보 타입
 export interface ChatRoom {
-  id: string
+  id: number
   name: string
   userCount: number
   lastMessage: string | null

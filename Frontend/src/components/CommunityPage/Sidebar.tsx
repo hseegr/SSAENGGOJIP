@@ -8,6 +8,7 @@ import {
   usePopularChatRoomsQuery,
   useSearchChatRoomsQuery,
 } from '@/hooks/useCommunity'
+import { useAllStationsQuery } from '@/hooks/useStation'
 
 type Props = {
   onChatOpen: () => void
@@ -21,13 +22,25 @@ const Sidebar = ({ onChatOpen }: Props) => {
   const [searchKeyword, setSearchKeyword] = useState('')
 
   // api 호출하기
+  // 인기 채팅방
   const { data: popularData, refetch: refetchPopular } =
     usePopularChatRoomsQuery()
 
+  // 내 채팅방
   const { data: myData, refetch: refetchMy } = useMyChatRoomQuery()
 
-  // 검색 api 호출하기
+  // 검색
   const { data: searchedData } = useSearchChatRoomsQuery(searchKeyword)
+
+  // 전체 역 받아오기
+  const { data: stationData } = useAllStationsQuery()
+
+  // 전체 역에서 아직 생성되지 않은 채팅방 (검색어 + 기존 채팅방과 중복 x)
+  const fallbackRooms = (stationData?.result ?? []).filter(
+    (station) =>
+      station.name.includes(searchKeyword) &&
+      !chatRooms.some((room) => room.name === station.name),
+  )
 
   // 응답 데이터가 없을 경우 대비
   const popularChatRooms = popularData?.result ?? []
@@ -113,18 +126,33 @@ const Sidebar = ({ onChatOpen }: Props) => {
         </h3>
       )}
       <ul className="space-y-2">
-        {chatRooms.length === 0 ? (
+        {chatRooms.length === 0 && fallbackRooms.length === 0 ? (
           <li className="text-ssaeng-gray-2 text-sm flex ml-16 mt-3">
             검색 결과가 없습니다.
           </li>
         ) : (
-          chatRooms.map((room) => (
-            <ChatRoomCard
-              key={room.id}
-              chatRoom={room}
-              onClick={handleClickRoom}
-            />
-          ))
+          <>
+            {chatRooms.map((room) => (
+              <ChatRoomCard
+                key={room.id}
+                chatRoom={room}
+                onClick={handleClickRoom}
+              />
+            ))}
+            {/* 아직 생성되지 않았지만 추천 가능한 역 목록 */}
+            {fallbackRooms.map((station) => (
+              <ChatRoomCard
+                key={station.id}
+                chatRoom={{
+                  ...station,
+                  userCount: 0,
+                  lastMessage: '',
+                  locationList: [],
+                }}
+                onClick={handleClickRoom}
+              />
+            ))}
+          </>
         )}
       </ul>
     </aside>
