@@ -63,7 +63,7 @@ public class UserService {
                     "<h1>" + authCode + "</h1>";
 
             mailService.sendEmail(email, title, text);  // 이메일 전송
-            redisService.setValue(redisPrefix + "::auth-code::" + email, authCode, Duration.ofMillis(600000)); // Redis 저장, 만료 기간 10분
+            redisService.setValue(redisPrefix + "::auth-code::" + email, authCode, Duration.ofMillis(300000)); // Redis 저장, 만료 기간 5분
 
             return CompletableFuture.completedFuture(true);  // 성공 시 true 반환
         } catch (Exception e) {
