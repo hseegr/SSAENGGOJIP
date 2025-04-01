@@ -3,17 +3,13 @@ import { Search } from 'lucide-react'
 import DaumPostcode from 'react-daum-postcode'
 
 // 간소화된 인터페이스
-interface AddressData {
-  address: string // 도로명 주소
-  buildingName: string // 건물명
-}
-
-// Address 컴포넌트 Props 타입 정의
 interface AddressProps {
   address: string
   setAddress: React.Dispatch<React.SetStateAction<string>>
   name: string
   setName: React.Dispatch<React.SetStateAction<string>>
+  setLatitude: React.Dispatch<React.SetStateAction<number>>
+  setLongitude: React.Dispatch<React.SetStateAction<number>>
 }
 
 const Address: React.FC<AddressProps> = ({
@@ -21,25 +17,39 @@ const Address: React.FC<AddressProps> = ({
   setAddress,
   name,
   setName,
+  setLatitude,
+  setLongitude,
 }) => {
-  const [searchResult, setSearchResult] = useState<{
-    name: string
-    detail: string
-  } | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [nameType, setNameType] = useState('')
   const [customName, setCustomName] = useState('')
   const [isValidName, setIsValidName] = useState(false)
   const [confirmedName, setConfirmedName] = useState(name)
 
-  // 주소 검색 완료 시 처리
-  const handleComplete = (data: AddressData) => {
-    setSearchResult({
-      name: data.buildingName || '건물명 없음',
-      detail: data.address,
-    })
-    setAddress(data.address) // 부모 상태 업데이트
-    setIsModalOpen(false) // 모달 닫기
+  // 좌표 변환 로직 수정
+  const handleComplete = async (data: any) => {
+    try {
+      const { roadAddress } = data
+      if (!roadAddress) throw new Error('도로명 주소 없음')
+
+      const geoCoder = new kakao.maps.services.Geocoder()
+      const coords: any = await new Promise((resolve, reject) => {
+        geoCoder.addressSearch(roadAddress, (result, status) => {
+          status === kakao.maps.services.Status.OK
+            ? resolve(new kakao.maps.LatLng(result[0].y, result[0].x))
+            : reject(new Error('좌표 조회 실패'))
+        })
+      })
+
+      // 숫자 타입으로 변환하여 상태 업데이트
+      setLatitude(Number(coords.getLat()))
+      setLongitude(Number(coords.getLng()))
+      setAddress(roadAddress)
+      setIsModalOpen(false)
+    } catch (error) {
+      console.error('좌표 변환 실패:', error)
+      alert('주소를 찾을 수 없습니다.')
+    }
   }
 
   // 모달 열기/닫기
@@ -105,20 +115,8 @@ const Address: React.FC<AddressProps> = ({
               >
                 ✕
               </button>
-              <DaumPostcode onComplete={handleComplete} />
+              <DaumPostcode onComplete={void handleComplete} />
             </div>
-          </div>
-        )}
-
-        {/* 검색 결과 */}
-        {searchResult ? (
-          <div className="p-4 bg-gray-100 rounded-lg shadow-md">
-            <p className="text-lg font-semibold">{searchResult.name}</p>
-            <p className="text-sm text-gray-600">{searchResult.detail}</p>
-          </div>
-        ) : (
-          <div className="p-4 bg-gray-100 rounded-lg shadow-md text-gray-400">
-            검색 결과가 없습니다.
           </div>
         )}
       </div>
@@ -161,10 +159,10 @@ const Address: React.FC<AddressProps> = ({
               disabled={!isValidName}
               className={`py-2 px-4 rounded-lg ${
                 confirmedName
-                  ? 'bg-purple-500 text-white hover:bg-purple-600' // 이름 설정 완료 시 보라색 버튼
+                  ? 'bg-purple-500 text-white hover:bg-purple-600'
                   : isValidName
-                    ? 'bg-green-500 text-white hover:bg-green-600' // 유효한 경우 초록색 버튼
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed' // 비활성화된 경우 회색 버튼
+                    ? 'bg-green-500 text-white hover:bg-green-600'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
               확인

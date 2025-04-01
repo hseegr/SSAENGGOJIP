@@ -17,6 +17,7 @@ interface MatchInfoStore {
   updateMatchInfo: (id: number, updatedData: Partial<MatchInfo>) => void // 특정 박스 데이터 업데이트
   togglePropertyType: (type: string) => void // 매물 유형 추가/제거
   setDealType: (type: string) => void // 거래 유형 설정
+  resetMatchInfos: (newData: MatchInfo[]) => void // matchInfos 초기화
 }
 
 const useMatchInfoStore = create<MatchInfoStore>((set) => ({
@@ -66,6 +67,12 @@ const useMatchInfoStore = create<MatchInfoStore>((set) => ({
   setDealType: (type) =>
     set(() => ({
       dealType: type,
+    })),
+
+  // matchInfos 초기화
+  resetMatchInfos: (newData) =>
+    set(() => ({
+      matchInfos: newData,
     })),
 }))
 

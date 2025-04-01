@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from './Modals/MatchModal'
+import AddressModal from './Modals/Match/AddressModal'
 import useMatchInfoStore from '@/store/matchInfoStore'
 import PropertyFilter from './Modals/Match/PropertyInfo'
 import { useUserStore } from '@/store/userStore'
@@ -10,6 +11,8 @@ const CustomInfo: React.FC = () => {
   const { isLoggedIn } = useUserStore()
   // Zustand store에서 상태 가져오기
   const { matchInfos, addMatchInfo, updateMatchInfo } = useMatchInfoStore()
+
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false)
 
   // 유저 로그인 상태 확인 및 API 호출
   useEffect(() => {
@@ -66,11 +69,18 @@ const CustomInfo: React.FC = () => {
     handleBoxClick(newId) // 새로 생성된 박스의 ID를 전달하여 클릭 처리
   }
 
+  const handleAddressModalOpen = () => {
+    setIsAddressModalOpen(true)
+  }
+  const handleAddressModalClose = () => {
+    setIsAddressModalOpen(false) // AddressModal 닫기
+  }
+
   return (
     <div className="mb-6">
       {/* 상단 텍스트와 버튼 */}
-      <div className="flex items-center px-4 mb-4">
-        <>
+      <div className="flex items-center justify-between px-4 mb-4">
+        <div className="flex">
           <h2 className="text-lg font-bold mr-2">맞춤 정보</h2>
           <button
             onClick={handleAddBox}
@@ -78,10 +88,15 @@ const CustomInfo: React.FC = () => {
           >
             +
           </button>
-        </>
-        <>
-          <button>hello</button>
-        </>
+        </div>
+        <div>
+          <button
+            className="flex items-center justify-center bg-green-300 rounded"
+            onClick={handleAddressModalOpen}
+          >
+            저장된 주소
+          </button>
+        </div>
       </div>
 
       {/* 회색 박스들 */}
@@ -176,6 +191,14 @@ const CustomInfo: React.FC = () => {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           boxId={selectedBoxId} // 선택된 박스 ID 전달
+        />
+      )}
+
+      {/* Address Modal 컴포넌트 */}
+      {isAddressModalOpen && (
+        <AddressModal
+          isOpen={isAddressModalOpen}
+          onClose={handleAddressModalClose}
         />
       )}
     </div>
