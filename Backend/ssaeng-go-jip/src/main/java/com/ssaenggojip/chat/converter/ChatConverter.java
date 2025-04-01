@@ -1,9 +1,13 @@
 package com.ssaenggojip.chat.converter;
 
+import com.ssaenggojip.chat.dto.ChatMessageResponseDto;
 import com.ssaenggojip.chat.dto.ChatRoomResponseDto;
+import com.ssaenggojip.chat.entity.ChatMessage;
 import com.ssaenggojip.chat.entity.ChatRoom;
 
-public class ChatRoomConverter {
+import java.time.ZoneId;
+
+public class ChatConverter {
 
     public static ChatRoomResponseDto toChatRoomResponseDto(ChatRoom chatRoom) {
         return ChatRoomResponseDto.builder()
@@ -20,6 +24,15 @@ public class ChatRoomConverter {
                                         .build())
                                 .toList()
                 )
+                .build();
+    }
+
+    public static ChatMessageResponseDto toChatMessageResponseDto(ChatMessage chatMessage) {
+        return ChatMessageResponseDto.builder()
+                .id(chatMessage.getId())
+                .nickname(chatMessage.getNickname())
+                .content(chatMessage.getContent())
+                .createdAt(chatMessage.getCreatedAt().toInstant().atZone(ZoneId.of("Asia/Seoul")))
                 .build();
     }
 }

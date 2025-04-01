@@ -1,6 +1,6 @@
 package com.ssaenggojip.chat.service;
 
-import com.ssaenggojip.chat.converter.ChatRoomConverter;
+import com.ssaenggojip.chat.converter.ChatConverter;
 import com.ssaenggojip.chat.dto.ChatRoomResponseDto;
 import com.ssaenggojip.chat.entity.UserChatRoom;
 import com.ssaenggojip.chat.repository.ChatRoomRepository;
@@ -22,12 +22,12 @@ public class ChatRoomService {
 
     public List<ChatRoomResponseDto> getPopularChatRoom() {
         return chatRoomRepository.findTop10ByOrderByUserCountDesc()
-                .stream().map(ChatRoomConverter::toChatRoomResponseDto).toList();
+                .stream().map(ChatConverter::toChatRoomResponseDto).toList();
     }
 
     public List<ChatRoomResponseDto> searchChatRoom(String keyword) {
         return chatRoomRepository.findByNameContaining(keyword)
-                .stream().map(ChatRoomConverter::toChatRoomResponseDto).toList();
+                .stream().map(ChatConverter::toChatRoomResponseDto).toList();
     }
 
     public List<ChatRoomResponseDto> getMyChatRoom(User user) {
@@ -35,6 +35,6 @@ public class ChatRoomService {
                 .stream().map(UserChatRoom::getChatRoomId).toList();
 
         return chatRoomRepository.findByIdIn(chatRoomIdList)
-                .stream().map(ChatRoomConverter::toChatRoomResponseDto).toList();
+                .stream().map(ChatConverter::toChatRoomResponseDto).toList();
     }
 }
