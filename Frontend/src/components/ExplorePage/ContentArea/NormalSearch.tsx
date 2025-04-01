@@ -16,7 +16,7 @@ const NormalSearch: React.FC = () => {
       price: 500000000,
       managementFee: 200000,
       details: '지하철역 근처, 편리한 교통',
-      imageUrl: '/images/apartment1.jpg',
+      // imageUrl: '/images/apartment1.jpg',
       propertyType: '아파트',
       dealType: '매매',
       floor: 10,
@@ -29,7 +29,7 @@ const NormalSearch: React.FC = () => {
       price: 300000000,
       managementFee: 100000,
       details: '바다 전망, 최신 시설',
-      imageUrl: '/images/apartment2.jpg',
+      // imageUrl: '/images/apartment2.jpg',
       propertyType: '오피스텔',
       dealType: '전세',
       floor: 7,
@@ -42,7 +42,7 @@ const NormalSearch: React.FC = () => {
       price: 150000000,
       managementFee: 50000,
       details: '조용한 주택가, 넓은 공간',
-      imageUrl: '/images/apartment3.jpg',
+      // imageUrl: '/images/apartment3.jpg',
       propertyType: '빌라',
       dealType: '월세',
       floor: 2,
@@ -76,32 +76,32 @@ const NormalSearch: React.FC = () => {
       area: 50.0,
     },
   ])
-  const { setSelectedCard } = useSidebarStore();
-  const [filteredData, setFilteredData] = useState(initialData);
+  const { setSelectedCard } = useSidebarStore()
+  const [filteredData, setFilteredData] = useState(initialData)
 
   useEffect(() => {
     if (titles && Array.isArray(titles)) {
       // titles 배열의 문자열을 숫자로 변환하여 item.id와 비교
       const NewfilteredData = initialData.filter((item) =>
-        titles.map(Number).includes(item.id)
-      );
-      
-      if (NewfilteredData.length === 0){
+        titles.map(Number).includes(item.id),
+      )
+
+      if (NewfilteredData.length === 0) {
         setFilteredData(initialData)
         setSelectedCard(null)
-      } else{
-  
-      // 필터링된 데이터를 업데이트
-      setFilteredData(NewfilteredData);}
+      } else {
+        // 필터링된 데이터를 업데이트
+        setFilteredData(NewfilteredData)
+      }
       setSelectedCard(null)
-    } 
-  }, [titles]);
+    }
+  }, [titles])
 
   return (
     <>
       {/* 검색창 */}
-      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-2 px-4 py-2">
-        <div className="flex items-center w-full">
+      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-4 px-4 py-2">
+        <div className="flex items-center w-full text-sm">
           <Search className="mr-2 text-gray-400" size={20} />
           <input
             type="text"
@@ -118,14 +118,14 @@ const NormalSearch: React.FC = () => {
         </button>
       </div>
 
-    {/* 검색 시 나올 필터링 버튼 */}
-    <div className="flex items-center justify-between w-full px-2 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
-        <p className="text-gray-700 font-medium">검색 결과</p>
+      {/* 검색 시 나올 필터링 버튼 */}
+      <div className="flex items-center justify-between w-full px-4 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2 text-sm">
+        <p className="text-gray-500 font-medium">검색 결과</p>
         <FilterDropdown />
-    </div>
+      </div>
 
-    {/* 카드 목록 */}
-    <div className="flex flex-col gap-4">
+      {/* 카드 목록 */}
+      <div className="flex flex-col gap-4 p-4">
         {filteredData.map((item) => (
           <Card
             key={item.id}
@@ -142,10 +142,10 @@ const NormalSearch: React.FC = () => {
             imageUrl={item.imageUrl}
           />
         ))}
-    </div>
+      </div>
 
-    {/* 모달 */}
-    <Modal isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />
+      {/* 모달 */}
+      <Modal isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />
     </>
   )
 }
