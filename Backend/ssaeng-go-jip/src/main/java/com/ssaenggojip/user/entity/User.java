@@ -2,7 +2,7 @@ package com.ssaenggojip.user.entity;
 
 import com.ssaenggojip.common.enums.SocialLoginType;
 import com.ssaenggojip.common.entity.BaseEntity;
-import com.ssaenggojip.targetAddress.entity.TargetAddress;
+import com.ssaenggojip.targetaddress.entity.TargetAddress;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
