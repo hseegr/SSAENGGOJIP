@@ -8,13 +8,17 @@ export interface CommonResponse<T> {
 
 // 채팅방 기본 정보 타입
 export interface ChatRoom {
-  id: number
+  id: string
   name: string
-  line: string[]
   userCount: number
-  lastMessage: string
-  latitude: number
-  longitude: number
+  lastMessage: string | null
+
+  // ✅ locationList 필드 추가
+  locationList: {
+    line: string
+    latitude: number
+    longitude: number
+  }[]
 }
 
 // 채팅방 목록 응답 타입 (내 채팅방, 인기, 검색)
