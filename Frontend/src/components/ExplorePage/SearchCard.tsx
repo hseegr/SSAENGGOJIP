@@ -53,10 +53,10 @@ const Card: React.FC<CardProps> = ({
 
   return (
     <button
-      className={`flex overflow-hidden cursor-pointer ${
+      className={`flex overflow-hidden border cursor-pointer ${
         isSelected
-          ? 'bg-[rgba(175,175,255,0.40)]'
-          : 'hover:bg-gray-50 hover:rounded-lg'
+          ? 'bg-ssaeng-gray-3 rounded-lg border-ssaeng-gray-2'
+          : 'hover:bg-gray-50 hover:rounded-lg border-transparent'
       }`}
       onClick={handleClick}
     >
