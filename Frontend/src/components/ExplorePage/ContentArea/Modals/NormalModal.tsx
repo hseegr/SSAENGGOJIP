@@ -42,7 +42,7 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[1000]">
-      <div className="bg-white rounded-lg shadow-lg relative w-[425px] h-[633px] px-6 py-4">
+      <div className="bg-white rounded-lg shadow-lg relative w-[425px] h-[660px] px-6 py-4">
         {/* 닫기 버튼 */}
         <button
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -219,7 +219,7 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             <span
               key={page}
               className={`w-[10px] h-[10px] rounded-full mx-[5px] ${
-                page === currentPage ? 'bg-purple-600' : 'bg-gray-300'
+                page === currentPage ? 'bg-ssaeng-purple' : 'bg-gray-300'
               }`}
             ></span>
           ))}
@@ -229,7 +229,7 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
         {currentPage === 1 && (
           <div className="text-center mt-6">
             <button
-              className="bg-purple-600 text-white px-6 py-2 rounded-md"
+              className="bg-ssaeng-purple text-white px-6 py-2 rounded-md"
               onClick={() => setCurrentPage(2)}
             >
               다음
@@ -251,7 +251,7 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                     key={filter}
                     className={`px-3 py-1 border rounded-md ${
                       additionalFilters.includes(filter)
-                        ? 'bg-purple-600 text-white'
+                        ? 'bg-ssaeng-purple text-white'
                         : 'text-gray-700 border-gray-300'
                     }`}
                     onClick={() =>
@@ -277,7 +277,7 @@ const Modal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                 이전
               </button>
               <button
-                className="bg-purple-600 text-white px-6 py-2 rounded-md"
+                className="bg-ssaeng-purple text-white px-6 py-2 rounded-md"
                 onClick={onClose}
               >
                 완료

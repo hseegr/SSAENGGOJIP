@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 useNavigate
-import Card from '../SearchCard'; // Card 컴포넌트 임포트
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom' // 페이지 이동을 위한 useNavigate
+import Card from '../SearchCard' // Card 컴포넌트 임포트
 
 interface Property {
-  id: number;
+  id: number
 }
 
 const Favorites: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
-  const [properties, setProperties] = useState<Property[]>([]); // 관심 매물 데이터 관리
+  const [isLoggedIn, setIsLoggedIn] = useState(false) // 로그인 상태 관리
+  const [properties, setProperties] = useState<Property[]>([]) // 관심 매물 데이터 관리
 
   useEffect(() => {
     // 로그인 상태 확인 (임시 데이터로 설정)
-    const loggedInUser = localStorage.getItem('user'); // 로컬 스토리지에서 로그인 정보 확인
-    setIsLoggedIn(!!loggedInUser);
+    const loggedInUser = localStorage.getItem('user') // 로컬 스토리지에서 로그인 정보 확인
+    setIsLoggedIn(!!loggedInUser)
 
     if (loggedInUser) {
       // 로그인된 경우 API 응답 시뮬레이션
@@ -25,24 +25,24 @@ const Favorites: React.FC = () => {
           total: 30,
           properties: Array.from({ length: 30 }, (_, i) => ({ id: i + 1 })),
         },
-      };
-      setProperties(apiResponse.result.properties);
+      }
+      setProperties(apiResponse.result.properties)
     }
-  }, []);
+  }, [])
 
-  const navigate = useNavigate();
-  
+  const navigate = useNavigate()
+
   const handleLogin = () => {
     // 로그인 버튼 클릭 시 처리 (임시)
-    localStorage.setItem('user', JSON.stringify({ name: 'Test User' }));
-    setIsLoggedIn(true);
-    console.log('로그인되었습니다.');
-  };
+    localStorage.setItem('user', JSON.stringify({ name: 'Test User' }))
+    setIsLoggedIn(true)
+    console.log('로그인되었습니다.')
+  }
 
   const handleCompareClick = () => {
     // 매물 비교하기 버튼 클릭 시 페이지 이동
-    navigate('/mypage'); // '/compare' 경로로 이동
-  };
+    navigate('/mypage') // '/compare' 경로로 이동
+  }
 
   return (
     <div className="relative">
@@ -80,9 +80,9 @@ const Favorites: React.FC = () => {
           )}
         </div>
       )}
-            {/* 하단 고정 버튼 */}
-            {isLoggedIn && (
-        <div className="sticky bottom-0 w-full flex justify-center py-3">
+      {/* 하단 고정 버튼 */}
+      {isLoggedIn && (
+        <div className="sticky bottom-0 w-full flex justify-center py-3 z-20">
           <button
             onClick={handleCompareClick}
             className="w-full h-[40px] mx-3 bg-ssaeng-purple text-white text-md rounded-md"
@@ -92,7 +92,7 @@ const Favorites: React.FC = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Favorites;
+export default Favorites
