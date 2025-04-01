@@ -12,8 +12,9 @@ public class SearchProperty {
     Long id;
     Boolean isRecommend;
     DealType dealType;
-    Integer price;
-    Integer rentPrice;
+    Long price;
+    Long rentPrice;
+    Long maintenancePrice;
     String totalFloor;
     String floor;
     Double area;
@@ -23,5 +24,4 @@ public class SearchProperty {
     Boolean isInterest;
     String imageUrl;
     LocalDateTime createdAt;
-    Integer maintenancePrice;
 }

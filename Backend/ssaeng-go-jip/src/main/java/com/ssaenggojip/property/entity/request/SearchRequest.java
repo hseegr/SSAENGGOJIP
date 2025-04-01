@@ -11,7 +11,9 @@ public class SearchRequest {
     String search;
     List<PropertyType> propertyTypes;
     DealType dealType;
-    Long price;
-    Long rentPrice;
+    Long minPrice;
+    Long maxPrice;
+    Long minRentPrice;
+    Long maxRentPrice;
     List<FacilityType> facilityTypes;
 }

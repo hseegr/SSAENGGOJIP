@@ -42,7 +42,7 @@ public class PropertyService {
 
     private SearchProperty mapToDto(Property p) {
         return SearchProperty.builder()
-                .id(p.getId().intValue())
+                .id(p.getId())
                 .dealType(p.getDealType())
                 .price(p.getPrice())
                 .rentPrice(p.getRentPrice())
