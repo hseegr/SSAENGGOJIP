@@ -101,7 +101,7 @@ const NormalSearch: React.FC = () => {
     <>
       {/* 검색창 */}
       <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-4 px-4 py-2">
-        <div className="flex items-center w-full">
+        <div className="flex items-center w-full text-sm">
           <Search className="mr-2 text-gray-400" size={20} />
           <input
             type="text"
@@ -119,7 +119,7 @@ const NormalSearch: React.FC = () => {
       </div>
 
       {/* 검색 시 나올 필터링 버튼 */}
-      <div className="flex items-center justify-between w-full px-4 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
+      <div className="flex items-center justify-between w-full px-4 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2 text-sm">
         <p className="text-gray-500 font-medium">검색 결과</p>
         <FilterDropdown />
       </div>

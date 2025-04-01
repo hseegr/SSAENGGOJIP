@@ -95,10 +95,10 @@ const Card: React.FC<CardProps> = ({
 
       {/* 텍스트 영역 */}
       <div className="p-4 w-1/2">
-        <p className="flex text-md">{propertyType}</p>
+        <p className="flex text-sm">{propertyType}</p>
         <div className="flex">
-          <p className="text-lg font-bold text-gray-700 pr-2">{dealType}</p>
-          <p className="text-lg font-bold text-gray-700">
+          <p className="text-base font-bold text-gray-700 pr-2">{dealType}</p>
+          <p className="text-base font-bold text-gray-700">
             {formatPrice(price)}
           </p>
         </div>
@@ -107,7 +107,7 @@ const Card: React.FC<CardProps> = ({
           {managementFee ? `${managementFee.toLocaleString()}원` : '없음'}
         </p>
         <div className="flex">
-          <p className="text-sm mt-2">
+          <p className="text-xs mt-2">
             {floor}층 / {totalFloor}층 | {area}평
           </p>
         </div>
