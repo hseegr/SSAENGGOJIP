@@ -1,6 +1,6 @@
 package com.ssaenggojip.recommend.controller;
 
-import com.ssaenggojip.apiPayload.ApiResponse;
+import com.ssaenggojip.apipayload.ApiResponse;
 import com.ssaenggojip.auth.annotation.AuthUser;
 import com.ssaenggojip.recommend.dto.request.RecommendByPreferencesRequest;
 import com.ssaenggojip.recommend.dto.response.FacilityPreferencesResponse;
