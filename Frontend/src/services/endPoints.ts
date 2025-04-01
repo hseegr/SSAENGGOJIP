@@ -21,7 +21,7 @@ export const MAIN_END_POINT = {
 // 커뮤니티(채팅) 페이지 -> communityService
 export const COMMUNITY_END_POINT = {
   // 내가 참여 중인 채팅방 목록 조회
-  MY_CHAT_ROOMS: '/users/chat-rooms',
+  MY_CHAT_ROOMS: '/chat-rooms/mine',
 
   // 인기 채팅방 목록 조회
   POPULAR_CHAT_ROOMS: '/chat-rooms/popular',
@@ -39,4 +39,8 @@ export const COMMUNITY_END_POINT = {
   // 채팅 메시지 삭제 (chatMessageId는 삭제할 메시지 ID)
   DELETE_CHAT_MESSAGE: (chatMessageId: number) =>
     `/chat-messages/${chatMessageId}`,
+}
+
+export const STATION_END_POINT = {
+  ALL_STATION: '/stations',
 }

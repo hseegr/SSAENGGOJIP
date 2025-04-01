@@ -1,6 +1,5 @@
 import http from './http-common'
 import { COMMUNITY_END_POINT } from './endPoints'
-
 import { ChatRoomListResponse } from '@/types/community'
 
 // 내 채팅방 조회
