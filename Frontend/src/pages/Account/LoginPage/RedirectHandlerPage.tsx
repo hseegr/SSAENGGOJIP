@@ -1,3 +1,4 @@
+// src/pages/Account/LoginPage/RedirectHandlerPage.tsx
 import { useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { fetchSocialLogin } from '@/services/userService'
@@ -8,7 +9,6 @@ const RedirectHandlerPage = () => {
     const navigate = useNavigate()
     const hasRun = useRef(false)
 
-    // 구조분해로 상태 훅 불러오기
     const { setAccessToken, setIsLoggedIn } = useUserStore()
 
     useEffect(() => {
@@ -20,23 +20,14 @@ const RedirectHandlerPage = () => {
 
         if (code && socialType) {
             fetchSocialLogin(socialType, code)
-                .then((response) => {
-                    const { accessToken, isNew } = response
-
-                    // 상태 업데이트 (localStorage + zustand 동기화)
+                .then(({ accessToken, isNew }) => {
                     setAccessToken(accessToken)
                     setIsLoggedIn(true)
-
-                    // 경로 이동
-                    if (isNew) {
-                        navigate('/survey')
-                    } else {
-                        navigate('/main')
-                    }
+                    navigate(isNew ? '/survey' : '/main')
                 })
                 .catch((error) => {
-                    console.error('로그인 실패:', error)
-                    navigate('/account/login')
+                    console.error('소셜 로그인 실패:', error)
+                    navigate(`/account/login?message=${encodeURIComponent(error.message)}&socialType=${error.socialType}`)
                 })
         }
     }, [])
