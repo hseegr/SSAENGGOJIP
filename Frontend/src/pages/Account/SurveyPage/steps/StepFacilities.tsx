@@ -3,7 +3,8 @@ import ProgressBar from '@/components/SurveyPage/ProgressBar'
 import QuestionBox from '@/components/SurveyPage/QuestionBox'
 import FooterButtons from '@/components/SurveyPage/FooterButtons'
 import { useSurveyStore } from '@/store/surveyStore'
-import { mockFacilityTypes } from '@/mocks/mockFacilities'
+// import { mockFacilityTypes } from '@/mocks/mockFacilities'
+import { getFacilityTypes } from '@/services/surveyService'
 
 interface StepFacilitiesProps {
     onNext: () => void
@@ -19,9 +20,22 @@ const StepFacilities = ({ onNext, onBack, onSkip }: StepFacilitiesProps) => {
     } = useSurveyStore()
 
     const [facilities, setFacilities] = useState<string[]>([])
+    // useEffect(() => {
+    //     setFacilities(mockFacilityTypes)
+    // }, [])
+
     useEffect(() => {
-        setFacilities(mockFacilityTypes)
+        const fetchFacilityTypes = async () => {
+            try {
+                const types = await getFacilityTypes()
+                setFacilities(types)
+            } catch (error) {
+                console.error('시설 목록 조회 실패:', error)
+            }
+        }
+        fetchFacilityTypes()
     }, [])
+
 
     const toggleFacility = (facility: string) => {
         if (selectedFacilities.includes(facility)) {
@@ -104,6 +118,7 @@ const StepFacilities = ({ onNext, onBack, onSkip }: StepFacilitiesProps) => {
                     onBack={onBack}
                     onSkip={onSkip}
                     isNextDisabled={isNextDisabled}
+                    isCompleteStep={true}
                 />
             </div>
         </div>
