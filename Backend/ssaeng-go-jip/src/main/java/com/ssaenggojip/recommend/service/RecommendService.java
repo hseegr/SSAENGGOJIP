@@ -1,5 +1,6 @@
 package com.ssaenggojip.recommend.service;
 
+import com.ssaenggojip.facility.service.FacilityService;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.repository.PropertyRepository;
 import com.ssaenggojip.recommend.dto.request.RecommendByLocationRequest;
@@ -20,12 +21,13 @@ import java.util.List;
 public class RecommendService {
     private final UserRepository userRepository;
     private final PropertyRepository propertyRepository;
+    private final FacilityService facilityService;
 
     @Transactional(readOnly = true)
     public FacilityPreferencesResponse getPreferences(User user) {
-        return FacilityPreferencesResponse.builder()
-                .facilityPreferences(user.getFacilityPreferences())
-                .build();
+        return FacilityPreferencesResponse.from(
+                facilityService.getAllFacilityTypes().getFacilityTypeList(),
+                user.getFacilityPreferences());
     }
 
     @Transactional
