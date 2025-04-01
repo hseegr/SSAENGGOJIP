@@ -5,6 +5,7 @@ import Footer from '@/components/layout/Footer'
 import { ToastContainer } from 'react-toastify' // 토스트 메시지 추가
 import 'react-toastify/dist/ReactToastify.css' // 스타일도 추가
 import { useUserStore } from '@/store/userStore'
+import { getUserInfo } from '@/services/userService'
 
 
 const BaseLayout = () => {
@@ -14,11 +15,17 @@ const BaseLayout = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
+    const { isLoggedIn, logout } = useUserStore.getState()
     // console.log('현재 경로:', location.pathname)
     // console.log('토큰:', token)
     if (!token) {
       // console.log('토큰 없음 → 로그아웃 상태 초기화')
-      useUserStore.getState().logout()
+      logout()
+    } else if (isLoggedIn) {
+      // accessToken이 있지만 유효한지 확인
+      getUserInfo().catch(() => {
+        logout()
+      })
     }
   }, [location.pathname])
 
