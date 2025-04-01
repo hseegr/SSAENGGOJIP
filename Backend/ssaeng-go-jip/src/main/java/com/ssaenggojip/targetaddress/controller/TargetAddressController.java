@@ -1,10 +1,10 @@
-package com.ssaenggojip.targetAddress.controller;
+package com.ssaenggojip.targetaddress.controller;
 
-import com.ssaenggojip.apiPayload.ApiResponse;
+import com.ssaenggojip.apipayload.ApiResponse;
 import com.ssaenggojip.auth.annotation.AuthUser;
-import com.ssaenggojip.targetAddress.dto.TargetAddressRequestDto;
-import com.ssaenggojip.targetAddress.dto.TargetAddressResponseDto;
-import com.ssaenggojip.targetAddress.service.TargetAddressService;
+import com.ssaenggojip.targetaddress.dto.TargetAddressRequestDto;
+import com.ssaenggojip.targetaddress.dto.TargetAddressResponseDto;
+import com.ssaenggojip.targetaddress.service.TargetAddressService;
 import com.ssaenggojip.user.entity.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

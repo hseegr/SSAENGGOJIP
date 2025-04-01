@@ -1,7 +1,7 @@
-package com.ssaenggojip.apiPayload.code.status;
+package com.ssaenggojip.apipayload.code.status;
 
-import com.ssaenggojip.apiPayload.code.BaseCode;
-import com.ssaenggojip.apiPayload.code.ReasonDto;
+import com.ssaenggojip.apipayload.code.BaseCode;
+import com.ssaenggojip.apipayload.code.ReasonDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

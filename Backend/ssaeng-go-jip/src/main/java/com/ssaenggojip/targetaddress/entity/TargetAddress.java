@@ -1,7 +1,7 @@
-package com.ssaenggojip.targetAddress.entity;
+package com.ssaenggojip.targetaddress.entity;
 
 import com.ssaenggojip.common.enums.TransportMode;
-import com.ssaenggojip.targetAddress.dto.TargetAddressRequestDto;
+import com.ssaenggojip.targetaddress.dto.TargetAddressRequestDto;
 import com.ssaenggojip.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;

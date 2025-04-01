@@ -1,4 +1,4 @@
-package com.ssaenggojip.apiPayload.code;
+package com.ssaenggojip.apipayload.code;
 
 public interface BaseErrorCode {
     public ErrorReasonDto getReason();

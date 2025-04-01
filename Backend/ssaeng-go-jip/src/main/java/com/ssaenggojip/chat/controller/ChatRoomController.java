@@ -1,6 +1,6 @@
 package com.ssaenggojip.chat.controller;
 
-import com.ssaenggojip.apiPayload.ApiResponse;
+import com.ssaenggojip.apipayload.ApiResponse;
 import com.ssaenggojip.auth.annotation.AuthUser;
 import com.ssaenggojip.chat.dto.ChatRoomResponseDto;
 import com.ssaenggojip.chat.service.ChatRoomService;

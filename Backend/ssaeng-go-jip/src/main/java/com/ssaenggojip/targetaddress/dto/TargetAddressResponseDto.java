@@ -1,4 +1,4 @@
-package com.ssaenggojip.targetAddress.dto;
+package com.ssaenggojip.targetaddress.dto;
 
 import com.ssaenggojip.common.enums.TransportMode;
 import lombok.AllArgsConstructor;
