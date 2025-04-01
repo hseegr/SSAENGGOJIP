@@ -1,3 +1,5 @@
+import http from './http-common'
+import { MAP_END_POINT } from './endPoints'
 import axios from 'axios'
 
 // 검색 API 요청 함수
@@ -6,7 +8,7 @@ export const fetchSearchResults = async (
   filters: Record<string, any>,
 ) => {
   try {
-    const response = await axios.get('/api/search', {
+    const response = await axios.get(MAP_END_POINT.NORMAL_SEARCH, {
       params: {
         query,
         ...filters, // 필터 데이터를 병합
