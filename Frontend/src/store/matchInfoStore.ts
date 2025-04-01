@@ -24,13 +24,15 @@ const useMatchInfoStore = create<MatchInfoStore>((set) => ({
   propertyType: [], // 초기값은 빈 배열
   dealType: '', // 초기값은 빈 문자열
 
-  // 새로운 박스 추가 (순차적으로 증가하는 ID 생성)
-  addMatchInfo: () =>
+  addMatchInfo: (): number => {
+    const currentState = useMatchInfoStore.getState() // 현재 상태 가져오기
+    const newId = currentState.matchInfos.length + 1 // 새로운 ID 계산
+
     set((state) => ({
       matchInfos: [
         ...state.matchInfos,
         {
-          id: state.matchInfos.length + 1, // ID를 배열 길이에 기반해 순차적으로 증가
+          id: newId,
           address: '',
           name: '',
           transportMode: '',
@@ -38,7 +40,10 @@ const useMatchInfoStore = create<MatchInfoStore>((set) => ({
           walkTime: 0,
         },
       ],
-    })),
+    }))
+
+    return newId // 새로 생성된 박스의 ID 반환
+  },
 
   // 특정 박스 데이터 업데이트
   updateMatchInfo: (id, updatedData) =>

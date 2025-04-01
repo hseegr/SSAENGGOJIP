@@ -6,7 +6,7 @@ import Card from '../SearchCard'
 import FilterDropdown from './Modals/Normal/FilterDropdown'
 import useSidebarStore from '@/store/sidebar'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
-import { fetchSearchResults } from '@/apis/searchAPI' // 검색 API 함수 가져오기
+import { fetchSearchResults } from '@/services/mapService'
 
 const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
