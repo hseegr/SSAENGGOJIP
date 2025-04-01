@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ProgressBar from '@/components/SurveyPage/ProgressBar'
 import QuestionBox from '@/components/SurveyPage/QuestionBox'
 import FooterButtons from '@/components/SurveyPage/FooterButtons'
@@ -13,7 +13,15 @@ interface AddressStepProps {
 }
 
 const AddressStep = ({ onNext, onBack, onSkip }: AddressStepProps) => {
-    const { setWorkAddress, setWorkLabel } = useSurveyStore()
+    const {
+        currentPersonIndex,
+        residentCount,
+        person1,
+        person2,
+        setPersonData,
+    } = useSurveyStore()
+
+    const personData = currentPersonIndex === 1 ? person1 : person2
 
     const [input, setInput] = useState('')
     const [results, setResults] = useState<typeof mockAddressList>([])
@@ -21,6 +29,13 @@ const AddressStep = ({ onNext, onBack, onSkip }: AddressStepProps) => {
         name: string
         address: string
     } | null>(null)
+
+    useEffect(() => {
+        // 기존 정보가 있다면 초기 선택 상태로 반영
+        if (personData.address && personData.placeName) {
+            setSelected({ name: personData.placeName, address: personData.address })
+        }
+    }, [personData])
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
@@ -40,29 +55,35 @@ const AddressStep = ({ onNext, onBack, onSkip }: AddressStepProps) => {
         setSelected(item)
         setResults([])
         setInput('')
-        setWorkLabel(item.name)
-        setWorkAddress(item.address)
+
+        setPersonData(currentPersonIndex, {
+            placeName: item.name,
+            address: item.address,
+        })
     }
 
     return (
         <div className="flex flex-col justify-between items-center text-center min-h-screen w-full px-4 py-8">
-            {/* 상단 진행바 */}
             <div className="w-full flex justify-center mb-4">
                 <ProgressBar step={1} />
             </div>
 
-            {/* 중간 콘텐츠 묶음 */}
             <div className="flex flex-col items-center gap-y-6">
-                {/* 질문 */}
                 <div className="mt-6">
                     <QuestionBox>
+                        {residentCount === 2 && (
+                            <>
+                                <span className="text-ssaeng-purple font-bold">
+                                    {currentPersonIndex === 1 ? '첫 번째' : '두 번째'} 사람의{' '}
+                                </span>
+                            </>
+                        )}
                         현재 <span className="font-bold">직장/학교 위치</span>가 어디인가요?
                         <br />
                         맞춤 검색을 진행하는 데에 꼭 필요한 정보예요!
                     </QuestionBox>
                 </div>
 
-                {/* 검색 입력창 */}
                 <div className="relative w-80 mt-6">
                     <input
                         type="text"
@@ -90,7 +111,6 @@ const AddressStep = ({ onNext, onBack, onSkip }: AddressStepProps) => {
                     )}
                 </div>
 
-                {/* 선택된 항목 미리보기 */}
                 {selected && (
                     <div className="w-80 p-4 bg-gray-100 rounded text-left">
                         <div className="flex gap-2 items-start">
@@ -105,8 +125,6 @@ const AddressStep = ({ onNext, onBack, onSkip }: AddressStepProps) => {
                 )}
             </div>
 
-
-            {/* 하단 버튼 */}
             <div className="mt-auto w-full flex justify-center">
                 <FooterButtons
                     onNext={onNext}

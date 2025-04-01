@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useUserStore } from '@/store/userStore'
 
 const http = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_URL,
@@ -48,6 +49,7 @@ http.interceptors.response.use(
                 return axios(originalRequest)
             } catch (refreshError) {
                 console.error('🔒 토큰 재발급 실패:', refreshError)
+                useUserStore.getState().logout()
                 // 로그아웃 처리 또는 로그인 페이지로 이동
                 window.location.href = '/account/login'
             }

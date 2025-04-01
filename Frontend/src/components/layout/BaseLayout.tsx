@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { useUserStore } from '@/store/userStore'
+import { getUserInfo } from '@/services/userService'
 
 const BaseLayout = () => {
   const location = useLocation()
@@ -11,11 +12,17 @@ const BaseLayout = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
+    const { isLoggedIn, logout } = useUserStore.getState()
     // console.log('현재 경로:', location.pathname)
     // console.log('토큰:', token)
     if (!token) {
       // console.log('토큰 없음 → 로그아웃 상태 초기화')
-      useUserStore.getState().logout()
+      logout()
+    } else if (isLoggedIn) {
+      // accessToken이 있지만 유효한지 확인
+      getUserInfo().catch(() => {
+        logout()
+      })
     }
   }, [location.pathname])
 

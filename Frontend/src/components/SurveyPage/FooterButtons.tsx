@@ -14,7 +14,7 @@ const FooterButtons = ({
     isFirstStep = false,
 }: FooterButtonsProps) => {
     return (
-        <div className="flex flex-col items-center gap-6 mt-12 w-full max-w-md">
+        <div className="flex flex-col items-center gap-6 mt-16 w-full max-w-md">
             {/* 버튼 영역 */}
             <div className="flex justify-center w-full gap-32">
                 {isFirstStep ? (
@@ -41,7 +41,7 @@ const FooterButtons = ({
 
             {/* 나중에 설정할게요 */}
             <button
-                className="text-sm text-gray-400 underline hover:text-gray-500 mt-16 mb-10"
+                className="text-sm text-gray-400 underline hover:text-gray-500 mt-24 mb-30"
                 onClick={onSkip}
             >
                 나중에 설정할게요
