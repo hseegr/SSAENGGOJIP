@@ -1,7 +1,7 @@
 package com.ssaenggojip.facility.controller;
 
-import com.ssaenggojip.apiPayload.ApiResponse;
 import com.ssaenggojip.facility.dto.FacilityListResponse;
+import com.ssaenggojip.apipayload.ApiResponse;
 import com.ssaenggojip.facility.service.FacilityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
