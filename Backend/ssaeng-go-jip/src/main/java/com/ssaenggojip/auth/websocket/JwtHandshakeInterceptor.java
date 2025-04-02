@@ -33,13 +33,15 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
         String accessToken = extractAccessTokenFromQuery(query);
         String refreshToken = extractRefreshTokenFromCookies(request.getHeaders().get("Cookie"));
 
+        log.info("accessToken = {}", accessToken);
+        log.info("refreshToken = {}", refreshToken);
+
         if (accessToken == null || refreshToken == null) {
             log.info("🔥 토큰이 NULL임!");
             return false;
         }
 
         if (!jwtUtil.validateAccessToken(accessToken) || !jwtUtil.validateRefreshToken(refreshToken)) {
-            log.info("🔥 토큰이 잘못됨!");
             return false;
         }
 
@@ -47,7 +49,6 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
         User user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {
-            log.info("🔥 유저가 NULL임!");
             return false;
         }
 
