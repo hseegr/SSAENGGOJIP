@@ -36,7 +36,13 @@ public enum ErrorStatus implements BaseErrorCode {
     // 타겟 주소 관련 에러
     MAX_TARGET_ADDRESS(HttpStatus.BAD_REQUEST , "TARGETADDRESS4001", "이미 타겟 주소를 최대로 등록했습니다."),
     NOT_FOUND_TARGET_ADDRESS_ID(HttpStatus.BAD_REQUEST , "TARGETADDRESS4002", "해당하는 타겟 주소가 없습니다."),
-    CANNOT_DELETE_DEFAULT_TARGET_ADDRESS(HttpStatus.BAD_REQUEST , "TARGETADDRESS4003", "기본 타겟 주소는 삭제할 수 없습니다.");
+    CANNOT_DELETE_DEFAULT_TARGET_ADDRESS(HttpStatus.BAD_REQUEST , "TARGETADDRESS4003", "기본 타겟 주소는 삭제할 수 없습니다."),
+
+    // 채팅방 관련 에러
+    NOT_FOUND_CHAT_ROOM_ID(HttpStatus.BAD_REQUEST , "CHATROOM4001", "해당하는 채팅방이 없습니다."),
+    MAX_CHAT_ROOM_USER(HttpStatus.BAD_REQUEST , "CHATROOM4002", "채팅방 인원이 가득 찼습니다."),
+    ALREADY_ENTER_CHAT_ROOM(HttpStatus.BAD_REQUEST , "CHATROOM4003", "이미 입장한 채팅방입니다."),
+    ALREADY_LEAVE_CHAT_ROOM(HttpStatus.BAD_REQUEST , "CHATROOM4004", "참여한 적이 없거나 이미 퇴장한 채팅방입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
