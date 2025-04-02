@@ -1,5 +1,8 @@
+import { useChatSocket } from '@/hooks/useChatSocket'
+import { fetchEnterChatRoom } from '@/services/communityService'
 import { useCommunityStore } from '@/store/communityStore'
 import { useRef, useEffect, useState } from 'react'
+const { connect } = useChatSocket()
 
 // ts를 위한 코드
 declare global {
@@ -23,6 +26,7 @@ const MapView = ({ onChatOpen }: Props) => {
   const markerChatRooms = useCommunityStore((s) => s.markerChatRooms)
   const selectedChatRoom = useCommunityStore((s) => s.selectedChatRoom)
   const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom)
+  const myChatRooms = useCommunityStore((s) => s.myChatRooms)
 
   // 초기 지도 생성 (1회만 실행)
   useEffect(() => {
@@ -104,8 +108,45 @@ const MapView = ({ onChatOpen }: Props) => {
       const joinBtn =
         overlayContent.querySelector<HTMLButtonElement>('#joinChatButton')
       if (joinBtn) {
-        joinBtn.addEventListener('click', () => {
-          onChatOpen() // 참여하기 버튼 클릭 시 모달 열기
+        joinBtn.addEventListener('click', async () => {
+          const token = localStorage.getItem('accessToken')
+          if (!token) {
+            alert('로그인이 필요합니다!')
+            return
+          }
+
+          const isAlreadyJoined = myChatRooms.some(
+            (room) => room.id === selectedChatRoom.id,
+          )
+
+          try {
+            if (!isAlreadyJoined) {
+              console.log('📤 입장 요청 시작', selectedChatRoom.id)
+              await fetchEnterChatRoom(selectedChatRoom.id)
+              console.log('✅ 입장 성공')
+            } else {
+              console.log('🟢 이미 입장한 채팅방 → API 생략')
+            }
+          } catch (err: any) {
+            const status = err?.response?.status
+            if (status !== 400 && status !== 409) {
+              console.error('❌ 입장 실패:', err)
+              alert('채팅방 입장에 실패했습니다.')
+              return
+            } else {
+              console.warn('⚠️ 이미 입장한 채팅방입니다. 연결만 진행')
+            }
+          }
+
+          connect({
+            chatRoomId: selectedChatRoom.id,
+            token,
+            onMessage: (msg) => {
+              console.log('📩 메시지 수신:', msg)
+            },
+          })
+
+          onChatOpen()
         })
       }
 
