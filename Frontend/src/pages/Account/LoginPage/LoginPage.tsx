@@ -45,8 +45,8 @@ const LoginPage = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const [originalSocialType, setOriginalSocialType] = useState<SocialType | null>(null)
 
-    const FRONT_BASE_URL = 'http://localhost:3000'
-    // const FRONT_BASE_URL = 'https://j12a406.p.ssafy.io' // 배포된 프론트 주소
+    // const FRONT_BASE_URL = 'http://localhost:3000'
+    const FRONT_BASE_URL = 'https://j12a406.p.ssafy.io' // 배포된 프론트 주소
 
     const REDIRECT_URIS: Record<SocialType, string> = {
         kakao: `${FRONT_BASE_URL}/account/login/kakao`,
