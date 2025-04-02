@@ -16,7 +16,7 @@ const StepWelcome = ({ onNext, onSkip }: StepWelcomeProps) => {
     }, [])
 
     return (
-        <div className="relative flex flex-col items-center justify-start min-h-[calc(100vh-160px)] text-center px-4 mt-24">
+        <div className="relative flex flex-col items-center justify-start min-h-[calc(100vh-160px)] text-center px-4 mt-32">
             {/* 상단 문구 */}
             <p className="text-lg text-[#242424] font-semibold mb-10">
                 나에게 꼭 맞는 집을 찾는 첫걸음!

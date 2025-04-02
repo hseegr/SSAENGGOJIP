@@ -1,3 +1,4 @@
+import React from 'react'
 import useSidebarStore from '@/store/sidebar'
 import HeartIcon from '@/assets/map_sidebar/Heart.svg?react'
 import SearchIcon from '@/assets/map_sidebar/Search.png'
@@ -6,12 +7,14 @@ import HeartBlueIcon from '@/assets/map_sidebar/Heart_blue.svg?react'
 import SearchBlueIcon from '@/assets/map_sidebar/Search_blue.png'
 import HomeBlueIcon from '@/assets/map_sidebar/Home_blue.svg?react'
 import ContentArea from './ContentArea'
+import DetailInfo from './ContentArea/Details' // 상세정보 컴포넌트 가져오기
 
 const Sidebar: React.FC = () => {
   const { activeTab, setActiveTab } = useSidebarStore() // Zustand store에서 상태와 업데이트 함수 가져오기
+  const { selectedCard } = useSidebarStore() // 선택된 카드 상태
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       {/* Sidebar Content */}
       <div className="w-20 bg-white border-r border-ssaeng-gray-1 flex flex-col items-center pt-5">
         <button
@@ -64,8 +67,16 @@ const Sidebar: React.FC = () => {
         </button>
       </div>
 
-      {/* Content Area (state에 따라 표시/숨김) */}
-      {activeTab && <ContentArea />}
+      {/* Main Content */}
+      <div className="flex flex-grow">
+        {/* Content Area */}
+        {activeTab && (
+          <ContentArea /> // 카드 클릭 핸들러 전달
+        )}
+
+        {/* 상세정보 영역 */}
+        {selectedCard && <DetailInfo />}
+      </div>
     </div>
   )
 }

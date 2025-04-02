@@ -1,4 +1,5 @@
 import { Home, MapPin, Train } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 type SearchResult = {
   type: '역' | '동' | '면' | '건물'
@@ -8,10 +9,12 @@ type SearchResult = {
 
 type Props = {
   query: string
+  onSelect: (name: string) => void
+  highlightedIndex: number
 }
 
 // 목업 데이터 (검색어에 따라 필터링될 대상)
-const MOCK_RESULTS: SearchResult[] = [
+export const MOCK_RESULTS: SearchResult[] = [
   { type: '역', name: '판교역', desc: '신분당선' },
   { type: '동', name: '판교동', desc: '경기도 성남시 분당구 판교동' },
   { type: '면', name: '판교면', desc: '충청남도 서천군 판교면' },
@@ -19,7 +22,7 @@ const MOCK_RESULTS: SearchResult[] = [
   { type: '건물', name: '네이버', desc: '판교역로 1331번길 39' },
 ]
 
-const SearchDropdown = ({ query }: Props) => {
+const SearchDropdown = ({ query, onSelect, highlightedIndex }: Props) => {
   const filtered = MOCK_RESULTS.filter((item) => item.name.includes(query))
 
   if (!query || filtered.length === 0) return null
@@ -29,7 +32,11 @@ const SearchDropdown = ({ query }: Props) => {
       {filtered.map((item, idx) => (
         <li
           key={idx}
-          className="flex top-full items-center justify-between px-3 py-3 hover:bg-ssaeng-gray-3 hover:rounded-lg cursor-pointer"
+          onClick={() => onSelect(item.name)} // 클릭 시 키워드 설정
+          className={`
+            flex items-center justify-between px-3 py-3 cursor-pointer
+            ${highlightedIndex === idx ? 'bg-ssaeng-gray-3 rounded-lg' : 'hover:bg-ssaeng-gray-3 hover:rounded-lg'}
+          `}
         >
           {/* 왼쪽: 아이콘 + 이름 */}
           <div className="flex items-center">

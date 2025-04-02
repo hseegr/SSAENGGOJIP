@@ -6,7 +6,7 @@ interface QuestionBoxProps {
 
 const QuestionBox = ({ children }: QuestionBoxProps) => {
     return (
-        <div className="text-xl font-semibold text-[#242424] leading-relaxed">
+        <div className="mt-2 text-xl font-semibold text-[#242424] leading-relaxed">
             {children}
         </div>
     )

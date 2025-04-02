@@ -1,13 +1,63 @@
 import { Search } from 'lucide-react'
 import SearchDropdown from './SearchDropdown'
 import { useState } from 'react'
+import { MOCK_RESULTS } from './SearchDropdown'
 
 const CustomSearch = () => {
   const [query, setQuery] = useState('')
   const [selectedTime, setSelectedTime] = useState('1시간')
+
+  // 시간 드롭다운 제어
   const [showTimeDropdown, setShowTimeDropdown] = useState(false)
 
-  const timeOptions = ['5분', '10분', '15분', '20분', '25분', '30분', '1시간']
+  // 검색 드롭다운 제어
+  const [showSearchDropdown, setShowSearchDropdown] = useState(false)
+
+  // 드롭다운 내 키보드 선택 인덱스
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
+
+  const timeOptions = [
+    '5분',
+    '10분',
+    '15분',
+    '20분',
+    '25분',
+    '30분',
+    '45분',
+    '1시간',
+  ]
+
+  // 검색 결과 중 특정 항목 클릭 또는 엔터 선택 시 실행되는 함수
+  const handleSelect = (name: string) => {
+    setQuery(name) // 검색창에 선택된 텍스트 반영
+    setShowSearchDropdown(false) // 드롭다운 닫기
+  }
+
+  // 방향키 및 엔터 처리
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!showSearchDropdown) return
+
+    if (e.key === 'ArrowDown') {
+      // 아래 키 → 인덱스 +1
+      setHighlightedIndex((prev) => prev + 1)
+    } else if (e.key === 'ArrowUp') {
+      // 위 키 → 인덱스 -1
+      setHighlightedIndex((prev) => Math.max(prev - 1, 0))
+    } else if (e.key === 'Enter') {
+      // 엔터 키 → 현재 인덱스 항목 선택
+      e.preventDefault()
+      handleSelectFromIndex()
+    }
+  }
+
+  // 현재 인덱스 항목 이름을 검색창에 반영
+  const handleSelectFromIndex = () => {
+    const filtered = MOCK_RESULTS.filter((item) => item.name.includes(query))
+    if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
+      handleSelect(filtered[highlightedIndex].name)
+      setShowSearchDropdown(false)
+    }
+  }
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -17,15 +67,28 @@ const CustomSearch = () => {
           {/* 입력창 */}
           <input
             type="text"
-            placeholder="지역명, 지하철역, 건물명을 입력해 주세요."
+            placeholder="지역명, 지하철역을 입력해 주세요."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              setShowSearchDropdown(true) // 검색 드롭다운 열기
+              setShowTimeDropdown(false) // 시간 드롭다운 닫기
+              setHighlightedIndex(-1) // 인덱스 초기화
+            }}
+            onFocus={() => setShowSearchDropdown(true)} // 클릭 시에도 열기
+            onKeyDown={handleKeyDown} // 방향키 핸들링
             className="flex-1 text-ssaeng-purple focus:outline-none placeholder:text-ssaeng-gray-2 placeholder:text-sm"
           />
           {/* 시간 선택 */}
           <div className="relative">
             <button
-              onClick={() => setShowTimeDropdown((prev) => !prev)}
+              onClick={() => {
+                // 검색 드롭다운이 열려 있을 경우 시간 드롭다운 열지 않음
+                if (showSearchDropdown) return
+
+                // 검색 드롭다운이 닫혀있을 때만 시간 드롭다운 토글
+                setShowTimeDropdown((prev) => !prev)
+              }}
               className="mr-3 bg-ssaeng-purple/10 text-ssaeng-purple font-medium text-xs rounded-md px-2 py-1"
             >
               {selectedTime}
@@ -33,7 +96,7 @@ const CustomSearch = () => {
 
             {/* 시간 선택 드롭다운 */}
             {showTimeDropdown && (
-              <ul className="absolute right-0 top-full mt-4 w-16 bg-white border-2 border-ssaeng-gray-1 rounded-md z-10">
+              <ul className="absolute right-0 top-full mt-4 w-16 bg-white border-2 border-ssaeng-gray-1 rounded-md z-20">
                 {timeOptions.map((time) => (
                   <li
                     key={time}
@@ -60,7 +123,11 @@ const CustomSearch = () => {
           </button>
         </div>
         {/* 전체 검색 결과 드롭다운 */}
-        <SearchDropdown query={query} />
+        <SearchDropdown
+          query={query}
+          onSelect={handleSelect}
+          highlightedIndex={highlightedIndex}
+        />
       </div>
     </div>
   )
