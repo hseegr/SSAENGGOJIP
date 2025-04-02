@@ -52,11 +52,17 @@ const MapView = ({ onChatOpen }: Props) => {
 
     // 채팅방 마커 생성
     markerChatRooms.forEach((room) => {
+      const firstLocation = room.locationList?.[0]
+
+      if (!firstLocation) return
+
       const marker = new window.kakao.maps.Marker({
         map,
-        position: new window.kakao.maps.LatLng(room.latitude, room.longitude),
+        position: new window.kakao.maps.LatLng(
+          firstLocation.latitude,
+          firstLocation.longitude,
+        ),
       })
-
       // 마커 클릭 시 해당 채팅방 선택
       window.kakao.maps.event.addListener(marker, 'click', () => {
         setSelectedChatRoom(room)
@@ -77,10 +83,12 @@ const MapView = ({ onChatOpen }: Props) => {
           </div>
         </div>
       `
+      const firstLocation = selectedChatRoom.locationList?.[0]
+      if (!firstLocation) return
 
       const position = new window.kakao.maps.LatLng(
-        selectedChatRoom.latitude,
-        selectedChatRoom.longitude,
+        firstLocation.latitude,
+        firstLocation.longitude,
       )
 
       const overlay = new window.kakao.maps.CustomOverlay({

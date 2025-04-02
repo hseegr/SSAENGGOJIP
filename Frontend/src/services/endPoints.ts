@@ -7,6 +7,14 @@ export const USER_END_POINT = {
   SEND_EMAIL_CODE: '/users/emails/send',
   VERIFY_EMAIL_CODE: (code: string) => `/users/emails/verify?code=${code}`,
   DELETE_USER: '/users',
+  FACILITY_PREFERENCES: '/recommends/facility-preferences',
+}
+
+// 설문
+export const SURVEY_END_POINT = {
+  ADD_TARGET_ADDRESS: '/target-addresses', // POST
+  UPDATE_FACILITY_PREFERENCES: '/recommends/facility-preferences', // PATCH
+  GET_FACILITY_TYPES: '/facilities/types',
 }
 
 // 메인 페이지 -> mainService
@@ -21,7 +29,7 @@ export const MAIN_END_POINT = {
 // 커뮤니티(채팅) 페이지 -> communityService
 export const COMMUNITY_END_POINT = {
   // 내가 참여 중인 채팅방 목록 조회
-  MY_CHAT_ROOMS: '/users/chat-rooms',
+  MY_CHAT_ROOMS: '/chat-rooms/mine',
 
   // 인기 채팅방 목록 조회
   POPULAR_CHAT_ROOMS: '/chat-rooms/popular',
