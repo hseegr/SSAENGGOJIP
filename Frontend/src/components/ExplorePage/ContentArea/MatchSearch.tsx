@@ -116,8 +116,10 @@ const CustomInfo: React.FC = () => {
               <>
                 {/* 데이터가 있는 경우 상세 정보 표시 */}
                 <h3 className="text-lg font-bold mb-2">주소</h3>
-                <button
+                <div
                   className="z-[9999] text-red-500"
+                  role="button"
+                  aria-hidden="true" // 접근성 트리에서 제외
                   onClick={(e) => {
                     e.stopPropagation() // 부모 버튼의 클릭 이벤트 방지
                     const confirmed = window.confirm('정말 삭제하시겠습니까?')
@@ -128,7 +130,7 @@ const CustomInfo: React.FC = () => {
                   }}
                 >
                   X
-                </button>
+                </div>
                 <div className="flex items-center w-full h-24 justify-between bg-white p-4 rounded-lg shadow-md">
                   <div className="flex flex-col">
                     {/* 이름 */}
