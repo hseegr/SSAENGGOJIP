@@ -13,7 +13,7 @@ interface ModalProps {
 const Modal = ({ isOpen, onClose }: ModalProps) => {
   const {
     setPropertyTypes,
-    setTransactionTypes,
+    setDealType,
     setMinDepositPrice,
     setMaxDepositPrice,
     setMinMonthlyPrice,
@@ -25,10 +25,10 @@ const Modal = ({ isOpen, onClose }: ModalProps) => {
   const [transactionTypes, setLocalTransactionTypes] = useState<string>('')
 
   const [minDepositPrice, setLocalMinDepositPrice] = useState(0)
-  const [maxDepositPrice, setLocalMaxDepositPrice] = useState(10000)
+  const [maxDepositPrice, setLocalMaxDepositPrice] = useState(200000000)
 
   const [minMonthlyPrice, setLocalMinMonthlyPrice] = useState(0)
-  const [maxMonthlyPrice, setLocalMaxMonthlyPrice] = useState(10000)
+  const [maxMonthlyPrice, setLocalMaxMonthlyPrice] = useState(200000000)
 
   const [additionalFilters, setLocalAdditionalFilters] = useState<string[]>([])
 
@@ -40,13 +40,14 @@ const Modal = ({ isOpen, onClose }: ModalProps) => {
   const handleComplete = () => {
     // Zustand에 상태 저장
     setPropertyTypes(propertyTypes)
-    setTransactionTypes(transactionTypes)
+    setDealType(transactionTypes)
     setMinDepositPrice(minDepositPrice)
     setMaxDepositPrice(maxDepositPrice)
     setMinMonthlyPrice(minMonthlyPrice)
     setMaxMonthlyPrice(maxMonthlyPrice)
     setAdditionalFilters(additionalFilters)
-
+    // 페이지 초기화
+    setCurrentPage(1)
     // 모달 닫기
     onClose()
   }

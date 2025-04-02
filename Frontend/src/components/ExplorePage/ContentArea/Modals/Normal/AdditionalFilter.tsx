@@ -8,7 +8,7 @@ const AdditionalFilters: React.FC<{
   return (
     <div className="flex flex-col items-center">
       {/* 제목 */}
-      <h2 className="text-lg font-bold mb-6">추가 필터</h2>
+      <h2 className="text-lg font-bold mb-6">선호 시설</h2>
 
       {/* 필터 버튼 목록 */}
       <div className="grid grid-cols-3 gap-4">

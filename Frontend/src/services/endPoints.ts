@@ -44,5 +44,5 @@ export const COMMUNITY_END_POINT = {
 // 지도 페이지 mapService.ts
 export const MAP_END_POINT = {
   // 일반 검색
-  NORMAL_SEARCH: '/api/search',
+  NORMAL_SEARCH: '/properties/search',
 }

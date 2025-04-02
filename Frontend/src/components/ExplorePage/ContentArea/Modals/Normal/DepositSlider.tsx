@@ -30,7 +30,7 @@ const DepositSlider: React.FC<{
       <Slider
         range
         min={0}
-        max={2000000000}
+        max={200000000}
         value={[minDeposit, maxDeposit]} // value는 number[] 타입으로 전달
         onChange={(value) => handleSliderChange(value as number[])} // 타입 명시적으로 처리
         trackStyle={[{ backgroundColor: '#7171D7' }]}

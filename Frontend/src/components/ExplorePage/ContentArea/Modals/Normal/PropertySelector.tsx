@@ -11,24 +11,49 @@ const PropertyTransactionSelector: React.FC<{
   setPropertyTypes,
   setTransactionTypes,
 }) => {
+  const typeMap: Record<string, string> = {
+    원룸: 'ONEROOM',
+    빌라: 'OFFICETEL',
+    아파트: 'APARTMENT',
+  }
+
+  const transactionTypeMap: Record<string, string> = {
+    월세: 'MONTH',
+    전세: 'YEAR',
+    매매: 'SALE',
+  }
+
   const toggleSelection = (
     typeList: string[],
     setterFunction: (types: string[]) => void,
     value: string,
   ) => {
-    if (typeList.includes(value)) {
-      setterFunction(typeList.filter((item) => item !== value))
+    const mappedValue = typeMap[value]
+
+    if (!mappedValue) {
+      console.error(`Invalid value: ${value}`)
+      return
+    }
+
+    if (typeList.includes(mappedValue)) {
+      setterFunction(typeList.filter((item) => item !== mappedValue))
     } else {
-      setterFunction([...typeList, value])
+      setterFunction([...typeList, mappedValue])
     }
   }
 
   const handleTransactionTypeClick = (type: string) => {
-    // 동일한 거래 유형을 클릭하면 선택 취소
-    if (transactionTypes === type) {
+    const mappedType = transactionTypeMap[type]
+
+    if (!mappedType) {
+      console.error(`Invalid transaction type: ${type}`)
+      return
+    }
+
+    if (transactionTypes === mappedType) {
       setTransactionTypes('') // 선택 취소
     } else {
-      setTransactionTypes(type) // 선택
+      setTransactionTypes(mappedType) // 선택
     }
   }
 
@@ -38,11 +63,11 @@ const PropertyTransactionSelector: React.FC<{
       <div className="mb-6">
         <span className="text-lg font-medium mb-2 block">매물 유형</span>
         <div className="flex items-center justify-center gap-7">
-          {['아파트', '오피스텔', '빌라'].map((type) => (
+          {Object.keys(typeMap).map((type) => (
             <button
               key={type}
               className={`w-[110px] h-[40px] border rounded-md flex items-center justify-center ${
-                propertyTypes.includes(type)
+                propertyTypes.includes(typeMap[type]) // 변환된 값으로 상태 확인
                   ? 'bg-ssaeng-purple text-white'
                   : 'text-gray-700 border-gray-300'
               }`}
@@ -60,11 +85,11 @@ const PropertyTransactionSelector: React.FC<{
       <div className="mb-6">
         <span className="text-lg font-medium mb-2 block">거래 유형</span>
         <div className="flex items-center justify-center gap-7">
-          {['전세', '월세', '매매'].map((type) => (
+          {Object.keys(transactionTypeMap).map((type) => (
             <button
               key={type}
               className={`w-[110px] h-[40px] border rounded-md flex items-center justify-center ${
-                transactionTypes === type
+                transactionTypes === transactionTypeMap[type] // 변환된 값으로 상태 확인
                   ? 'bg-ssaeng-purple text-white'
                   : 'text-gray-700 border-gray-300'
               }`}

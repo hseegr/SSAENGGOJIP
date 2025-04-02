@@ -7,6 +7,7 @@ import FilterDropdown from './Modals/Normal/FilterDropdown'
 import useSidebarStore from '@/store/sidebar'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
 import { fetchSearchResults } from '@/services/mapService'
+import { buildSearchFilters } from '@/utils/filterUtils'
 
 const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
@@ -82,7 +83,7 @@ const NormalSearch: React.FC = () => {
   // 필터 스토어에서 데이터 가져오기
   const {
     propertyTypes,
-    transactionTypes,
+    dealType,
     MindepositPrice,
     MinmonthlyPrice,
     MaxdepositPrice,
@@ -107,16 +108,16 @@ const NormalSearch: React.FC = () => {
       if (searchQuery.trim() !== '') {
         // 빈 값이 아닐 때만 검색 실행
         try {
-          // 필터 데이터를 구성
-          const filters = {
-            propertyTypes: propertyTypes.join(','), // 배열을 문자열로 변환 (예: "아파트,빌라")
-            transactionTypes,
+          // 필터 구성 부분 수정
+          const filters = buildSearchFilters({
+            propertyTypes,
+            dealType,
             MindepositPrice,
-            MinmonthlyPrice,
             MaxdepositPrice,
+            MinmonthlyPrice,
             MaxmonthlyPrice,
-            additionalFilters: additionalFilters.join(','), // 배열을 문자열로 변환
-          }
+            additionalFilters,
+          })
           const searchResults = await fetchSearchResults(searchQuery, filters) // 검색 API 호출
           setFilteredData(searchResults) // 응답 데이터를 상태에 저장
         } catch (error) {
@@ -159,7 +160,7 @@ const NormalSearch: React.FC = () => {
             className="w-full focus:outline-none"
             value={searchQuery} // 검색어 상태 연결
             onChange={(e) => setSearchQuery(e.target.value)} // 입력값 변경 시 상태 업데이트
-            onKeyDown={void handleKeyPress} // 엔터 키 입력 시 검색 실행
+            onKeyDown={handleKeyPress} // 엔터 키 입력 시 검색 실행
           />
         </div>
         <button
