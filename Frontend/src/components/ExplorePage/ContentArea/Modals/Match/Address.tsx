@@ -41,7 +41,6 @@ const Address: React.FC<AddressProps> = ({
         })
       })
 
-      // 숫자 타입으로 변환하여 상태 업데이트
       setLatitude(Number(coords.getLat()))
       setLongitude(Number(coords.getLng()))
       setAddress(roadAddress)
@@ -115,7 +114,7 @@ const Address: React.FC<AddressProps> = ({
               >
                 ✕
               </button>
-              <DaumPostcode onComplete={void handleComplete} />
+              <DaumPostcode onComplete={handleComplete} />
             </div>
           </div>
         )}

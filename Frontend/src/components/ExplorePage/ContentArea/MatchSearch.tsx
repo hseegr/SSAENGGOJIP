@@ -116,6 +116,19 @@ const CustomInfo: React.FC = () => {
               <>
                 {/* 데이터가 있는 경우 상세 정보 표시 */}
                 <h3 className="text-lg font-bold mb-2">주소</h3>
+                <button
+                  className="z-[9999] text-red-500"
+                  onClick={(e) => {
+                    e.stopPropagation() // 부모 버튼의 클릭 이벤트 방지
+                    const confirmed = window.confirm('정말 삭제하시겠습니까?')
+                    if (confirmed) {
+                      console.log(`${info.id} 삭제됨`)
+                      // 여기에 삭제 로직 추가
+                    }
+                  }}
+                >
+                  X
+                </button>
                 <div className="flex items-center w-full h-24 justify-between bg-white p-4 rounded-lg shadow-md">
                   <div className="flex flex-col">
                     {/* 이름 */}

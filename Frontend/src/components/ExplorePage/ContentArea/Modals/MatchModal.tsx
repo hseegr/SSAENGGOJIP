@@ -16,7 +16,8 @@ const Modal = ({ isOpen, onClose, boxId }: ModalProps) => {
   const [transportMode, setTransportMode] = useState('')
   const [travelTime, setTravelTime] = useState(0)
   const [walkTime, setWalkTime] = useState(0)
-
+  const [latitude, setLatitude] = useState(0)
+  const [longtitude, setLongitude] = useState(0)
   const { updateMatchInfo } = useMatchInfoStore()
 
   if (!isOpen) return null
@@ -63,6 +64,8 @@ const Modal = ({ isOpen, onClose, boxId }: ModalProps) => {
             setAddress={setAddress}
             name={name}
             setName={setName}
+            setLatitude={setLatitude}
+            setLongitude={setLongitude}
           />
         )}
         {currentPage === 2 && (
