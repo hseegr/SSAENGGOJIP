@@ -1,4 +1,4 @@
-package com.ssaenggojip.property.entity.request;
+package com.ssaenggojip.property.dto.request;
 
 
 import lombok.Data;

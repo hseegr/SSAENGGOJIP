@@ -2,13 +2,10 @@ package com.ssaenggojip.property.controller;
 
 
 import com.ssaenggojip.apiPayload.ApiResponse;
-import com.ssaenggojip.property.entity.request.RecommendDetailRequest;
-import com.ssaenggojip.property.entity.request.RecommendSearchRequest;
-import com.ssaenggojip.property.entity.request.SearchRequest;
-import com.ssaenggojip.property.entity.request.TransportTimeRequest;
-import com.ssaenggojip.property.entity.response.DetailResponse;
-import com.ssaenggojip.property.entity.response.RecommendSearchResponse;
-import com.ssaenggojip.property.entity.response.SearchResponse;
+import com.ssaenggojip.property.dto.request.RecommendDetailRequest;
+import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
+import com.ssaenggojip.property.dto.request.SearchRequest;
+import com.ssaenggojip.property.dto.request.TransportTimeRequest;
 import com.ssaenggojip.property.service.PropertyFacade;
 import com.ssaenggojip.property.service.PropertyService;
 import lombok.RequiredArgsConstructor;

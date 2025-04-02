@@ -3,8 +3,7 @@ package com.ssaenggojip.station.service;
 import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
 import com.ssaenggojip.apiPayload.exception.GeneralException;
 import com.ssaenggojip.common.util.TransportTimeProvider;
-import com.ssaenggojip.property.entity.request.TransportTimeRequest;
-import com.ssaenggojip.property.entity.response.TransportTimeResponse;
+import com.ssaenggojip.property.dto.response.TransportTimeResponse;
 import com.ssaenggojip.station.entity.Station;
 import com.ssaenggojip.station.entity.StationRoute;
 import com.ssaenggojip.station.repository.NearStationRepository;
@@ -13,9 +12,7 @@ import com.ssaenggojip.station.repository.StationRouteReporitory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

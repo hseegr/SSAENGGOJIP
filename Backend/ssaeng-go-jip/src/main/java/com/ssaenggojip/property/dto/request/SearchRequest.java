@@ -1,4 +1,4 @@
-package com.ssaenggojip.property.entity.request;
+package com.ssaenggojip.property.dto.request;
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.FacilityType;
 import com.ssaenggojip.common.enums.PropertyType;

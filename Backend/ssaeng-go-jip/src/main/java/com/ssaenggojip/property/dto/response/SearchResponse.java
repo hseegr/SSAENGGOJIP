@@ -1,4 +1,4 @@
-package com.ssaenggojip.property.entity.response;
+package com.ssaenggojip.property.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

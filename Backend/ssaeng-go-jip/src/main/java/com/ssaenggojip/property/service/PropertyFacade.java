@@ -2,10 +2,10 @@ package com.ssaenggojip.property.service;
 
 import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
 import com.ssaenggojip.apiPayload.exception.GeneralException;
+import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.entity.Property;
-import com.ssaenggojip.property.entity.request.SearchRequest;
-import com.ssaenggojip.property.entity.request.TransportTimeRequest;
-import com.ssaenggojip.property.entity.response.*;
+import com.ssaenggojip.property.dto.request.SearchRequest;
+import com.ssaenggojip.property.dto.request.TransportTimeRequest;
 import com.ssaenggojip.station.entity.Station;
 import com.ssaenggojip.station.service.StationService;
 import lombok.RequiredArgsConstructor;

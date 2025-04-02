@@ -1,7 +1,7 @@
 package com.ssaenggojip.property.repository;
 
 import com.ssaenggojip.property.entity.Property;
-import com.ssaenggojip.property.entity.request.SearchRequest;
+import com.ssaenggojip.property.dto.request.SearchRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

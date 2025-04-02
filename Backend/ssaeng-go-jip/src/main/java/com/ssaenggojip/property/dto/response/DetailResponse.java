@@ -1,10 +1,9 @@
-package com.ssaenggojip.property.entity.response;
+package com.ssaenggojip.property.dto.response;
 
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.PropertyType;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 

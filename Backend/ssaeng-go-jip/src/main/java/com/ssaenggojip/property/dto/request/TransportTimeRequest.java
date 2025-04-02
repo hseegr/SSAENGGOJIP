@@ -1,4 +1,4 @@
-package com.ssaenggojip.property.entity.request;
+package com.ssaenggojip.property.dto.request;
 import com.ssaenggojip.common.enums.TransportationType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
