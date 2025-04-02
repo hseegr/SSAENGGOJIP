@@ -9,29 +9,56 @@ import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오�
 import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'
 
+interface Property {
+  // 공통 필드
+  id: number
+  price: number
+  propertyType: string
+  dealType: string
+  floor: number
+  totalFloor: number
+  area: number
+  imageUrl: string
+
+  // API 전용 필드 (옵셔널)
+  isRecommend?: boolean
+  rentPrice?: number
+  address?: string
+  latitude?: number
+  longitude?: number
+  isInterest?: boolean
+  maintenancePrice?: number
+
+  // 초기 데이터 전용 필드 (옵셔널)
+  title?: string
+  details?: string
+}
+
 const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('') // 검색어 상태 추가
   const { titles } = useSidebarStore()
-  const [initialData] = useState([
+  const initialData: Property[] = [
     {
       id: 4412314,
       title: '서울 아파트',
       price: 500000000,
-      managementFee: 200000,
+      maintenancePrice: 200000,
       details: '지하철역 근처, 편리한 교통',
-      imageUrl: '/images/apartment1.jpg',
+      // imageUrl: '/images/apartment1.jpg',
+      imageUrl: '',
       propertyType: '아파트',
       dealType: '매매',
       floor: 10,
       totalFloor: 20,
       area: 25.0,
+      isRecommend: true,
     },
     {
       id: 2,
       title: '부산 오피스텔',
       price: 300000000,
-      managementFee: 100000,
+      maintenancePrice: 100000,
       details: '바다 전망, 최신 시설',
       imageUrl: '/images/apartment2.jpg',
       propertyType: '오피스텔',
@@ -44,7 +71,7 @@ const NormalSearch: React.FC = () => {
       id: 3,
       title: '대구 빌라',
       price: 150000000,
-      managementFee: 50000,
+      maintenancePrice: 50000,
       details: '조용한 주택가, 넓은 공간',
       imageUrl: '/images/apartment3.jpg',
       propertyType: '빌라',
@@ -57,7 +84,7 @@ const NormalSearch: React.FC = () => {
       id: 4412312,
       title: '인천 원룸',
       price: 70000000,
-      managementFee: 30000,
+      maintenancePrice: 30000,
       details: '깔끔한 인테리어, 역세권',
       imageUrl: '/images/apartment4.jpg',
       propertyType: '원룸',
@@ -70,7 +97,7 @@ const NormalSearch: React.FC = () => {
       id: 4412313,
       title: '광주 주택',
       price: 250000000,
-      managementFee: 0,
+      maintenancePrice: 0,
       details: '넓은 마당과 정원 포함',
       imageUrl: '/images/apartment5.jpg',
       propertyType: '주택',
@@ -79,7 +106,7 @@ const NormalSearch: React.FC = () => {
       totalFloor: 1,
       area: 50.0,
     },
-  ])
+  ]
   // 필터 스토어에서 데이터 가져오기
   const {
     propertyTypes,
@@ -91,7 +118,7 @@ const NormalSearch: React.FC = () => {
     additionalFilters,
   } = useFilterStore()
   const { setSelectedCard } = useSidebarStore()
-  const [filteredData, setFilteredData] = useState(initialData)
+  const [filteredData, setFilteredData] = useState<Property[]>(initialData)
   // 정렬 변경 함수
   const handleSortChange = (sortType: string) => {
     const sortedData = [...filteredData].sort((a, b) => {
@@ -105,32 +132,32 @@ const NormalSearch: React.FC = () => {
   const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       // 엔터 키 감지
-      if (searchQuery.trim() !== '') {
-        // 빈 값이 아닐 때만 검색 실행
-        try {
-          // 필터 구성 부분 수정
-          const filters = buildSearchFilters({
-            propertyTypes,
-            dealType,
-            MindepositPrice,
-            MaxdepositPrice,
-            MinmonthlyPrice,
-            MaxmonthlyPrice,
-            additionalFilters,
-          })
-          const searchResults = await fetchNormalSearchResults(
-            searchQuery,
-            filters,
-          ) // 검색 API 호출
-          setFilteredData(searchResults) // 응답 데이터를 상태에 저장
-        } catch (error) {
-          console.error('검색 중 오류 발생:', error)
-          setFilteredData([]) // 오류 발생 시 빈 배열 설정
-        }
-      } else {
-        setFilteredData(initialData) // 검색어가 없으면 초기 데이터로 복원
+      // if (searchQuery.trim() !== '') {
+      // 빈 값이 아닐 때만 검색 실행
+      try {
+        // 필터 구성 부분 수정
+        const filters = buildSearchFilters({
+          propertyTypes,
+          dealType,
+          MindepositPrice,
+          MaxdepositPrice,
+          MinmonthlyPrice,
+          MaxmonthlyPrice,
+          additionalFilters,
+        })
+        const searchResults = await fetchNormalSearchResults(
+          searchQuery,
+          filters,
+        ) // 검색 API 호출
+        setFilteredData(searchResults) // 응답 데이터를 상태에 저장
+      } catch (error) {
+        console.error('검색 중 오류 발생:', error)
+        setFilteredData([]) // 오류 발생 시 빈 배열 설정
       }
+    } else {
+      setFilteredData(initialData) // 검색어가 없으면 초기 데이터로 복원
     }
+    // }
   }
 
   useEffect(() => {
@@ -196,8 +223,8 @@ const NormalSearch: React.FC = () => {
             floor={item.floor}
             area={item.area}
             price={item.price}
-            managementFee={item.managementFee}
-            details={item.details}
+            managementFee={item.maintenancePrice}
+            isRecommend={item.isRecommend}
             imageUrl={item.imageUrl}
           />
         ))}
