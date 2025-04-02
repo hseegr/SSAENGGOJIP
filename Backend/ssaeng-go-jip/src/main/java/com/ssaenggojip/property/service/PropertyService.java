@@ -3,6 +3,7 @@ package com.ssaenggojip.property.service;
 import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
 import com.ssaenggojip.apiPayload.exception.GeneralException;
 import com.ssaenggojip.common.util.TransportTimeProvider;
+import com.ssaenggojip.property.dto.response.CoordinateResponse;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.entity.PropertyImage;
 import com.ssaenggojip.property.dto.request.SearchRequest;
@@ -95,5 +96,9 @@ public class PropertyService {
 
     public Property getPropertyById(Long propertyId) {
         return propertyRepository.findById(propertyId).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_PROPERTY_INFO));
+    }
+
+    public List<CoordinateResponse> getCoordinates() {
+        return propertyRepository.findAllCoordinates();
     }
 }

@@ -1,5 +1,6 @@
 package com.ssaenggojip.property.repository;
 
+import com.ssaenggojip.property.dto.response.CoordinateResponse;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.dto.request.SearchRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,6 +40,31 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
                                             @Param("lat") Double lat,
                                             @Param("lng") Double lng,
                                             @Param("isStationSearch") Boolean isStationSearch);
+
+    @Query("""
+    SELECT new com.ssaenggojip.property.dto.response.CoordinateResponse(
+        p.id,
+        p.longitude,
+        p.latitude,
+        p.propertyType,
+        p.dealType,
+        p.price,
+        p.rentPrice,
+        p.maintenancePrice,
+        p.floor,
+        CAST(p.totalFloor AS integer),
+        p.exclusiveArea,
+        (
+            SELECT pi.imageUrl
+            FROM PropertyImage pi
+            WHERE pi.property.id = p.id
+            ORDER BY pi.createdAt ASC
+            LIMIT 1
+        )
+    )
+    FROM Property p
+""")
+    List<CoordinateResponse> findAllCoordinates();
 
 }
 

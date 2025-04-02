@@ -35,6 +35,11 @@ public class PropertyController {
         return ApiResponse.onSuccess(propertyFacade.getTransportTime(transportTimeRequest));
     }
 
+    @GetMapping("/coordinates")
+    public ApiResponse<?> getCoordinates() {
+        return ApiResponse.onSuccess(propertyService.getCoordinates());
+    }
+
     @PostMapping("/recommend-search")
     public ApiResponse<?> searchRecommend(RecommendSearchRequest recommendSearchRequest) {
         return null;
