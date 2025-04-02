@@ -6,7 +6,6 @@ import com.ssaenggojip.chat.dto.ChatRequestDto;
 import com.ssaenggojip.chat.service.ChatMessageService;
 import com.ssaenggojip.user.entity.User;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
