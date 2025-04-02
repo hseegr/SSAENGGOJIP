@@ -13,8 +13,8 @@ import java.util.List;
 public class DetailResponse {
     private Long id;
     private String name;
-    private PropertyType propertyType; // ONEROOM, etc.
-    private DealType dealType;     // MONTH, etc.
+    private PropertyType propertyType; // 원룸, etc.
+    private DealType dealType;     // 월세, etc.
     private Long price;       // 월세 or 전세/매매 금액
     private Long rentPrice;   // 월세 금액
     private Long maintenancePrice;

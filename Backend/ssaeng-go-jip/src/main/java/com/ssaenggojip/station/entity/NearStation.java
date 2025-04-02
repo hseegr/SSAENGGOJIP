@@ -9,24 +9,18 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-@Table(name = "station")
-public class Station {
+@Table(name = "near_station")
+public class NearStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Long communityId;
+    private Long propertyId;
 
     @Column(nullable = false)
-    private String name;
+    private Long stationId;
 
     @Column(nullable = false)
-    private Line line;
-
-    @Column(nullable = false)
-    private Double longitude;
-
-    @Column(nullable = false)
-    private Double latitude;
+    private Integer walk_time;
 }

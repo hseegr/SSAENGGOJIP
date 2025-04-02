@@ -2,6 +2,7 @@ package com.ssaenggojip.property.service;
 
 import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
 import com.ssaenggojip.apiPayload.exception.GeneralException;
+import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.entity.PropertyImage;
 import com.ssaenggojip.property.entity.request.SearchRequest;
@@ -11,6 +12,7 @@ import com.ssaenggojip.property.entity.response.SearchResponse;
 import com.ssaenggojip.property.entity.response.TransportTimeResponse;
 import com.ssaenggojip.property.repository.PropertyImageRepository;
 import com.ssaenggojip.property.repository.PropertyRepository;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +25,19 @@ public class PropertyService {
 
     private final PropertyRepository propertyRepository;
     private final PropertyImageRepository propertyImageRepository;
+    private final TransportTimeProvider transportTimeProvider;
 
 
     public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lat, Double lng) {
+        // lat, lng 기준 반경 1KM, 설정한 조건 기준으로 검색
         List<Property> properties = propertyRepository.searchFilteredProperties(
                 request, lat, lng, isStationSearch
         );
-
+        // dto로 변경
         List<SearchProperty> result = properties.stream()
                 .map(this::mapToDto)
                 .toList();
-
+        // 최종 dto로 변경
         return SearchResponse.builder()
                 .total(result.size())
                 .properties(result.toArray(new SearchProperty[0]))
@@ -59,7 +63,7 @@ public class PropertyService {
     }
 
     public Property getDetail(Long id) {
-        return propertyRepository.findById(id).orElse(null);
+        return propertyRepository.findById(id).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_PROPERTY_INFO));
     }
 
     public List<String> getDetailImage(Long id) {
@@ -73,23 +77,12 @@ public class PropertyService {
         Property property = propertyRepository.findById(request.getPropertyId()).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_PROPERTY_INFO));
 
 
-        //TODO: 도보시간 로직 미적용상태
-        final int EARTH_RADIUS_KM = 6371;
-
         Double lat1 = request.getLatitude();
         Double lng1 = request.getLongitude();
         Double lat2 = property.getLatitude();
         Double lng2 = property.getLongitude();
 
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lng2 - lng1);
-
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-        double distanceKm = EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        Integer ans =  (int) Math.ceil(distanceKm / (4.8/60.0));
+        Integer ans =  transportTimeProvider.getWalkMinutes(lat1, lng1, lat2, lng2);
 
         List<Integer> transportTimeList = new ArrayList<>();
         transportTimeList.add(ans);
@@ -99,5 +92,9 @@ public class PropertyService {
                 .transportTimeList(transportTimeList)
                 .transferCount(0)
                 .build();
+    }
+
+    public Property getPropertyById(Long propertyId) {
+        return propertyRepository.findById(propertyId).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_PROPERTY_INFO));
     }
 }

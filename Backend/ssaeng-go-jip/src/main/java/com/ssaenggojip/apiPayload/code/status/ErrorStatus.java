@@ -28,7 +28,11 @@ public enum ErrorStatus implements BaseErrorCode {
     INVALID_ACCESS_TOKEN(HttpStatus.BAD_REQUEST , "TOKEN4003", "유효하지 않은 Access Token입니다."),
 
     // 부동산 관련 에러
-    UNABLE_TO_GET_PROPERTY_INFO(HttpStatus.BAD_REQUEST, "PROPERTY4001", "존재하지 않는 부동산 입니다.");
+    UNABLE_TO_GET_PROPERTY_INFO(HttpStatus.BAD_REQUEST, "PROPERTY4001", "존재하지 않는 부동산 입니다."),
+    
+    // 역 관련 에러
+    UNABLE_TO_GET_STATION_INFO(HttpStatus.BAD_REQUEST, "STATION4001", "존재하지 않는 역 입니다."),
+    NO_STATION_NEAR_POINT(HttpStatus.NOT_FOUND, "STATION4004", "좌표 주변 2km 이내에 역이 없습니다");
 
 
     private final HttpStatus httpStatus;

@@ -4,16 +4,18 @@ import com.ssaenggojip.common.enums.FacilityType;
 import com.ssaenggojip.common.enums.PropertyType;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class SearchRequest {
-    String search;
-    List<PropertyType> propertyTypes;
+
+    String search = "";
+    List<PropertyType> propertyTypes = new ArrayList<>();
     DealType dealType;
-    Long minPrice;
-    Long maxPrice;
-    Long minRentPrice;
-    Long maxRentPrice;
-    List<FacilityType> facilityTypes;
+    Long minPrice = 0L;
+    Long maxPrice = Long.MAX_VALUE;
+    Long minRentPrice = 0L;
+    Long maxRentPrice = Long.MAX_VALUE;
+    List<FacilityType> facilityTypes = new ArrayList<>();
 }

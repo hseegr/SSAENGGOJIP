@@ -13,14 +13,14 @@ public interface StationRepository extends JpaRepository<Station, Long> {
     @Query(value = """
     SELECT *
     FROM station
-    WHERE
-      6371 * acos(
-        cos(radians(:lat)) * cos(radians(latitude)) *
-        cos(radians(longitude) - radians(:lng)) +
-        sin(radians(:lat)) * sin(radians(latitude))
-      ) <= 1
-""", nativeQuery = true)
+    WHERE ST_DWithin(
+        ST_Transform(geom, 3857),
+        ST_Transform(ST_SetSRID(ST_MakePoint(:lng, :lat), 4326), 3857),
+        1000
+    )
+    """, nativeQuery = true)
     List<Station> findStationsWithin1km(@Param("lng") Double lng, @Param("lat") Double lat);
+
 
 //    @Query(value = """
 //        SELECT
