@@ -100,16 +100,12 @@ const transformToListing = (property: Property): Listing => ({
 
 const RecommendedSection = () => {
   // 전역 로그인 상태 가져오기 (Zustand 등에서 관리 중)
+  const preference = usePreferenceRecommendations(8)
+  const location = useLocationRecommendations()
   const isLoggedIn = useUserStore((state) => state.isLoggedIn)
 
   // 로그인 여부에 따라 적절한 추천 쿼리 훅 호출
-  const {
-    data, // 추천 매물 리스트
-    isLoading, // 요청 중 여부
-    isError, // 요청 실패 여부
-  } = isLoggedIn
-    ? usePreferenceRecommendations(8) // 로그인: 선호도 기반 추천 요청
-    : useLocationRecommendations() // 비로그인: 위치 기반 추천 요청
+  const { data, isLoading, isError } = isLoggedIn ? preference : location
 
   // 에러 발생 시 토스트로 알림
   useEffect(() => {

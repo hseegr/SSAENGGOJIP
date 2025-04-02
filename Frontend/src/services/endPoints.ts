@@ -14,7 +14,7 @@ export const SURVEY_END_POINT = {
   ADD_TARGET_ADDRESS: '/target-addresses', // POST
   UPDATE_FACILITY_PREFERENCES: '/recommends/facility-preferences', // PATCH
   GET_FACILITY_TYPES: '/facilities/types',
-};
+}
 
 // 메인 페이지 -> mainService
 export const MAIN_END_POINT = {
@@ -38,10 +38,10 @@ export const COMMUNITY_END_POINT = {
     `/chat-rooms/search?keyword=${keyword}`,
 
   // 채팅방 입장 (chatRoomId는 해당 방의 ID)
-  JOIN_CHAT_ROOM: (chatRoomId: number) => `/chat-rooms/${chatRoomId}/join`,
+  JOIN_CHAT_ROOM: (chatRoomId: number) => `/chat-rooms/${chatRoomId}/enter`,
 
   // 채팅방 퇴장
-  LEAVE_CHAT_ROOM: '/chat-rooms/leave',
+  LEAVE_CHAT_ROOM: (chatRoomId: number) => `/chat-rooms/${chatRoomId}/leave`,
 
   // 채팅 메시지 삭제 (chatMessageId는 삭제할 메시지 ID)
   DELETE_CHAT_MESSAGE: (chatMessageId: number) =>
