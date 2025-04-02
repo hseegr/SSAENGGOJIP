@@ -4,6 +4,7 @@ import com.ssaenggojip.auth.JwtUtil;
 import com.ssaenggojip.user.entity.User;
 import com.ssaenggojip.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtHandshakeInterceptor implements HandshakeInterceptor {
@@ -24,7 +26,7 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                    WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-
+        log.info("🔥 HandshakeInterceptor 호출됨!");
         URI uri = request.getURI();
         String query = uri.getQuery();
 
