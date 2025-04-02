@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/store/userStore'
 import { logout as logoutApi } from '@/services/userService'
+import logo from '@/assets/images/logo.png'
 import { useChatSocket } from '@/hooks/useChatSocket'
 
 const Header = () => {
@@ -28,7 +29,7 @@ const Header = () => {
       <div className="flex items-center justify-between h-16 w-full px-10 mx-auto">
         {/* 로고 */}
         <Link to="/main" className="flex items-center">
-          <img src="/src/assets/images/logo.png" alt="logo" className="w-28" />
+          <img src={logo} alt="logo" className="w-28" />
         </Link>
 
         {/* 네비게이션 메뉴 */}
