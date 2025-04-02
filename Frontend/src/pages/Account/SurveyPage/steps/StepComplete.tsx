@@ -14,7 +14,7 @@ const StepComplete = () => {
         return {
             id: i,
             left,
-            delay: Math.random() * 2,
+            delay: Math.random() * 0.1,
             duration: 3 + Math.random() * 2,
             rotate: Math.random() * 30 - 15,
             size: 48 + Math.random() * 24,

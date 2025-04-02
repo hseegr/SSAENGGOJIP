@@ -7,6 +7,7 @@ export const USER_END_POINT = {
   SEND_EMAIL_CODE: '/users/emails/send',
   VERIFY_EMAIL_CODE: (code: string) => `/users/emails/verify?code=${code}`,
   DELETE_USER: '/users',
+  FACILITY_PREFERENCES: '/recommends/facility-preferences',
 }
 
 // 설문

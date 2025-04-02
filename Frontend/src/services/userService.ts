@@ -70,3 +70,19 @@ export const verifyEmailCode = async (code: string): Promise<boolean> => {
 export const deleteUser = async (): Promise<void> => {
     await http.delete(USER_END_POINT.DELETE_USER)
 }
+
+// 유저 선호도 조회
+export const getFacilityPreferences = async (): Promise<{
+    facilityTypeList: string[],
+    facilityPreferences: number[]
+}> => {
+    const res = await http.get(USER_END_POINT.FACILITY_PREFERENCES)
+    return res.data.result
+}
+
+// 유저 선호도 수정
+export const updateFacilityPreferences = async (data: {
+    facilityPreferences: number[]
+}) => {
+    await http.patch(USER_END_POINT.FACILITY_PREFERENCES, data)
+}

@@ -7,11 +7,16 @@ import TransportModeStep from './steps/Transport/TransportModeStep'
 import TravelTimeStep from './steps/Transport/TravelTimeStep'
 import StepFacilities from './steps/StepFacilities'
 import StepComplete from './steps/StepComplete'
+import SkipSurveyDialog from '@/components/SurveyPage/SkipSurveyDialog'
 import { useSurveyStore } from '@/store/surveyStore'
+import { useNavigate } from 'react-router-dom'
 
 const SurveyPage = () => {
     const { residentCount, currentPersonIndex, setCurrentPersonIndex } = useSurveyStore()
     const [step, setStep] = useState(0)
+
+    const [skipDialogOpen, setSkipDialogOpen] = useState(false)
+    const navigate = useNavigate()
 
     const handleNext = () => {
         // Step 5 (2-4: 이동 시간) 후 분기 처리
@@ -42,7 +47,12 @@ const SurveyPage = () => {
     }
 
     const handleSkip = () => {
-        window.location.href = '/main'
+        setSkipDialogOpen(true)
+    }
+
+    const handleConfirmSkip = () => {
+        setSkipDialogOpen(false)
+        navigate('/main')
     }
 
     return (
@@ -85,6 +95,12 @@ const SurveyPage = () => {
                 />
             )}
             {step === 7 && <StepComplete />}
+
+            <SkipSurveyDialog
+                open={skipDialogOpen}
+                onClose={() => setSkipDialogOpen(false)}
+                onConfirm={handleConfirmSkip}
+            />
         </div>
     )
 }
