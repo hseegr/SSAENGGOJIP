@@ -2,13 +2,10 @@ package com.ssaenggojip.property.dto.response;
 
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.PropertyType;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Builder
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class CoordinateResponse {
     private Long propertyId;
     private Double longitude;
@@ -27,7 +24,7 @@ public class CoordinateResponse {
     public CoordinateResponse(Long propertyId, Double longitude, Double latitude,
                               PropertyType propertyType, DealType dealType, Long price,
                               Long rentPrice, Long maintenancePrice, String floor,
-                              Integer totalFloor, Double area, String imageUrl) {
+                              String totalFloor, Double area, String imageUrl) {
         this.propertyId = propertyId;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -37,7 +34,7 @@ public class CoordinateResponse {
         this.rentPrice = rentPrice;
         this.maintenancePrice = maintenancePrice;
         this.floor = floor;
-        this.totalFloor = totalFloor;
+        this.totalFloor = Integer.valueOf(totalFloor);;
         this.area = area;
         this.imageUrl = imageUrl;
     }

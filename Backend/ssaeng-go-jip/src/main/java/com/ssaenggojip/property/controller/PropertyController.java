@@ -40,15 +40,15 @@ public class PropertyController {
         return ApiResponse.onSuccess(propertyService.getCoordinates());
     }
 
-    @PostMapping("/recommend-search")
-    public ApiResponse<?> searchRecommend(RecommendSearchRequest recommendSearchRequest) {
-        return null;
-    }
-
-    @PostMapping("/recommend-detail")
-    public ApiResponse<?> getRecommendDetail(RecommendDetailRequest recommendDetailRequest) {
-        return null;
-    }
+//    @PostMapping("/recommend-search")
+//    public ApiResponse<?> searchRecommend(RecommendSearchRequest recommendSearchRequest) {
+//        return null;
+//    }
+//
+//    @PostMapping("/recommend-detail")
+//    public ApiResponse<?> getRecommendDetail(RecommendDetailRequest recommendDetailRequest) {
+//        return null;
+//    }
 
 
 }

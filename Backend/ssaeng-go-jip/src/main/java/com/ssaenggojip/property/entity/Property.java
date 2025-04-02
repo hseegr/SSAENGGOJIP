@@ -34,10 +34,10 @@ public class Property {
 
     private Long maintenancePrice;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false)
     private Double exclusiveArea;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false)
     private Double supplyArea;
 
     @Column(nullable = false, length = 8)
@@ -46,10 +46,10 @@ public class Property {
     @Column(nullable = false, length = 8)
     private String totalFloor;
 
-    @Column(nullable = false, precision = 9, scale = 6)
+    @Column(nullable = false)
     private Double latitude;
 
-    @Column(nullable = false, precision = 9, scale = 6)
+    @Column(nullable = false)
     private Double longitude;
 
     @Column(nullable = false, length = 32)

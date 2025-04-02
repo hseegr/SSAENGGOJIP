@@ -22,7 +22,7 @@ public class Station {
     private String name;
 
     @Column(nullable = false)
-    private Line line;
+    private String lineName;
 
     @Column(nullable = false)
     private Double longitude;

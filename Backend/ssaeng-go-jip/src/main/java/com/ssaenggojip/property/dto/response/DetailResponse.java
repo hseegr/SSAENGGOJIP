@@ -2,6 +2,7 @@ package com.ssaenggojip.property.dto.response;
 
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.PropertyType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Builder
 @Data
+@AllArgsConstructor
 public class DetailResponse {
     private Long id;
     private String name;

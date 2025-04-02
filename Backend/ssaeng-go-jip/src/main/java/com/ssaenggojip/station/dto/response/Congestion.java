@@ -16,22 +16,18 @@ public class Congestion {
         this.sunday = toDoubleList(sundayDetail);
     }
 
-    private List<Double> toDoubleList(StationDetail detail) {
+    private List<Double> toDoubleList(StationDetail d) {
         return List.of(
-                get(detail.getTime0530()), get(detail.getTime0600()), get(detail.getTime0630()), get(detail.getTime0700()),
-                get(detail.getTime0730()), get(detail.getTime0800()), get(detail.getTime0830()), get(detail.getTime0900()),
-                get(detail.getTime0930()), get(detail.getTime1000()), get(detail.getTime1030()), get(detail.getTime1100()),
-                get(detail.getTime1130()), get(detail.getTime1200()), get(detail.getTime1230()), get(detail.getTime1300()),
-                get(detail.getTime1330()), get(detail.getTime1400()), get(detail.getTime1430()), get(detail.getTime1500()),
-                get(detail.getTime1530()), get(detail.getTime1600()), get(detail.getTime1630()), get(detail.getTime1700()),
-                get(detail.getTime1730()), get(detail.getTime1800()), get(detail.getTime1830()), get(detail.getTime1900()),
-                get(detail.getTime1930()), get(detail.getTime2000()), get(detail.getTime2030()), get(detail.getTime2100()),
-                get(detail.getTime2130()), get(detail.getTime2200()), get(detail.getTime2230()), get(detail.getTime2300()),
-                get(detail.getTime2330()), get(detail.getTime0000()), get(detail.getTime0030())
+                d.getTime0530(), d.getTime0600(), d.getTime0630(), d.getTime0700(),
+                d.getTime0730(), d.getTime0800(), d.getTime0830(), d.getTime0900(),
+                d.getTime0930(), d.getTime1000(), d.getTime1030(), d.getTime1100(),
+                d.getTime1130(), d.getTime1200(), d.getTime1230(), d.getTime1300(),
+                d.getTime1330(), d.getTime1400(), d.getTime1430(), d.getTime1500(),
+                d.getTime1530(), d.getTime1600(), d.getTime1630(), d.getTime1700(),
+                d.getTime1730(), d.getTime1800(), d.getTime1830(), d.getTime1900(),
+                d.getTime1930(), d.getTime2000(), d.getTime2030(), d.getTime2100(),
+                d.getTime2130(), d.getTime2200(), d.getTime2230(), d.getTime2300(),
+                d.getTime2330(), d.getTime0000(), d.getTime0030()
         );
-    }
-
-    private Double get(BigDecimal value) {
-        return value != null ? value.doubleValue() : 0.0;
     }
 }

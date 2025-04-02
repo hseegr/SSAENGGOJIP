@@ -1,6 +1,7 @@
 package com.ssaenggojip.property.dto.response;
 
 import com.ssaenggojip.common.enums.DealType;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class SearchProperty {
     Long id;
     Boolean isRecommend;

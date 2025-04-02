@@ -41,30 +41,8 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
                                             @Param("lng") Double lng,
                                             @Param("isStationSearch") Boolean isStationSearch);
 
-    @Query("""
-    SELECT new com.ssaenggojip.property.dto.response.CoordinateResponse(
-        p.id,
-        p.longitude,
-        p.latitude,
-        p.propertyType,
-        p.dealType,
-        p.price,
-        p.rentPrice,
-        p.maintenancePrice,
-        p.floor,
-        CAST(p.totalFloor AS integer),
-        p.exclusiveArea,
-        (
-            SELECT pi.imageUrl
-            FROM PropertyImage pi
-            WHERE pi.property.id = p.id
-            ORDER BY pi.createdAt ASC
-            LIMIT 1
-        )
-    )
-    FROM Property p
-""")
-    List<CoordinateResponse> findAllCoordinates();
+    @Query(value = "SELECT * FROM property LIMIT 5000", nativeQuery = true)
+    List<Property> findAllCoordinates();
 
 }
 

@@ -99,6 +99,21 @@ public class PropertyService {
     }
 
     public List<CoordinateResponse> getCoordinates() {
-        return propertyRepository.findAllCoordinates();
+        return propertyRepository.findAllCoordinates().stream()
+                .map(p -> new CoordinateResponse(
+                        p.getId(),
+                        p.getLongitude(),
+                        p.getLatitude(),
+                        p.getPropertyType(),
+                        p.getDealType(),
+                        p.getPrice(),
+                        p.getRentPrice(),
+                        p.getMaintenancePrice(),
+                        p.getFloor(),
+                        p.getTotalFloor(),
+                        p.getExclusiveArea(),
+                        ""
+                ))
+                .toList();
     }
 }

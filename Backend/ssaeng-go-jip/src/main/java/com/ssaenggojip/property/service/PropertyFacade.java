@@ -50,7 +50,7 @@ public class PropertyFacade {
                     DetailStation.builder()
                             .id(station.getId())
                             .name(station.getName())
-                            .line(station.getLine())
+                            .line(station.getLineName())
                             .build()
             );
         }
