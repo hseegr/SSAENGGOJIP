@@ -1,6 +1,8 @@
 package com.ssaenggojip.chat.service;
 
 import com.mongodb.client.result.UpdateResult;
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.chat.converter.ChatConverter;
 import com.ssaenggojip.chat.dto.ChatRoomResponseDto;
 import com.ssaenggojip.chat.entity.ChatRoom;
@@ -49,8 +51,12 @@ public class ChatRoomService {
 
     @Transactional
     public void enterChatRoom(User user, String chatRoomId) {
+        if (!mongoTemplate.exists(new Query(Criteria.where("_id").is(chatRoomId)), ChatRoom.class)) {
+            throw new GeneralException(ErrorStatus.NOT_FOUND_CHAT_ROOM_ID);
+        }
+
         if (userChatRoomRepository.findByUserAndChatRoomId(user, chatRoomId).isPresent()) {
-            return;
+            throw new GeneralException(ErrorStatus.ALREADY_ENTER_CHAT_ROOM);
         }
 
         Query query = new Query(
@@ -62,7 +68,7 @@ public class ChatRoomService {
         UpdateResult result = mongoTemplate.updateFirst(query, update, ChatRoom.class);
 
         if (result.getModifiedCount() == 0) {
-            throw new IllegalStateException("채팅방 인원이 가득 찼습니다.");
+            throw new GeneralException(ErrorStatus.MAX_CHAT_ROOM_USER);
         }
 
         userChatRoomRepository.save(UserChatRoom.builder()
@@ -73,8 +79,12 @@ public class ChatRoomService {
 
     @Transactional
     public void leaveChatRoom(User user, String chatRoomId) {
+        if (!mongoTemplate.exists(new Query(Criteria.where("_id").is(chatRoomId)), ChatRoom.class)) {
+            throw new GeneralException(ErrorStatus.NOT_FOUND_CHAT_ROOM_ID);
+        }
+
         if (userChatRoomRepository.findByUserAndChatRoomId(user, chatRoomId).isEmpty()) {
-            return;
+            throw new GeneralException(ErrorStatus.ALREADY_LEAVE_CHAT_ROOM);
         }
 
         userChatRoomRepository.deleteByUserAndChatRoomId(user, chatRoomId);
