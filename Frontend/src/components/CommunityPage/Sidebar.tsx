@@ -9,6 +9,9 @@ import {
   useSearchChatRoomsQuery,
 } from '@/hooks/useCommunity'
 import { useAllStationsQuery } from '@/hooks/useStation'
+import { useChatSocket } from '@/hooks/useChatSocket'
+import { fetchEnterChatRoom } from '@/services/communityService'
+const { connect, disconnect } = useChatSocket()
 
 type Props = {
   onChatOpen: () => void
@@ -58,6 +61,13 @@ const Sidebar = ({ onChatOpen }: Props) => {
   // Zustand 상태 저장 함수 불러오기
   const setMarkerChatRooms = useCommunityStore((s) => s.setMarkerChatRooms)
   const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom)
+  const setMyChatRooms = useCommunityStore((s) => s.setMyChatRooms)
+
+  useEffect(() => {
+    if (myData?.result) {
+      setMyChatRooms(myData.result)
+    }
+  }, [myData])
 
   // 탭이 변경될 때마다 해당 탭의 데이터를 새로 요청 (refetch)
   useEffect(() => {
@@ -74,12 +84,39 @@ const Sidebar = ({ onChatOpen }: Props) => {
   }, [chatRooms])
 
   // 채팅방 클릭 시 선택된 채팅방 상태 저장 + 탭이 'my'일 경우 모달 열기
-  const handleClickRoom = (room: ChatRoom) => {
-    setSelectedChatRoom(room) // 클릭한 채팅방을 선택 상태로 저장
-    // '내 채팅방' 탭일 때만 즉시 모달 열기
-    if (activeTab === 'my') {
-      onChatOpen()
+
+  // 채팅방 클릭 시 처리
+  const handleClickRoom = async (room: ChatRoom) => {
+    setSelectedChatRoom(room)
+    const token = localStorage.getItem('accessToken')!
+    const isAlreadyJoined = myChatRooms.some((r) => r.id === room.id)
+
+    try {
+      if (!isAlreadyJoined) {
+        // 처음 입장한 채팅방이면 API 호출
+        console.log('📤 입장 요청 시작', room.id)
+        await fetchEnterChatRoom(room.id)
+        console.log('✅ 입장 성공')
+      } else {
+        console.log('🟢 이미 참여한 채팅방 → API 생략')
+      }
+    } catch (err: any) {
+      const status = err?.response?.status
+      if (status !== 400 && status !== 409) {
+        console.error('❌ 입장 실패:', err)
+        alert('채팅방 입장에 실패했습니다.')
+        return
+      } else {
+        console.warn('⚠️ 이미 입장한 채팅방입니다. 연결만 진행')
+      }
     }
+
+    connect({
+      chatRoomId: room.id,
+      token,
+      onMessage: (msg) => console.log('📩 받은 메시지:', msg),
+    })
+    onChatOpen()
   }
 
   return (

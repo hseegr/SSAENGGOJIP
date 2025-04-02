@@ -1,7 +1,7 @@
 // vite.config.ts
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import svgr from 'vite-plugin-svgr';
+import svgr from 'vite-plugin-svgr'
 import path from 'path' // ← 이거 추가!
 
 const viteConfig = defineConfig({
@@ -20,11 +20,14 @@ const viteConfig = defineConfig({
       '@': path.resolve(__dirname, 'src'), // ✅ alias 설정 추가
     },
   },
+  define: {
+    global: {}, // ✅ sockJS 설정 추가
+  },
   plugins: [
     react({
       jsxRuntime: 'automatic',
     }),
-    svgr()
+    svgr(),
   ],
 })
 

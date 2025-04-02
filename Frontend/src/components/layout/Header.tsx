@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/store/userStore'
 import { logout as logoutApi } from '@/services/userService'
+import { useChatSocket } from '@/hooks/useChatSocket'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -9,11 +10,14 @@ const Header = () => {
   const isLoggedIn = useUserStore((state) => state.isLoggedIn)
   const logout = useUserStore((state) => state.logout)
 
+  const { disconnect } = useChatSocket() // ✅ WebSocket 연결 종료 함수 가져오기
+
   const handleLogout = async () => {
     try {
-      await logoutApi()             // 백엔드 로그아웃 API 호출
-      logout()                      // Zustand 상태 초기화
-      navigate('/account/login')    // 로그인 페이지로 이동
+      disconnect() // WebSocket 구독 및 연결 종료
+      await logoutApi() // 백엔드 로그아웃 API 호출
+      logout() // Zustand 상태 초기화
+      navigate('/account/login') // 로그인 페이지로 이동
     } catch (error) {
       console.error('로그아웃 실패:', error)
     }
@@ -30,18 +34,31 @@ const Header = () => {
         {/* 네비게이션 메뉴 */}
         <div className="flex flex-row items-center">
           <nav className="flex items-center space-x-10 text-sm text-[#242424] font-medium">
-            <Link to="/explore" className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10">
+            <Link
+              to="/explore"
+              className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10"
+            >
               매물탐색
             </Link>
-            <Link to="/community" className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10">
+            <Link
+              to="/community"
+              className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10"
+            >
               커뮤니티
             </Link>
             {isLoggedIn ? (
-              <Link to="/mypage" className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10">
+              <Link
+                to="/mypage"
+                className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10"
+              >
                 마이페이지
               </Link>
             ) : (
-              <Link to="/account/login" className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10" viewTransition>
+              <Link
+                to="/account/login"
+                className="px-3 py-1 rounded-md hover:bg-ssaeng-purple/10"
+                viewTransition
+              >
                 회원가입
               </Link>
             )}
