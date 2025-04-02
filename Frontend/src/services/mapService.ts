@@ -13,7 +13,10 @@ interface Filters {
 }
 
 // 검색 API 요청 함수
-export const fetchSearchResults = async (query: string, filters: Filters) => {
+export const fetchNormalSearchResults = async (
+  query: string,
+  filters: Filters,
+) => {
   try {
     const response = await http.get(MAP_END_POINT.NORMAL_SEARCH, {
       params: {

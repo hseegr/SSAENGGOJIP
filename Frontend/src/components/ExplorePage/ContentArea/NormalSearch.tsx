@@ -6,7 +6,7 @@ import Card from '../SearchCard'
 import FilterDropdown from './Modals/Normal/FilterDropdown'
 import useSidebarStore from '@/store/sidebar'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
-import { fetchSearchResults } from '@/services/mapService'
+import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'
 
 const NormalSearch: React.FC = () => {
@@ -118,7 +118,10 @@ const NormalSearch: React.FC = () => {
             MaxmonthlyPrice,
             additionalFilters,
           })
-          const searchResults = await fetchSearchResults(searchQuery, filters) // 검색 API 호출
+          const searchResults = await fetchNormalSearchResults(
+            searchQuery,
+            filters,
+          ) // 검색 API 호출
           setFilteredData(searchResults) // 응답 데이터를 상태에 저장
         } catch (error) {
           console.error('검색 중 오류 발생:', error)
