@@ -59,5 +59,8 @@ export const STATION_END_POINT = {
 export const MAP_END_POINT = {
   // 일반 검색
   NORMAL_SEARCH: '/properties/search',
+  // 매물 상세 정보
   GET_DETAIL: (propertyId: number) => `/properties/${propertyId}`,
+  // 전체 데이터 받기(지도에 보여주기용)
+  GET_ALL: '/properties/coordinates',
 }
