@@ -59,4 +59,5 @@ export const STATION_END_POINT = {
 export const MAP_END_POINT = {
   // 일반 검색
   NORMAL_SEARCH: '/properties/search',
+  GET_DETAIL: (propertyId: number) => `/properties/${propertyId}`,
 }

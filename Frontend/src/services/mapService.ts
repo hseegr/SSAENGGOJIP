@@ -25,7 +25,7 @@ export const fetchNormalSearchResults = async (
       }, // 검색어를 쿼리 파라미터로 전달
     })
     console.log(response.data)
-    return [] // 응답 데이터를 반환
+    return response.data // 응답 데이터를 반환
   } catch (error) {
     console.error('검색 API 요청 중 오류 발생:', error)
     throw error // 에러를 호출한 곳으로 전달
