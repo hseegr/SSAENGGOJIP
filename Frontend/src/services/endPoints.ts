@@ -9,6 +9,13 @@ export const USER_END_POINT = {
   DELETE_USER: '/users',
 }
 
+// 설문
+export const SURVEY_END_POINT = {
+  ADD_TARGET_ADDRESS: '/target-addresses', // POST
+  UPDATE_FACILITY_PREFERENCES: '/recommends/facility-preferences', // PATCH
+  GET_FACILITY_TYPES: '/facilities/types',
+};
+
 // 메인 페이지 -> mainService
 export const MAIN_END_POINT = {
   // 로그인 한 유저 선호도 기반 추천 매물

@@ -8,8 +8,8 @@ const StepComplete = () => {
     const floatingHearts = Array.from({ length: 10 }, (_, i) => {
         const isLeftSide = Math.random() < 0.5
         const left = isLeftSide
-            ? `${Math.random() * 20}%`          // 왼쪽 0~20%
-            : `${80 + Math.random() * 20}%`     // 오른쪽 80~100%
+            ? `${5 + Math.random() * 20}%`          // 왼쪽 0~30%
+            : `${75 + Math.random() * 20}%`     // 오른쪽 70~100%
 
         return {
             id: i,
