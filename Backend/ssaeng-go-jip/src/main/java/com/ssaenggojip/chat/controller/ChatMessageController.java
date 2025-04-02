@@ -28,10 +28,10 @@ public class ChatMessageController {
         chatMessageService.sendMessage(user, message);
     }
 
-    @GetMapping("/chat-rooms/{chatRoomId}")
+    @GetMapping("/chat-rooms/{chatRoomId}/chat-messages")
     public ApiResponse<List<ChatMessageResponseDto>> getChatMessages(
             @PathVariable String chatRoomId,
-            @RequestParam() String lastMessageId) {
+            @RequestParam(required = false) String lastMessageId) {
         return ApiResponse.onSuccess(chatMessageService.getMessages(chatRoomId, lastMessageId));
     }
 }
