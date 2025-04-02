@@ -25,19 +25,17 @@ public class PropertyController {
 
     @PostMapping("/search")
     public ApiResponse<?> searchProperty(@RequestBody SearchRequest searchRequest) {
-        SearchResponse response = propertyFacade.searchProperties(searchRequest);
-        return ApiResponse.onSuccess(response);
+        return ApiResponse.onSuccess(propertyFacade.searchProperties(searchRequest));
     }
 
     @GetMapping("/{propertyId}")
     public ApiResponse<?> getPropertyDetail(@PathVariable Long propertyId) {
-        DetailResponse detailResponse = propertyFacade.getDetail(propertyId);
-        return ApiResponse.onSuccess(detailResponse);
+        return ApiResponse.onSuccess(propertyFacade.getDetail(propertyId));
     }
 
     @PostMapping("/get-transport-time")
     public ApiResponse<?> getTransportTime(@RequestBody TransportTimeRequest transportTimeRequest) {
-        return null;
+        return ApiResponse.onSuccess(propertyFacade.getTransportTime(transportTimeRequest));
     }
 
     @PostMapping("/recommend-search")

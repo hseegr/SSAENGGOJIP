@@ -1,14 +1,11 @@
 package com.ssaenggojip.station.entity;
 
-import com.ssaenggojip.common.enums.DayType;
-import com.ssaenggojip.common.enums.UpDownType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.JdbcTypeCode;
 
-import java.util.List;
+import org.hibernate.type.SqlTypes;
 
 @Data
 @Builder
@@ -31,8 +28,9 @@ public class StationRoute {
     @Column(name = "destination_station_id", nullable = false)
     private Long destinationStationId;
 
-    @Type(type = "long-array")
-    @Column(name = "subway_route", columnDefinition = "bigint[]", nullable = false)
+    // ✅ PostgreSQL bigint[] 컬럼과 매핑
+    @Column(name = "subway_route", columnDefinition = "bigint[]")
+    @JdbcTypeCode(SqlTypes.ARRAY)
     private Long[] subwayRoute;
 
     @NotNull
@@ -50,5 +48,4 @@ public class StationRoute {
     @NotNull
     @Column(name = "transfer_count", nullable = false)
     private Integer transferCount;
-
 }

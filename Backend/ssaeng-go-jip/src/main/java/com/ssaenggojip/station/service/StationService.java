@@ -6,7 +6,10 @@ import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.entity.request.TransportTimeRequest;
 import com.ssaenggojip.property.entity.response.TransportTimeResponse;
 import com.ssaenggojip.station.entity.Station;
+import com.ssaenggojip.station.entity.StationRoute;
+import com.ssaenggojip.station.repository.NearStationRepository;
 import com.ssaenggojip.station.repository.StationRepository;
+import com.ssaenggojip.station.repository.StationRouteReporitory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +21,8 @@ import java.util.Optional;
 @Service
 public class StationService {
     private final StationRepository stationRepository;
-    private final Station
+    private final NearStationRepository nearStationRepository;
+    private final StationRouteReporitory stationRouteReporitory;
     private final TransportTimeProvider transportTimeProvider;
 
     public Station findByName(String search) {
@@ -39,15 +43,25 @@ public class StationService {
         if (stationsNearProperty.isEmpty() || stationsNearPoint.isEmpty())
             throw new GeneralException(ErrorStatus.NO_STATION_NEAR_POINT);
 
-        List<List<Long>> matches = new ArrayList<>();
-        List<List<Integer>> answers = new ArrayList<>();
+        Integer transferCount = -1;
+        List<Integer> answer = List.of(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
 
-        for (Station pointStation : stationsNearPoint)
+        for (Station pointStation : stationsNearPoint){
             for (Station propertyStation : stationsNearProperty) {
                 int pointToStationTime = transportTimeProvider.getWalkMinutes(pointLongitude, pointLatitude, pointStation.getLongitude(), pointStation.getLatitude());
-                int stationToStationTime = stations
-
+                StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
+                int stationToStationTime = stationRoute.getTransportTime();
+                int stationToPropertyTime = transportTimeProvider.getWalkMinutes(propertyLongitude, propertyLatitude,propertyStation.getLongitude(),propertyStation.getLatitude());
+                if(answer.stream().mapToInt(Integer::intValue).sum() > pointToStationTime + stationToStationTime + stationToPropertyTime) {
+                    answer = List.of(pointToStationTime, stationToStationTime, stationToPropertyTime);
+                    transferCount = stationRoute.getTransferCount();
+                }
             }
         }
+        return TransportTimeResponse.builder()
+                .transferCount(transferCount)
+                .transportTimeList(answer)
+                .totalTransportTime(answer.stream().mapToInt(Integer::intValue).sum())
+                .build();
     }
 }

@@ -1,4 +1,10 @@
 package com.ssaenggojip.station.repository;
 
-public interface StationRouteReporitory extends{
+import com.ssaenggojip.station.entity.StationRoute;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface StationRouteReporitory extends JpaRepository<StationRoute, Long> {
+    Optional<StationRoute> findByDepartureStationIdAndDestinationStationId(Long id, Long id1);
 }
