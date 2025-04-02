@@ -52,15 +52,18 @@ export const getUserInfo = async (): Promise<UserInfo> => {
     return response.data.result
 }
 
-// 이메일 인증 관련
+// 이메일 관련
+// 이메일 수정
 export const updateEmail = async (email: string): Promise<void> => {
     await http.patch(USER_END_POINT.UPDATE_EMAIL, { email });
 };
 
+// 인증 번호 전송
 export const sendEmailCode = async (email: string) => {
     return http.post(USER_END_POINT.SEND_EMAIL_CODE, { email })
 }
 
+// 인증 번호 인증
 export const verifyEmailCode = async (code: string): Promise<boolean> => {
     const response = await http.post(USER_END_POINT.VERIFY_EMAIL_CODE(code))
     return response.data.result === true
