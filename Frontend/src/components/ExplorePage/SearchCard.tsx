@@ -52,13 +52,15 @@ const Card: React.FC<CardProps> = ({
   const isSelected = selectedCard === id
 
   return (
-    <button
+    <div
       className={`flex overflow-hidden border cursor-pointer ${
         isSelected
           ? 'bg-ssaeng-gray-3 rounded-lg border-ssaeng-gray-2'
           : 'hover:bg-gray-50 hover:rounded-lg border-transparent'
       }`}
       onClick={handleClick}
+      role="button"
+      aria-hidden="true" // 접근성 트리에서 제외
     >
       {/* 이미지 영역 */}
       <div className="h-36 w-48 relative">
@@ -78,6 +80,7 @@ const Card: React.FC<CardProps> = ({
 
         {/* ❤️ 하트 버튼 영역 */}
         <button
+          type="button"
           onClick={(e) => {
             e.stopPropagation() // 부모 클릭 방지
             toggleLike() // 좋아요 상태 토글
@@ -112,7 +115,7 @@ const Card: React.FC<CardProps> = ({
           </p>
         </div>
       </div>
-    </button>
+    </div>
   )
 }
 

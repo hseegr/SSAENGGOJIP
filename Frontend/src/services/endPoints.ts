@@ -15,7 +15,7 @@ export const SURVEY_END_POINT = {
   ADD_TARGET_ADDRESS: '/target-addresses', // POST
   UPDATE_FACILITY_PREFERENCES: '/recommends/facility-preferences', // PATCH
   GET_FACILITY_TYPES: '/facilities/types',
-};
+}
 
 // 메인 페이지 -> mainService
 export const MAIN_END_POINT = {
@@ -49,6 +49,8 @@ export const COMMUNITY_END_POINT = {
     `/chat-messages/${chatMessageId}`,
 }
 
-export const STATION_END_POINT = {
-  ALL_STATION: '/stations',
+// 지도 페이지 mapService.ts
+export const MAP_END_POINT = {
+  // 일반 검색
+  NORMAL_SEARCH: '/properties/search',
 }
