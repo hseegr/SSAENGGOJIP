@@ -11,6 +11,8 @@ export const USER_END_POINT = {
 
 // 설문
 export const SURVEY_END_POINT = {
+  ADD_TARGET_ADDRESS: '/target-addresses', // POST
+  UPDATE_FACILITY_PREFERENCES: '/recommends/facility-preferences', // PATCH
   GET_FACILITY_TYPES: '/facilities/types',
 };
 

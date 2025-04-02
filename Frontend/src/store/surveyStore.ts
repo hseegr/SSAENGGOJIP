@@ -7,6 +7,8 @@ interface PersonSurveyData {
     transportMode: string
     travelTime: number
     walkTime: number
+    latitude: string
+    longitude: string
 }
 
 interface SurveyState {
@@ -31,6 +33,8 @@ const defaultPersonData: PersonSurveyData = {
     transportMode: '',
     travelTime: 0,
     walkTime: 0,
+    latitude: '',
+    longitude: '',
 }
 
 export const useSurveyStore = create<SurveyState>((set, get) => ({
