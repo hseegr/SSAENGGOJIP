@@ -49,6 +49,12 @@ export const COMMUNITY_END_POINT = {
     `/chat-messages/${chatMessageId}`,
 }
 
+// 커뮤니티 페이지
+export const STATION_END_POINT = {
+  // 전체 역 불러오기 함수
+  ALL_STATION: '/stations',
+}
+
 // 지도 페이지 mapService.ts
 export const MAP_END_POINT = {
   // 일반 검색
