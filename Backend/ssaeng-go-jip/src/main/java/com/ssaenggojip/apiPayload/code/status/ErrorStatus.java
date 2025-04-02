@@ -35,7 +35,6 @@ public enum ErrorStatus implements BaseErrorCode {
     NO_STATION_NEAR_POINT(HttpStatus.NOT_FOUND, "STATION4004", "좌표 주변 2km 이내에 역이 없습니다"),
     NO_STATION_TO_STATION_MAPPER(HttpStatus.NOT_FOUND, "STATION4004", "역 과 역을 이어주는 테이블이 없습니다.");
 
-
     private final HttpStatus httpStatus;
     private final String code;
     private final String message;

@@ -32,6 +32,18 @@ public class StationDetail {
     @Column(name = "line_number", nullable = false, length = 10)
     private String lineNumber;
 
+    @NotNull
+    @Column(name = "up_down")
+    private UpDownType upDown;
+
+    @NotNull
+    @Column(name = "day_type")
+    private DayType dayType;
+
+    @NotNull
+    @Column(name = "next_station_id", nullable = false)
+    private Long nextStationId;
+
     @Column(name = "time_0530", precision = 6, scale = 1)
     private BigDecimal time0530;
 
@@ -149,8 +161,5 @@ public class StationDetail {
     @Column(name = "time_0030", precision = 6, scale = 1)
     private BigDecimal time0030;
 
-    @NotNull
-    @Column(name = "next_station_id", nullable = false)
-    private Long nextStationId;
 
 }
