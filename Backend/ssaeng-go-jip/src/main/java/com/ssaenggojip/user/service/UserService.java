@@ -2,6 +2,9 @@ package com.ssaenggojip.user.service;
 
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.chat.entity.ChatRoom;
+import com.ssaenggojip.chat.entity.UserChatRoom;
+import com.ssaenggojip.chat.repository.UserChatRoomRepository;
 import com.ssaenggojip.common.service.MailService;
 import com.ssaenggojip.common.service.RedisService;
 import com.ssaenggojip.user.converter.UserConverter;
@@ -12,6 +15,10 @@ import com.ssaenggojip.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
@@ -33,6 +41,9 @@ public class UserService {
     private final MailService mailService;
     private final RedisService redisService;
     private final UserRepository userRepository;
+    private final UserChatRoomRepository userChatRoomRepository;
+
+    private final MongoTemplate mongoTemplate;
 
     @Transactional
     public UserResponseDto updateUser(User user, UserRequestDto userRequestDto) {
@@ -48,6 +59,16 @@ public class UserService {
 
     @Transactional
     public void deleteUser(User user) {
+        List<UserChatRoom> userChatRoomList = userChatRoomRepository.findByUser(user);
+
+        for (UserChatRoom userChatRoom : userChatRoomList) {
+            Query query = new Query(Criteria.where("_id").is(userChatRoom.getChatRoomId()));
+            Update update = new Update().inc("userCount", -1);
+
+            mongoTemplate.updateFirst(query, update, ChatRoom.class);
+        }
+
+        userChatRoomRepository.deleteAll(userChatRoomList);
         userRepository.delete(user);
     }
 
