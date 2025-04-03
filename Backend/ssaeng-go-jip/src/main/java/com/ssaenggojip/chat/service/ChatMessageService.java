@@ -82,8 +82,6 @@ public class ChatMessageService {
     }
 
     public List<ChatMessageResponseDto> getMessages(String chatRoomId, String lastMessageId) {
-        log.info("chatRoomId: {}, lastMessageId: {}", chatRoomId, lastMessageId);
-
         Query query = new Query(Criteria.where("chatRoomId").is(chatRoomId));
 
         if (lastMessageId != null && !lastMessageId.isBlank()) {

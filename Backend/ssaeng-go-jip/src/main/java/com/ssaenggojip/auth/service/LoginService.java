@@ -88,37 +88,34 @@ public class LoginService {
         return userTokens;
     }
 
-    public String reissueAccessToken(String refreshToken, String authHeader) {
-        //Bearer 제거
+    public UserTokens reissueAccessToken(String refreshToken, String authHeader) {
         String accessToken = authHeader.split(" ")[1];
-        log.info("parsed token={}", accessToken);
 
         boolean isAccessTokenValid = jwtUtil.validateAccessToken(accessToken);
         boolean isRefreshTokenValid = jwtUtil.validateRefreshToken(refreshToken);
 
+        String userId = null;
 
-        log.info("accessToken={}, refreshToken={}", accessToken, refreshToken);
-        log.info("isAccessTokenValid={}, isRefreshTokenValid={}", isAccessTokenValid, isRefreshTokenValid);
-
-        //Access Token이 유효한 경우 -> 재반환
-        if (isRefreshTokenValid && isAccessTokenValid) {
-            return accessToken;
+        if (isAccessTokenValid) {
+            userId = jwtUtil.getSubject(accessToken);
+        } else if (isRefreshTokenValid) {
+            userId = jwtUtil.getSubject(refreshToken);
         }
 
-        //Access Token이 유효하지 않은 경우 -> Refresh Token 검사 후 재발급
-        if (isRefreshTokenValid && !isAccessTokenValid) {
-            String userId = jwtUtil.getSubject(refreshToken);
-            String savedToken = (String) redisService.getValue(redisPrefix + "::refresh-token::" + userId);
-
-            if (savedToken == null || !savedToken.equals(refreshToken)) {
-                throw new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN);
-            }
-
-            return jwtUtil.reissueAccessToken(userId);
+        if (userId == null) {
+            throw new GeneralException(ErrorStatus.FAILED_TO_VALIDATE_TOKEN);
         }
 
-        throw new GeneralException(ErrorStatus.FAILED_TO_VALIDATE_TOKEN);
+        String savedToken = (String) redisService.getValue(redisPrefix + "::refresh-token::" + userId);
+        if (!isRefreshTokenValid || savedToken == null || !savedToken.equals(refreshToken)) {
+            throw new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN);
+        }
+
+        String reissuedAccessToken = isAccessTokenValid ? accessToken : jwtUtil.reissueAccessToken(userId);
+
+        return new UserTokens(false, userId, null, reissuedAccessToken);
     }
+
 
     public Long logout(User user) {
         redisService.deleteValue(redisPrefix + "::refresh-token::" + user.getId());
