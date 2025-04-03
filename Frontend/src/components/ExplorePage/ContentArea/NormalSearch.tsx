@@ -9,6 +9,8 @@ import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오�
 import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'
 
+import { useMemo } from 'react'
+
 interface Property {
   // 공통 필드
   id: number
@@ -38,75 +40,78 @@ const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('') // 검색어 상태 추가
   const { titles } = useSidebarStore()
-  const initialData: Property[] = [
-    {
-      id: 4412314,
-      title: '서울 아파트',
-      price: 500000000,
-      maintenancePrice: 200000,
-      details: '지하철역 근처, 편리한 교통',
-      // imageUrl: '/images/apartment1.jpg',
-      imageUrl: '',
-      propertyType: '아파트',
-      dealType: '매매',
-      floor: 10,
-      totalFloor: 20,
-      area: 25.0,
-      isRecommend: true,
-    },
-    {
-      id: 2,
-      title: '부산 오피스텔',
-      price: 300000000,
-      maintenancePrice: 100000,
-      details: '바다 전망, 최신 시설',
-      imageUrl: '/images/apartment2.jpg',
-      propertyType: '오피스텔',
-      dealType: '전세',
-      floor: 7,
-      totalFloor: 20,
-      area: 11.0,
-    },
-    {
-      id: 3,
-      title: '대구 빌라',
-      price: 150000000,
-      maintenancePrice: 50000,
-      details: '조용한 주택가, 넓은 공간',
-      imageUrl: '/images/apartment3.jpg',
-      propertyType: '빌라',
-      dealType: '월세',
-      floor: 2,
-      totalFloor: 5,
-      area: 18.0,
-    },
-    {
-      id: 4412312,
-      title: '인천 원룸',
-      price: 70000000,
-      maintenancePrice: 30000,
-      details: '깔끔한 인테리어, 역세권',
-      imageUrl: '/images/apartment4.jpg',
-      propertyType: '원룸',
-      dealType: '월세',
-      floor: 1,
-      totalFloor: 4,
-      area: 8.0,
-    },
-    {
-      id: 4412313,
-      title: '광주 주택',
-      price: 250000000,
-      maintenancePrice: 0,
-      details: '넓은 마당과 정원 포함',
-      imageUrl: '/images/apartment5.jpg',
-      propertyType: '주택',
-      dealType: '매매',
-      floor: 1,
-      totalFloor: 1,
-      area: 50.0,
-    },
-  ]
+  const initialData = useMemo(
+    () => [
+      {
+        id: 4412314,
+        title: '서울 아파트',
+        price: 500000000,
+        maintenancePrice: 200000,
+        details: '지하철역 근처, 편리한 교통',
+        // imageUrl: '/images/apartment1.jpg',
+        imageUrl: '',
+        propertyType: '아파트',
+        dealType: '매매',
+        floor: 10,
+        totalFloor: 20,
+        area: 25.0,
+        isRecommend: true,
+      },
+      {
+        id: 2,
+        title: '부산 오피스텔',
+        price: 300000000,
+        maintenancePrice: 100000,
+        details: '바다 전망, 최신 시설',
+        imageUrl: '/images/apartment2.jpg',
+        propertyType: '오피스텔',
+        dealType: '전세',
+        floor: 7,
+        totalFloor: 20,
+        area: 11.0,
+      },
+      {
+        id: 3,
+        title: '대구 빌라',
+        price: 150000000,
+        maintenancePrice: 50000,
+        details: '조용한 주택가, 넓은 공간',
+        imageUrl: '/images/apartment3.jpg',
+        propertyType: '빌라',
+        dealType: '월세',
+        floor: 2,
+        totalFloor: 5,
+        area: 18.0,
+      },
+      {
+        id: 4412312,
+        title: '인천 원룸',
+        price: 70000000,
+        maintenancePrice: 30000,
+        details: '깔끔한 인테리어, 역세권',
+        imageUrl: '/images/apartment4.jpg',
+        propertyType: '원룸',
+        dealType: '월세',
+        floor: 1,
+        totalFloor: 4,
+        area: 8.0,
+      },
+      {
+        id: 4412313,
+        title: '광주 주택',
+        price: 250000000,
+        maintenancePrice: 0,
+        details: '넓은 마당과 정원 포함',
+        imageUrl: '/images/apartment5.jpg',
+        propertyType: '주택',
+        dealType: '매매',
+        floor: 1,
+        totalFloor: 1,
+        area: 50.0,
+      },
+    ],
+    [],
+  )
   // 필터 스토어에서 데이터 가져오기
   const {
     propertyTypes,
@@ -161,22 +166,18 @@ const NormalSearch: React.FC = () => {
   }
 
   useEffect(() => {
-    if (titles && Array.isArray(titles)) {
-      // titles 배열의 문자열을 숫자로 변환하여 item.id와 비교
-      const NewfilteredData = initialData.filter((item) =>
-        titles.map(Number).includes(item.id),
-      )
-
-      if (NewfilteredData.length === 0) {
-        // setFilteredData(initialData)
-        setSelectedCard(null)
-      } else {
-        // 필터링된 데이터를 업데이트
-        setFilteredData(NewfilteredData)
-      }
-      setSelectedCard(null)
+    if (titles?.length) {
+      const numericTitles = titles.map(Number)
+      setFilteredData((prev) => {
+        const newData = initialData.filter((item) =>
+          numericTitles.includes(item.id),
+        )
+        return JSON.stringify(prev) === JSON.stringify(newData) ? prev : newData
+      })
+    } else {
+      setFilteredData(initialData)
     }
-  }, [titles, initialData, setSelectedCard])
+  }, [titles, initialData]) // ✅ 모든 의존성 명시
 
   return (
     <>

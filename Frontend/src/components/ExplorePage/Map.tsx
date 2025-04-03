@@ -10,23 +10,73 @@ declare global {
 }
 const KakaoMap = () => {
   // 스토어에서 타이틀 가져오기
-  const { setTitles, clearTitles } = useSidebarStore.getState()
-  const [jsonData, setJsonData] = useState<any[]>([]); // 서버에서 가져온 데이터를 저장할 상태
+  const { setTitles, clearTitles, setActiveTab } = useSidebarStore.getState()
+  const [jsonData, setJsonData] = useState<any[]>([
+    { title: 4412312, lat: 37.49302392, lng: 126.83817015 },
+    { title: 4412312, lat: 37.53521202, lng: 126.92564225 },
+    { title: 4412312, lat: 37.50975602, lng: 126.89876881 },
+    { title: 4412312, lat: 37.53426722, lng: 126.93010821 },
+    { title: 4412312, lat: 37.51571358, lng: 126.8254238 },
+    { title: 4412312, lat: 37.40241787, lng: 126.80274273 },
+    { title: 4412312, lat: 37.53643203, lng: 126.91468706 },
+    { title: 4412312, lat: 37.48102335, lng: 126.92712519 },
+    { title: 4412312, lat: 37.5539651, lng: 126.89009452 },
+    { title: 4412312, lat: 37.43654489, lng: 126.87559288 },
+    { title: 4412312, lat: 37.4347616, lng: 126.8816934 },
+    { title: 4412312, lat: 37.47034287, lng: 126.95054014 },
+    { title: 4412312, lat: 37.40798552, lng: 126.89649427 },
+    { title: 4412312, lat: 37.45816811, lng: 126.99180002 },
+    { title: 4412312, lat: 37.47493062, lng: 126.8656328 },
+    { title: 4412312, lat: 37.42377559, lng: 126.94918993 },
+    { title: 4412312, lat: 37.50015794, lng: 126.99661649 },
+    { title: 4412312, lat: 37.41755752, lng: 126.81974434 },
+    { title: 4412312, lat: 37.49600034, lng: 126.87888899 },
+    { title: 4412312, lat: 37.52445709, lng: 126.95593783 },
+    { title: 4412312, lat: 37.49082755, lng: 126.95246607 },
+    { title: 4412312, lat: 37.55574636, lng: 126.97957421 },
+    { title: 4412312, lat: 37.49053221, lng: 126.99235266 },
+    { title: 4412312, lat: 37.54351071, lng: 126.83461327 },
+    { title: 4412312, lat: 37.53738119, lng: 126.95050368 },
+    { title: 4412312, lat: 37.50328253, lng: 126.9021647 },
+    { title: 4412312, lat: 37.5352967, lng: 126.99780801 },
+    { title: 4412312, lat: 37.53417957, lng: 126.94380023 },
+    { title: 4412312, lat: 37.52947919, lng: 126.88050431 },
+    { title: 4412312, lat: 37.47775147, lng: 126.98728818 },
+    { title: 4412312, lat: 37.54722749, lng: 126.85220083 },
+    { title: 4412312, lat: 37.53792912, lng: 126.9849996 },
+    { title: 4412312, lat: 37.42858807, lng: 126.99342058 },
+    { title: 4412312, lat: 37.41912694, lng: 126.99273481 },
+    { title: 4412312, lat: 37.52276124, lng: 126.85163491 },
+    { title: 4412312, lat: 37.41243942, lng: 126.94775608 },
+    { title: 4412312, lat: 37.510985, lng: 126.88838387 },
+    { title: 4412312, lat: 37.48531172, lng: 126.94596609 },
+    { title: 4412312, lat: 37.48527868, lng: 126.80966614 },
+    { title: 4412312, lat: 37.45475807, lng: 126.89628068 },
+    { title: 4412312, lat: 37.46519146, lng: 126.95945525 },
+    { title: 4412312, lat: 37.52125841, lng: 126.94317621 },
+    { title: 4412312, lat: 37.53580561, lng: 126.97857746 },
+    { title: 4412312, lat: 37.4827119, lng: 126.97644904 },
+    { title: 4412312, lat: 37.46874306, lng: 126.81344638 },
+    { title: 4412312, lat: 37.48311009, lng: 126.80424352 },
+    { title: 4412312, lat: 37.53848797, lng: 126.98595545 },
+    { title: 4412312, lat: 37.55054494, lng: 126.83140463 },
+    { title: 4412312, lat: 37.50127578, lng: 126.80028708 },
+  ]) // 서버에서 가져온 데이터를 저장할 상태
 
   useEffect(() => {
     // 서버에서 매물 정보를 가져오는 함수
     const loadMapData = async () => {
       try {
-        const data = await fetchAllData(); // API 호출
-        setJsonData(data); // 가져온 데이터를 상태에 저장
+        const data = await fetchAllData() // API 호출
+        setJsonData(data) // 가져온 데이터를 상태에 저장
       } catch (error) {
-        console.error('매물 정보를 불러오는 중 오류 발생:', error);
+        console.error('매물 정보를 불러오는 중 오류 발생:', error)
       }
-    };
+    }
 
-    loadMapData(); // 컴포넌트가 마운트될 때 데이터 로드
-  }, []);
-  
+    loadMapData() // 컴포넌트가 마운트될 때 데이터 로드
+  }, [])
+
   const mapRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -44,7 +94,6 @@ const KakaoMap = () => {
 
       // 지도 생성
       const map = new window.kakao.maps.Map(mapRef.current, options)
-
       // 마커 클러스터러를 생성합니다
       const clusterer = new window.kakao.maps.MarkerClusterer({
         map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
@@ -91,59 +140,6 @@ const KakaoMap = () => {
         ],
       })
 
-      // JSON 데이터 (샘플 데이터)
-      // const jsonData = [
-      //   { title: 4412312, lat: 37.49302392, lng: 126.83817015 },
-      //   { title: 4412312, lat: 37.53521202, lng: 126.92564225 },
-      //   { title: 4412312, lat: 37.50975602, lng: 126.89876881 },
-      //   { title: 4412312, lat: 37.53426722, lng: 126.93010821 },
-      //   { title: 4412312, lat: 37.51571358, lng: 126.8254238 },
-      //   { title: 4412312, lat: 37.40241787, lng: 126.80274273 },
-      //   { title: 4412312, lat: 37.53643203, lng: 126.91468706 },
-      //   { title: 4412312, lat: 37.48102335, lng: 126.92712519 },
-      //   { title: 4412312, lat: 37.5539651, lng: 126.89009452 },
-      //   { title: 4412312, lat: 37.43654489, lng: 126.87559288 },
-      //   { title: 4412312, lat: 37.4347616, lng: 126.8816934 },
-      //   { title: 4412312, lat: 37.47034287, lng: 126.95054014 },
-      //   { title: 4412312, lat: 37.40798552, lng: 126.89649427 },
-      //   { title: 4412312, lat: 37.45816811, lng: 126.99180002 },
-      //   { title: 4412312, lat: 37.47493062, lng: 126.8656328 },
-      //   { title: 4412312, lat: 37.42377559, lng: 126.94918993 },
-      //   { title: 4412312, lat: 37.50015794, lng: 126.99661649 },
-      //   { title: 4412312, lat: 37.41755752, lng: 126.81974434 },
-      //   { title: 4412312, lat: 37.49600034, lng: 126.87888899 },
-      //   { title: 4412312, lat: 37.52445709, lng: 126.95593783 },
-      //   { title: 4412312, lat: 37.49082755, lng: 126.95246607 },
-      //   { title: 4412312, lat: 37.55574636, lng: 126.97957421 },
-      //   { title: 4412312, lat: 37.49053221, lng: 126.99235266 },
-      //   { title: 4412312, lat: 37.54351071, lng: 126.83461327 },
-      //   { title: 4412312, lat: 37.53738119, lng: 126.95050368 },
-      //   { title: 4412312, lat: 37.50328253, lng: 126.9021647 },
-      //   { title: 4412312, lat: 37.5352967, lng: 126.99780801 },
-      //   { title: 4412312, lat: 37.53417957, lng: 126.94380023 },
-      //   { title: 4412312, lat: 37.52947919, lng: 126.88050431 },
-      //   { title: 4412312, lat: 37.47775147, lng: 126.98728818 },
-      //   { title: 4412312, lat: 37.54722749, lng: 126.85220083 },
-      //   { title: 4412312, lat: 37.53792912, lng: 126.9849996 },
-      //   { title: 4412312, lat: 37.42858807, lng: 126.99342058 },
-      //   { title: 4412312, lat: 37.41912694, lng: 126.99273481 },
-      //   { title: 4412312, lat: 37.52276124, lng: 126.85163491 },
-      //   { title: 4412312, lat: 37.41243942, lng: 126.94775608 },
-      //   { title: 4412312, lat: 37.510985, lng: 126.88838387 },
-      //   { title: 4412312, lat: 37.48531172, lng: 126.94596609 },
-      //   { title: 4412312, lat: 37.48527868, lng: 126.80966614 },
-      //   { title: 4412312, lat: 37.45475807, lng: 126.89628068 },
-      //   { title: 4412312, lat: 37.46519146, lng: 126.95945525 },
-      //   { title: 4412312, lat: 37.52125841, lng: 126.94317621 },
-      //   { title: 4412312, lat: 37.53580561, lng: 126.97857746 },
-      //   { title: 4412312, lat: 37.4827119, lng: 126.97644904 },
-      //   { title: 4412312, lat: 37.46874306, lng: 126.81344638 },
-      //   { title: 4412312, lat: 37.48311009, lng: 126.80424352 },
-      //   { title: 4412312, lat: 37.53848797, lng: 126.98595545 },
-      //   { title: 4412312, lat: 37.55054494, lng: 126.83140463 },
-      //   { title: 4412312, lat: 37.50127578, lng: 126.80028708 },
-      // ]
-
       // 데이터를 기반으로 마커 생성 및 클러스터링에 추가
       const markers = jsonData.map((data) => {
         const marker = new kakao.maps.Marker({
@@ -163,7 +159,6 @@ const KakaoMap = () => {
           // 알림창 표시 (선택 사항)
           // alert(`Marker clicked at ${data.lat}, ${data.lng}`);
         })
-
         return marker
       })
 
@@ -185,17 +180,23 @@ const KakaoMap = () => {
           clearTitles()
           // 스토어에 title 값 저장
           setTitles(markerTitles) // 추출한 title 값을 Zustand 스토어에 저장
+
+          setActiveTab('normal_search')
           // includedMarkers.forEach(marker => {
           //     console.log(marker.getPosition()); // 각 마커의 위치 정보 출력
           // });
         },
       )
 
-      // 지도 드래그 종료 시 실행될 함수 등록
-      kakao.maps.event.addListener(map, 'dragend', function () {
-        // Zustand 스토어의 titles 초기화
+      // // 지도 드래그 종료 시 실행될 함수 등록
+      // kakao.maps.event.addListener(map, 'dragend', function () {
+      //   // Zustand 스토어의 titles 초기화
+      //   clearTitles()
+      // })
+
+      // 대신 지도 움직임 종료 시 상태 초기화
+      kakao.maps.event.addListener(map, 'idle', function () {
         clearTitles()
-        map.relayout()
       })
 
       // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
@@ -282,7 +283,7 @@ const KakaoMap = () => {
         window.removeEventListener('resize', handleResize)
       }
     }
-  }, [setTitles, clearTitles])
+  }, [setTitles, clearTitles, setActiveTab, jsonData])
 
   return (
     <div className="relative w-[95vw] h-screen m-0 p-0">
