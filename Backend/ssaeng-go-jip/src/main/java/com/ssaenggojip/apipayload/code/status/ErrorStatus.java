@@ -45,7 +45,9 @@ public enum ErrorStatus implements BaseErrorCode {
     ALREADY_LEAVE_CHAT_ROOM(HttpStatus.BAD_REQUEST , "CHATROOM4004", "참여한 적이 없거나 이미 퇴장한 채팅방입니다."),
 
     // 채팅 관련 에러
-    NOT_FOUND_MESSAGE_ID(HttpStatus.BAD_REQUEST , "CHATMESSAGE4001", "해당하는 채팅 메세지가 없습니다.");
+    NOT_FOUND_MESSAGE_ID(HttpStatus.BAD_REQUEST , "CHATMESSAGE4001", "해당하는 채팅 메세지가 없습니다."),
+
+    ALREADY_REPORTED(HttpStatus.BAD_REQUEST , "CHATMESSAGE4002", "해당 유저가 이미 신고한 메세지입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

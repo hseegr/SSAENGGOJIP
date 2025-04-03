@@ -7,12 +7,15 @@ import com.ssaenggojip.chat.dto.ChatMessageResponseDto;
 import com.ssaenggojip.chat.dto.ChatRequestDto;
 import com.ssaenggojip.chat.entity.ChatMessage;
 import com.ssaenggojip.chat.entity.ChatRoom;
+import com.ssaenggojip.chat.entity.UserReport;
 import com.ssaenggojip.chat.repository.ChatMessageRepository;
+import com.ssaenggojip.chat.repository.UserReportRepository;
 import com.ssaenggojip.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -29,6 +32,7 @@ import java.util.List;
 public class ChatMessageService {
 
     private final ChatMessageRepository chatMessageRepository;
+    private final UserReportRepository userReportRepository;
 
     private final MongoTemplate mongoTemplate;
     private final SimpMessagingTemplate messagingTemplate;
@@ -38,6 +42,7 @@ public class ChatMessageService {
         switch (message.getMessageType()) {
             case TALK -> handleTalk(user, message);
             case DELETE -> handleDelete(user, message);
+            case REPORT -> handleReport(user, message);
         }
     }
 
@@ -79,6 +84,36 @@ public class ChatMessageService {
         chatMessageRepository.save(chatMessage);
 
         messagingTemplate.convertAndSend("/sub/chat-room." + chatMessage.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
+    }
+
+    @Transactional
+    private void handleReport(User user, ChatRequestDto message) {
+        if (userReportRepository.findByUserAndChatMessageId(user, message.getMessageId()).isPresent()) {
+            throw new GeneralException(ErrorStatus.ALREADY_REPORTED);
+        }
+
+        userReportRepository.save(UserReport.builder()
+                        .user(user)
+                        .chatMessageId(message.getMessageId())
+                        .build());
+
+        Query query = new Query(Criteria.where("_id").is(message.getMessageId()));
+        Update update = new Update().inc("reportCount", 1);
+
+        ChatMessage chatMessage = mongoTemplate.findAndModify(
+                query,
+                update,
+                FindAndModifyOptions.options().returnNew(true),
+                ChatMessage.class
+        );
+
+        if (chatMessage.getReportCount() >= 3 && chatMessage.getIsActive()) {
+            chatMessage.setIsActive(false);
+            chatMessage.setContent("신고된 메시지입니다.");
+            chatMessageRepository.save(chatMessage);
+
+            messagingTemplate.convertAndSend("/sub/chat-room." + chatMessage.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
+        }
     }
 
     public List<ChatMessageResponseDto> getMessages(String chatRoomId, String lastMessageId) {
