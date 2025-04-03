@@ -4,14 +4,18 @@ import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.PropertyType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import org.locationtech.jts.geom.Point;
 
+@Entity
+@Table(name = "property")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Entity
-@Table(name = "property")
 public class Property {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,11 +24,13 @@ public class Property {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(nullable = false, name = "deal_type", columnDefinition = "deal_type_enum")
     private DealType dealType;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(nullable = false, name = "property_type", columnDefinition = "property_type_enum")
     private PropertyType propertyType;
 
     @Column(nullable = false)
@@ -64,4 +70,6 @@ public class Property {
     @Column(nullable = false, length = 256)
     private String address;
 
+    @Column(columnDefinition = "geometry(Point, 4326)")
+    private Point geom;
 }

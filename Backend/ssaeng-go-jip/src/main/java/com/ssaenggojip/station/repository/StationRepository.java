@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StationRepository extends JpaRepository<Station, Long> {
-    Optional<Station> findByName(String substring);
+    Optional<Station> findTopByNameOrderByIdAsc(String substring);
     @Query(value = """
     SELECT *
     FROM station

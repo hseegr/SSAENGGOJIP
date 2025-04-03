@@ -16,6 +16,7 @@ import com.ssaenggojip.property.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,15 +29,28 @@ public class PropertyService {
     private final TransportTimeProvider transportTimeProvider;
 
 
-    public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lat, Double lng) {
+    public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lng, Double lat) {
         // lat, lng 기준 반경 1KM, 설정한 조건 기준으로 검색
+
         List<Property> properties = propertyRepository.searchFilteredProperties(
-                request, lat, lng, isStationSearch
+                request.getDealType() != null ? request.getDealType().name() : null,
+                request.getPropertyTypes().stream().map(Enum::name).toList(),
+                request.getPropertyTypes().isEmpty(),
+                request.getMinPrice(),
+                request.getMaxPrice(),
+                request.getMinRentPrice(),
+                request.getMaxRentPrice(),
+                request.getSearch().isEmpty() ? null : request.getSearch(),
+                lng != null ? BigDecimal.valueOf(lng) : null,
+                lat != null ? BigDecimal.valueOf(lat) : null,
+                isStationSearch
         );
+
         // dto로 변경
         List<SearchProperty> result = properties.stream()
                 .map(this::mapToDto)
                 .toList();
+
         // 최종 dto로 변경
         return SearchResponse.builder()
                 .total(result.size())
@@ -52,7 +66,7 @@ public class PropertyService {
                 .rentPrice(p.getRentPrice())
                 .totalFloor(p.getTotalFloor())
                 .floor(p.getFloor())
-                .area(p.getSupplyArea())
+                .area(p.getExclusiveArea())
                 .address(p.getAddress())
                 .latitude(p.getLatitude())
                 .longitude(p.getLongitude())

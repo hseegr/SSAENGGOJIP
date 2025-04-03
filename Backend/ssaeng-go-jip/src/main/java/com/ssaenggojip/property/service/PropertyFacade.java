@@ -35,7 +35,7 @@ public class PropertyFacade {
             lng = station.getLongitude();
         }
 
-        return propertyService.searchWithFilter(request, isStationSearch, lat, lng);
+        return propertyService.searchWithFilter(request, isStationSearch, lng, lat);
     }
 
     public DetailResponse getDetail(Long id) {

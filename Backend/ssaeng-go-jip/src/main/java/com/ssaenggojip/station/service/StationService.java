@@ -32,8 +32,8 @@ public class StationService {
 
     public Station findByName(String search) {
         if (search.endsWith("역"))
-            return stationRepository.findByName(search.substring(0, search.length() - 1)).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
-        return stationRepository.findByName(search).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
+            return stationRepository.findTopByNameOrderByIdAsc(search.substring(0, search.length() - 1)).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
+        return stationRepository.findTopByNameOrderByIdAsc(search).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
     }
 
     public List<Station> findStationsWithin1km(Double longitude, Double latitude) {
