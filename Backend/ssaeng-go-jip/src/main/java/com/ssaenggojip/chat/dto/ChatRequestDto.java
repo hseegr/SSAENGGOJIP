@@ -12,10 +12,11 @@ import lombok.Setter;
 public class ChatRequestDto {
 
     public enum MessageType {
-        ENTER, LEAVE, TALK
+        TALK, DELETE
     }
 
     private MessageType messageType;
+    private String messageId;
     private String chatRoomId;
     private String content;
 }

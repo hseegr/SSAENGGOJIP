@@ -20,8 +20,8 @@ public class ChatMessage {
     private String chatRoomId;
     private String nickname;
     private String content;
+    private Integer reportCount;
+    private Boolean isActive;
     @CreatedDate
     private Date createdAt;
-    private Integer reportCount;
-    private Boolean isDeleted;
 }

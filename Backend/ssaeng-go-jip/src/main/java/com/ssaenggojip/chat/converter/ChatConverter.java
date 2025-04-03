@@ -30,8 +30,11 @@ public class ChatConverter {
     public static ChatMessageResponseDto toChatMessageResponseDto(ChatMessage chatMessage) {
         return ChatMessageResponseDto.builder()
                 .id(chatMessage.getId())
+                .userId(chatMessage.getUserId())
+                .chatRoomId(chatMessage.getChatRoomId())
                 .nickname(chatMessage.getNickname())
                 .content(chatMessage.getContent())
+                .isActive(chatMessage.getIsActive())
                 .createdAt(chatMessage.getCreatedAt().toInstant().atZone(ZoneId.of("Asia/Seoul")))
                 .build();
     }
