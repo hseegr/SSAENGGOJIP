@@ -10,8 +10,7 @@ import {
 } from '@/hooks/useCommunity'
 import { useAllStationsQuery } from '@/hooks/useStation'
 import { useChatSocket } from '@/hooks/useChatSocket'
-import { fetchEnterChatRoom } from '@/services/communityService'
-const { connect, disconnect } = useChatSocket()
+const { connect } = useChatSocket()
 
 type Props = {
   onChatOpen: () => void
