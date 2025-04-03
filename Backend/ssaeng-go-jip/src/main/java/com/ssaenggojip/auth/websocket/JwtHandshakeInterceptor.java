@@ -26,18 +26,15 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response,
                                    WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
-        log.info("🔥 HandshakeInterceptor 호출됨!");
         URI uri = request.getURI();
         String query = uri.getQuery();
 
         String accessToken = extractAccessTokenFromQuery(query);
         String refreshToken = extractRefreshTokenFromCookies(request.getHeaders().get("Cookie"));
 
-        log.info("accessToken = {}", accessToken);
-        log.info("refreshToken = {}", refreshToken);
+        log.info("JwtHandshakeInterceptor access token={}", accessToken);
 
         if (accessToken == null || refreshToken == null) {
-            log.info("🔥 토큰이 NULL임!");
             return false;
         }
 
@@ -53,7 +50,7 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
         }
 
         attributes.put("user", user);
-        return true; // 인증 실패 시 연결 거부
+        return true;
     }
 
     @Override
