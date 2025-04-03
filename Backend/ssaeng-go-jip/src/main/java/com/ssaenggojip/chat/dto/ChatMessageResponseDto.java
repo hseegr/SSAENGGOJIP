@@ -13,7 +13,10 @@ import java.time.ZonedDateTime;
 @AllArgsConstructor
 public class ChatMessageResponseDto {
     private String id;
+    private Long userId;
+    private String chatRoomId;
     private String nickname;
     private String content;
+    private Boolean isActive;
     private ZonedDateTime createdAt;
 }

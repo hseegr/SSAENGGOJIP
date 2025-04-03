@@ -1,12 +1,13 @@
 package com.ssaenggojip.chat.service;
 
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.chat.converter.ChatConverter;
 import com.ssaenggojip.chat.dto.ChatMessageResponseDto;
 import com.ssaenggojip.chat.dto.ChatRequestDto;
 import com.ssaenggojip.chat.entity.ChatMessage;
 import com.ssaenggojip.chat.entity.ChatRoom;
 import com.ssaenggojip.chat.repository.ChatMessageRepository;
-import com.ssaenggojip.chat.repository.UserChatRoomRepository;
 import com.ssaenggojip.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,6 @@ import java.util.List;
 public class ChatMessageService {
 
     private final ChatMessageRepository chatMessageRepository;
-    private final UserChatRoomRepository userChatRoomRepository;
 
     private final MongoTemplate mongoTemplate;
     private final SimpMessagingTemplate messagingTemplate;
@@ -37,18 +37,23 @@ public class ChatMessageService {
     public void sendMessage(User user, ChatRequestDto message) {
         switch (message.getMessageType()) {
             case TALK -> handleTalk(user, message);
+            case DELETE -> handleDelete(user, message);
         }
     }
 
     @Transactional
     private void handleTalk(User user, ChatRequestDto message) {
+        if (!mongoTemplate.exists(new Query(Criteria.where("_id").is(message.getChatRoomId())), ChatRoom.class)) {
+            throw new GeneralException(ErrorStatus.NOT_FOUND_CHAT_ROOM_ID);
+        }
+
         ChatMessage chatMessage = ChatMessage.builder()
                 .userId(user.getId())
                 .chatRoomId(message.getChatRoomId())
                 .nickname(user.getNickname())
                 .content(message.getContent())
                 .reportCount(0)
-                .isDeleted(false)
+                .isActive(true)
                 .build();
 
         chatMessageRepository.save(chatMessage);
@@ -57,7 +62,23 @@ public class ChatMessageService {
         Update update = new Update().set("lastMessage", message.getContent());
 
         mongoTemplate.updateFirst(query, update, ChatRoom.class);
-        messagingTemplate.convertAndSend("/sub/chatroom." + message.getChatRoomId(), message);
+        messagingTemplate.convertAndSend("/sub/chat-room." + message.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
+    }
+
+    @Transactional
+    private void handleDelete(User user, ChatRequestDto message) {
+        ChatMessage chatMessage = chatMessageRepository.findById(message.getMessageId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_FOUND_MESSAGE_ID));
+
+        if (!chatMessage.getUserId().equals(user.getId())) {
+            throw new GeneralException(ErrorStatus._UNAUTHORIZED); // 본인만 삭제 가능
+        }
+
+        chatMessage.setIsActive(false);
+        chatMessage.setContent("삭제된 메시지입니다.");
+        chatMessageRepository.save(chatMessage);
+
+        messagingTemplate.convertAndSend("/sub/chat-room." + chatMessage.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
     }
 
     public List<ChatMessageResponseDto> getMessages(String chatRoomId, String lastMessageId) {
