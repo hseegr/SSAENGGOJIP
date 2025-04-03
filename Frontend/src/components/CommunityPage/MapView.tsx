@@ -27,6 +27,8 @@ const MapView = ({ onChatOpen }: Props) => {
   const selectedChatRoom = useCommunityStore((s) => s.selectedChatRoom)
   const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom)
   const myChatRooms = useCommunityStore((s) => s.myChatRooms)
+  const shouldConnect = useCommunityStore((s) => s.shouldConnect)
+  const setShouldConnect = useCommunityStore((s) => s.setShouldConnect)
 
   // 초기 지도 생성 (1회만 실행)
   useEffect(() => {
@@ -127,6 +129,9 @@ const MapView = ({ onChatOpen }: Props) => {
             } else {
               console.log('🟢 이미 입장한 채팅방 → API 생략')
             }
+            // 여기서 WebSocket 연결은 하지 않고 플래그만 세운다
+            setShouldConnect(true)
+            onChatOpen()
           } catch (err: any) {
             const status = err?.response?.status
             if (status !== 400 && status !== 409) {
@@ -135,25 +140,32 @@ const MapView = ({ onChatOpen }: Props) => {
               return
             } else {
               console.warn('⚠️ 이미 입장한 채팅방입니다. 연결만 진행')
+              setShouldConnect(true)
+              onChatOpen()
             }
           }
-
-          connect({
-            chatRoomId: selectedChatRoom.id,
-            token,
-            onMessage: (msg) => {
-              console.log('📩 메시지 수신:', msg)
-            },
-          })
-
-          onChatOpen()
         })
       }
 
       // 지도 위치 이동
       map.setCenter(position)
     }
-  }, [map, markerChatRooms, selectedChatRoom])
+    // ✅ 참여 버튼을 눌렀을 때만 WebSocket 연결
+    if (shouldConnect && selectedChatRoom) {
+      const token = localStorage.getItem('accessToken')
+      if (!token) return
+
+      connect({
+        chatRoomId: selectedChatRoom.id,
+        token,
+        onMessage: (msg) => {
+          console.log('📩 메시지 수신:', msg)
+        },
+      })
+
+      setShouldConnect(false) // 연결 완료 후 초기화
+    }
+  }, [map, markerChatRooms, selectedChatRoom, shouldConnect])
 
   return (
     <div
