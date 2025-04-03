@@ -1,10 +1,10 @@
-package com.ssaenggojip.apiPayload;
+package com.ssaenggojip.apipayload;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.ssaenggojip.apiPayload.code.BaseCode;
-import com.ssaenggojip.apiPayload.code.status.SuccessStatus;
+import com.ssaenggojip.apipayload.code.BaseCode;
+import com.ssaenggojip.apipayload.code.status.SuccessStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

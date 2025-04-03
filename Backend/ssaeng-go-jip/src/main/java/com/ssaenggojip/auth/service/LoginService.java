@@ -1,11 +1,10 @@
 package com.ssaenggojip.auth.service;
 
-import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
-import com.ssaenggojip.apiPayload.exception.GeneralException;
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.auth.JwtUtil;
 import com.ssaenggojip.auth.entity.RefreshToken;
 import com.ssaenggojip.auth.entity.UserTokens;
-import com.ssaenggojip.auth.entity.response.AccessTokenResponse;
 import com.ssaenggojip.auth.infrastructure.*;
 import com.ssaenggojip.common.enums.SocialLoginType;
 import com.ssaenggojip.common.service.RedisService;
