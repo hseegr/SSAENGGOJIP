@@ -42,7 +42,7 @@ public class LoginController {
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        return ApiResponse.onSuccess(new AccessTokenResponse(tokens.getIsNew(), tokens.getAccessToken()));
+        return ApiResponse.onSuccess(new AccessTokenResponse(tokens.getIsNew(), tokens.getUserId(), tokens.getAccessToken()));
     }
 
     @PostMapping("/reissue")
@@ -51,8 +51,8 @@ public class LoginController {
             @CookieValue("refresh-token") String refreshToken,
             @RequestHeader("Authorization") String authHeader
     ) {
-        String reissuedToken = loginService.reissueAccessToken(refreshToken, authHeader);
-        return ApiResponse.onSuccess(new AccessTokenResponse(false, reissuedToken));
+        UserTokens reissuedToken = loginService.reissueAccessToken(refreshToken, authHeader);
+        return ApiResponse.onSuccess(new AccessTokenResponse(reissuedToken.getIsNew(), reissuedToken.getUserId(), reissuedToken.getAccessToken()));
     }
 
     @PostMapping(value = "/logout")

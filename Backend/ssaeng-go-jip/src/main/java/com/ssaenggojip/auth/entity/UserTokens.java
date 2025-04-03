@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class UserTokens {
     private final Boolean isNew;
+    private final String userId;
     private final String refreshToken;
     private final String accessToken;
 }
