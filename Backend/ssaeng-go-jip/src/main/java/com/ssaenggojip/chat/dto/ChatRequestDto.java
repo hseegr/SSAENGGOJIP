@@ -12,7 +12,7 @@ import lombok.Setter;
 public class ChatRequestDto {
 
     public enum MessageType {
-        TALK, DELETE
+        TALK, DELETE, REPORT
     }
 
     private MessageType messageType;
