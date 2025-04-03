@@ -122,7 +122,6 @@ const NormalSearch: React.FC = () => {
     MaxmonthlyPrice,
     additionalFilters,
   } = useFilterStore()
-  const { setSelectedCard } = useSidebarStore()
   const [filteredData, setFilteredData] = useState<Property[]>(initialData)
   // 정렬 변경 함수
   const handleSortChange = (sortType: string) => {

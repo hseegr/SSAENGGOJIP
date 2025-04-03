@@ -63,4 +63,6 @@ export const MAP_END_POINT = {
   GET_DETAIL: (propertyId: number) => `/properties/${propertyId}`,
   // 전체 데이터 받기(지도에 보여주기용)
   GET_ALL: '/properties/coordinates',
+  // 맞춤 검색
+  MATCH_SEARCH: '/properties/recommend-search',
 }
