@@ -1,8 +1,8 @@
 package com.ssaenggojip.auth.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
-import com.ssaenggojip.apiPayload.exception.GeneralException;
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.exception.GeneralException;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;

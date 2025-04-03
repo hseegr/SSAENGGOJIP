@@ -1,7 +1,7 @@
 package com.ssaenggojip.auth;
 
-import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
-import com.ssaenggojip.apiPayload.exception.GeneralException;
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.auth.annotation.AuthUser;
 import com.ssaenggojip.user.entity.User;
 import com.ssaenggojip.user.repository.UserRepository;

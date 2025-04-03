@@ -1,7 +1,7 @@
-package com.ssaenggojip.apiPayload.exception;
+package com.ssaenggojip.apipayload.exception;
 
-import com.ssaenggojip.apiPayload.code.BaseErrorCode;
-import com.ssaenggojip.apiPayload.code.ErrorReasonDto;
+import com.ssaenggojip.apipayload.code.BaseErrorCode;
+import com.ssaenggojip.apipayload.code.ErrorReasonDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

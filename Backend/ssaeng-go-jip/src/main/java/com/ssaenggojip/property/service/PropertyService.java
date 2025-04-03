@@ -1,7 +1,7 @@
 package com.ssaenggojip.property.service;
 
-import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
-import com.ssaenggojip.apiPayload.exception.GeneralException;
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.dto.response.CoordinateResponse;
 import com.ssaenggojip.property.entity.Property;

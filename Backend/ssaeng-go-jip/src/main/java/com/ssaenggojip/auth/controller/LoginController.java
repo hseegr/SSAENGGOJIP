@@ -1,6 +1,6 @@
 package com.ssaenggojip.auth.controller;
 
-import com.ssaenggojip.apiPayload.ApiResponse;
+import com.ssaenggojip.apipayload.ApiResponse;
 import com.ssaenggojip.auth.annotation.AuthUser;
 import com.ssaenggojip.auth.entity.UserTokens;
 import com.ssaenggojip.auth.entity.response.AccessTokenResponse;

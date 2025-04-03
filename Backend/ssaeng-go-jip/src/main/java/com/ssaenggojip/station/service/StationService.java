@@ -1,7 +1,7 @@
 package com.ssaenggojip.station.service;
 
-import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
-import com.ssaenggojip.apiPayload.exception.GeneralException;
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.enums.DayType;
 import com.ssaenggojip.common.enums.UpDownType;
 import com.ssaenggojip.common.util.TransportTimeProvider;

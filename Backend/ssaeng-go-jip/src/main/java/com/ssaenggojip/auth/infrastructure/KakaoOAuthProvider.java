@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.ssaenggojip.apiPayload.code.status.ErrorStatus;
-import com.ssaenggojip.apiPayload.exception.GeneralException;
+import com.ssaenggojip.apipayload.code.status.ErrorStatus;
+import com.ssaenggojip.apipayload.exception.GeneralException;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
