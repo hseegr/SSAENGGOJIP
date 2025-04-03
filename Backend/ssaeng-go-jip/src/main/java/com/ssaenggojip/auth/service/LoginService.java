@@ -35,6 +35,7 @@ public class LoginService {
     private final KakaoOAuthProvider kakaoOAuthProvider;
     private final NaverOAuthProvider naverOAuthProvider;
     private final GoogleOAuthProvider googleOAuthProvider;
+    private final SsafyOAuthProvider ssafyOAuthProvider;
 
     @Transactional
     public UserTokens login(String code, SocialLoginType socialLoginType) {
@@ -57,6 +58,11 @@ public class LoginService {
                 socialLoginId = userInfo.getSocialLoginId();
                 email = userInfo.getEmail();
             }
+            case SSAFY -> {
+                SsafyUserInfo userInfo = ssafyOAuthProvider.getUserInfo(code);
+                socialLoginId = userInfo.getSocialLoginId();
+                email = userInfo.getEmail();
+            }
             default -> throw new GeneralException(ErrorStatus.INVALID_SOCIAL_PROVIDER);
         }
 
@@ -64,7 +70,14 @@ public class LoginService {
             throw new GeneralException(ErrorStatus._BAD_REQUEST);
         }
 
-        Boolean isNew = userRepository.findBySocialLoginId(socialLoginId).isEmpty();
+        boolean isNew = userRepository.findBySocialLoginId(socialLoginId).isEmpty();
+
+        if (isNew) {
+            userRepository.findByEmail(email).ifPresent(user -> {
+                throw new GeneralException(ErrorStatus.ALREADY_JOIN, user.getSocialLoginType());
+            });
+        }
+
         User user = findOrCreateUser(email, socialLoginId, socialLoginType);
         log.info("user id: {}", user.getId());
 
@@ -75,37 +88,34 @@ public class LoginService {
         return userTokens;
     }
 
-    public String reissueAccessToken(String refreshToken, String authHeader) {
-        //Bearer 제거
+    public UserTokens reissueAccessToken(String refreshToken, String authHeader) {
         String accessToken = authHeader.split(" ")[1];
-        log.info("parsed token={}", accessToken);
 
         boolean isAccessTokenValid = jwtUtil.validateAccessToken(accessToken);
         boolean isRefreshTokenValid = jwtUtil.validateRefreshToken(refreshToken);
 
+        String userId = null;
 
-        log.info("accessToken={}, refreshToken={}", accessToken, refreshToken);
-        log.info("isAccessTokenValid={}, isRefreshTokenValid={}", isAccessTokenValid, isRefreshTokenValid);
-
-        //Access Token이 유효한 경우 -> 재반환
-        if (isRefreshTokenValid && isAccessTokenValid) {
-            return accessToken;
+        if (isAccessTokenValid) {
+            userId = jwtUtil.getSubject(accessToken);
+        } else if (isRefreshTokenValid) {
+            userId = jwtUtil.getSubject(refreshToken);
         }
 
-        //Access Token이 유효하지 않은 경우 -> Refresh Token 검사 후 재발급
-        if (isRefreshTokenValid && !isAccessTokenValid) {
-            String userId = jwtUtil.getSubject(refreshToken);
-            String savedToken = (String) redisService.getValue(redisPrefix + "::refresh-token::" + userId);
-
-            if (savedToken == null || !savedToken.equals(refreshToken)) {
-                throw new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN);
-            }
-
-            return jwtUtil.reissueAccessToken(userId);
+        if (userId == null) {
+            throw new GeneralException(ErrorStatus.FAILED_TO_VALIDATE_TOKEN);
         }
 
-        throw new GeneralException(ErrorStatus.FAILED_TO_VALIDATE_TOKEN);
+        String savedToken = (String) redisService.getValue(redisPrefix + "::refresh-token::" + userId);
+        if (!isRefreshTokenValid || savedToken == null || !savedToken.equals(refreshToken)) {
+            throw new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN);
+        }
+
+        String reissuedAccessToken = isAccessTokenValid ? accessToken : jwtUtil.reissueAccessToken(userId);
+
+        return new UserTokens(false, userId, null, reissuedAccessToken);
     }
+
 
     public Long logout(User user) {
         redisService.deleteValue(redisPrefix + "::refresh-token::" + user.getId());
