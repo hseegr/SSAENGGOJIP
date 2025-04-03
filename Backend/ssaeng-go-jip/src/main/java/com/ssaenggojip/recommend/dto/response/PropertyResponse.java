@@ -9,10 +9,10 @@ import lombok.Getter;
 public class PropertyResponse {
     private Long id;
     private String name;
-    private int price;
+    private Long price;
     private double area;
     private String address;
-    private int floor;
+    private String floor;
     private double latitude;
     private double longitude;
 
@@ -21,7 +21,7 @@ public class PropertyResponse {
                 .id(p.getId())
                 .name(p.getName())
                 .price(p.getPrice())
-                .area(p.getArea())
+                .area(p.getExclusiveArea())
                 .address(p.getAddress())
                 .floor(p.getFloor())
                 .latitude(p.getLatitude())

@@ -47,7 +47,18 @@ public enum ErrorStatus implements BaseErrorCode {
     // 채팅 관련 에러
     NOT_FOUND_MESSAGE_ID(HttpStatus.BAD_REQUEST , "CHATMESSAGE4001", "해당하는 채팅 메세지가 없습니다."),
 
-    ALREADY_REPORTED(HttpStatus.BAD_REQUEST , "CHATMESSAGE4002", "해당 유저가 이미 신고한 메세지입니다.");
+    ALREADY_REPORTED(HttpStatus.BAD_REQUEST , "CHATMESSAGE4002", "해당 유저가 이미 신고한 메세지입니다."),
+    // 부동산 관련 에러
+    UNABLE_TO_GET_PROPERTY_INFO(HttpStatus.BAD_REQUEST, "PROPERTY4001", "존재하지 않는 부동산 입니다."),
+
+    // 역 관련 에러
+    UNABLE_TO_GET_STATION_INFO(HttpStatus.BAD_REQUEST, "STATION4001", "존재하지 않는 역 입니다."),
+    NO_STATION_NEAR_POINT(HttpStatus.NOT_FOUND, "STATION4004", "좌표 주변 2km 이내에 역이 없습니다"),
+    NO_STATION_TO_STATION_MAPPER(HttpStatus.NOT_FOUND, "STATION4004", "역 과 역을 이어주는 테이블이 없습니다.");
+
+
+
+
 
     private final HttpStatus httpStatus;
     private final String code;
