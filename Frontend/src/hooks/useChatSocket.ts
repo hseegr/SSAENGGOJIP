@@ -113,5 +113,33 @@ export const useChatSocket = () => {
     }
   }
 
-  return { connect, unsubscribe, disconnect }
+  // ✅ 메시지 전송
+  const sendMessage = (payload: {
+    messageType: 'TALK' | 'DELETE' // 수정도 추가 예정
+    chatRoomId: string
+    messageId?: string | null
+    content?: string
+  }) => {
+    if (
+      !stompClient ||
+      !stompClient.connected ||
+      typeof stompClient.publish !== 'function'
+    ) {
+      console.warn('🚫 WebSocket이 연결되지 않았습니다.')
+      return
+    }
+
+    stompClient.publish({
+      destination: '/pub/chat-messages',
+      headers: {},
+      body: JSON.stringify({
+        messageType: payload.messageType,
+        chatRoomId: payload.chatRoomId,
+        messageId: payload.messageId ?? null,
+        content: payload.content ?? '',
+      }),
+    })
+  }
+
+  return { connect, unsubscribe, disconnect, sendMessage }
 }
