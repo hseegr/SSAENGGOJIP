@@ -38,6 +38,9 @@ const Sidebar = ({ onChatOpen }: Props) => {
   // 전체 역 받아오기
   const { data: stationData } = useAllStationsQuery()
 
+  // 현재 탭이 my인지 확인하는 상태 추가
+  const isMyTab = activeTab === 'my'
+
   // 전체 역에서 아직 생성되지 않은 채팅방 (검색어 + 기존 채팅방과 중복 x)
   const fallbackRooms = (stationData?.result ?? []).filter(
     (station) =>
@@ -87,36 +90,26 @@ const Sidebar = ({ onChatOpen }: Props) => {
 
   // 채팅방 클릭 시 처리
   const handleClickRoom = async (room: ChatRoom) => {
-    setSelectedChatRoom(room)
     const token = localStorage.getItem('accessToken')!
     const isAlreadyJoined = myChatRooms.some((r) => r.id === room.id)
 
-    try {
-      if (!isAlreadyJoined) {
-        // 처음 입장한 채팅방이면 API 호출
-        console.log('📤 입장 요청 시작', room.id)
-        await fetchEnterChatRoom(room.id)
-        console.log('✅ 입장 성공')
-      } else {
-        console.log('🟢 이미 참여한 채팅방 → API 생략')
-      }
-    } catch (err: any) {
-      const status = err?.response?.status
-      if (status !== 400 && status !== 409) {
-        console.error('❌ 입장 실패:', err)
-        alert('채팅방 입장에 실패했습니다.')
-        return
-      } else {
-        console.warn('⚠️ 이미 입장한 채팅방입니다. 연결만 진행')
-      }
-    }
+    // 선택한 채팅방을 상태에 저장 (오버레이 or 모달용)
+    setSelectedChatRoom(room)
 
-    connect({
-      chatRoomId: room.id,
-      token,
-      onMessage: (msg) => console.log('📩 받은 메시지:', msg),
-    })
-    onChatOpen()
+    if (isAlreadyJoined) {
+      console.log('🟢 이미 참여한 채팅방 → 바로 연결 + 모달 열기', room.id)
+
+      connect({
+        chatRoomId: room.id,
+        token,
+        onMessage: (msg) => console.log('📩 받은 메시지:', msg),
+      })
+
+      onChatOpen()
+    } else {
+      console.log('🟡 참여하지 않은 채팅방 → 오버레이만 표시', room.id)
+      // ❗ 참여하기 버튼 눌러야 입장/연결됨 (MapView.tsx에서 처리)
+    }
   }
 
   return (

@@ -69,7 +69,7 @@ export const useChatSocket = () => {
 
     // STOMP 구독 시작
     const subscription = stompClient.subscribe(
-      `/sub/chatroom.${chatRoomId}`,
+      `/sub/chat-room.${chatRoomId}`,
       (message) => {
         const payload = JSON.parse(message.body)
         console.log('💬 메시지 수신:', payload)
