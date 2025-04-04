@@ -3,6 +3,7 @@ package com.ssaenggojip.property.service;
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.util.TransportTimeProvider;
+import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
 import com.ssaenggojip.property.dto.response.CoordinateResponse;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.entity.PropertyImage;
@@ -83,7 +84,7 @@ public class PropertyService {
 
     public List<String> getDetailImage(Long id) {
         List<String> imageUrls = new ArrayList<>();
-        for(PropertyImage propertyImage: propertyImageRepository.findByProperty_Id(id))
+        for (PropertyImage propertyImage : propertyImageRepository.findByProperty_Id(id))
             imageUrls.add(propertyImage.getImageUrl());
         return imageUrls;
     }
@@ -97,7 +98,7 @@ public class PropertyService {
         Double lat2 = property.getLatitude();
         Double lng2 = property.getLongitude();
 
-        Integer ans =  transportTimeProvider.getWalkMinutes(lat1, lng1, lat2, lng2);
+        Integer ans = transportTimeProvider.getWalkMinutes(lat1, lng1, lat2, lng2);
 
         List<Integer> transportTimeList = new ArrayList<>();
         transportTimeList.add(ans);
@@ -113,8 +114,12 @@ public class PropertyService {
         return propertyRepository.findById(propertyId).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_PROPERTY_INFO));
     }
 
-    public List<CoordinateResponse> getCoordinates() {
-        return propertyRepository.findAllCoordinates().stream()
+    public List<CoordinateResponse> getCoordinates(CoordinateGetRequest coordinateGetRequest) {
+        Double minY = Math.min(coordinateGetRequest.getLeftDown().get(0), coordinateGetRequest.getRightUp().get(0));
+        Double maxY = Math.max(coordinateGetRequest.getLeftDown().get(0), coordinateGetRequest.getRightUp().get(0));
+        Double minX = Math.min(coordinateGetRequest.getLeftDown().get(1), coordinateGetRequest.getRightUp().get(1));
+        Double maxX = Math.max(coordinateGetRequest.getLeftDown().get(1), coordinateGetRequest.getRightUp().get(1));
+        return propertyRepository.findAllCoordinatesBySquareScope(minX, minY, maxX, maxY).stream()
                 .map(p -> new CoordinateResponse(
                         p.getId(),
                         p.getLongitude(),
@@ -127,8 +132,9 @@ public class PropertyService {
                         p.getFloor(),
                         p.getTotalFloor(),
                         p.getExclusiveArea(),
-                        ""
+                        p.getMainImage()
                 ))
                 .toList();
+
     }
 }
