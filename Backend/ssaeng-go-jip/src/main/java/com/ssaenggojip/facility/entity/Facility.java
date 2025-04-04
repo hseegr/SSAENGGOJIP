@@ -1,6 +1,5 @@
 package com.ssaenggojip.facility.entity;
 
-import com.ssaenggojip.facilitytype.entity.FacilityType;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -3,6 +3,7 @@ package com.ssaenggojip.property.service;
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.util.TransportTimeProvider;
+import com.ssaenggojip.property.converter.PropertyConverter;
 import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
 import com.ssaenggojip.property.dto.response.CoordinateResponse;
 import com.ssaenggojip.property.entity.Property;
@@ -49,32 +50,13 @@ public class PropertyService {
 
         // dto로 변경
         List<SearchProperty> result = properties.stream()
-                .map(this::mapToDto)
+                .map(property -> PropertyConverter.mapToDto(property, false, false))
                 .toList();
 
         // 최종 dto로 변경
         return SearchResponse.builder()
                 .total(result.size())
                 .properties(result.toArray(new SearchProperty[0]))
-                .build();
-    }
-
-    private SearchProperty mapToDto(Property p) {
-        return SearchProperty.builder()
-                .id(p.getId())
-                .dealType(p.getDealType())
-                .price(p.getPrice())
-                .rentPrice(p.getRentPrice())
-                .totalFloor(p.getTotalFloor())
-                .floor(p.getFloor())
-                .area(p.getExclusiveArea())
-                .address(p.getAddress())
-                .latitude(p.getLatitude())
-                .longitude(p.getLongitude())
-                .imageUrl(p.getMainImage())
-                .maintenancePrice(p.getMaintenancePrice())
-                .isInterest(false)     // TODO:관심 매물 여부: 추후 구현
-                .isRecommend(false)    // TODO:추천 여부: 추후 구현
                 .build();
     }
 

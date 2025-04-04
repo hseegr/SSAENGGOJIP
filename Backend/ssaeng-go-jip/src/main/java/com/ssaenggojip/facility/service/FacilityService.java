@@ -2,8 +2,8 @@ package com.ssaenggojip.facility.service;
 
 import com.ssaenggojip.facility.dto.FacilityTypeListResponse;
 import com.ssaenggojip.facility.repository.FacilityRepository;
-import com.ssaenggojip.facilitytype.entity.FacilityType;
-import com.ssaenggojip.facilitytype.repository.FacilityTypeRepository;
+import com.ssaenggojip.facility.entity.FacilityType;
+import com.ssaenggojip.facility.repository.FacilityTypeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
