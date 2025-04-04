@@ -1,6 +1,6 @@
 package com.ssaenggojip.facility.dto;
 
-import com.ssaenggojip.facilitytype.entity.FacilityType;
+import com.ssaenggojip.facility.entity.FacilityType;
 import lombok.Builder;
 import lombok.Getter;
 
