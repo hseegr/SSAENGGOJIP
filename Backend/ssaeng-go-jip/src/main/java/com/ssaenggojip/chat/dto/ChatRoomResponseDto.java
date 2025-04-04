@@ -15,17 +15,9 @@ import java.util.List;
 public class ChatRoomResponseDto {
     private String id;
     private String name;
+    private List<String> line;
     private Integer userCount;
     private String lastMessage;
-    private List<LocationResponseDto> locationList;
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class LocationResponseDto {
-        private String line;
-        private BigDecimal latitude;
-        private BigDecimal longitude;
-    }
+    private BigDecimal latitude;
+    private BigDecimal longitude;
 }

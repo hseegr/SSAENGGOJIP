@@ -17,17 +17,9 @@ public class ChatRoom {
     @Id
     private String id;
     private String name;
+    private List<String> line;
     private Integer userCount;
     private String lastMessage;
-    private List<Location> locationList;
-
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Location {
-        private String line;
-        private BigDecimal latitude;
-        private BigDecimal longitude;
-    }
+    private BigDecimal latitude;
+    private BigDecimal longitude;
 }
