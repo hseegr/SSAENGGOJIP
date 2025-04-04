@@ -13,7 +13,6 @@ import org.hibernate.annotations.Type;
 import java.util.List;
 
 @Entity
-@Table(name = "property")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
