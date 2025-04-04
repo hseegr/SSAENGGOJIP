@@ -20,6 +20,7 @@ export const useUserStore = create<UserState>((set) => ({
   setIsLoggedIn: (value) => set({ isLoggedIn: value }),
   logout: () => {
     localStorage.removeItem('accessToken')
+    localStorage.removeItem('userId')
     set({ accessToken: null, isLoggedIn: false })
   },
 }))

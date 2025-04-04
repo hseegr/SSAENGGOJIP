@@ -22,9 +22,10 @@ const RedirectHandlerPage = () => {
             try {
                 if (!code || !socialType) return
 
-                const { accessToken, isNew } = await fetchSocialLogin(socialType, code)
+                const { accessToken, userId, isNew } = await fetchSocialLogin(socialType, code)
                 setAccessToken(accessToken)
                 setIsLoggedIn(true)
+                localStorage.setItem('userId', userId)
 
                 // 신규 유저일 경우 초기 선호도 0으로 설정
                 if (isNew) {
