@@ -2,11 +2,15 @@ package com.ssaenggojip.property.entity;
 
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.PropertyType;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.locationtech.jts.geom.Point;
+import org.hibernate.annotations.Type;
+
+import java.util.List;
 
 @Entity
 @Table(name = "property")
@@ -14,8 +18,8 @@ import org.locationtech.jts.geom.Point;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@ToString
 public class Property {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -72,4 +76,10 @@ public class Property {
 
     @Column(columnDefinition = "geometry(Point, 4326)")
     private Point geom;
+
+    @Setter
+    @Type(value = JsonType.class)
+    @Column(name = "facility_nearness", columnDefinition = "vector(8)")
+    private List<Double> facilityNearness;
+
 }
