@@ -2,7 +2,7 @@ import { useState } from 'react'
 import SideMenu from '@/components/MyPage/SideMenu'
 import MyInfoTab from '@/components/MyPage/MyInfoTab'
 import PreferencesTab from '@/components/MyPage/PreferencesTab'
-// import FavoriteListingsTab from '@/components/MyPage/FavoriteListingsTab'
+import FavoriteListingsTab from '@/components/MyPage/FavoriteListingsTab'
 
 const MyPage = () => {
     const [activeTab, setActiveTab] = useState<'info' | 'preferences' | 'favorites'>('info')
@@ -13,8 +13,8 @@ const MyPage = () => {
                 return <MyInfoTab />
             case 'preferences':
                 return <PreferencesTab />
-            // case 'favorites':
-            //     return <FavoriteListingsTab />
+            case 'favorites':
+                return <FavoriteListingsTab />
             default:
                 return null
         }
