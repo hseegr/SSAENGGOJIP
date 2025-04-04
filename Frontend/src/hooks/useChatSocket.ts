@@ -64,8 +64,10 @@ export const useChatSocket = () => {
 
     // 이미 구독한 채팅방이라면 중복 구독 방지
     if (subscriptions.has(chatRoomId)) {
-      console.log(`ℹ️ 이미 구독 중인 채팅방: ${chatRoomId}`)
-      return
+      console.log(
+        `ℹ️ 이미 구독 중인 채팅방 ${chatRoomId} - 기존 구독 해제 후 재구독`,
+      )
+      unsubscribe(chatRoomId)
     }
 
     // STOMP 구독 시작
