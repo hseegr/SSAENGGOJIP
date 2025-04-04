@@ -118,8 +118,8 @@ export const useChatSocket = () => {
   const sendMessage = (payload: {
     messageType: 'TALK' | 'DELETE' // 수정도 추가 예정
     chatRoomId: string
-    messageId?: string | null
     content?: string
+    isAnonymous: boolean
   }) => {
     if (
       !stompClient ||
@@ -136,7 +136,7 @@ export const useChatSocket = () => {
       body: JSON.stringify({
         messageType: payload.messageType,
         chatRoomId: payload.chatRoomId,
-        messageId: payload.messageId ?? null,
+        isAnonymous: payload.isAnonymous,
         content: payload.content ?? '',
       }),
     })
