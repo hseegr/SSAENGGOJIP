@@ -4,6 +4,7 @@ import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.converter.PropertyConverter;
+import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
 import com.ssaenggojip.property.dto.response.CoordinateResponse;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.entity.PropertyImage;
