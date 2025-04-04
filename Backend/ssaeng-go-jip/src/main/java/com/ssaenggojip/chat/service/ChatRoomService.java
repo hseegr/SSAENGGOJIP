@@ -32,7 +32,7 @@ public class ChatRoomService {
     private final MongoTemplate mongoTemplate;
 
     public List<ChatRoomResponseDto> getPopularChatRoom() {
-        return chatRoomRepository.findTop10ByOrderByUserCountDesc()
+        return chatRoomRepository.findTop5ByOrderByUserCountDesc()
                 .stream().map(ChatConverter::toChatRoomResponseDto).toList();
     }
 
