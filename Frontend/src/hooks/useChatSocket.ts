@@ -77,7 +77,13 @@ export const useChatSocket = () => {
         const payload = JSON.parse(message.body)
         console.log('💬 메시지 수신:', payload)
 
-        if (onMessage) onMessage(payload)
+        // if (onMessage) onMessage(payload)
+        // 여기서 콜백 실행이 제대로 되는지 확인
+        if (onMessage) {
+          console.log('onMessage 콜백 실행 전')
+          onMessage(payload)
+          console.log('onMessage 콜백 실행 후')
+        }
       },
     )
 

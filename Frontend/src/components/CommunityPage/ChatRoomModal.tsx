@@ -41,6 +41,8 @@ const ChatRoomModal = ({ onClose }: Props) => {
   // 사용자 닉네임 저장
   const [myNickname, setMyNickname] = useState<string>('')
 
+  const updateLastMessage = useCommunityStore((s) => s.updateLastMessage)
+
   // ✅ 로그인한 사용자 ID (로컬에서 가져옴)
   const myUserId = Number(localStorage.getItem('userId'))
   const token = localStorage.getItem('accessToken')!
@@ -109,44 +111,89 @@ const ChatRoomModal = ({ onClose }: Props) => {
   }, [selectedChatRoom, myUserId])
 
   // ✅ WebSocket 메시지 수신 처리
+  // useEffect(() => {
+  //   if (!selectedChatRoom || !token) return
+
+  //   connect({
+  //     chatRoomId: String(selectedChatRoom.id),
+  //     token,
+  //     onMessage: (msg) => {
+  //       console.log('수신된 메시지:', msg)
+
+  //       if (msg.messageType === 'TALK') {
+  //         // 받은 메시지를 상태에 추가
+  //         const newMsg: Message = {
+  //           id: msg.id || Date.now().toString(), // ID가 없으면 타임스탬프 사용
+  //           nickname: msg.nickname,
+  //           content:
+  //             msg.isActive !== false ? msg.content : '삭제된 메시지입니다.',
+  //           time: new Date().toLocaleTimeString([], {
+  //             hour: '2-digit',
+  //             minute: '2-digit',
+  //           }),
+  //           isMe: Number(msg.userId) === myUserId, // ✅ 명시적으로 숫자 변환
+  //         }
+
+  //         setMessages((prev) => {
+  //           // 이미 존재하는 메시지인지 확인 (중복 방지)
+  //           const exists = prev.some((m) => m.id === newMsg.id)
+  //           if (exists) return prev
+
+  //           // 새 메시지 추가 (최신 메시지는 배열 끝에 추가)
+  //           return [...prev, newMsg]
+  //         })
+
+  //         // 새 메시지가 추가되면 스크롤을 아래로 이동
+  //         setTimeout(scrollToBottom, 100)
+  //       }
+  //     },
+  //   })
+  // }, [selectedChatRoom, myUserId])
+
+  // ✅ WebSocket 메시지 수신 처리
   useEffect(() => {
     if (!selectedChatRoom || !token) return
 
+    const handleMessage = (msg) => {
+      console.log('수신된 메시지:', msg)
+
+      if (msg.messageType === 'TALK') {
+        // 받은 메시지를 상태에 추가
+        const newMsg: Message = {
+          id: msg.id || Date.now().toString(),
+          nickname: msg.nickname,
+          content:
+            msg.isActive !== false ? msg.content : '삭제된 메시지입니다.',
+          time: new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+          isMe: Number(msg.userId) === myUserId,
+        }
+
+        // 중요: 함수형 업데이트 사용
+        setMessages((prevMessages) => {
+          // 이미 존재하는 메시지인지 확인 (중복 방지)
+          const exists = prevMessages.some((m) => m.id === newMsg.id)
+          if (exists) return prevMessages
+
+          console.log('새 메시지 추가:', newMsg)
+          // 새 메시지 추가
+          return [...prevMessages, newMsg]
+        })
+
+        // 새 메시지가 추가되면 스크롤을 아래로 이동
+        setTimeout(scrollToBottom, 100)
+      }
+    }
+
+    // 웹소켓 연결 설정
     connect({
       chatRoomId: String(selectedChatRoom.id),
       token,
-      onMessage: (msg) => {
-        console.log('수신된 메시지:', msg)
-
-        if (msg.messageType === 'TALK') {
-          // 받은 메시지를 상태에 추가
-          const newMsg: Message = {
-            id: msg.id || Date.now().toString(), // ID가 없으면 타임스탬프 사용
-            nickname: msg.nickname,
-            content:
-              msg.isActive !== false ? msg.content : '삭제된 메시지입니다.',
-            time: new Date().toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-            }),
-            isMe: Number(msg.userId) === myUserId, // ✅ 명시적으로 숫자 변환
-          }
-
-          setMessages((prev) => {
-            // 이미 존재하는 메시지인지 확인 (중복 방지)
-            const exists = prev.some((m) => m.id === newMsg.id)
-            if (exists) return prev
-
-            // 새 메시지 추가 (최신 메시지는 배열 끝에 추가)
-            return [...prev, newMsg]
-          })
-
-          // 새 메시지가 추가되면 스크롤을 아래로 이동
-          setTimeout(scrollToBottom, 100)
-        }
-      },
+      onMessage: handleMessage, // 별도 함수로 분리
     })
-  }, [selectedChatRoom, myUserId])
+  }, [selectedChatRoom?.id, token, myUserId]) // connect 함수도 종속성에 추가
 
   // 메시지 전송 핸들러
   const handleSend = () => {
@@ -164,6 +211,8 @@ const ChatRoomModal = ({ onClose }: Props) => {
     })
 
     console.log('📤 전송 요청 보냄:', input)
+
+    updateLastMessage(selectedChatRoom.id, input)
 
     // ✅ 즉시 UI에 반영하기 위해 로컬 상태 업데이트
     const newMessage: Message = {
