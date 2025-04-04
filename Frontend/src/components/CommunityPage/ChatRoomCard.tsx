@@ -13,7 +13,7 @@ const ChatRoomCard = ({ chatRoom, onClick }: Props) => {
         onClick={() => onClick?.(chatRoom)}
       >
         <div className="text-sm text-gray-600 font-semibold">
-          🚉 {chatRoom.name}
+          🚉 {chatRoom.name}역
         </div>
         <div className="flex justify-end text-xs text-gray-300 font-light">
           {chatRoom.userCount}명 참여중
