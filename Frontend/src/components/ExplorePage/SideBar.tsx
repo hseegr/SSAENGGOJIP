@@ -11,7 +11,14 @@ import DetailInfo from './ContentArea/Details' // 상세정보 컴포넌트 가�
 
 const Sidebar: React.FC = () => {
   const { activeTab, setActiveTab } = useSidebarStore() // Zustand store에서 상태와 업데이트 함수 가져오기
-  const { selectedCard } = useSidebarStore() // 선택된 카드 상태
+  const { selectedCard, setSelectedCard } = useSidebarStore() // 선택된 카드 상태
+
+  const clickSidebar = (
+    tab: 'normal_search' | 'match_search' | 'favorites' | null,
+  ) => {
+    setActiveTab(tab)
+    setSelectedCard(null)
+  }
 
   return (
     <div className="flex h-screen">
@@ -19,7 +26,7 @@ const Sidebar: React.FC = () => {
       <div className="w-20 bg-white border-r border-ssaeng-gray-1 flex flex-col items-center pt-5">
         <button
           className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
-          onClick={() => setActiveTab('normal_search')}
+          onClick={() => clickSidebar('normal_search')}
         >
           {activeTab === 'normal_search' ? (
             <>
@@ -35,7 +42,7 @@ const Sidebar: React.FC = () => {
         </button>
         <button
           className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
-          onClick={() => setActiveTab('match_search')}
+          onClick={() => clickSidebar('match_search')}
         >
           {activeTab === 'match_search' ? (
             <>
@@ -51,7 +58,7 @@ const Sidebar: React.FC = () => {
         </button>
         <button
           className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
-          onClick={() => setActiveTab('favorites')}
+          onClick={() => clickSidebar('favorites')}
         >
           {activeTab === 'favorites' ? (
             <>

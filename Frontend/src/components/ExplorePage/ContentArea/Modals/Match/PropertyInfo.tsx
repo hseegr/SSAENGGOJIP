@@ -48,9 +48,9 @@ const PropertyFilter = () => {
     }
 
     try {
+      setIsSearching(true)
       const data = await fetchMatchSearchResults(requestData) // API 호출
       setResults(data)
-      setIsSearching(true)
       console.log('Response:', data) // 응답 데이터 출력
     } catch (error) {
       console.error('Error during search:', error) // 에러 처리

@@ -122,9 +122,66 @@ const CustomInfo: React.FC = () => {
                 info.travelTime ||
                 info.walkTime ? (
                   <>
-                    {/* 상세 정보 표시 */}
+                    {/* 데이터가 있는 경우 상세 정보 표시 */}
                     <h3 className="text-lg font-bold mb-2">주소</h3>
-                    {/* ... 나머지 상세 정보 ... */}
+                    <button
+                      className="z-[9999] text-red-500"
+                      onClick={(e) => {
+                        e.stopPropagation() // 부모 버튼의 클릭 이벤트 방지
+                        const confirmed =
+                          window.confirm('정말 삭제하시겠습니까?')
+                        if (confirmed) {
+                          console.log(`${info.id} 삭제됨`)
+                          // 여기에 삭제 로직 추가
+                        }
+                      }}
+                    >
+                      X
+                    </button>
+                    <div className="flex items-center w-full h-24 justify-between bg-white p-4 rounded-lg shadow-md">
+                      <div className="flex flex-col">
+                        {/* 이름 */}
+                        <span className="text-md font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-lg inline-block">
+                          {info.name}
+                        </span>
+                        {/* 주소 */}
+                        <span className="text-sm text-gray-700 ml-3 truncate">
+                          {info.address}
+                        </span>
+                      </div>
+                      {/* 오른쪽 화살표 아이콘 */}
+                      <span className="text-gray-400 ml-auto">{'>'}</span>
+                    </div>
+
+                    <h3 className="text-lg font-bold mb-2">교통</h3>
+                    <div className="flex w-full bg-white items-center p-4 rounded-lg shadow-md text-gray-700">
+                      <div className="flex flex-col">
+                        {/* 교통 수단 */}
+                        <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-2">
+                          {info.transportMode}
+                        </span>
+
+                        {/* 전체 이동 시간 */}
+                        <p className="text-sm mb-1">
+                          전체 이동시간은{' '}
+                          <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
+                            {info.travelTime}분 이내
+                          </span>{' '}
+                          이면 좋겠고,
+                        </p>
+
+                        {/* 도보 이동 시간 */}
+                        <p className="text-sm">
+                          도보 이동시간은{' '}
+                          <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
+                            {info.walkTime}분 이내
+                          </span>{' '}
+                          이면 좋겠어요.
+                        </p>
+                      </div>
+                      {/* 오른쪽 화살표 아이콘 */}
+                      <span className="text-gray-400 ml-auto">{'>'}</span>
+                    </div>
                   </>
                 ) : (
                   <>
