@@ -1,14 +1,30 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PropertyGrid from '@/components/common/PropertyGrid'
-import mockProperties from '@/mocks/mockProperty'
+// import mockProperties from '@/mocks/mockProperty'
 import { Button } from '@/components/ui/button'
 import { toast } from 'react-toastify'
 import CompareModal from '@/components/MyPage/CompareModal'
+import { fetchLikedProperties, LikedProperty } from '@/services/propertyService'
 
 const FavoriteListingsTab = () => {
     const [isCompareMode, setIsCompareMode] = useState(false)
     const [selectedIds, setSelectedIds] = useState<number[]>([])
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [likedProperties, setLikedProperties] = useState<LikedProperty[]>([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await fetchLikedProperties()
+                setLikedProperties(data)
+            } catch (error) {
+                console.error('관심 매물 조회 실패:', error)
+                toast.error('관심 매물을 불러오는데 실패했습니다.')
+            }
+        }
+
+        fetchData()
+    }, [])
 
     const toggleCompareMode = () => {
         if (isCompareMode) {
@@ -44,7 +60,8 @@ const FavoriteListingsTab = () => {
             <h2 className="text-2xl font-bold text-ssaeng-purple mb-8">관심 매물</h2>
 
             <PropertyGrid
-                properties={mockProperties}
+                // properties={mockProperties}
+                properties={likedProperties}
                 columns={3}
                 isCompareMode={isCompareMode}
                 selectedIds={selectedIds}
@@ -60,7 +77,8 @@ const FavoriteListingsTab = () => {
                                 <span className="pr-6">최대 3개까지 비교할 수 있어요!</span>
                                 {[0, 1, 2].map((i) => {
                                     const selected = selectedIds[i]
-                                    const property = mockProperties.find((p) => p.id === selected)
+                                    // const property = mockProperties.find((p) => p.id === selected)
+                                    const property = likedProperties.find((p) => p.id === selected)
                                     return (
                                         <span
                                             key={i}

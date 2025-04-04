@@ -60,3 +60,8 @@ export const MAP_END_POINT = {
   // 일반 검색
   NORMAL_SEARCH: '/properties/search',
 }
+
+// 관심 매물 관련 API
+export const PROPERTY_END_POINT = {
+  GET_LIKED_PROPERTIES: '/properties/likes',
+}
