@@ -159,7 +159,7 @@ const ChatRoomModal = ({ onClose }: Props) => {
     sendMessage({
       messageType: 'TALK',
       chatRoomId: String(selectedChatRoom.id),
-      messageId: null,
+      isAnonymous: isAnonymous,
       content: input,
     })
 
