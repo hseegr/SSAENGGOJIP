@@ -27,7 +27,6 @@ interface EditTarget {
 export const getTargetAddress = async () => {
   try {
     const response = await http.get(MATCH_SEARCH_TARGET_END_POINT.GET_TARGET)
-    console.log(response.data)
     return response.data.result
   } catch (error) {
     console.error('검색 요청 중 오류발생:', error)

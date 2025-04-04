@@ -6,6 +6,7 @@ import PropertyFilter from './Modals/Match/PropertyInfo'
 import { useUserStore } from '@/store/userStore'
 import matchSearchStore from '@/store/matchSearchStore'
 import MatchSearchResults from './Match/MatchSearchResult'
+import { getTargetAddress } from '@/services/targetService'
 
 const CustomInfo: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -18,36 +19,46 @@ const CustomInfo: React.FC = () => {
 
   const { isSearching } = matchSearchStore()
 
-  // 유저 로그인 상태 확인 및 API 호출
   useEffect(() => {
-    if (!isLoggedIn) return console.log('로그인 안되있어요') // 로그인이 되어 있지 않으면 요청하지 않음
+    if (!isLoggedIn) {
+      console.log('로그인 안되있어요')
+      return
+    }
 
-    const fetchDefaultAddress = async () => {
+    const fetchAndSetDefaultAddress = async () => {
       try {
-        const response = await fetch('/api/target-address') // API 엔드포인트
-        const data = await response.json()
+        const targetAddresses = await getTargetAddress()
+        console.log(targetAddresses)
+        if (targetAddresses && targetAddresses.length > 0) {
+          const firstAddress = targetAddresses[0]
+          console.log(firstAddress)
 
-        if (data.isSuccess && data.result) {
-          // isDefault가 true인 데이터 필터링
-          const defaultAddress = data.result.find((item: any) => item.isDefault)
-          if (defaultAddress) {
-            // 박스 정보로 추가
-            const tmpId = addMatchInfo()
-            updateMatchInfo(tmpId, {
-              address: defaultAddress.address,
-              name: defaultAddress.name,
-              transportMode: defaultAddress.transportMode,
-              travelTime: defaultAddress.travelTime,
-              walkTime: defaultAddress.walkTime,
-            })
-          }
+          // 먼저 addMatchInfo 호출하여 항목 추가
+          addMatchInfo(firstAddress.id, {
+            id: firstAddress.id,
+            address: '',
+            name: '',
+            transportMode: '',
+            travelTime: 0,
+            walkTime: 0,
+          })
+
+          // 그 다음 updateMatchInfo 호출하여 데이터 업데이트
+          updateMatchInfo(firstAddress.id, {
+            id: firstAddress.id,
+            address: firstAddress.address,
+            name: firstAddress.name,
+            transportMode: firstAddress.transportMode,
+            travelTime: firstAddress.travelTime,
+            walkTime: firstAddress.walkTime,
+          })
         }
       } catch (error) {
-        console.error('API 호출 중 오류 발생:', error)
+        console.error('타겟 주소 가져오기 실패:', error)
       }
     }
 
-    void fetchDefaultAddress()
+    fetchAndSetDefaultAddress()
   }, [isLoggedIn, addMatchInfo, updateMatchInfo])
 
   const handleBoxClick = (id: number | void) => {

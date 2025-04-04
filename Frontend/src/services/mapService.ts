@@ -57,8 +57,7 @@ export const fetchNormalSearchResults = async (
 export const fetchAllData = async () => {
   try {
     const response = await http.get(MAP_END_POINT.GET_ALL)
-    console.log(response.data)
-    return response.data // 응답 데이터를 반환
+    return response.data.result // 응답 데이터를 반환
   } catch (error) {
     console.error('검색 API 요청 중 오류 발생:', error)
     throw error // 에러를 호출한 곳으로 전달
@@ -76,5 +75,53 @@ export const fetchMatchSearchResults = async (requestData: RequestData) => {
   } catch (error) {
     console.error('Error fetching match search results:', error)
     throw error // 에러를 다시 던져 호출한 곳에서 처리할 수 있도록 함
+  }
+}
+
+export interface Coordinate {
+  latitude: number
+  longitude: number
+}
+
+export interface BoundsData {
+  middle: [number, number]
+  leftDown: [number, number]
+  rightUp: [number, number]
+}
+
+export const fetchDataByBounds = async (
+  bounds: any,
+  center: Coordinate,
+  southWestLatitude?: number,
+  southWestLongitude?: number,
+  northEastLatitude?: number,
+  northEastLongitude?: number,
+) => {
+  try {
+    const requestParams: BoundsData = {
+      middle: [center.latitude, center.longitude],
+      leftDown: [
+        southWestLatitude !== undefined
+          ? southWestLatitude
+          : bounds.getSouthWest().getLat(),
+        southWestLongitude !== undefined
+          ? southWestLongitude
+          : bounds.getSouthWest().getLng(),
+      ],
+      rightUp: [
+        northEastLatitude !== undefined
+          ? northEastLatitude
+          : bounds.getNorthEast().getLat(),
+        northEastLongitude !== undefined
+          ? northEastLongitude
+          : bounds.getNorthEast().getLng(),
+      ],
+    }
+
+    const response = await http.post(MAP_END_POINT.GET_ALL, requestParams)
+    return response.data.result // 응답 데이터를 반환
+  } catch (error) {
+    console.error('영역 기반 매물 API 요청 중 오류 발생:', error)
+    throw error // 에러를 호출한 곳으로 전달
   }
 }

@@ -70,13 +70,13 @@ export const MAP_END_POINT = {
 // 맞춤 검색 페이지 타겟 주소 관련
 export const MATCH_SEARCH_TARGET_END_POINT = {
   // 타겟 주소 조회 - GET
-  GET_TARGET: '/target-address',
+  GET_TARGET: '/target-addresses',
   // 타겟 주소 추가 - POST
-  ADD_TARGET: '/target-address',
+  ADD_TARGET: '/target-addresses',
   // 타겟 주소 수정 - PATCH
   EDIT_TARGET: (targetAddressId: number) =>
-    `/target-address/${targetAddressId}`,
+    `/target-addresses/${targetAddressId}`,
   // 타겟 주소 삭제 - DELETE
   DELETE_TARGET: (targetAddressId: number) =>
-    `/target-address/${targetAddressId}`,
+    `/target-addresses/${targetAddressId}`,
 }

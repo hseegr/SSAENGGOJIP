@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import NewTargetModal from './NewTarget'
 import EditTargetModal from './EditTarget' // 새로운 주소 수정 모달
 import useMatchInfoStore from '@/store/matchInfoStore' // Zustand 스토어 import
+import { addTargetAddress } from '@/services/targetService'
 
 interface Address {
   id: number
