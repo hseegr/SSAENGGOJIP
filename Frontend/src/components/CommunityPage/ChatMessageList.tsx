@@ -1,7 +1,7 @@
 import ChatBubble from './ChatBubble'
 
 type Message = {
-  id: number
+  id: string
   nickname: string
   content: string
   time: string

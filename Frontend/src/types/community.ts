@@ -15,6 +15,7 @@ export interface ChatRoom {
   lastMessage: string | null
   latitude: number | null
   longitude: number | null
+  hasUnread?: boolean
 }
 
 // 채팅방 목록 응답 타입 (내 채팅방, 인기, 검색)

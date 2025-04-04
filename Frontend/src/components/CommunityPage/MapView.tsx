@@ -84,7 +84,7 @@ const MapView = ({ onChatOpen }: Props) => {
 
       overlayContent.innerHTML = `
         <div style="padding:10px; background:rgba(255,255,255,0.9); border-radius:8px; box-shadow:0 0 3px rgba(0,0,0,0.2); display: flex; flex-direction: column;">
-          <div style="font-weight:bold; font-size: 14px; color: #000;">${selectedChatRoom.name} 커뮤니티 </div>
+          <div style="font-weight:bold; font-size: 14px; color: #000;">${selectedChatRoom.name}역 커뮤니티 </div>
           <div style="display: flex; justify-content: flex-end;">
             <button id="joinChatButton" style="margin-top:6px; color:white; background:#7171D7; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size: 12px;">
               참여하기
