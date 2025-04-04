@@ -32,7 +32,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
               ST_SetSRID(ST_MakePoint(:lng, :lat), 4326),
               3857
             ),
-            1000
+            1200
          )
         ) OR
         (:isStationSearch = false AND (

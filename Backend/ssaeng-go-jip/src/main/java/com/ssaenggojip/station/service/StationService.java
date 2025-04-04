@@ -100,7 +100,6 @@ public class StationService {
                 .congestionList(congestions)
                 .build();
 
-
         return congestionGetResponse;
     }
     private StationDetail findDetail(List<StationDetail> list, UpDownType upDownType, DayType dayType) {
