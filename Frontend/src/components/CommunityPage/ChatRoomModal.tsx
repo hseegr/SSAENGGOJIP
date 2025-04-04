@@ -113,7 +113,7 @@ const ChatRoomModal = ({ onClose }: Props) => {
     if (!selectedChatRoom || !token) return
 
     connect({
-      chatRoomId: selectedChatRoom.id,
+      chatRoomId: String(selectedChatRoom.id),
       token,
       onMessage: (msg) => {
         console.log('수신된 메시지:', msg)
