@@ -50,7 +50,6 @@ const Sidebar = ({ onChatOpen }: Props) => {
   // 응답 데이터가 없을 경우 대비
   const popularChatRooms = popularData?.result ?? []
   const myChatRooms = useCommunityStore((s) => s.myChatRooms)
-
   const searchedChatRooms = searchedData?.result ?? []
 
   // 렌더링 채팅방 리스트 출력하기
