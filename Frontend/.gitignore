@@ -214,3 +214,8 @@ $RECYCLE.BIN/
 
 # Package-lock
 .package-lock.json
+
+.cursor
+
+.gitignore
+.gitattributs
