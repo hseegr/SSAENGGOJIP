@@ -1,6 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useUserStore } from '@/store/userStore'
 import { logout as logoutApi } from '@/services/userService'
+import logo from '@/assets/images/logo.png'
+import { useChatSocket } from '@/hooks/useChatSocket'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -9,8 +11,11 @@ const Header = () => {
   const isLoggedIn = useUserStore((state) => state.isLoggedIn)
   const logout = useUserStore((state) => state.logout)
 
+  const { disconnect } = useChatSocket() // ✅ WebSocket 연결 종료 함수 가져오기
+
   const handleLogout = async () => {
     try {
+      disconnect() // WebSocket 구독 및 연결 종료
       await logoutApi() // 백엔드 로그아웃 API 호출
       logout() // Zustand 상태 초기화
       navigate('/account/login') // 로그인 페이지로 이동
@@ -24,7 +29,7 @@ const Header = () => {
       <div className="flex items-center justify-between h-16 w-full px-10 mx-auto">
         {/* 로고 */}
         <Link to="/main" className="flex items-center">
-          <img src="/src/assets/images/logo.png" alt="logo" className="w-28" />
+          <img src={logo} alt="logo" className="w-28" />
         </Link>
 
         {/* 네비게이션 메뉴 */}

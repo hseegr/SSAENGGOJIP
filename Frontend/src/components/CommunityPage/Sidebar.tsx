@@ -9,6 +9,8 @@ import {
   useSearchChatRoomsQuery,
 } from '@/hooks/useCommunity'
 import { useAllStationsQuery } from '@/hooks/useStation'
+import { useChatSocket } from '@/hooks/useChatSocket'
+const { connect } = useChatSocket()
 
 type Props = {
   onChatOpen: () => void
@@ -35,6 +37,9 @@ const Sidebar = ({ onChatOpen }: Props) => {
   // 전체 역 받아오기
   const { data: stationData } = useAllStationsQuery()
 
+  // 현재 탭이 my인지 확인하는 상태 추가
+  const isMyTab = activeTab === 'my'
+
   // 전체 역에서 아직 생성되지 않은 채팅방 (검색어 + 기존 채팅방과 중복 x)
   const fallbackRooms = (stationData?.result ?? []).filter(
     (station) =>
@@ -58,6 +63,13 @@ const Sidebar = ({ onChatOpen }: Props) => {
   // Zustand 상태 저장 함수 불러오기
   const setMarkerChatRooms = useCommunityStore((s) => s.setMarkerChatRooms)
   const setSelectedChatRoom = useCommunityStore((s) => s.setSelectedChatRoom)
+  const setMyChatRooms = useCommunityStore((s) => s.setMyChatRooms)
+
+  useEffect(() => {
+    if (myData?.result) {
+      setMyChatRooms(myData.result)
+    }
+  }, [myData])
 
   // 탭이 변경될 때마다 해당 탭의 데이터를 새로 요청 (refetch)
   useEffect(() => {
@@ -74,11 +86,28 @@ const Sidebar = ({ onChatOpen }: Props) => {
   }, [chatRooms])
 
   // 채팅방 클릭 시 선택된 채팅방 상태 저장 + 탭이 'my'일 경우 모달 열기
-  const handleClickRoom = (room: ChatRoom) => {
-    setSelectedChatRoom(room) // 클릭한 채팅방을 선택 상태로 저장
-    // '내 채팅방' 탭일 때만 즉시 모달 열기
-    if (activeTab === 'my') {
+
+  // 채팅방 클릭 시 처리
+  const handleClickRoom = async (room: ChatRoom) => {
+    const token = localStorage.getItem('accessToken')!
+    const isAlreadyJoined = myChatRooms.some((r) => r.id === room.id)
+
+    // 선택한 채팅방을 상태에 저장 (오버레이 or 모달용)
+    setSelectedChatRoom(room)
+
+    if (isAlreadyJoined) {
+      console.log('🟢 이미 참여한 채팅방 → 바로 연결 + 모달 열기', room.id)
+
+      connect({
+        chatRoomId: room.id,
+        token,
+        onMessage: (msg) => console.log('📩 받은 메시지:', msg),
+      })
+
       onChatOpen()
+    } else {
+      console.log('🟡 참여하지 않은 채팅방 → 오버레이만 표시', room.id)
+      // ❗ 참여하기 버튼 눌러야 입장/연결됨 (MapView.tsx에서 처리)
     }
   }
 

@@ -1,9 +1,8 @@
+// src/components/MyPage/MyInfoTab.tsx
+
 import { useEffect, useState } from 'react'
 import {
     getUserInfo,
-    updateEmail,
-    sendEmailCode,
-    verifyEmailCode,
     deleteUser,
     UserInfo,
 } from '@/services/userService'
@@ -11,11 +10,11 @@ import kakaoLogo from '@/assets/images/kakao.png'
 import naverLogo from '@/assets/images/naver.png'
 import googleLogo from '@/assets/images/google.png'
 import ssafyLogo from '@/assets/images/ssafy.png'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import DeleteAccountModal from '@/components/MyPage/DeleteAccountModal'
 import { useUserStore } from '@/store/userStore'
+import EmailVerificationModal from '@/components/MyPage/EmailVerificationModal'
+import EmailEditModal from '@/components/MyPage/EmailEditModal'
 
 const socialLoginStyles = {
     KAKAO: {
@@ -46,14 +45,9 @@ const socialLoginStyles = {
 
 const MyInfoTab = () => {
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+    const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false)
     const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false)
-    const [emailInput, setEmailInput] = useState('')
-    const [verificationCode, setVerificationCode] = useState('')
-    const [step, setStep] = useState<'send' | 'verify'>('send')
-    const [mode, setMode] = useState<'verify-only' | 'change-and-verify'>('verify-only')
-    const [errorMessage, setErrorMessage] = useState('')
-    const [successMessage, setSuccessMessage] = useState('')
     const logout = useUserStore((state) => state.logout)
 
     const fetchUser = async () => {
@@ -69,54 +63,12 @@ const MyInfoTab = () => {
         fetchUser()
     }, [])
 
-    const openModal = (initialEmail: string, mode: 'verify-only' | 'change-and-verify') => {
-        setEmailInput(initialEmail)
-        setVerificationCode('')
-        setErrorMessage('')
-        setSuccessMessage('')
-        setStep('send')
-        setMode(mode)
-        setIsModalOpen(true)
-    }
-
-    const handleSendCode = async () => {
-        try {
-            await sendEmailCode(emailInput) // 이메일만 전송, 아직 변경 ❌
-            setStep('verify')
-            setErrorMessage('')
-        } catch (e) {
-            setErrorMessage('인증번호 전송에 실패했어요.')
-        }
-    }
-
-    const handleVerifyCode = async () => {
-        try {
-            const success = await verifyEmailCode(verificationCode)
-            if (success) {
-                // 인증 성공 후에만 이메일 변경 시도
-                if (mode === 'change-and-verify' && emailInput !== userInfo?.email) {
-                    await updateEmail(emailInput)
-                }
-
-                setSuccessMessage('이메일 인증이 완료되었습니다. ✔')
-                setErrorMessage('')
-                fetchUser()
-            } else {
-                setErrorMessage('인증번호를 다시 입력해 주세요. ❗')
-                setSuccessMessage('')
-            }
-        } catch {
-            setErrorMessage('인증 실패. 다시 시도해 주세요.')
-            setSuccessMessage('')
-        }
-    }
-
     const handleDeleteAccount = async () => {
         try {
             await deleteUser()
-            useUserStore.getState().logout() // accessToken 제거 + 상태 초기화
+            logout()
             setIsWithdrawalModalOpen(false)
-            window.location.href = '/' // 탈퇴 후 홈으로 이동
+            window.location.href = '/'
         } catch (e) {
             alert('회원 탈퇴에 실패했습니다.')
         }
@@ -161,7 +113,7 @@ const MyInfoTab = () => {
                                 <Button
                                     variant="destructive"
                                     size="sm"
-                                    onClick={() => openModal(email, 'verify-only')}
+                                    onClick={() => setIsVerificationModalOpen(true)}
                                 >
                                     인증하기
                                 </Button>
@@ -170,7 +122,7 @@ const MyInfoTab = () => {
                     </div>
                     <button
                         className="text-sm text-gray-400 mt-2 hover:underline"
-                        onClick={() => openModal('', 'change-and-verify')}
+                        onClick={() => setIsEditModalOpen(true)}
                     >
                         이메일 수정하기 &gt;
                     </button>
@@ -185,56 +137,23 @@ const MyInfoTab = () => {
                 </div>
             </div>
 
-            {/* 이메일 인증/수정 모달 */}
-            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                <DialogContent className="w-[460px] h-[400px] rounded-2xl px-10 py-10 text-center">
-                    <h3 className="text-base font-semibold mt-4 mb-2">이메일 변경 및 인증</h3>
+            {/* 이메일 인증 모달 */}
+            <EmailVerificationModal
+                isOpen={isVerificationModalOpen}
+                onClose={() => setIsVerificationModalOpen(false)}
+                initialEmail={userInfo.email}
+                isEditable={false}
+                onSuccess={fetchUser} // 인증 성공 후 유저 정보 다시 불러오기
+            />
 
-                    {/* 이메일 입력창 */}
-                    <Input
-                        type="email"
-                        placeholder="ssafy@ssafy.com"
-                        value={emailInput}
-                        onChange={(e) => setEmailInput(e.target.value)}
-                        className="h-10 px-4 text-sm border border-gray-300 rounded-lg focus-visible:ring-0 focus-visible:ring-offset-0"
-                    />
+            {/* 이메일 수정 모달 */}
+            <EmailEditModal
+                isOpen={isEditModalOpen}
+                onClose={() => setIsEditModalOpen(false)}
+                currentEmail={userInfo.email}
+                onSuccess={fetchUser}
+            />
 
-                    {/* 인증번호 발송 버튼 */}
-                    <Button
-                        onClick={handleSendCode}
-                        disabled={!emailInput}
-                        className="w-full h-10 bg-[#7463F6] text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed mb-4"
-                    >
-                        인증번호 발송하기
-                    </Button>
-
-                    {/* 인증번호 입력창 + 인증 버튼 */}
-                    <div className="flex gap-2">
-                        <Input
-                            placeholder="인증번호를 입력해 주세요"
-                            value={verificationCode}
-                            onChange={(e) => setVerificationCode(e.target.value)}
-                            disabled={step === 'send'}
-                            className={`flex-1 h-10 px-4 text-sm border rounded-lg ${step === 'send' ? 'bg-gray-100 border-gray-200 text-gray-400' : 'border-gray-300'
-                                }`}
-                        />
-                        <Button
-                            onClick={handleVerifyCode}
-                            disabled={step === 'send' || !verificationCode}
-                            className={`h-10 px-6 rounded-lg ${step === 'send' || !verificationCode
-                                ? 'bg-gray-300 text-white'
-                                : 'bg-[#7463F6] text-white'
-                                }`}
-                        >
-                            인증
-                        </Button>
-                    </div>
-
-                    {/* 메시지 영역 */}
-                    {errorMessage && <p className="text-sm text-red-500 mt-2">{errorMessage}</p>}
-                    {successMessage && <p className="text-sm text-green-600 mt-2">{successMessage}</p>}
-                </DialogContent>
-            </Dialog>
 
             {/* 회원 탈퇴 모달 */}
             <DeleteAccountModal

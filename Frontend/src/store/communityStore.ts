@@ -14,6 +14,14 @@ interface CommunityState {
 
   // 선택된 채팅방을 설정하는 함수
   setSelectedChatRoom: (room: ChatRoom | null) => void
+
+  // 내가 참여 중인 채팅방 목록
+  myChatRooms: ChatRoom[]
+  setMyChatRooms: (rooms: ChatRoom[]) => void
+
+  // "참여하기" 버튼을 눌렀는지 여부
+  shouldConnect: boolean
+  setShouldConnect: (val: boolean) => void
 }
 
 // zustand 저장소 생성
@@ -30,4 +38,11 @@ export const useCommunityStore = create<CommunityState>((set) => ({
 
   setSelectedChatRoom: (room) => set({ selectedChatRoom: room }),
   // → 이걸 호출하면 클릭된 채팅방 상태가 바뀜
+
+  // ✅ 참여 버튼 상태
+  myChatRooms: [],
+  setMyChatRooms: (rooms) => set({ myChatRooms: rooms }),
+
+  shouldConnect: false,
+  setShouldConnect: (val: boolean) => set({ shouldConnect: val }),
 }))
