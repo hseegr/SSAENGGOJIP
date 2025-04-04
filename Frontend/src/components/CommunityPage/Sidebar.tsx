@@ -90,6 +90,7 @@ const Sidebar = ({ onChatOpen }: Props) => {
   // 채팅방 클릭 시 처리
   const handleClickRoom = async (room: ChatRoom) => {
     const token = localStorage.getItem('accessToken')!
+
     const isAlreadyJoined = myChatRooms.some((r) => r.id === room.id)
 
     // 선택한 채팅방을 상태에 저장 (오버레이 or 모달용)
@@ -108,11 +109,19 @@ const Sidebar = ({ onChatOpen }: Props) => {
     } else {
       console.log('🟡 참여하지 않은 채팅방 → 오버레이만 표시', room.id)
       // ❗ 참여하기 버튼 눌러야 입장/연결됨 (MapView.tsx에서 처리)
+      // 이미 모달이 열려있다면 닫기 (중요!)
     }
   }
 
   return (
-    <aside className="w-96 border-r border-ssaeng-gray-1 bg-white py-6">
+    <aside
+      className="w-96 border-r border-ssaeng-gray-1 bg-white py-6"
+      style={{
+        height: '100vh', // 💡 높이를 고정
+        overflowY: 'auto', // 💡 스크롤 가능하게
+        flexShrink: 0, // 💡 크기 줄어들지 않게
+      }}
+    >
       {/* 탭 */}
       <div className="flex -ml-0 text-base font-semibold border-b border-ssaeng-gray-2 w-64">
         <button

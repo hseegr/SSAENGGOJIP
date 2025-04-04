@@ -16,6 +16,9 @@ const ChatHeader = ({ onClose }: Props) => {
   // 🔁 뒤로가기 누르면 단순 구독 해제만 실행
   const handleBack = () => {
     if (selectedChatRoom) {
+      console.log(
+        `◀️ 뒤로가기: 채팅방 ${selectedChatRoom.id} 구독 해제 (UI만 닫음)`,
+      )
       unsubscribe(selectedChatRoom.id)
     }
     onClose() // 채팅 모달 닫기

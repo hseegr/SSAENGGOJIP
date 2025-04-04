@@ -28,7 +28,7 @@ export const fetchSearchChatRooms = async (
 
 // 채팅방 입장
 export const fetchEnterChatRoom = async (
-  chatRoomId: number,
+  chatRoomId: string,
 ): Promise<EmptyResponse> => {
   const res = await http.post(
     COMMUNITY_END_POINT.ENTER_CHAT_ROOM(chatRoomId),
