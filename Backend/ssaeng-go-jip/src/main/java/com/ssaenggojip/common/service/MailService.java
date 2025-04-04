@@ -11,6 +11,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
+
 @Slf4j
 @Service
 @Transactional
@@ -34,11 +36,14 @@ public class MailService {
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+            helper.setFrom("ssaenggojip@gmail.com", "쌩GO집");
             helper.setTo(toEmail);
             helper.setSubject(title);
             helper.setText(text, true);
         } catch (MessagingException e) {
             throw new GeneralException(ErrorStatus.UNABLE_TO_SEND_EMAIL);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
 
         return mimeMessage;
