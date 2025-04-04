@@ -60,7 +60,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
 
 
-    @Query(value = "SELECT * FROM property LIMIT 5000", nativeQuery = true)
+    @Query(value = "SELECT * FROM property LIMIT 20000", nativeQuery = true)
     List<Property> findAllCoordinates();
 
     @Query(nativeQuery = true,
@@ -80,5 +80,17 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
                     ":radius) "
     )
     List<Property> findByFacilityNearness(@Param("lng") Double lng, @Param("lat") Double lat, @Param("radius") Double radius);
+    @Query(value = """
+    SELECT 
+        *
+    FROM property
+    WHERE geom && ST_MakeEnvelope(:minX, :minY, :maxX, :maxY, 4326)
+    """, nativeQuery = true)
+    List<Property> findAllCoordinatesBySquareScope(
+            @Param("minX") Double minX,
+            @Param("minY") Double minY,
+            @Param("maxX") Double maxX,
+            @Param("maxY") Double maxY
+    );
 }
 

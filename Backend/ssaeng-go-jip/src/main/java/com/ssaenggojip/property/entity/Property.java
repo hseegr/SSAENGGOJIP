@@ -13,7 +13,6 @@ import org.hibernate.annotations.Type;
 import java.util.List;
 
 @Entity
-@Table(name = "property")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -73,6 +72,9 @@ public class Property {
 
     @Column(nullable = false, length = 256)
     private String address;
+
+    @Column(length = 1024)
+    private String mainImage;
 
     @Column(columnDefinition = "geometry(Point, 4326)")
     private Point geom;

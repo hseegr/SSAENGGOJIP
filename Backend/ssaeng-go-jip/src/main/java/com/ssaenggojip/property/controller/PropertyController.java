@@ -2,6 +2,7 @@ package com.ssaenggojip.property.controller;
 
 
 import com.ssaenggojip.apipayload.ApiResponse;
+import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
 import com.ssaenggojip.property.dto.request.SearchRequest;
 import com.ssaenggojip.property.dto.request.TransportTimeRequest;
 import com.ssaenggojip.property.service.PropertyFacade;
@@ -33,9 +34,9 @@ public class PropertyController {
         return ApiResponse.onSuccess(propertyFacade.getTransportTime(transportTimeRequest));
     }
 
-    @GetMapping("/coordinates")
-    public ApiResponse<?> getCoordinates() {
-        return ApiResponse.onSuccess(propertyService.getCoordinates());
+    @PostMapping("/coordinates")
+    public ApiResponse<?> getCoordinates(@RequestBody CoordinateGetRequest coordinateGetRequest) {
+        return ApiResponse.onSuccess(propertyService.getCoordinates(coordinateGetRequest));
     }
 
 //    @PostMapping("/recommend-search")

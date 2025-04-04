@@ -1,4 +1,4 @@
-package com.ssaenggojip.facilitytype.entity;
+package com.ssaenggojip.facility.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
-@Table(name = "facility_types")
 public class FacilityType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
