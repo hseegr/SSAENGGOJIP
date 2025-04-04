@@ -13,17 +13,11 @@ public class ChatConverter {
         return ChatRoomResponseDto.builder()
                 .id(chatRoom.getId())
                 .name(chatRoom.getName())
+                .line(chatRoom.getLine())
                 .userCount(chatRoom.getUserCount())
                 .lastMessage(chatRoom.getLastMessage())
-                .locationList(
-                        chatRoom.getLocationList().stream()
-                                .map(loc -> ChatRoomResponseDto.LocationResponseDto.builder()
-                                        .line(loc.getLine())
-                                        .latitude(loc.getLatitude())
-                                        .longitude(loc.getLongitude())
-                                        .build())
-                                .toList()
-                )
+                .latitude(chatRoom.getLatitude())
+                .longitude(chatRoom.getLongitude())
                 .build();
     }
 
