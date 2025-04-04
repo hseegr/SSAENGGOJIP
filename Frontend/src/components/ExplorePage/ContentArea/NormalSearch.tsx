@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Search } from 'lucide-react'
 import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
 import Modal from './Modals/NormalModal'
@@ -8,8 +8,6 @@ import useSidebarStore from '@/store/sidebar'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
 import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'
-
-import { useMemo } from 'react'
 
 interface Property {
   // 공통 필드
@@ -40,7 +38,7 @@ const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('') // 검색어 상태 추가
   const { titles } = useSidebarStore()
-  const initialData = useMemo(
+  const initialData = useMemo<Property[]>(
     () => [
       {
         id: 4412314,
@@ -48,7 +46,6 @@ const NormalSearch: React.FC = () => {
         price: 500000000,
         maintenancePrice: 200000,
         details: '지하철역 근처, 편리한 교통',
-        // imageUrl: '/images/apartment1.jpg',
         imageUrl: '',
         propertyType: '아파트',
         dealType: '매매',
@@ -123,45 +120,54 @@ const NormalSearch: React.FC = () => {
     additionalFilters,
   } = useFilterStore()
   const [filteredData, setFilteredData] = useState<Property[]>(initialData)
+
   // 정렬 변경 함수
   const handleSortChange = (sortType: string) => {
-    const sortedData = [...filteredData].sort((a, b) => {
-      if (sortType === '금액 비싼 순') return b.price - a.price
-      if (sortType === '금액 싼 순') return a.price - b.price
-      return 0
-    })
-    setFilteredData(sortedData)
+    const sortedData = [...(filteredData?.properties || filteredData)].sort(
+      (a: Property, b: Property) => {
+        if (sortType === '금액 비싼 순') return b.price - a.price
+        if (sortType === '금액 싼 순') return a.price - b.price
+        return 0
+      },
+    )
+    const newData = filteredData
+      ? { ...filteredData, properties: sortedData }
+      : sortedData
+    setFilteredData(newData as Property[])
   }
+
   // 엔터 키 입력 시 검색 실행
   const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      // 엔터 키 감지
-      // if (searchQuery.trim() !== '') {
-      // 빈 값이 아닐 때만 검색 실행
-      try {
-        // 필터 구성 부분 수정
-        const filters = buildSearchFilters({
-          propertyTypes,
-          dealType,
-          MindepositPrice,
-          MaxdepositPrice,
-          MinmonthlyPrice,
-          MaxmonthlyPrice,
-          additionalFilters,
-        })
-        const searchResults = await fetchNormalSearchResults(
-          searchQuery,
-          filters,
-        ) // 검색 API 호출
-        setFilteredData(searchResults) // 응답 데이터를 상태에 저장
-      } catch (error) {
-        console.error('검색 중 오류 발생:', error)
-        setFilteredData([]) // 오류 발생 시 빈 배열 설정
+      if (searchQuery.trim() !== '') {
+        try {
+          // 필터 구성
+          const filters = buildSearchFilters({
+            propertyTypes,
+            dealType,
+            MindepositPrice,
+            MaxdepositPrice,
+            MinmonthlyPrice,
+            MaxmonthlyPrice,
+            additionalFilters,
+          })
+          const searchResults = await fetchNormalSearchResults(
+            searchQuery,
+            filters,
+          ) // 검색 API 호출
+          // API 응답 구조에 따라 데이터 추출 방식 수정 필요
+          setFilteredData(searchResults ?? [])
+          console.log('검색 결과:', searchResults)
+          console.log('필터 저장 결과:', filteredData)
+        } catch (error) {
+          console.error('검색 중 오류 발생:', error)
+          setFilteredData({ total: 0, properties: [] }) // 오류 발생 시 빈 배열 설정
+        }
+      } else {
+        setFilteredData(initialData)
+        console.log('필터 저장 결과 (검색어 없음):', filteredData)
       }
-    } else {
-      setFilteredData(initialData) // 검색어가 없으면 초기 데이터로 복원
     }
-    // }
   }
 
   useEffect(() => {
@@ -174,7 +180,9 @@ const NormalSearch: React.FC = () => {
         return JSON.stringify(prev) === JSON.stringify(newData) ? prev : newData
       })
     } else {
-      setFilteredData(initialData)
+      // titles가 없으면 초기 데이터 또는 이전 검색 결과를 유지 (선택)
+      // 만약 titles가 비어있을 때 전체 데이터를 보여주고 싶다면 아래 주석 해제
+      // setFilteredData(initialData);
     }
   }, [titles, initialData]) // ✅ 모든 의존성 명시
 
@@ -202,8 +210,8 @@ const NormalSearch: React.FC = () => {
         </button>
       </div>
 
-      {/* 검색 결과가 있을 때만 필터링 버튼 표시 */}
-      {filteredData.length > 0 && (
+      {/* 검색 결과가 있거나 검색어가 있을 때 필터링 버튼 표시 */}
+      {(filteredData?.properties?.length > 0 || searchQuery.trim() !== '') && (
         <div className="flex items-center justify-between w-full px-2 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
           <p className="text-gray-700 font-medium">검색 결과</p>
           <FilterDropdown onSortChange={handleSortChange} />
@@ -212,7 +220,7 @@ const NormalSearch: React.FC = () => {
 
       {/* 카드 목록 */}
       <div className="flex flex-col gap-4">
-        {filteredData.map((item) => (
+        {filteredData?.properties?.map((item) => (
           <Card
             key={item.id}
             id={item.id}
@@ -228,6 +236,12 @@ const NormalSearch: React.FC = () => {
             imageUrl={item.imageUrl}
           />
         ))}
+        {filteredData?.properties?.length === 0 &&
+          searchQuery.trim() !== '' && (
+            <div className="text-center text-gray-500 py-4">
+              검색 결과가 없습니다.
+            </div>
+          )}
       </div>
 
       {/* 모달 */}

@@ -35,18 +35,26 @@ interface RequestData {
 
 // 일반 검색 정보 요청 API
 export const fetchNormalSearchResults = async (
-  query: string,
+  search: string,
   filters: Filters,
 ) => {
   try {
-    const response = await http.post(MAP_END_POINT.NORMAL_SEARCH, {
-      params: {
-        query,
-        ...filters, // 필터 데이터를 병합
-      }, // 검색어를 쿼리 파라미터로 전달
-    })
-    console.log(response.data)
-    return response.data // 응답 데이터를 반환
+    // 요청 본문 구성
+    const requestBody = {
+      search: search, // 검색어 (역삼역, 역삼동 등)
+      propertyTypes: filters.propertyTypes ?? [], // 원룸, 오피스텔, 아파트, 단독주택, 빌라 등
+      dealType: filters.dealType ?? '', // 월세, 전세 등
+      minPrice: filters.MindepositPrice ?? 0,
+      maxPrice: filters.MaxdepositPrice ?? 99999999999,
+      minRentPrice: filters.MinmonthlyPrice ?? 0,
+      maxRentPrice: filters.MaxmonthlyPrice ?? 99999999999,
+      facilityTypes: filters.additionalFilters ?? [], // 편의점, 병원, 약국 등
+    }
+    console.log(requestBody)
+    const response = await http.post(MAP_END_POINT.NORMAL_SEARCH, requestBody)
+
+    console.log('검색 응답:', response.data)
+    return response.data?.result // 응답 데이터의 result 속성을 안전하게 반환
   } catch (error) {
     console.error('검색 API 요청 중 오류 발생:', error)
     throw error // 에러를 호출한 곳으로 전달
