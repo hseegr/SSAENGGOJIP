@@ -60,7 +60,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
 
 
-    @Query(value = "SELECT * FROM property LIMIT 5000", nativeQuery = true)
+    @Query(value = "SELECT * FROM property LIMIT 20000", nativeQuery = true)
     List<Property> findAllCoordinates();
 
     @Query(nativeQuery = true,

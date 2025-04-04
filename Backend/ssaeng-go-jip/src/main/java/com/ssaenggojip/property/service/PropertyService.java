@@ -70,6 +70,7 @@ public class PropertyService {
                 .address(p.getAddress())
                 .latitude(p.getLatitude())
                 .longitude(p.getLongitude())
+                .imageUrl(p.getMainImage())
                 .maintenancePrice(p.getMaintenancePrice())
                 .isInterest(false)     // TODO:관심 매물 여부: 추후 구현
                 .isRecommend(false)    // TODO:추천 여부: 추후 구현
