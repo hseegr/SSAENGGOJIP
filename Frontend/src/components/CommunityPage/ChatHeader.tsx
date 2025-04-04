@@ -19,7 +19,7 @@ const ChatHeader = ({ onClose }: Props) => {
       console.log(
         `◀️ 뒤로가기: 채팅방 ${selectedChatRoom.id} 구독 해제 (UI만 닫음)`,
       )
-      unsubscribe(selectedChatRoom.id)
+      unsubscribe(String(selectedChatRoom.id))
     }
     onClose() // 채팅 모달 닫기
   }

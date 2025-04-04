@@ -90,20 +90,19 @@ const Sidebar = ({ onChatOpen }: Props) => {
   // 채팅방 클릭 시 처리
   const handleClickRoom = async (room: ChatRoom) => {
     const token = localStorage.getItem('accessToken')!
-
     const isAlreadyJoined = myChatRooms.some((r) => r.id === room.id)
 
     // 선택한 채팅방을 상태에 저장 (오버레이 or 모달용)
     setSelectedChatRoom(room)
 
     if (isAlreadyJoined) {
-      console.log('🟢 이미 참여한 채팅방 → 바로 연결 + 모달 열기', room.id)
+      console.log('🟢 이미 참여한 채팅방 → 모달 열기', room.id)
 
-      connect({
-        chatRoomId: room.id,
-        token,
-        onMessage: (msg) => console.log('📩 받은 메시지:', msg),
-      })
+      // connect({
+      //   chatRoomId: room.id,
+      //   token,
+      //   onMessage: (msg) => console.log('📩 받은 메시지:', msg),
+      // })
 
       onChatOpen()
     } else {
