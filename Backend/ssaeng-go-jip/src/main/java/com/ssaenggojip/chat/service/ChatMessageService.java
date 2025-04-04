@@ -55,7 +55,7 @@ public class ChatMessageService {
         ChatMessage chatMessage = ChatMessage.builder()
                 .userId(user.getId())
                 .chatRoomId(message.getChatRoomId())
-                .nickname(user.getNickname())
+                .nickname(message.getIsAnonymous() ? "익명" : user.getNickname())
                 .content(message.getContent())
                 .reportCount(0)
                 .isActive(true)

@@ -18,5 +18,6 @@ public class ChatRequestDto {
     private MessageType messageType;
     private String messageId;
     private String chatRoomId;
+    private Boolean isAnonymous;
     private String content;
 }
