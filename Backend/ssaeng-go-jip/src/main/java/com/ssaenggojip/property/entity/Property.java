@@ -5,17 +5,20 @@ import com.ssaenggojip.common.enums.PropertyType;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import org.locationtech.jts.geom.Point;
 import org.hibernate.annotations.Type;
 
 import java.util.List;
 
+@Entity
+@Table(name = "property")
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Entity
 @ToString
-@Table(name = "properties")
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,23 +27,34 @@ public class Property {
     @Column(nullable = false, length = 255)
     private String name;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(nullable = false, name = "deal_type", columnDefinition = "deal_type_enum")
     private DealType dealType;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(nullable = false, name = "property_type", columnDefinition = "property_type_enum")
     private PropertyType propertyType;
 
     @Column(nullable = false)
-    private Integer price;
+    private Long price;
+
+    private Long rentPrice;
+
+    private Long maintenancePrice;
 
     @Column(nullable = false)
-    private Double area;
-
-    @Column(nullable = false, length = 255)
-    private String address;
+    private Double exclusiveArea;
 
     @Column(nullable = false)
-    private Integer floor;
+    private Double supplyArea;
+
+    @Column(nullable = false, length = 8)
+    private String floor;
+
+    @Column(nullable = false, length = 8)
+    private String totalFloor;
 
     @Column(nullable = false)
     private Double latitude;
@@ -48,11 +62,20 @@ public class Property {
     @Column(nullable = false)
     private Double longitude;
 
-    @Column(nullable = false)
-    private Integer guCode;
+    @Column(nullable = false, length = 32)
+    private String sido;
 
-    @Column(nullable = false)
-    private Integer dCode;
+    @Column(nullable = false, length = 32)
+    private String sigungu;
+
+    @Column(nullable = false, length = 32)
+    private String dong;
+
+    @Column(nullable = false, length = 256)
+    private String address;
+
+    @Column(columnDefinition = "geometry(Point, 4326)")
+    private Point geom;
 
     @Setter
     @Type(value = JsonType.class)

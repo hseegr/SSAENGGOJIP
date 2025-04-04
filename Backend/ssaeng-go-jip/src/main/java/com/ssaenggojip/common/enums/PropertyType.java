@@ -1,5 +1,5 @@
 package com.ssaenggojip.common.enums;
 
 public enum PropertyType {
-    APARTMENT, ONEROOM, OFFICETEL, VILLA
+    아파트, 원룸, 오피스텔, 빌라, 단독주택
 }
