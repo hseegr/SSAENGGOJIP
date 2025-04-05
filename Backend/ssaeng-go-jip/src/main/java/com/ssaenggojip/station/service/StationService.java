@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -109,4 +110,10 @@ public class StationService {
                 .orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
     }
 
+    public List<List<Long>> findStationToStation(Long id, Integer totalTransportTime) {
+        List<StationRoute> stationRoutes = stationRouteReporitory.findByDepartureStationIdAndTransportTime(id, totalTransportTime);
+        return stationRoutes.stream()
+                .map(it -> List.of(it.getId(), it.getTransportTime().longValue()))
+                .collect(Collectors.toList());
+    }
 }

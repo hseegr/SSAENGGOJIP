@@ -18,9 +18,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(nullable = false, length = 255)

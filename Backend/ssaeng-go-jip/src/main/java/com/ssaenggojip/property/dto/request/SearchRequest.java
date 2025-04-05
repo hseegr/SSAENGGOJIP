@@ -12,7 +12,7 @@ public class SearchRequest {
 
     String search = "";
     List<PropertyType> propertyTypes = new ArrayList<>();
-    DealType dealType;
+    DealType dealType = null;
     Long minPrice = 0L;
     Long maxPrice = Long.MAX_VALUE;
     Long minRentPrice = 0L;

@@ -6,10 +6,11 @@ import org.springframework.stereotype.Component;
 
 public class TransportTimeProvider {
     private static final double EARTH_RADIUS_KM = 6371.0;
+    private static final double WALK_KM_PER_HOUR = 4.8;
 
     public int getWalkMinutes(double lat1, double lng1, double lat2, double lng2) {
         double distanceKm = calculateDistanceKm(lat1, lng1, lat2, lng2);
-        double timeMinutes = distanceKm / 4.8 / 60.0;
+        double timeMinutes = distanceKm / WALK_KM_PER_HOUR / 60.0;
         return (int) Math.ceil(timeMinutes);
     }
     public double calculateDistanceKm(double lat1, double lng1, double lat2, double lng2) {
@@ -21,5 +22,9 @@ public class TransportTimeProvider {
                 * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
         return EARTH_RADIUS_KM * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    }
+
+    public int walkTimeToDistance(int walkMinute){
+        return walkMinute * 80;
     }
 }

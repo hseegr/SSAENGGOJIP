@@ -2,6 +2,8 @@ package com.ssaenggojip.property.service;
 
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.common.util.TransportTimeProvider;
+import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
 import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.dto.request.SearchRequest;
@@ -11,8 +13,7 @@ import com.ssaenggojip.station.service.StationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +21,7 @@ public class PropertyFacade {
 
     private final StationService stationService;
     private final PropertyService propertyService;
+    private final TransportTimeProvider transportTimeProvider;
 
     public SearchResponse searchProperties(SearchRequest request) {
         String search = request.getSearch();
@@ -91,4 +93,35 @@ public class PropertyFacade {
     }
 
 
+    public RecommendSearchResponse searchRecommend(RecommendSearchRequest request) {
+
+        // 1 주소 기준 K시간 이내 도보권 매물 - p
+        List<RecommendSearchDto> properties1 = propertyService.searchPropertiesWithWalkTime(request
+                , 0);
+        // 2 지하철 이용시
+        List<RecommendSearchDto> response = propertyService.getRecommendedProperties(request, 0);
+
+        Map<Long, RecommendSearchProperty> merged = new HashMap<>();
+        for (RecommendSearchDto p : properties1) {
+            merged.put(p.getId(), new RecommendSearchProperty(p));
+        }
+        for (RecommendSearchDto p : response) {
+            RecommendSearchProperty existing = merged.get(p.getId());
+            if (existing == null || p.getTotalTime() < existing.getTransportTimes().get(0)) {
+                merged.put(p.getId(),  new RecommendSearchProperty(p));
+            }
+        }
+        // 결과 리스트
+        List<RecommendSearchProperty> result = new ArrayList<>(merged.values());
+        if(result.size()>5000)
+            throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
+
+
+        return RecommendSearchResponse.builder()
+                .total(result.size())
+                .properties(result)
+                .build();
+
+
+    }
 }
