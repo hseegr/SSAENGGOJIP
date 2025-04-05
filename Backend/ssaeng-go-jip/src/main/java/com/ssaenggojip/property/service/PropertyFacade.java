@@ -2,6 +2,7 @@ package com.ssaenggojip.property.service;
 
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.common.enums.TransportationType;
 import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
 import com.ssaenggojip.property.dto.response.*;
@@ -98,19 +99,24 @@ public class PropertyFacade {
         // 1 주소 기준 K시간 이내 도보권 매물 - p
         List<RecommendSearchDto> properties1 = propertyService.searchPropertiesWithWalkTime(request
                 , 0);
-        // 2 지하철 이용시
-        List<RecommendSearchDto> response = propertyService.getRecommendedProperties(request, 0);
 
         Map<Long, RecommendSearchProperty> merged = new HashMap<>();
         for (RecommendSearchDto p : properties1) {
             merged.put(p.getId(), new RecommendSearchProperty(p));
         }
-        for (RecommendSearchDto p : response) {
-            RecommendSearchProperty existing = merged.get(p.getId());
-            if (existing == null || p.getTotalTime() < existing.getTransportTimes().get(0)) {
-                merged.put(p.getId(),  new RecommendSearchProperty(p));
+
+        // 2 지하철 이용시
+        if(TransportationType.valueOf(request.getAddresses().get(0).getTransportationType()) == TransportationType.지하철){
+            List<RecommendSearchDto> response = propertyService.getRecommendedProperties(request, 0);
+
+            for (RecommendSearchDto p : response) {
+                RecommendSearchProperty existing = merged.get(p.getId());
+                if (existing == null || p.getTotalTime() < existing.getTransportTimes().get(0)) {
+                    merged.put(p.getId(),  new RecommendSearchProperty(p));
+                }
             }
         }
+
         // 결과 리스트
         List<RecommendSearchProperty> result = new ArrayList<>(merged.values());
         if(result.size()>5000)
