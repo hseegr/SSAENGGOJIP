@@ -105,20 +105,26 @@ const RecommendedSection = () => {
   const isLoggedIn = useUserStore((state) => state.isLoggedIn)
 
   // 로그인 여부에 따라 적절한 추천 쿼리 훅 호출
-  const { data, isLoading, isError } = isLoggedIn ? preference : location
+  const { data, isLoading, isError, error } = isLoggedIn ? preference : location
 
   // 에러 발생 시 토스트로 알림
   useEffect(() => {
     if (isError) {
+      console.error('❌ 에러 내용:', error) // 이 줄이 핵심!
       toast.error('추천 매물을 불러오지 못했습니다.')
     }
-  }, [isError])
+  }, [isError, error])
 
   // 로딩 중일 때 로딩 메시지 출력
   if (isLoading) return <div>매물 추천 로딩 중...</div>
 
   // 에러 또는 데이터 없음 시 아무것도 렌더링하지 않음 (토스트만 띄움)
-  if (isError || !data) return null
+  if (isError) return <div>추천 매물을 불러오지 못했습니다.</div>
+
+  if (!data) {
+    console.warn('❌ data가 없습니다:', data)
+    return <div>데이터 없음</div>
+  }
 
   // 디버깅용 로그
   // console.log('API 응답:', data)
