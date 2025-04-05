@@ -1,3 +1,5 @@
+import { AlertTriangle, Trash2 } from 'lucide-react'
+
 type Props = {
   nickname: string
   content: string
@@ -20,7 +22,7 @@ const ChatBubble = ({ nickname, content, time, isMe }: Props) => {
           {nickname}
         </div>
 
-        {/* 말풍선 + 시간 묶음 */}
+        {/* 말풍선 + 시간 + 아이콘 묶음 */}
         <div
           className={`flex items-end gap-1 ${
             isMe ? 'flex-row-reverse self-end' : ''
@@ -36,8 +38,36 @@ const ChatBubble = ({ nickname, content, time, isMe }: Props) => {
             {content}
           </div>
 
-          {/* 시간 */}
-          <div className="text-xs text-gray-400 whitespace-nowrap">{time}</div>
+          {/* 시간 + 아이콘 */}
+          <div
+            className={`flex items-center gap-1 text-xs text-gray-400 whitespace-nowrap ${
+              isMe ? 'flex-row-reverse' : ''
+            }`}
+          >
+            {/* 시간 */}
+            <span>{time}</span>
+
+            {/* 아이콘 - 위치 다르게 */}
+            {isMe ? (
+              // 내가 보낸 메시지: 삭제 (🗑️ 왼쪽)
+              <button
+                onClick={() => {
+                  console.log('🗑️ 삭제 클릭')
+                }}
+              >
+                <Trash2 size={10} className="hover:text-gray-600" />
+              </button>
+            ) : (
+              // 남이 보낸 메시지: 신고 (🚨 오른쪽)
+              <button
+                onClick={() => {
+                  console.log('🚨 신고 클릭')
+                }}
+              >
+                <AlertTriangle size={10} className="hover:text-gray-600" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
