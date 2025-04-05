@@ -1,10 +1,12 @@
 package com.ssaenggojip.station.dto.response;
 
 import com.ssaenggojip.station.entity.StationDetail;
+import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Data
 public class Congestion {
     List<Double> weekDays;
     List<Double> saturday;
