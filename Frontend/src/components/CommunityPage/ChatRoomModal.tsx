@@ -151,17 +151,71 @@ const ChatRoomModal = ({ onClose }: Props) => {
   // }, [selectedChatRoom, myUserId])
 
   // ✅ WebSocket 메시지 수신 처리
+  // useEffect(() => {
+  //   if (!selectedChatRoom || !token) return
+
+  //   const handleMessage = (msg) => {
+  //     console.log('수신된 메시지:', msg)
+
+  //     if (msg.messageType) {
+  //       // 받은 메시지를 상태에 추가
+  //       const newMsg: Message = {
+  //         id: msg.id || Date.now().toString(),
+  //         nickname: msg.nickname,
+  //         content:
+  //           msg.isActive !== false ? msg.content : '삭제된 메시지입니다.',
+  //         time: new Date().toLocaleTimeString([], {
+  //           hour: '2-digit',
+  //           minute: '2-digit',
+  //         }),
+  //         isMe: Number(msg.userId) === myUserId,
+  //       }
+
+  //       // 중요: 함수형 업데이트 사용
+  //       setMessages((prevMessages) => {
+  //         // 이미 존재하는 메시지인지 확인 (중복 방지)
+  //         const exists = prevMessages.some((m) => m.id === newMsg.id)
+  //         if (exists) return prevMessages
+
+  //         console.log('새 메시지 추가:', newMsg)
+
+  //         const updatedMessages = [...prevMessages, newMsg]
+
+  //         // 마지막 메시지 업데이트 (Sidebar 카드 업데이트)
+  //         if (selectedChatRoom) {
+  //           updateLastMessage(String(selectedChatRoom.id), newMsg.content)
+  //         }
+
+  //         // 새 메시지 추가
+  //         return updatedMessages
+  //       })
+
+  //       // 새 메시지가 추가되면 스크롤을 아래로 이동
+  //       setTimeout(scrollToBottom, 100)
+  //     }
+  //   }
+
+  //   // 웹소켓 연결 설정
+  //   connect({
+  //     chatRoomId: String(selectedChatRoom.id),
+  //     token,
+  //     onMessage: handleMessage, // 별도 함수로 분리
+  //   })
+  // }, [selectedChatRoom, token, myUserId, updateLastMessage]) // connect 함수도 종속성에 추가
+  // ✅ WebSocket 메시지 수신 처리
   useEffect(() => {
     if (!selectedChatRoom || !token) return
 
     const handleMessage = (msg) => {
-      console.log('수신된 메시지:', msg)
+      console.log('수신된 메시지 전체:', msg)
 
-      if (msg.messageType === 'TALK') {
+      // 메시지 타입이 없는 경우를 처리 (모든 메시지를 채팅으로 간주)
+      // TALK 메시지 타입을 확인하지 않고 content가 있으면 메시지로 처리
+      if (msg.content) {
         // 받은 메시지를 상태에 추가
-        const newMsg: Message = {
+        const newMsg = {
           id: msg.id || Date.now().toString(),
-          nickname: msg.nickname,
+          nickname: msg.nickname || '알 수 없음',
           content:
             msg.isActive !== false ? msg.content : '삭제된 메시지입니다.',
           time: new Date().toLocaleTimeString([], {
@@ -171,29 +225,46 @@ const ChatRoomModal = ({ onClose }: Props) => {
           isMe: Number(msg.userId) === myUserId,
         }
 
-        // 중요: 함수형 업데이트 사용
-        setMessages((prevMessages) => {
-          // 이미 존재하는 메시지인지 확인 (중복 방지)
-          const exists = prevMessages.some((m) => m.id === newMsg.id)
-          if (exists) return prevMessages
+        console.log('새 메시지 객체 생성:', newMsg)
 
-          console.log('새 메시지 추가:', newMsg)
-          // 새 메시지 추가
+        // 함수형 업데이트 사용
+        setMessages((prevMessages) => {
+          // 중복 메시지 방지
+          if (prevMessages.some((m) => m.id === newMsg.id)) {
+            console.log('중복 메시지 무시')
+            return prevMessages
+          }
+
+          console.log('메시지 배열에 추가')
+          // 새 메시지 배열 생성
           return [...prevMessages, newMsg]
         })
 
-        // 새 메시지가 추가되면 스크롤을 아래로 이동
+        // 마지막 메시지 업데이트 (Sidebar 표시용)
+        if (selectedChatRoom) {
+          console.log(
+            '마지막 메시지 업데이트:',
+            selectedChatRoom.id,
+            newMsg.content,
+          )
+          updateLastMessage(selectedChatRoom.id, newMsg.content)
+        }
+
+        // 스크롤 아래로 이동
         setTimeout(scrollToBottom, 100)
+      } else {
+        console.log('메시지 content가 없음:', msg)
       }
     }
 
-    // 웹소켓 연결 설정
+    // 웹소켓 연결
+    console.log('웹소켓 연결 시도:', selectedChatRoom.id)
     connect({
       chatRoomId: String(selectedChatRoom.id),
       token,
-      onMessage: handleMessage, // 별도 함수로 분리
+      onMessage: handleMessage,
     })
-  }, [selectedChatRoom?.id, token, myUserId]) // connect 함수도 종속성에 추가
+  }, [selectedChatRoom, token, myUserId])
 
   // 메시지 전송 핸들러
   const handleSend = () => {
