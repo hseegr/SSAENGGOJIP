@@ -48,6 +48,9 @@ public class PropertyService {
                 isStationSearch
         );
 
+        if(properties.size()>5000)
+            throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
+
         // dto로 변경
         List<SearchProperty> result = properties.stream()
                 .map(property -> PropertyConverter.mapToDto(property, false, false))
