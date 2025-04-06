@@ -67,7 +67,8 @@ export const useChatSocket = () => {
       console.log(
         `ℹ️ 이미 구독 중인 채팅방 ${chatRoomId} - 기존 구독 해제 후 재구독`,
       )
-      return // 기존 구독을 유지하고 새로운 구독을 만들지 않음
+      return
+      // unsubscribe(chatRoomId)
     }
 
     // STOMP 구독 시작
@@ -124,10 +125,11 @@ export const useChatSocket = () => {
 
   // ✅ 메시지 전송
   const sendMessage = (payload: {
-    messageType: 'TALK' | 'DELETE' // 수정도 추가 예정
+    messageType: 'TALK' | 'DELETE' | 'REPORT'
     chatRoomId: string
     content?: string
-    isAnonymous: boolean
+    isAnonymous?: boolean
+    messageId?: string
   }) => {
     if (
       !stompClient ||
@@ -138,15 +140,34 @@ export const useChatSocket = () => {
       return
     }
 
+    // messageType에 따라 다른 payload 구성
+    let messagePayload = {}
+
+    // TALK인 경우
+    if (payload.messageType === 'TALK') {
+      messagePayload = {
+        messageType: payload.messageType,
+        chatRoomId: payload.chatRoomId,
+        isAnonymous: payload.isAnonymous ?? false,
+        content: payload.content ?? '',
+      }
+    }
+    // DELETE나 REPORT인 경우
+    else if (
+      payload.messageType === 'DELETE' ||
+      payload.messageType === 'REPORT'
+    ) {
+      messagePayload = {
+        messageType: payload.messageType,
+        messageId: payload.messageId, // messageId 유지
+        chatRoomId: payload.chatRoomId,
+      }
+    }
+
     stompClient.publish({
       destination: '/pub/chat-messages',
       headers: {},
-      body: JSON.stringify({
-        messageType: payload.messageType,
-        chatRoomId: payload.chatRoomId,
-        isAnonymous: payload.isAnonymous,
-        content: payload.content ?? '',
-      }),
+      body: JSON.stringify(messagePayload),
     })
   }
 

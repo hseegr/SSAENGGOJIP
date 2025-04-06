@@ -5,9 +5,22 @@ type Props = {
   content: string
   time: string
   isMe: boolean
+  messageId: string
+  isActive: boolean
+  onDelete: (messageId: string) => void
+  onReport: (messageId: string) => void
 }
 
-const ChatBubble = ({ nickname, content, time, isMe }: Props) => {
+const ChatBubble = ({
+  nickname,
+  content,
+  time,
+  isMe,
+  messageId,
+  isActive,
+  onDelete,
+  onReport,
+}: Props) => {
   return (
     // 전체 메시지 라인: 좌우 정렬을 위해 flex 사용
     <div className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
@@ -29,15 +42,19 @@ const ChatBubble = ({ nickname, content, time, isMe }: Props) => {
           }`}
         >
           {/* 말풍선 */}
+          {/* 💬 말풍선 (삭제/신고된 경우 회색 처리) */}
           <div
             className={`px-4 py-2 text-sm rounded-xl whitespace-pre-wrap break-words ${
-              isMe ? 'bg-[#D5D5FE] text-black' : 'bg-[#F4F4F4] text-black'
+              isActive
+                ? isMe
+                  ? 'bg-[#D5D5FE] text-black'
+                  : 'bg-[#F4F4F4] text-black'
+                : 'bg-gray-200 text-gray-500'
             }`}
-            style={{ maxWidth: '100%' }} // 💥 핵심: 말풍선이 가로 공간을 꽉 채우지 않도록 제한
+            style={{ maxWidth: '100%' }}
           >
             {content}
           </div>
-
           {/* 시간 + 아이콘 */}
           <div
             className={`flex items-center gap-1 text-xs text-gray-400 whitespace-nowrap ${
@@ -53,6 +70,7 @@ const ChatBubble = ({ nickname, content, time, isMe }: Props) => {
               <button
                 onClick={() => {
                   console.log('🗑️ 삭제 클릭')
+                  onDelete(messageId)
                 }}
               >
                 <Trash2 size={10} className="hover:text-gray-600" />
@@ -62,6 +80,7 @@ const ChatBubble = ({ nickname, content, time, isMe }: Props) => {
               <button
                 onClick={() => {
                   console.log('🚨 신고 클릭')
+                  onReport(messageId)
                 }}
               >
                 <AlertTriangle size={10} className="hover:text-gray-600" />

@@ -14,6 +14,7 @@ type Message = {
   content: string // 메시지 내용
   time: string // 보낸 시간
   isMe: boolean // 내가 보낸 메시지 여부
+  isActive: boolean
 }
 
 // props: 채팅방 닫기 기능을 위한 onClose 함수
@@ -91,6 +92,7 @@ const ChatRoomModal = ({ onClose }: Props) => {
             minute: '2-digit',
           }),
           isMe: Number(msg.userId) === myUserId, // ✅ 명시적으로 숫자 변환해서 비교
+          isActive: msg.isActive !== false, // ✅ 삭제 or 신고된 메시지인 경우 false
         }))
 
         // ⭐️ 명시적으로 reverse()를 사용하여 순서를 반대로 변경
@@ -117,20 +119,35 @@ const ChatRoomModal = ({ onClose }: Props) => {
     const handleMessage = (msg) => {
       console.log('수신된 메시지 전체:', msg)
 
-      // 메시지 타입이 없는 경우를 처리 (모든 메시지를 채팅으로 간주)
-      // TALK 메시지 타입을 확인하지 않고 content가 있으면 메시지로 처리
+      // 삭제/신고 처리 먼저 확인
+      if (msg.messageType === 'DELETE' || msg.messageType === 'REPORT') {
+        setMessages((prevMessages) =>
+          prevMessages.map((m) =>
+            m.id === msg.id
+              ? {
+                  ...m,
+                  content: msg.content,
+                  isActive: false,
+                }
+              : m,
+          ),
+        )
+        return
+      }
+
+      // 일반 TALK 메시지 처리
       if (msg.content) {
         // 받은 메시지를 상태에 추가
         const newMsg = {
           id: msg.id || Date.now().toString(),
           nickname: msg.nickname || '알 수 없음',
-          content:
-            msg.isActive !== false ? msg.content : '삭제된 메시지입니다.',
+          content: msg.content,
           time: new Date().toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
           }),
           isMe: Number(msg.userId) === myUserId,
+          isActive: true,
         }
 
         console.log('새 메시지 객체 생성:', newMsg)
@@ -172,9 +189,9 @@ const ChatRoomModal = ({ onClose }: Props) => {
       token,
       onMessage: handleMessage,
     })
-  }, [selectedChatRoom, token, myUserId])
+  }, [selectedChatRoom?.id])
 
-  // 메시지 전송 핸들러
+  // ✅ 메시지 전송 핸들러
   const handleSend = () => {
     if (!input.trim() || !selectedChatRoom) return // 공백 메시지는 무시
 
@@ -203,6 +220,7 @@ const ChatRoomModal = ({ onClose }: Props) => {
         minute: '2-digit',
       }),
       isMe: true, // 내가 보낸 메시지
+      isActive: true,
     }
 
     // 새 메시지 추가 (최신 메시지는 배열의 끝에 추가)
@@ -215,6 +233,45 @@ const ChatRoomModal = ({ onClose }: Props) => {
     setTimeout(scrollToBottom, 100)
   }
 
+  // ✅ 메시지 삭제 핸들러
+  // 메시지 삭제 핸들러
+  const handleDeleteMessage = (id: string) => {
+    console.log('📤 삭제 요청 보냄:', id)
+
+    // 서버에 요청 보내기 전에 먼저 UI 업데이트 (낙관적 업데이트)
+    setMessages((prevMessages) =>
+      prevMessages.map((message) =>
+        message.id === id
+          ? { ...message, content: '삭제된 메시지입니다.', isActive: false }
+          : message,
+      ),
+    )
+
+    // 서버에 삭제 요청 보내기
+    sendMessage({
+      messageType: 'DELETE',
+      messageId: id,
+      chatRoomId: String(selectedChatRoom?.id),
+    })
+  }
+
+  // ✅ 메시지 신고 핸들러
+  // 메시지 신고 핸들러
+  const handleReportMessage = (id: string) => {
+    console.log('📤 신고 요청 보냄:', id)
+
+    // 단순히 신고 요청만 보내고, UI 업데이트는 서버 응답에 맡김
+    sendMessage({
+      messageType: 'REPORT',
+      messageId: id,
+      chatRoomId: String(selectedChatRoom?.id),
+    })
+
+    // 사용자에게 신고가 접수되었다는 알림만 표시
+    // toast 또는 alert 등으로 처리
+    alert('신고가 접수되었습니다.') // 또는 toast 라이브러리 사용
+  }
+
   return (
     // 전체 채팅방 컨테이너 (모달로 오른쪽에 뜬다고 가정)
     <div className="flex flex-col justify-between w-full h-full bg-ssaeng-gray-3 px-10">
@@ -225,7 +282,11 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
       {/* 메시지 리스트 (스크롤 가능한 영역) - ref 추가 */}
       <div className="flex-1 overflow-y-auto mb-4" ref={messageListRef}>
-        <ChatMessageList messages={messages} />
+        <ChatMessageList
+          messages={messages}
+          onDelete={handleDeleteMessage}
+          onReport={handleReportMessage}
+        />
       </div>
 
       {/* 입력창 - 항상 보이도록 하단에 고정 */}
