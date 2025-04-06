@@ -22,5 +22,6 @@ export interface LikedProperty {
 
 export const fetchLikedProperties = async (): Promise<LikedProperty[]> => {
     const response = await http.get(PROPERTY_END_POINT.GET_LIKED_PROPERTIES)
+    console.log('관심 매물 응답', response.data)
     return response.data.result.properties
 }

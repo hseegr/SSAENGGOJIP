@@ -67,7 +67,8 @@ export const useChatSocket = () => {
       console.log(
         `ℹ️ 이미 구독 중인 채팅방 ${chatRoomId} - 기존 구독 해제 후 재구독`,
       )
-      unsubscribe(chatRoomId)
+      return
+      // unsubscribe(chatRoomId)
     }
 
     // STOMP 구독 시작
@@ -77,7 +78,13 @@ export const useChatSocket = () => {
         const payload = JSON.parse(message.body)
         console.log('💬 메시지 수신:', payload)
 
-        if (onMessage) onMessage(payload)
+        // if (onMessage) onMessage(payload)
+        // 여기서 콜백 실행이 제대로 되는지 확인
+        if (onMessage) {
+          console.log('onMessage 콜백 실행 전')
+          onMessage(payload)
+          console.log('onMessage 콜백 실행 후')
+        }
       },
     )
 
@@ -118,10 +125,11 @@ export const useChatSocket = () => {
 
   // ✅ 메시지 전송
   const sendMessage = (payload: {
-    messageType: 'TALK' | 'DELETE' // 수정도 추가 예정
+    messageType: 'TALK' | 'DELETE' | 'REPORT'
     chatRoomId: string
     content?: string
-    isAnonymous: boolean
+    isAnonymous?: boolean
+    messageId?: string
   }) => {
     if (
       !stompClient ||
@@ -132,15 +140,34 @@ export const useChatSocket = () => {
       return
     }
 
+    // messageType에 따라 다른 payload 구성
+    let messagePayload = {}
+
+    // TALK인 경우
+    if (payload.messageType === 'TALK') {
+      messagePayload = {
+        messageType: payload.messageType,
+        chatRoomId: payload.chatRoomId,
+        isAnonymous: payload.isAnonymous ?? false,
+        content: payload.content ?? '',
+      }
+    }
+    // DELETE나 REPORT인 경우
+    else if (
+      payload.messageType === 'DELETE' ||
+      payload.messageType === 'REPORT'
+    ) {
+      messagePayload = {
+        messageType: payload.messageType,
+        messageId: payload.messageId, // messageId 유지
+        chatRoomId: payload.chatRoomId,
+      }
+    }
+
     stompClient.publish({
       destination: '/pub/chat-messages',
       headers: {},
-      body: JSON.stringify({
-        messageType: payload.messageType,
-        chatRoomId: payload.chatRoomId,
-        isAnonymous: payload.isAnonymous,
-        content: payload.content ?? '',
-      }),
+      body: JSON.stringify(messagePayload),
     })
   }
 

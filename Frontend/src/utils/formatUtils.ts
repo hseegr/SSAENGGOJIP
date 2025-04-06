@@ -8,3 +8,7 @@ export const formatToKoreanCurrency = (value: number): string => {
     }
     return `${value.toLocaleString()}`;
 }
+
+export const formatMaintenanceFee = (value: number): string => {
+    return `${formatToKoreanCurrency(value)}만`
+}

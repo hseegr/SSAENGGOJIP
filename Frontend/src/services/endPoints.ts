@@ -59,6 +59,26 @@ export const STATION_END_POINT = {
 export const MAP_END_POINT = {
   // 일반 검색
   NORMAL_SEARCH: '/properties/search',
+  // 매물 상세 정보
+  GET_DETAIL: (propertyId: number) => `/properties/${propertyId}`,
+  // 전체 데이터 받기(지도에 보여주기용)
+  GET_ALL: '/properties/coordinates',
+  // 맞춤 검색
+  MATCH_SEARCH: '/properties/recommend-search',
+}
+
+// 맞춤 검색 페이지 타겟 주소 관련
+export const MATCH_SEARCH_TARGET_END_POINT = {
+  // 타겟 주소 조회 - GET
+  GET_TARGET: '/target-addresses',
+  // 타겟 주소 추가 - POST
+  ADD_TARGET: '/target-addresses',
+  // 타겟 주소 수정 - PATCH
+  EDIT_TARGET: (targetAddressId: number) =>
+    `/target-addresses/${targetAddressId}`,
+  // 타겟 주소 삭제 - DELETE
+  DELETE_TARGET: (targetAddressId: number) =>
+    `/target-addresses/${targetAddressId}`,
 }
 
 // 관심 매물 관련 API

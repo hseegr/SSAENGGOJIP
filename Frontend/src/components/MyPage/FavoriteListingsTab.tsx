@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import PropertyGrid from '@/components/common/PropertyGrid'
-// import mockProperties from '@/mocks/mockProperty'
+import PropertyGrid from '@/components/common/property/PropertyGrid'
 import { Button } from '@/components/ui/button'
 import { toast } from 'react-toastify'
 import CompareModal from '@/components/MyPage/CompareModal'
@@ -10,16 +9,17 @@ const FavoriteListingsTab = () => {
     const [isCompareMode, setIsCompareMode] = useState(false)
     const [selectedIds, setSelectedIds] = useState<number[]>([])
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [likedProperties, setLikedProperties] = useState<LikedProperty[]>([])
+    const [likedProperties, setLikedProperties] = useState<LikedProperty[] | undefined>(undefined)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await fetchLikedProperties()
-                setLikedProperties(data)
+                setLikedProperties(data ?? []) // undefined 방어 처리
             } catch (error) {
                 console.error('관심 매물 조회 실패:', error)
                 toast.error('관심 매물을 불러오는데 실패했습니다.')
+                setLikedProperties([])
             }
         }
 
@@ -27,9 +27,15 @@ const FavoriteListingsTab = () => {
     }, [])
 
     const toggleCompareMode = () => {
+        if (likedProperties?.length === 0) {
+            toast.warning('관심 매물을 등록해야 비교 기능을 이용할 수 있어요!')
+            return
+        }
+
         if (isCompareMode) {
             setSelectedIds([]) // 종료 시 선택 초기화
         }
+
         setIsCompareMode((prev) => !prev)
     }
 
@@ -59,14 +65,22 @@ const FavoriteListingsTab = () => {
         <div className="relative p-10 pb-28">
             <h2 className="text-2xl font-bold text-ssaeng-purple mb-8">관심 매물</h2>
 
-            <PropertyGrid
-                // properties={mockProperties}
-                properties={likedProperties}
-                columns={3}
-                isCompareMode={isCompareMode}
-                selectedIds={selectedIds}
-                onSelect={handleSelect}
-            />
+            {/* 매물 목록 */}
+            {likedProperties && likedProperties.length > 0 ? (
+                <PropertyGrid
+                    properties={likedProperties}
+                    columns={3}
+                    isCompareMode={isCompareMode}
+                    selectedIds={selectedIds}
+                    onSelect={handleSelect}
+                />
+            ) : (
+                <div className="min-h-[200px] flex items-start pt-2">
+                    <p className="text-gray-500">
+                        관심 매물이 없습니다. 관심 매물을 등록해주세요!
+                    </p>
+                </div>
+            )}
 
             {/* 고정 하단 바 */}
             <div className="fixed bottom-0 left-0 w-full bg-ssaeng-purple text-white px-6 py-4 z-50">
@@ -77,8 +91,7 @@ const FavoriteListingsTab = () => {
                                 <span className="pr-6">최대 3개까지 비교할 수 있어요!</span>
                                 {[0, 1, 2].map((i) => {
                                     const selected = selectedIds[i]
-                                    // const property = mockProperties.find((p) => p.id === selected)
-                                    const property = likedProperties.find((p) => p.id === selected)
+                                    const property = likedProperties?.find((p) => p.id === selected)
                                     return (
                                         <span
                                             key={i}
@@ -124,9 +137,7 @@ const FavoriteListingsTab = () => {
             </div>
 
             {/* 비교 모달 */}
-            {isModalOpen && (
-                <CompareModal selectedIds={selectedIds} onClose={handleModalClose} />
-            )}
+            {isModalOpen && <CompareModal selectedIds={selectedIds} onClose={handleModalClose} />}
         </div>
     )
 }

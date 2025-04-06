@@ -25,25 +25,22 @@ const useMatchInfoStore = create<MatchInfoStore>((set) => ({
   propertyType: [], // 초기값은 빈 배열
   dealType: '', // 초기값은 빈 문자열
 
-  addMatchInfo: (): number => {
-    const currentState = useMatchInfoStore.getState() // 현재 상태 가져오기
-    const newId = currentState.matchInfos.length + 1 // 새로운 ID 계산
-
+  addMatchInfo: (apiId, matchData) => {
     set((state) => ({
       matchInfos: [
         ...state.matchInfos,
         {
-          id: newId,
-          address: '',
-          name: '',
-          transportMode: '',
-          travelTime: 0,
-          walkTime: 0,
+          id: apiId, // API에서 받아온 id 사용
+          address: matchData?.address || '',
+          name: matchData?.name || '',
+          transportMode: matchData?.transportMode || '',
+          travelTime: matchData?.travelTime || 0,
+          walkTime: matchData?.walkTime || 0,
         },
       ],
     }))
 
-    return newId // 새로 생성된 박스의 ID 반환
+    return apiId // API에서 받아온 id 반환
   },
 
   // 특정 박스 데이터 업데이트

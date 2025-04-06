@@ -7,19 +7,25 @@ import HeartBlueIcon from '@/assets/map_sidebar/Heart_blue.svg?react'
 import SearchBlueIcon from '@/assets/map_sidebar/Search_blue.png'
 import HomeBlueIcon from '@/assets/map_sidebar/Home_blue.svg?react'
 import ContentArea from './ContentArea'
-import DetailInfo from './ContentArea/Details' // 상세정보 컴포넌트 가져오기
+import PropertyDetail from '@/components/common/property/PropertyDetail'
 
 const Sidebar: React.FC = () => {
-  const { activeTab, setActiveTab } = useSidebarStore() // Zustand store에서 상태와 업데이트 함수 가져오기
-  const { selectedCard } = useSidebarStore() // 선택된 카드 상태
+  const { activeTab, setActiveTab, selectedCard, setSelectedCard } = useSidebarStore()
+
+  const clickSidebar = (
+    tab: 'normal_search' | 'match_search' | 'favorites' | null,
+  ) => {
+    setActiveTab(tab)
+    setSelectedCard(null)
+  }
 
   return (
     <div className="flex h-screen">
-      {/* Sidebar Content */}
+      {/* Tab 버튼 */}
       <div className="w-20 bg-white border-r border-ssaeng-gray-1 flex flex-col items-center pt-5">
         <button
           className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
-          onClick={() => setActiveTab('normal_search')}
+          onClick={() => clickSidebar('normal_search')}
         >
           {activeTab === 'normal_search' ? (
             <>
@@ -33,9 +39,10 @@ const Sidebar: React.FC = () => {
             </>
           )}
         </button>
+
         <button
           className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
-          onClick={() => setActiveTab('match_search')}
+          onClick={() => clickSidebar('match_search')}
         >
           {activeTab === 'match_search' ? (
             <>
@@ -49,9 +56,10 @@ const Sidebar: React.FC = () => {
             </>
           )}
         </button>
+
         <button
           className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
-          onClick={() => setActiveTab('favorites')}
+          onClick={() => clickSidebar('favorites')}
         >
           {activeTab === 'favorites' ? (
             <>
@@ -67,15 +75,14 @@ const Sidebar: React.FC = () => {
         </button>
       </div>
 
-      {/* Main Content */}
-      <div className="flex flex-grow">
-        {/* Content Area */}
-        {activeTab && (
-          <ContentArea /> // 카드 클릭 핸들러 전달
+      {/* 본문: 목록 + 상세정보 */}
+      <div className="flex flex-grow h-full">
+        {activeTab && <ContentArea />}
+        {selectedCard && (
+          <div className="w-[400px] border-l border-gray-200 bg-white overflow-y-auto shadow-md">
+            <PropertyDetail id={selectedCard} onClose={() => setSelectedCard(null)} />
+          </div>
         )}
-
-        {/* 상세정보 영역 */}
-        {selectedCard && <DetailInfo />}
       </div>
     </div>
   )

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { formatPrice } from '@/utils/formPrice'
 import useSidebarStore from '@/store/sidebar'
 import { Heart } from 'lucide-react'
+import useMatchInfoStore from '@/store/matchInfoStore'
 
 interface CardProps {
   id: number
@@ -20,9 +21,10 @@ interface CardProps {
   isRecommend?: boolean // 추천 여부 (선택적)
   isInterest?: boolean // 관심 여부 (선택적)
   imageUrl?: string // 이미지 URL (선택적)
+  transportTimes?: number[]
 }
 
-const Card: React.FC<CardProps> = ({
+const MatchCard: React.FC<CardProps> = ({
   id,
   title,
   propertyType,
@@ -37,11 +39,13 @@ const Card: React.FC<CardProps> = ({
   isRecommend,
   isInterest,
   imageUrl,
+  transportTimes,
 }) => {
   const { selectedCard, setSelectedCard } = useSidebarStore()
 
   const [isLiked, setIsLiked] = useState(isInterest ?? false) // 초기 상태는 API에서 제공된 관심 여부
-
+  // 컴포넌트 내부에서
+  const { matchInfos } = useMatchInfoStore()
   const handleClick = () => {
     setSelectedCard(id) // 선택된 카드 ID 저장
   }
@@ -108,6 +112,33 @@ const Card: React.FC<CardProps> = ({
 
       {/* 텍스트 영역 */}
       <div className="p-4 w-1/2">
+        <div className="flex items-center gap-2 text-sm">
+          {(transportTimes ?? []).length > 0 && (
+            <>
+              <span className="text-green-500 font-medium">
+                {matchInfos?.[0]?.name
+                  ? `${matchInfos[0].name.slice(0, 3)}${matchInfos[0].name.length > 3 ? '...' : ''}`
+                  : ''}
+              </span>
+              <span className="bg-green-100 px-2 py-1 rounded-md text-green-700 font-medium">
+                {transportTimes?.[0]}분
+              </span>
+            </>
+          )}
+
+          {(transportTimes ?? []).length > 1 && (
+            <>
+              <span className="text-green-500 font-medium">
+                {matchInfos?.[1]?.name
+                  ? `${matchInfos[1].name.slice(0, 3)}${matchInfos[1].name.length > 3 ? '...' : ''}`
+                  : ''}
+              </span>
+              <span className="bg-green-100 px-2 py-1 rounded-md text-green-700 font-medium">
+                {transportTimes?.[1]}분
+              </span>
+            </>
+          )}
+        </div>
         <p className="flex text-sm">{propertyType}</p>
         <div className="flex">
           <p className="text-base font-bold text-gray-700 pr-2">{dealType}</p>
@@ -137,4 +168,4 @@ const Card: React.FC<CardProps> = ({
   )
 }
 
-export default Card
+export default MatchCard
