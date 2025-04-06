@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface PropertyImageRepository extends JpaRepository<PropertyImage, Long> {
     List<PropertyImage> findByProperty_Id(Long id);
+
 }
