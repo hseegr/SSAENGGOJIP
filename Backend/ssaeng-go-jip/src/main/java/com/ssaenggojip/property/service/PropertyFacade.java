@@ -4,6 +4,7 @@ import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.enums.TransportationType;
 import com.ssaenggojip.common.util.TransportTimeProvider;
+import com.ssaenggojip.property.dto.request.RecommendDetailRequest;
 import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
 import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.entity.Property;
@@ -86,7 +87,9 @@ public class PropertyFacade {
             case 도보 -> response = propertyService.getTransportTime(request);
             case 지하철 -> {
                 Property property = propertyService.getPropertyById(request.getPropertyId());
+                TransportTimeResponse responseWalk = propertyService.getTransportTime(request);
                 response = stationService.getTransportTime(request.getLongitude(), request.getLatitude(), property.getLongitude(), property.getLatitude());
+                response = response.getTotalTransportTime()< responseWalk.getTotalTransportTime() ? response: responseWalk;
             }
             default -> throw new GeneralException(ErrorStatus._BAD_REQUEST);
         }
@@ -156,4 +159,56 @@ public class PropertyFacade {
         return merged;
     }
 
+    public RecommendDetailResponse getRecommendDetail(RecommendDetailRequest request) {
+        Property property = propertyService.getPropertyById(request.getPropertyId());
+
+        List<String> imageUrls = propertyService.getDetailImage(request.getPropertyId());
+        List<RecommendDetailResponse.StationInfo> stationInfos = stationService
+                .findStationsWithin1km(property.getLongitude(), property.getLatitude())
+                .stream()
+                .map(RecommendDetailResponse.StationInfo::new)
+                .collect(Collectors.toList());
+        List<RecommendDetailResponse.TransportInfo> transportInfos = new ArrayList<>();
+
+        System.out.println("K");
+        System.out.println(stationInfos.size());
+        System.out.println(stationInfos.get(0).getName());
+        System.out.println("K2");
+
+        Double latB = property.getLatitude();
+        Double lngB = property.getLongitude();
+        for(int i = 0; i < request.getAddresses().size(); i++){
+            Double latA = request.getAddresses().get(i).getLatitude();
+            Double lngA = request.getAddresses().get(i).getLongitude();
+            TransportTimeRequest transportTimeRequest = new TransportTimeRequest(latA, lngA, property.getId());
+            TransportTimeResponse response = propertyService.getTransportTime(transportTimeRequest);
+
+            if(request.getAddresses().get(i).getTransportationType() == TransportationType.지하철) {
+                TransportTimeResponse responseSub = stationService.getTransportTime(lngA, latA, property.getLongitude(), property.getLatitude());
+                response = responseSub.getTotalTransportTime() < response.getTotalTransportTime() ? responseSub : response;
+            }
+            transportInfos.add(new RecommendDetailResponse.TransportInfo(response));
+        }
+
+        //TODO: 주변 시설정보 추가 하기
+        List<RecommendDetailResponse.FacilityInfo> facilityInfos = new ArrayList<>();
+
+        return RecommendDetailResponse.builder()
+                .id(property.getId())
+                .name(property.getName())
+                .propertyType(property.getPropertyType())
+                .dealType(property.getDealType())
+                .price(property.getPrice())
+                .rentPrice(property.getRentPrice())
+                .totalFloor(property.getTotalFloor())
+                .floor(property.getFloor())
+                .totalFloor(property.getTotalFloor())
+                .area(property.getExclusiveArea())
+                .address(property.getAddress())
+                .imageUrls(imageUrls)
+                .transportInfos(transportInfos)
+                .stations(stationInfos)
+                .facilities(facilityInfos)
+                .build();
+    }
 }

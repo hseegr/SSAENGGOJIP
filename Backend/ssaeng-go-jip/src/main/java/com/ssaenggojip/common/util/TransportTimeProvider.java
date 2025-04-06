@@ -10,7 +10,7 @@ public class TransportTimeProvider {
 
     public int getWalkMinutes(double lat1, double lng1, double lat2, double lng2) {
         double distanceKm = calculateDistanceKm(lat1, lng1, lat2, lng2);
-        double timeMinutes = distanceKm / WALK_KM_PER_HOUR / 60.0;
+        double timeMinutes = distanceKm / WALK_KM_PER_HOUR * 60.0;
         return (int) Math.ceil(timeMinutes);
     }
     public double calculateDistanceKm(double lat1, double lng1, double lat2, double lng2) {

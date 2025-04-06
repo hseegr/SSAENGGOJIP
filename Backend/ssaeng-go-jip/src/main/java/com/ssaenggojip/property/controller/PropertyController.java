@@ -2,10 +2,7 @@ package com.ssaenggojip.property.controller;
 
 
 import com.ssaenggojip.apipayload.ApiResponse;
-import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
-import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
-import com.ssaenggojip.property.dto.request.SearchRequest;
-import com.ssaenggojip.property.dto.request.TransportTimeRequest;
+import com.ssaenggojip.property.dto.request.*;
 import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.service.PropertyFacade;
 import com.ssaenggojip.property.service.PropertyService;
@@ -47,11 +44,11 @@ public class PropertyController {
     public ApiResponse<RecommendSearchResponse> searchRecommend(@RequestBody RecommendSearchRequest recommendSearchRequest) {
         return ApiResponse.onSuccess(propertyFacade.searchRecommend(recommendSearchRequest));
     }
-//
-//    @PostMapping("/recommend-detail")
-//    public ApiResponse<?> getRecommendDetail(RecommendDetailRequest recommendDetailRequest) {
-//        return null;
-//    }
+
+    @PostMapping("/recommend-detail")
+    public ApiResponse<RecommendDetailResponse> getRecommendDetail(@RequestBody RecommendDetailRequest recommendDetailRequest) {
+        return ApiResponse.onSuccess(propertyFacade.getRecommendDetail(recommendDetailRequest));
+    }
 
 
 }
