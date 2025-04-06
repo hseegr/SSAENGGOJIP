@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react' // useCallback 추가
 import ChatHeader from './ChatHeader'
 import ChatMessageList from './ChatMessageList'
 import ChatInput from './ChatInput'
@@ -47,6 +47,13 @@ const ChatRoomModal = ({ onClose }: Props) => {
   // ✅ 로그인한 사용자 ID (로컬에서 가져옴)
   const myUserId = Number(localStorage.getItem('userId'))
   const token = localStorage.getItem('accessToken')!
+
+  // ✅ 무한 스크롤 관련 상태 추가
+  const [isLoadingMore, setIsLoadingMore] = useState(false) // 이전 메시지 로딩 중 상태
+  const [hasMoreMessages, setHasMoreMessages] = useState(true) // 더 불러올 메시지가 있는지 여부
+  const topMessageObserverRef = useRef<HTMLDivElement>(null) // 상단 관찰용 ref
+  const scrollPositionRef = useRef<number>(0) // 스크롤 위치 저장용
+  const messagesLengthRef = useRef<number>(0) // 메시지 길이 기억용
 
   // 스크롤을 맨 아래로 이동하는 함수
   const scrollToBottom = () => {
@@ -102,6 +109,10 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
         setMessages(reversedMessages)
 
+        // ✅ 초기 메시지가 있으면 더 불러올 메시지가 있다고 가정
+        setHasMoreMessages(reversedMessages.length > 0)
+        messagesLengthRef.current = reversedMessages.length
+
         // 메시지 로드 후 스크롤을 아래로 이동
         setTimeout(scrollToBottom, 100)
       } catch (err) {
@@ -110,7 +121,107 @@ const ChatRoomModal = ({ onClose }: Props) => {
     }
 
     fetchMessages()
+
+    // ✅ 채팅방이 변경될 때 관련 상태 초기화
+    return () => {
+      setIsLoadingMore(false)
+      setHasMoreMessages(true)
+    }
   }, [selectedChatRoom, myUserId])
+
+  // ✅ 이전 메시지를 불러오는 함수 추가
+  const fetchPreviousMessages = useCallback(async () => {
+    if (!selectedChatRoom || isLoadingMore || !hasMoreMessages) return
+
+    try {
+      setIsLoadingMore(true)
+
+      // 현재 메시지 중 가장 오래된 메시지의 ID 찾기
+      const oldestMessageId = messages.length > 0 ? messages[0].id : undefined
+
+      console.log(
+        '이전 메시지 불러오기:',
+        selectedChatRoom.id,
+        '시작 ID:',
+        oldestMessageId,
+      )
+      const result = await fetchChatMessages(
+        String(selectedChatRoom.id),
+        oldestMessageId,
+      )
+      console.log('이전 메시지 응답:', result)
+
+      // 받아온 메시지가 없으면 더 이상 메시지가 없는 것
+      if (!result || result.length === 0) {
+        setHasMoreMessages(false)
+        setIsLoadingMore(false)
+        return
+      }
+
+      // 메시지 객체 생성
+      const parsed = result.map((msg: any) => ({
+        id: msg.id,
+        nickname: msg.nickname,
+        content: msg.isActive ? msg.content : '삭제된 메시지입니다.',
+        time: new Date(msg.createdAt).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        isMe: Number(msg.userId) === myUserId,
+        isActive: msg.isActive !== false,
+      }))
+
+      // 현재 스크롤 위치 저장
+      if (messageListRef.current) {
+        scrollPositionRef.current =
+          messageListRef.current.scrollHeight - messageListRef.current.scrollTop
+        messagesLengthRef.current = messages.length
+      }
+
+      // 기존 메시지 배열 앞에 새 메시지 추가
+      // ⭐️ 받아온 메시지도 최신 순서대로 오므로 reverse 해야 함
+      const reversedNewMessages = [...parsed].reverse()
+      setMessages((prevMessages) => [...reversedNewMessages, ...prevMessages])
+    } catch (err) {
+      console.error('❌ 이전 메시지 불러오기 실패:', err)
+    } finally {
+      setIsLoadingMore(false)
+    }
+  }, [selectedChatRoom, messages, isLoadingMore, hasMoreMessages, myUserId])
+
+  // ✅ 메시지 길이가 변경될 때 스크롤 위치 조정
+  useEffect(() => {
+    if (
+      messageListRef.current &&
+      messages.length > messagesLengthRef.current &&
+      scrollPositionRef.current > 0
+    ) {
+      // 새 메시지가 추가되어 스크롤 위치를 조정해야 할 경우
+      messageListRef.current.scrollTop =
+        messageListRef.current.scrollHeight - scrollPositionRef.current
+    }
+  }, [messages.length])
+
+  // ✅ Intersection Observer 설정
+  useEffect(() => {
+    if (!topMessageObserverRef.current) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // 상단 요소가 보이면 이전 메시지 불러오기
+        if (entries[0].isIntersecting && hasMoreMessages && !isLoadingMore) {
+          fetchPreviousMessages()
+        }
+      },
+      { threshold: 0.1 }, // 10% 정도 보이면 로딩 시작
+    )
+
+    observer.observe(topMessageObserverRef.current)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [fetchPreviousMessages, hasMoreMessages, isLoadingMore])
 
   // ✅ WebSocket 메시지 수신 처리
   useEffect(() => {
@@ -119,8 +230,8 @@ const ChatRoomModal = ({ onClose }: Props) => {
     const handleMessage = (msg) => {
       console.log('수신된 메시지 전체:', msg)
 
-      // 삭제/신고 처리 먼저 확인
-      if (msg.messageType === 'DELETE' || msg.messageType === 'REPORT') {
+      // 수정된 조건문
+      if (msg.isActive === false) {
         setMessages((prevMessages) =>
           prevMessages.map((m) =>
             m.id === msg.id
@@ -132,6 +243,15 @@ const ChatRoomModal = ({ onClose }: Props) => {
               : m,
           ),
         )
+
+        // 마지막 활성화 메시지 찾기
+        const activeMessages = messages.filter((m) => m.isActive)
+        if (activeMessages.length > 0 && selectedChatRoom) {
+          // 아직 활성화된 메시지가 있으면 그 중 가장 최신 메시지로 업데이트
+          const lastActiveMessage = activeMessages[activeMessages.length - 1]
+          updateLastMessage(selectedChatRoom.id, lastActiveMessage.content)
+        }
+
         return
       }
 
@@ -224,7 +344,7 @@ const ChatRoomModal = ({ onClose }: Props) => {
     }
 
     // 새 메시지 추가 (최신 메시지는 배열의 끝에 추가)
-    setMessages((prev) => [...prev, newMessage])
+    // setMessages((prev) => [...prev, newMessage])
 
     // 입력창 초기화
     setInput('')
@@ -234,7 +354,6 @@ const ChatRoomModal = ({ onClose }: Props) => {
   }
 
   // ✅ 메시지 삭제 핸들러
-  // 메시지 삭제 핸들러
   const handleDeleteMessage = (id: string) => {
     console.log('📤 삭제 요청 보냄:', id)
 
@@ -256,7 +375,6 @@ const ChatRoomModal = ({ onClose }: Props) => {
   }
 
   // ✅ 메시지 신고 핸들러
-  // 메시지 신고 핸들러
   const handleReportMessage = (id: string) => {
     console.log('📤 신고 요청 보냄:', id)
 
@@ -282,6 +400,21 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
       {/* 메시지 리스트 (스크롤 가능한 영역) - ref 추가 */}
       <div className="flex-1 overflow-y-auto mb-4" ref={messageListRef}>
+        {/* ✅ 무한 스크롤 상단 옵저버 및 로딩 인디케이터 추가 */}
+        <div ref={topMessageObserverRef} className="h-1 w-full"></div>
+
+        {isLoadingMore && (
+          <div className="text-center py-2 text-gray-500 text-sm">
+            메시지 불러오는 중...
+          </div>
+        )}
+
+        {!hasMoreMessages && messages.length > 0 && (
+          <div className="text-center py-2 text-gray-500 text-sm">
+            이전 메시지가 없습니다.
+          </div>
+        )}
+
         <ChatMessageList
           messages={messages}
           onDelete={handleDeleteMessage}

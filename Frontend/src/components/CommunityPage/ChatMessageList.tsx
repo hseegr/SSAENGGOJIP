@@ -18,9 +18,9 @@ type Props = {
 const ChatMessageList = ({ messages, onDelete, onReport }: Props) => {
   return (
     <div className="flex flex-col gap-3 px-4 py-6 overflow-y-auto">
-      {messages.map((msg) => (
+      {messages.map((msg, index) => (
         <ChatBubble
-          key={msg.id}
+          key={`${msg.id}-${index}`}
           nickname={msg.nickname}
           content={msg.content}
           time={msg.time}
