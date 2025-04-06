@@ -17,7 +17,7 @@ const Modal = ({ isOpen, onClose, boxId }: ModalProps) => {
   const [travelTime, setTravelTime] = useState(0)
   const [walkTime, setWalkTime] = useState(0)
   const [latitude, setLatitude] = useState(0)
-  const [longtitude, setLongitude] = useState(0)
+  const [longitude, setLongitude] = useState(0)
   const { updateMatchInfo } = useMatchInfoStore()
 
   if (!isOpen) return null
@@ -38,6 +38,8 @@ const Modal = ({ isOpen, onClose, boxId }: ModalProps) => {
       transportMode,
       travelTime,
       walkTime,
+      latitude,
+      longitude,
     })
     setCurrentPage(1) // 페이지 초기화
     // 상태 변경이 반영될 시간을 주기 위해 살짝 지연

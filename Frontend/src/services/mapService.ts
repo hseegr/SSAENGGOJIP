@@ -43,11 +43,11 @@ export const fetchNormalSearchResults = async (
     const requestBody = {
       search: search, // 검색어 (역삼역, 역삼동 등)
       propertyTypes: filters.propertyTypes ?? [], // 원룸, 오피스텔, 아파트, 단독주택, 빌라 등
-      dealType: filters.dealType ?? '', // 월세, 전세 등
+      dealType: filters.dealType ?? null, // 월세, 전세 등
       minPrice: filters.MindepositPrice ?? 0,
-      maxPrice: filters.MaxdepositPrice ?? 99999999999,
+      maxPrice: filters.MaxdepositPrice ?? 200000000,
       minRentPrice: filters.MinmonthlyPrice ?? 0,
-      maxRentPrice: filters.MaxmonthlyPrice ?? 99999999999,
+      maxRentPrice: filters.MaxmonthlyPrice ?? 200000000,
       facilityTypes: filters.additionalFilters ?? [], // 편의점, 병원, 약국 등
     }
     console.log(requestBody)

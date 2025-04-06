@@ -1,10 +1,11 @@
 import matchSearchStore from '@/store/matchSearchStore'
 import useMatchSearchResultStore from '@/store/searchResultStore'
 import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SortButton from './SortButton' // SortButton 컴포넌트 import
 import MatchCard from './MatchCard'
-// 결과 아이템의 타입 정의 (중복된 인터페이스 선언 제거)
+
+// 결과 아이템의 타입 정의
 interface ResultItem {
   id: string
   title: string
@@ -19,10 +20,23 @@ interface ResultItem {
   imageUrl: string
   transportTimes: number[]
 }
+
 const MatchSearchResults = () => {
   const { setIsSearching } = matchSearchStore()
   const { results, resetResults } = useMatchSearchResultStore()
   const [filteredResults, setFilteredResults] = useState<ResultItem[]>([])
+
+  useEffect(() => {
+    // results가 업데이트될 때 filteredResults를 초기화하고 가격순으로 정렬
+    if (results && results.properties) {
+      const initialSort = [...(results.properties as ResultItem[])].sort(
+        (a, b) => a.price - b.price,
+      )
+      setFilteredResults(initialSort)
+    } else {
+      setFilteredResults([])
+    }
+  }, [results])
 
   const setIsFilterOpen = () => {
     console.log('클릭')
@@ -33,11 +47,15 @@ const MatchSearchResults = () => {
     resetResults()
   }
 
-  const handleSortChange = (option: number | stirng) => {
-    console.log('정렬 옵션 변경:', option)
+  const handleSortChange = (option: number | string) => {
+    // results가 없을 경우 정렬 방지
+    if (!results || !results.properties) {
+      return
+    }
 
-    // 타입 단언을 사용하여 results가 ResultItem[] 타입임을 명시
-    const sortedResults: ResultItem[] = [...(results as ResultItem[])]
+    const sortedResults: ResultItem[] = [
+      ...(results.properties as ResultItem[]),
+    ]
 
     if (option === '0') {
       // transportTimes[0]을 기준으로 정렬
@@ -62,6 +80,12 @@ const MatchSearchResults = () => {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
+        <button
+          onClick={handleGoBack}
+          className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+        >
+          설정으로 돌아가기
+        </button>
         <button
           className="flex items-center ml-4 cursor-pointer whitespace-nowrap"
           onClick={() => setIsFilterOpen()}
@@ -97,13 +121,6 @@ const MatchSearchResults = () => {
           </p>
         )}
       </div>
-
-      <button
-        onClick={handleGoBack}
-        className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
-      >
-        설정으로 돌아가기
-      </button>
     </div>
   )
 }

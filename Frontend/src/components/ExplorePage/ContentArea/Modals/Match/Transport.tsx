@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 interface TransportProps {
   transportMode: string
@@ -17,6 +17,18 @@ const Transport: React.FC<TransportProps> = ({
   walkTime,
   setWalkTime,
 }) => {
+  useEffect(() => {
+    console.log(transportMode)
+    // 최초 접속 시 transportMode에 따라 버튼 활성화
+    if (transportMode === 'SUBWAY') {
+      handleTransportTypeChange('지하철')
+    } else if (transportMode === 'CAR') {
+      handleTransportTypeChange('자차')
+    } else if (transportMode === 'WALK') {
+      handleTransportTypeChange('도보')
+    }
+  }, [])
+
   const handleTransportTypeChange = (type: string) => {
     setTransportMode(type)
   }

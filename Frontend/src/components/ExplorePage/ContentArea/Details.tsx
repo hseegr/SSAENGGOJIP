@@ -160,7 +160,7 @@ const DetailInfo: React.FC = () => {
             관&nbsp;&nbsp;리&nbsp;&nbsp;비
           </span>
           <span className="text-sm">
-            {propertyData.price.toLocaleString()}원
+            {propertyData.maintenancePrice.toLocaleString()}원
           </span>
 
           <span className="font-semibold text-[#242424]">
@@ -171,7 +171,10 @@ const DetailInfo: React.FC = () => {
           </span>
 
           <span className="font-semibold text-[#242424]">평수(면적)</span>
-          <span className="text-sm">{propertyData.area}평</span>
+          <span className="text-sm">
+            {Math.trunc(propertyData.area / 3.3058)}평({propertyData.area}m
+            <sup>2</sup>)
+          </span>
 
           <span className="font-semibold text-[#242424]">매물 위치</span>
           <span className="text-sm">{propertyData.address}</span>

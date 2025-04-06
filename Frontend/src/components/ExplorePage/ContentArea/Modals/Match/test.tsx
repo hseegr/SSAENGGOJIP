@@ -12,7 +12,7 @@ interface AddressProps {
   setLongitude: React.Dispatch<React.SetStateAction<number>>
 }
 
-const Address: React.FC<AddressProps> = ({
+const Testa: React.FC<AddressProps> = ({
   address,
   setAddress,
   name,
@@ -25,25 +25,6 @@ const Address: React.FC<AddressProps> = ({
   const [customName, setCustomName] = useState(name)
   const [isValidName, setIsValidName] = useState(false)
   const [confirmedName, setConfirmedName] = useState(name)
-
-  // 최초 접속 시
-  useEffect(() => {
-    console.log('실행됨')
-    if (name === '직장') {
-      handleNameTypeChange('직장')
-      console.log('타입지정', nameType)
-    } else if (name === '학교') {
-      handleNameTypeChange('학교')
-      console.log('타입지정', nameType)
-    } else if (name) {
-      handleNameTypeChange('직접 입력')
-      console.log('타입지정', nameType)
-      setCustomName(name)
-      console.log('이름지정', customName)
-    } else {
-      handleNameTypeChange('') // 초기 상태 또는 name이 없을 경우
-    }
-  }, []) // 빈 의존성 배열
 
   // 좌표 변환 로직 수정
   const handleComplete = async (data: any) => {
@@ -204,4 +185,4 @@ const Address: React.FC<AddressProps> = ({
   )
 }
 
-export default Address
+export default Testa

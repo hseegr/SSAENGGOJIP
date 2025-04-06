@@ -27,27 +27,38 @@ const PropertyFilter = () => {
   const toggleModal = () => setIsModalOpen((prev) => !prev)
   const { setIsSearching } = matchSearchStore()
   const { setResults } = useSearchResultStore()
+
   // 클릭 시 API 요청을 보내는 함수
   const handleSearch = async () => {
+    console.log('이거 클릭함', matchInfos)
     const requestData = {
-      addresses: matchInfos.map((info) => ({
-        searchSet: {
-          address: info.address,
-          transportationType: info.transportMode,
+      addresses: matchInfos.map((info) => {
+        let transportationTypeForApi = '지하철' // 기본값
+        if (info.transportMode === 'SUBWAY') {
+          transportationTypeForApi = '지하철'
+        } else if (info.transportMode === 'WALK') {
+          transportationTypeForApi = '도보'
+        }
+        return {
+          latitude: info.latitude.toFixed(6),
+          longitude: info.longitude.toFixed(6),
+          transportationType: transportationTypeForApi, // 변경된 부분
           totalTransportTime: info.travelTime,
           walkTime: info.walkTime,
-        },
-      })),
+        }
+      }),
       propertyType: propertyType, // ["원룸", "오피스텔", "아파트"]
       dealType: dealType, // "월세"
       minPrice: minDeposit, // 최소 보증금
       maxPrice: maxDeposit, // 최대 보증금
       minRentPrice: minMonthlyRent, // 최소 월세
       maxRentPrice: maxMonthlyRent, // 최대 월세
-      facility: additionalFilters, // ["편의점", "병원", "약국"]
+      facility: [], // ["편의점", "병원", "약국"]
+      // additionalFilters
     }
 
     try {
+      console.log(requestData)
       setIsSearching(true)
       const data = await fetchMatchSearchResults(requestData) // API 호출
       setResults(data)

@@ -8,16 +8,18 @@ import SearchBlueIcon from '@/assets/map_sidebar/Search_blue.png'
 import HomeBlueIcon from '@/assets/map_sidebar/Home_blue.svg?react'
 import ContentArea from './ContentArea'
 import DetailInfo from './ContentArea/Details' // 상세정보 컴포넌트 가져오기
+import useMatchInfoStore from '@/store/matchInfoStore'
 
 const Sidebar: React.FC = () => {
   const { activeTab, setActiveTab } = useSidebarStore() // Zustand store에서 상태와 업데이트 함수 가져오기
   const { selectedCard, setSelectedCard } = useSidebarStore() // 선택된 카드 상태
-
+  const { initializeStore } = useMatchInfoStore()
   const clickSidebar = (
     tab: 'normal_search' | 'match_search' | 'favorites' | null,
   ) => {
     setActiveTab(tab)
     setSelectedCard(null)
+    initializeStore()
   }
 
   return (

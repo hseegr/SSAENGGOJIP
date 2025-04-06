@@ -82,7 +82,7 @@ const MatchCard: React.FC<CardProps> = ({
         )}
         {imageUrl ? (
           <img
-            src={imageUrl}
+            src={`${imageUrl}?w=800&h=600`}
             alt={title ?? '이미지'}
             className="w-full h-full object-cover rounded-lg p-2"
           />
@@ -157,7 +157,7 @@ const MatchCard: React.FC<CardProps> = ({
         </p>
         <div className="flex">
           <p className="text-xs mt-2">
-            {floor}층 / {totalFloor}층 | {area}평
+            {floor}층 / {totalFloor}층 | {Math.floor(area / 3.3058)}평
           </p>
         </div>
         {address && (
