@@ -67,7 +67,7 @@ export const useChatSocket = () => {
       console.log(
         `ℹ️ 이미 구독 중인 채팅방 ${chatRoomId} - 기존 구독 해제 후 재구독`,
       )
-      unsubscribe(chatRoomId)
+      return // 기존 구독을 유지하고 새로운 구독을 만들지 않음
     }
 
     // STOMP 구독 시작
