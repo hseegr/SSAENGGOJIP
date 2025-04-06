@@ -15,6 +15,7 @@ type Message = {
   time: string // 보낸 시간
   isMe: boolean // 내가 보낸 메시지 여부
   isActive: boolean
+  date?: string // ✅ 날짜 필드 추가 (날짜 구분선용)
 }
 
 // props: 채팅방 닫기 기능을 위한 onClose 함수
@@ -90,17 +91,29 @@ const ChatRoomModal = ({ onClose }: Props) => {
         console.log('서버 응답 원본:', result)
 
         // 메시지 객체 생성
-        const parsed = result.map((msg: any) => ({
-          id: msg.id,
-          nickname: msg.nickname, // 익명 포함
-          content: msg.isActive ? msg.content : '삭제된 메시지입니다.',
-          time: new Date(msg.createdAt).toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          }),
-          isMe: Number(msg.userId) === myUserId, // ✅ 명시적으로 숫자 변환해서 비교
-          isActive: msg.isActive !== false, // ✅ 삭제 or 신고된 메시지인 경우 false
-        }))
+        const parsed = result.map((msg: any) => {
+          // ✅ 날짜 형식 변환 (YYYY년 MM월 DD일 요일)
+          const msgDate = new Date(msg.createdAt)
+          const formattedDate = msgDate.toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long',
+          })
+
+          return {
+            id: msg.id,
+            nickname: msg.nickname, // 익명 포함
+            content: msg.isActive ? msg.content : '삭제된 메시지입니다.',
+            time: msgDate.toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            }),
+            date: formattedDate, // ✅ 날짜 정보 추가
+            isMe: Number(msg.userId) === myUserId, // ✅ 명시적으로 숫자 변환해서 비교
+            isActive: msg.isActive !== false, // ✅ 삭제 or 신고된 메시지인 경우 false
+          }
+        })
 
         // ⭐️ 명시적으로 reverse()를 사용하여 순서를 반대로 변경
         // 최신 메시지가 아래로 가도록 순서 변경
@@ -159,17 +172,29 @@ const ChatRoomModal = ({ onClose }: Props) => {
       }
 
       // 메시지 객체 생성
-      const parsed = result.map((msg: any) => ({
-        id: msg.id,
-        nickname: msg.nickname,
-        content: msg.isActive ? msg.content : '삭제된 메시지입니다.',
-        time: new Date(msg.createdAt).toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
-        isMe: Number(msg.userId) === myUserId,
-        isActive: msg.isActive !== false,
-      }))
+      const parsed = result.map((msg: any) => {
+        // ✅ 날짜 형식 변환 (YYYY년 MM월 DD일 요일)
+        const msgDate = new Date(msg.createdAt)
+        const formattedDate = msgDate.toLocaleDateString('ko-KR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long',
+        })
+
+        return {
+          id: msg.id,
+          nickname: msg.nickname,
+          content: msg.isActive ? msg.content : '삭제된 메시지입니다.',
+          time: msgDate.toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+          date: formattedDate, // ✅ 날짜 정보 추가
+          isMe: Number(msg.userId) === myUserId,
+          isActive: msg.isActive !== false,
+        }
+      })
 
       // 현재 스크롤 위치 저장
       if (messageListRef.current) {
@@ -257,15 +282,25 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
       // 일반 TALK 메시지 처리
       if (msg.content) {
+        // ✅ 현재 날짜 포맷팅 (YYYY년 MM월 DD일 요일)
+        const now = new Date()
+        const formattedDate = now.toLocaleDateString('ko-KR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          weekday: 'long',
+        })
+
         // 받은 메시지를 상태에 추가
         const newMsg = {
           id: msg.id || Date.now().toString(),
           nickname: msg.nickname || '알 수 없음',
           content: msg.content,
-          time: new Date().toLocaleTimeString([], {
+          time: now.toLocaleTimeString([], {
             hour: '2-digit',
             minute: '2-digit',
           }),
+          date: formattedDate, // ✅ 날짜 정보 추가
           isMe: Number(msg.userId) === myUserId,
           isActive: true,
         }
@@ -330,18 +365,28 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
     updateLastMessage(selectedChatRoom.id, input)
 
+    // ✅ 현재 날짜 포맷팅 (YYYY년 MM월 DD일 요일)
+    // const now = new Date()
+    // const formattedDate = now.toLocaleDateString('ko-KR', {
+    //   year: 'numeric',
+    //   month: 'long',
+    //   day: 'numeric',
+    //   weekday: 'long',
+    // })
+
     // ✅ 즉시 UI에 반영하기 위해 로컬 상태 업데이트
-    const newMessage: Message = {
-      id: Date.now().toString(), // 임시 ID (서버에서 실제 ID 부여됨)
-      nickname: nickname,
-      content: input,
-      time: new Date().toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-      }),
-      isMe: true, // 내가 보낸 메시지
-      isActive: true,
-    }
+    // const newMessage: Message = {
+    //   id: Date.now().toString(), // 임시 ID (서버에서 실제 ID 부여됨)
+    //   nickname: nickname,
+    //   content: input,
+    //   time: now.toLocaleTimeString([], {
+    //     hour: '2-digit',
+    //     minute: '2-digit',
+    //   }),
+    //   date: formattedDate, // ✅ 날짜 정보 추가
+    //   isMe: true, // 내가 보낸 메시지
+    //   isActive: true,
+    // }
 
     // 새 메시지 추가 (최신 메시지는 배열의 끝에 추가)
     // setMessages((prev) => [...prev, newMessage])
