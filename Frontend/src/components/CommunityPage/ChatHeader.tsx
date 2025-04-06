@@ -34,9 +34,12 @@ const ChatHeader = ({ onClose }: Props) => {
       </div>
 
       {/* 공지 */}
-      <div className="flex-1 mx-4 text-xs py-3 px-3 bg-[#E3FAA8] text-gray-500 rounded-full text-center">
-        지역 주민과 관심 있는 분들이 함께하는 공간, 서로 존중하며 따뜻하게
-        소통해요 😊
+      <div className="flex-1 mx-4 text-sm py-3 px-3 bg-[#E3FAA8] text-green-700 rounded-full text-center">
+        지역 주민과 관심 있는 분들이 함께하는
+        <span className="font-bold text-base text-[#242424] px-1">
+          {selectedChatRoom?.name || ''}역
+        </span>
+        커뮤니티, 서로 존중하며 따뜻하게 소통해요 😊
       </div>
 
       {/* 점 3개 나가기 버튼 */}
