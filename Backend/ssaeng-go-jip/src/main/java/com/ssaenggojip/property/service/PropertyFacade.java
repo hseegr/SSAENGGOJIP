@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -97,29 +98,31 @@ public class PropertyFacade {
     public RecommendSearchResponse searchRecommend(RecommendSearchRequest request) {
 
         // 1 주소 기준 K시간 이내 도보권 매물 - p
-        List<RecommendSearchDto> properties1 = propertyService.searchPropertiesWithWalkTime(request
-                , 0);
+        Map<Long, RecommendSearchProperty> merged1 = getMergedPropertiesByIndex(request,0);
 
-        Map<Long, RecommendSearchProperty> merged = new HashMap<>();
-        for (RecommendSearchDto p : properties1) {
-            merged.put(p.getId(), new RecommendSearchProperty(p));
-        }
-
-        // 2 지하철 이용시
-        if(TransportationType.valueOf(request.getAddresses().get(0).getTransportationType()) == TransportationType.지하철){
-            List<RecommendSearchDto> response = propertyService.getRecommendedProperties(request, 0);
-
-            for (RecommendSearchDto p : response) {
-                RecommendSearchProperty existing = merged.get(p.getId());
-                if (existing == null || p.getTotalTime() < existing.getTransportTimes().get(0)) {
-                    merged.put(p.getId(),  new RecommendSearchProperty(p));
-                }
-            }
-        }
-
+        List<RecommendSearchProperty> result;
         // 결과 리스트
-        List<RecommendSearchProperty> result = new ArrayList<>(merged.values());
-        if(result.size()>5000)
+        if(request.getAddresses().size() == 1) {
+            result = new ArrayList<>(merged1.values());
+        }
+        else if(request.getAddresses().size() == 2){
+            Map<Long, RecommendSearchProperty> merged2 = getMergedPropertiesByIndex(request, 1);
+            result = merged1.entrySet().stream()
+                    .filter(entry -> merged2.containsKey(entry.getKey()))
+                    .map(entry -> {
+                        RecommendSearchProperty first = entry.getValue();
+                        RecommendSearchProperty second = merged2.get(entry.getKey());
+                        first.setTransportTimes(List.of(
+                                first.getTransportTimes().get(0),
+                                second.getTransportTimes().get(0)
+                        ));
+                        return first;
+                    }).collect(Collectors.toList());
+        }
+        else
+            throw new GeneralException(ErrorStatus.MISSING_ADDRESS_INFO_RECOMMEND);
+
+        if (result.size() > 5000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
 
@@ -130,4 +133,28 @@ public class PropertyFacade {
 
 
     }
+
+    public Map<Long, RecommendSearchProperty> getMergedPropertiesByIndex(RecommendSearchRequest request, int index) {
+        Map<Long, RecommendSearchProperty> merged = new HashMap<>();
+
+        // 도보만
+        List<RecommendSearchDto> walkOnly = propertyService.searchPropertiesWithWalkTime(request, index);
+        for (RecommendSearchDto dto : walkOnly) {
+            merged.put(dto.getId(), new RecommendSearchProperty(dto));
+        }
+
+        // 지하철 포함
+        if (TransportationType.valueOf(request.getAddresses().get(index).getTransportationType()) == TransportationType.지하철) {
+            List<RecommendSearchDto> subwayIncluded = propertyService.getRecommendedProperties(request, index);
+            for (RecommendSearchDto dto : subwayIncluded) {
+                RecommendSearchProperty existing = merged.get(dto.getId());
+                if (existing == null || dto.getTotalTime() < existing.getTransportTimes().get(0)) {
+                    merged.put(dto.getId(), new RecommendSearchProperty(dto));
+                }
+            }
+        }
+
+        return merged;
+    }
+
 }
