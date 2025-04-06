@@ -25,7 +25,7 @@ type Props = {
 }
 
 const PropertyGrid = ({
-    properties = [], // ✅ 기본값 추가
+    properties = [], // 기본값 추가
     columns = 4,
     isCompareMode = false,
     selectedIds = [],

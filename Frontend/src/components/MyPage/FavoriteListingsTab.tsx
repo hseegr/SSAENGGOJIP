@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import PropertyGrid from '@/components/common/PropertyGrid'
-// import mockProperties from '@/mocks/mockProperty'
+import PropertyGrid from '@/components/common/property/PropertyGrid'
 import { Button } from '@/components/ui/button'
 import { toast } from 'react-toastify'
 import CompareModal from '@/components/MyPage/CompareModal'
