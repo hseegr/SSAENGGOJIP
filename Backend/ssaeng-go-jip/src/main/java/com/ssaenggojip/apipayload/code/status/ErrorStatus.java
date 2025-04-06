@@ -50,6 +50,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 부동산 관련 에러
     UNABLE_TO_GET_PROPERTY_INFO(HttpStatus.BAD_REQUEST, "PROPERTY4001", "존재하지 않는 부동산 입니다."),
+    TOO_MANY_PROPERTY_SEARCH(HttpStatus.BAD_REQUEST, "PROPERTY4013", "5000개가 넘는 검색 조건 입니다."),
+    MISSING_ADDRESS_INFO_RECOMMEND(HttpStatus.BAD_REQUEST, "PROPERTY4001", "맞춤형 주소를 입력 해야 합니다"),
 
     // 역 관련 에러
     UNABLE_TO_GET_STATION_INFO(HttpStatus.BAD_REQUEST, "STATION4001", "존재하지 않는 역 입니다."),

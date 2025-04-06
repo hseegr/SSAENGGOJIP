@@ -2,6 +2,9 @@ package com.ssaenggojip.property.service;
 
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.common.enums.TransportationType;
+import com.ssaenggojip.common.util.TransportTimeProvider;
+import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
 import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.dto.request.SearchRequest;
@@ -11,8 +14,8 @@ import com.ssaenggojip.station.service.StationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +23,7 @@ public class PropertyFacade {
 
     private final StationService stationService;
     private final PropertyService propertyService;
+    private final TransportTimeProvider transportTimeProvider;
 
     public SearchResponse searchProperties(SearchRequest request) {
         String search = request.getSearch();
@@ -90,5 +94,66 @@ public class PropertyFacade {
         return response;
     }
 
+
+    public RecommendSearchResponse searchRecommend(RecommendSearchRequest request) {
+
+        Map<Long, RecommendSearchProperty> merged1 = getMergedPropertiesByIndex(request,0);
+
+        List<RecommendSearchProperty> result;
+        // 결과 리스트
+        if(request.getAddresses().size() == 1) {
+            result = new ArrayList<>(merged1.values());
+        }
+        else if(request.getAddresses().size() == 2){ // 주소가 2개인 경우
+            Map<Long, RecommendSearchProperty> merged2 = getMergedPropertiesByIndex(request, 1);
+            result = merged1.entrySet().stream()
+                    .filter(entry -> merged2.containsKey(entry.getKey()))
+                    .map(entry -> {
+                        RecommendSearchProperty first = entry.getValue();
+                        RecommendSearchProperty second = merged2.get(entry.getKey());
+                        first.setTransportTimes(List.of(
+                                first.getTransportTimes().get(0),
+                                second.getTransportTimes().get(0)
+                        ));
+                        return first;
+                    }).collect(Collectors.toList());
+        }
+        else
+            throw new GeneralException(ErrorStatus.MISSING_ADDRESS_INFO_RECOMMEND);
+
+        if (result.size() > 5000)
+            throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
+
+
+        return RecommendSearchResponse.builder()
+                .total(result.size())
+                .properties(result)
+                .build();
+
+
+    }
+
+    public Map<Long, RecommendSearchProperty> getMergedPropertiesByIndex(RecommendSearchRequest request, int index) {
+        Map<Long, RecommendSearchProperty> merged = new HashMap<>();
+
+        // 도보만
+        List<RecommendSearchDto> walkOnly = propertyService.searchPropertiesWithWalkTime(request, index);
+        for (RecommendSearchDto dto : walkOnly) {
+            merged.put(dto.getId(), new RecommendSearchProperty(dto));
+        }
+
+        // 지하철 포함
+        if (TransportationType.valueOf(request.getAddresses().get(index).getTransportationType()) == TransportationType.지하철) {
+            List<RecommendSearchDto> subwayIncluded = propertyService.getRecommendedProperties(request, index);
+            for (RecommendSearchDto dto : subwayIncluded) {
+                RecommendSearchProperty existing = merged.get(dto.getId());
+                if (existing == null || dto.getTotalTime() < existing.getTransportTimes().get(0)) {
+                    merged.put(dto.getId(), new RecommendSearchProperty(dto));
+                }
+            }
+        }
+
+        return merged;
+    }
 
 }

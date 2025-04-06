@@ -5,14 +5,12 @@ import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.converter.PropertyConverter;
 import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
-import com.ssaenggojip.property.dto.response.CoordinateResponse;
+import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
+import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.entity.PropertyImage;
 import com.ssaenggojip.property.dto.request.SearchRequest;
 import com.ssaenggojip.property.dto.request.TransportTimeRequest;
-import com.ssaenggojip.property.dto.response.SearchProperty;
-import com.ssaenggojip.property.dto.response.SearchResponse;
-import com.ssaenggojip.property.dto.response.TransportTimeResponse;
 import com.ssaenggojip.property.repository.PropertyImageRepository;
 import com.ssaenggojip.property.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +31,7 @@ public class PropertyService {
 
     public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lng, Double lat) {
         // lat, lng 기준 반경 1KM, 설정한 조건 기준으로 검색
-
+        Integer SEARCH_DISTANCE = 1200;
         List<Property> properties = propertyRepository.searchFilteredProperties(
                 request.getDealType() != null ? request.getDealType().name() : null,
                 request.getPropertyTypes().stream().map(Enum::name).toList(),
@@ -45,8 +43,12 @@ public class PropertyService {
                 request.getSearch().isEmpty() ? null : request.getSearch(),
                 lng != null ? BigDecimal.valueOf(lng) : null,
                 lat != null ? BigDecimal.valueOf(lat) : null,
-                isStationSearch
+                isStationSearch,
+                SEARCH_DISTANCE
         );
+
+        if(properties.size()>5000)
+            throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
         // dto로 변경
         List<SearchProperty> result = properties.stream()
@@ -73,7 +75,6 @@ public class PropertyService {
 
     public TransportTimeResponse getTransportTime(TransportTimeRequest request) {
         Property property = propertyRepository.findById(request.getPropertyId()).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_PROPERTY_INFO));
-
 
         Double lat1 = request.getLatitude();
         Double lng1 = request.getLongitude();
@@ -118,5 +119,68 @@ public class PropertyService {
                 ))
                 .toList();
 
+    }
+
+    public List<RecommendSearchDto> searchPropertiesWithWalkTime(RecommendSearchRequest request, Integer targetNum){
+        // 주소 기준 K시간 이내 도보권 매물 - p
+        Double lat = request.getAddresses().get(targetNum).getLatitude();
+        Double lng = request.getAddresses().get(targetNum).getLongitude();
+        Integer dist = transportTimeProvider.walkTimeToDistance(request.getAddresses().get(targetNum).getWalkTime());
+
+        List<Property> properties = propertyRepository.searchFilteredProperties(
+                request.getDealType() != null ? request.getDealType().name() : null,
+                request.getPropertyType().stream().map(Enum::name).toList(),
+                request.getPropertyType().isEmpty(),
+                request.getMinPrice(),
+                request.getMaxPrice(),
+                request.getMinRentPrice(),
+                request.getMaxRentPrice(),
+                null,
+                lng != null ? BigDecimal.valueOf(lng) : null,
+                lat != null ? BigDecimal.valueOf(lat) : null,
+                true,
+                dist
+        );
+
+        if(properties.size()>5000)
+            throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
+
+        List<RecommendSearchDto> recommendSearchProperties = new ArrayList<>();
+        for (Property p: properties){
+            recommendSearchProperties.add(
+                    RecommendSearchDto.builder()
+                            .id(p.getId())
+                            .isRecommend(false)
+                            .dealType(p.getDealType().name())
+                            .price(p.getPrice())
+                            .rentPrice(p.getRentPrice())
+                            .maintenancePrice(p.getMaintenancePrice())
+                            .totalFloor(p.getTotalFloor())
+                            .floor(p.getFloor())
+                            .area(p.getExclusiveArea())
+                            .address(p.getAddress())
+                            .isInterest(false)
+                            .imageUrl(p.getMainImage())
+                            .totalTime(transportTimeProvider.getWalkMinutes(lat, lng, p.getLatitude(),p.getLongitude()))
+                            .build()
+            );
+        }
+        return recommendSearchProperties;
+    }
+
+    public List<RecommendSearchDto> getRecommendedProperties(RecommendSearchRequest request, Integer targetNum) {
+        return propertyRepository.findReachableProperties(
+                request.getAddresses().get(targetNum).getLongitude(),
+                request.getAddresses().get(targetNum).getLatitude(),
+                request.getAddresses().get(targetNum).getWalkTime(),
+                request.getAddresses().get(targetNum).getTotalTransportTime(),
+                request.getDealType() != null ? request.getDealType().name() : null,
+                request.getPropertyType().stream().map(Enum::name).toList(),
+                request.getPropertyType() == null || request.getPropertyType().isEmpty(),
+                request.getMinPrice(),
+                request.getMaxPrice(),
+                request.getMinRentPrice(),
+                request.getMaxRentPrice()
+        );
     }
 }

@@ -6,10 +6,7 @@ import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
 import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
 import com.ssaenggojip.property.dto.request.SearchRequest;
 import com.ssaenggojip.property.dto.request.TransportTimeRequest;
-import com.ssaenggojip.property.dto.response.CoordinateResponse;
-import com.ssaenggojip.property.dto.response.DetailResponse;
-import com.ssaenggojip.property.dto.response.SearchResponse;
-import com.ssaenggojip.property.dto.response.TransportTimeResponse;
+import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.service.PropertyFacade;
 import com.ssaenggojip.property.service.PropertyService;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +44,8 @@ public class PropertyController {
     }
 
     @PostMapping("/recommend-search")
-    public ApiResponse<?> searchRecommend(RecommendSearchRequest recommendSearchRequest) {
-        return null;
+    public ApiResponse<RecommendSearchResponse> searchRecommend(@RequestBody RecommendSearchRequest recommendSearchRequest) {
+        return ApiResponse.onSuccess(propertyFacade.searchRecommend(recommendSearchRequest));
     }
 //
 //    @PostMapping("/recommend-detail")
