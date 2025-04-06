@@ -97,7 +97,6 @@ public class PropertyFacade {
 
     public RecommendSearchResponse searchRecommend(RecommendSearchRequest request) {
 
-        // 1 주소 기준 K시간 이내 도보권 매물 - p
         Map<Long, RecommendSearchProperty> merged1 = getMergedPropertiesByIndex(request,0);
 
         List<RecommendSearchProperty> result;
@@ -105,7 +104,7 @@ public class PropertyFacade {
         if(request.getAddresses().size() == 1) {
             result = new ArrayList<>(merged1.values());
         }
-        else if(request.getAddresses().size() == 2){
+        else if(request.getAddresses().size() == 2){ // 주소가 2개인 경우
             Map<Long, RecommendSearchProperty> merged2 = getMergedPropertiesByIndex(request, 1);
             result = merged1.entrySet().stream()
                     .filter(entry -> merged2.containsKey(entry.getKey()))
