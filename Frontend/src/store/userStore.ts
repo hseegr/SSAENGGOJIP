@@ -24,3 +24,5 @@ export const useUserStore = create<UserState>((set) => ({
     set({ accessToken: null, isLoggedIn: false })
   },
 }))
+
+export const useIsLoggedIn = () => useUserStore((state) => state.isLoggedIn)

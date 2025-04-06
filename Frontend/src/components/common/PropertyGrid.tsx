@@ -17,7 +17,7 @@ type Property = {
 }
 
 type Props = {
-    properties: Property[]
+    properties?: Property[]
     columns?: number
     isCompareMode?: boolean
     selectedIds?: number[]
@@ -25,7 +25,7 @@ type Props = {
 }
 
 const PropertyGrid = ({
-    properties,
+    properties = [], // ✅ 기본값 추가
     columns = 4,
     isCompareMode = false,
     selectedIds = [],
@@ -42,15 +42,16 @@ const PropertyGrid = ({
 
     return (
         <div className={`grid ${columnClass} gap-4`}>
-            {properties.map((item) => (
-                <PropertyCard
-                    key={item.id}
-                    property={item}
-                    isCompareMode={isCompareMode}
-                    isSelected={selectedIds?.includes(item.id)}
-                    onSelect={() => onSelect?.(item.id)}
-                />
-            ))}
+            {Array.isArray(properties) &&
+                properties.map((item) => (
+                    <PropertyCard
+                        key={item.id}
+                        property={item}
+                        isCompareMode={isCompareMode}
+                        isSelected={selectedIds?.includes(item.id)}
+                        onSelect={() => onSelect?.(item.id)}
+                    />
+                ))}
         </div>
     )
 }
