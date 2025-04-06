@@ -170,11 +170,6 @@ public class PropertyFacade {
                 .collect(Collectors.toList());
         List<RecommendDetailResponse.TransportInfo> transportInfos = new ArrayList<>();
 
-        System.out.println("K");
-        System.out.println(stationInfos.size());
-        System.out.println(stationInfos.get(0).getName());
-        System.out.println("K2");
-
         Double latB = property.getLatitude();
         Double lngB = property.getLongitude();
         for(int i = 0; i < request.getAddresses().size(); i++){
