@@ -47,6 +47,7 @@ public enum ErrorStatus implements BaseErrorCode {
     // 채팅 관련 에러
     NOT_FOUND_MESSAGE_ID(HttpStatus.BAD_REQUEST , "CHATMESSAGE4001", "해당하는 채팅 메세지가 없습니다."),
     ALREADY_REPORTED(HttpStatus.BAD_REQUEST , "CHATMESSAGE4002", "해당 유저가 이미 신고한 메세지입니다."),
+    USER_NOT_ENTERED(HttpStatus.BAD_REQUEST , "CHATMESSAGE4003", "해당 유저가 입장하지 않은 채팅방입니다."),
 
     // 부동산 관련 에러
     UNABLE_TO_GET_PROPERTY_INFO(HttpStatus.BAD_REQUEST, "PROPERTY4001", "존재하지 않는 부동산 입니다."),
