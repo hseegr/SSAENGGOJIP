@@ -8,6 +8,7 @@ import useSidebarStore from '@/store/sidebarStore'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
 import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'
+import { useSearchParamsStore } from '@/store/searchParamsStore'
 import usePropertyStore from '@/store/propertyStore'
 
 interface Property {
@@ -41,6 +42,8 @@ const NormalSearch: React.FC = () => {
   const { titles } = useSidebarStore()
 
   const { properties } = usePropertyStore()
+  const { generalSearchQuery } = useSearchParamsStore() // ✅ Zustand에서 검색어 가져옴
+
   // 필터 스토어에서 데이터 가져오기
   const {
     propertyTypes,
@@ -69,6 +72,7 @@ const NormalSearch: React.FC = () => {
 
   // 엔터 키 입력 시 검색 실행
   const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    console.log('🧪 handleKeyPress 호출됨:', e.key)
     if (e.key === 'Enter') {
       if (searchQuery.trim() !== '') {
         try {
@@ -82,13 +86,21 @@ const NormalSearch: React.FC = () => {
             MaxmonthlyPrice,
             additionalFilters,
           })
+
+          console.log('🔍 필터 정보:', filters)
+          console.log('🔎 검색어:', searchQuery)
+
           const searchResults = await fetchNormalSearchResults(
             searchQuery,
             filters,
-          ) // 검색 API 호출
+          )
+          console.log('🎉 API 응답 로그:', searchResults)
+          console.log('🔢 총 매물 수:', searchResults?.total)
+          console.log('📋 매물 리스트:', searchResults?.properties)
 
-          // API 응답 구조 그대로 사용
-          setFilteredData(searchResults ?? { properties: [], total: 0 })
+          // 검색 API 호출
+          // API 응답 구조에 따라 데이터 추출 방식 수정 필요
+          setFilteredData(searchResults ?? { total: 0, properties: [] })
           console.log('검색 결과:', searchResults)
         } catch (error) {
           console.error('검색 중 오류 발생:', error)
@@ -104,6 +116,72 @@ const NormalSearch: React.FC = () => {
       }
     }
   }
+
+  // ✅ Zustand 검색어(generalSearchQuery)가 변경될 때 자동 검색 실행
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!generalSearchQuery.trim()) return
+
+      try {
+        const filters = buildSearchFilters({
+          propertyTypes,
+          dealType,
+          MindepositPrice,
+          MaxdepositPrice,
+          MinmonthlyPrice,
+          MaxmonthlyPrice,
+          additionalFilters,
+        })
+
+        console.log('💬 Zustand로 받은 검색어:', generalSearchQuery)
+        const searchResults = await fetchNormalSearchResults(
+          generalSearchQuery,
+          filters,
+        )
+
+        setFilteredData(searchResults ?? { total: 0, properties: [] })
+        // 상태를 업데이트하면 자동 렌더링됨
+      } catch (err) {
+        console.error('❌ Zustand 검색 자동 실행 중 오류:', err)
+        setFilteredData({ total: 0, properties: [] })
+      }
+    }
+
+    fetchData()
+  }, [generalSearchQuery])
+
+  // ✅ Zustand 검색어(generalSearchQuery)가 변경될 때 자동 검색 실행
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!generalSearchQuery.trim()) return
+
+      try {
+        const filters = buildSearchFilters({
+          propertyTypes,
+          dealType,
+          MindepositPrice,
+          MaxdepositPrice,
+          MinmonthlyPrice,
+          MaxmonthlyPrice,
+          additionalFilters,
+        })
+
+        console.log('💬 Zustand로 받은 검색어:', generalSearchQuery)
+        const searchResults = await fetchNormalSearchResults(
+          generalSearchQuery,
+          filters,
+        )
+
+        setFilteredData(searchResults ?? { total: 0, properties: [] })
+        // 상태를 업데이트하면 자동 렌더링됨
+      } catch (err) {
+        console.error('❌ Zustand 검색 자동 실행 중 오류:', err)
+        setFilteredData({ total: 0, properties: [] })
+      }
+    }
+
+    fetchData()
+  }, [generalSearchQuery])
 
   // properties가 변경될 때마다 filteredData 업데이트
   useEffect(() => {
@@ -128,10 +206,15 @@ const NormalSearch: React.FC = () => {
     }
   }, [titles, properties])
 
+  useEffect(() => {
+    console.log('🚨 현재 filteredData:', filteredData)
+    console.log('🔢 매물 수:', filteredData.properties?.length)
+  }, [filteredData])
+
   return (
     <>
       {/* 검색창 */}
-      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-2 px-4 py-2">
+      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-2 mt-8 px-4 py-2">
         <div className="flex items-center w-full">
           <Search className="mr-2 text-gray-400" size={20} />
           <input

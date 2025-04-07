@@ -19,6 +19,8 @@ interface AddressInfo {
     transportationType: string // 교통 수단 (예: "지하철")
     totalTransportTime: number // 총 이동 시간 (분 단위)
     walkTime: number // 도보 시간 (분 단위)
+    latitude?: number // 추가
+    longitude?: number // 추가
   }
 }
 
@@ -130,5 +132,136 @@ export const fetchDataByBounds = async (
   } catch (error) {
     console.error('영역 기반 매물 API 요청 중 오류 발생:', error)
     throw error // 에러를 호출한 곳으로 전달
+  }
+}
+
+// 메인 페이지 검색 기능
+/**
+ * 일반 검색 API 호출 (좌표 정보 포함, 메인 페이지 검색용)
+ * @param query 검색어 (역/동 이름)
+ * @param filters 필터 옵션
+ * @param latitude 위도 (옵션)
+ * @param longitude 경도 (옵션)
+ * @returns 검색 결과
+ */
+export const fetchNormalSearchWithCoords = async (
+  query: string,
+  filters: Filters = {},
+  latitude?: number,
+  longitude?: number,
+) => {
+  try {
+    console.log('일반 검색 시작: 쿼리=', query)
+
+    // 검색 API 요청 데이터 구성
+    const requestBody = {
+      search: query,
+      // 좌표가 있으면 포함
+      ...(latitude && longitude ? { latitude, longitude } : {}),
+      // 필터 데이터
+      propertyTypes: filters.propertyTypes ?? [],
+      dealType: filters.dealType === '' ? null : filters.dealType, // 빈 문자열을 null로 변환
+      minPrice: filters.MindepositPrice ?? 0,
+      maxPrice: filters.MaxdepositPrice ?? 200000000,
+      minRentPrice: filters.MinmonthlyPrice ?? 0,
+      maxRentPrice: filters.MaxmonthlyPrice ?? 200000000,
+      facilityTypes: filters.additionalFilters ?? [],
+    }
+
+    console.log('일반 검색 요청 데이터:', requestBody)
+
+    // API 호출
+    const response = await http.post(MAP_END_POINT.NORMAL_SEARCH, requestBody)
+
+    return response.data.result
+  } catch (error) {
+    console.error('일반 검색 API 요청 중 오류 발생:', error)
+    throw error
+  }
+}
+
+/**
+ * 맞춤 검색 API 호출 (검색어와 시간으로 간편 실행)
+ * @param query 검색어 (역/동 이름)
+ * @param travelTime 이동 시간 (분)
+ * @param filters 필터 옵션
+ * @param latitude 위도 (옵션)
+ * @param longitude 경도 (옵션)
+ * @returns 검색 결과
+ */
+export const fetchMatchSearchWithQuery = async (
+  query: string,
+  travelTime: number,
+  filters: any = {},
+  latitude?: number,
+  longitude?: number,
+) => {
+  try {
+    // 좌표가 없으면 카카오 API로 가져오기
+    let lat = latitude
+    let lng = longitude
+
+    if (!lat || !lng) {
+      try {
+        // 카카오 Geocoder를 사용해 주소를 좌표로 변환
+        lat = 37.501286 // 기본값 설정 (성공하지 못할 경우 대비)
+        lng = 127.039633
+
+        // Promise로 감싸서 비동기 처리
+        await new Promise<void>((resolve) => {
+          if (window.kakao && window.kakao.maps) {
+            const geocoder = new window.kakao.maps.services.Geocoder()
+            geocoder.addressSearch(query, (result, status) => {
+              if (status === window.kakao.maps.services.Status.OK) {
+                lat = parseFloat(result[0].y)
+                lng = parseFloat(result[0].x)
+              }
+              resolve()
+            })
+          } else {
+            resolve()
+          }
+        })
+      } catch (e) {
+        console.error('좌표 변환 실패:', e)
+        // 기본값 사용
+      }
+    }
+
+    // 맞춤 검색 요청 데이터 구성
+    const requestData: RequestData = {
+      addresses: [
+        {
+          searchSet: {
+            address: query,
+            transportationType: '지하철', // 기본값
+            totalTransportTime: travelTime,
+            walkTime: Math.min(travelTime / 2, 10), // 이동 시간의 절반 또는 최대 10분
+          },
+        },
+      ],
+      propertyType: filters.propertyTypes ?? [],
+      dealType: filters.dealType ?? '',
+      minPrice: filters.MindepositPrice ?? 0,
+      maxPrice: filters.MaxdepositPrice ?? 200000000,
+      minRentPrice: filters.MinmonthlyPrice ?? 0,
+      maxRentPrice: filters.MaxmonthlyPrice ?? 200000000,
+      facility: filters.additionalFilters ?? [],
+    }
+
+    // 좌표 정보 추가 (address 내부에 추가)
+    if (lat && lng) {
+      requestData.addresses[0].searchSet['latitude'] = lat
+      requestData.addresses[0].searchSet['longitude'] = lng
+    }
+
+    console.log('맞춤 검색 요청 데이터:', requestData)
+
+    // API 호출 (기존 함수 대신 직접 호출)
+    const response = await http.post(MAP_END_POINT.MATCH_SEARCH, requestData)
+    return response.data.result
+  } catch (error) {
+    console.error('맞춤 검색 API 요청 중 오류 발생:', error)
+    throw error
   }
 }

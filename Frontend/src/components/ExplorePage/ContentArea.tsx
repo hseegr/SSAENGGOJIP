@@ -1,3 +1,4 @@
+// src/components/ExplorePage/ContentArea.tsx
 import React from 'react'
 import useSidebarStore from '@/store/sidebarStore'
 import NormalSearch from './ContentArea/NormalSearch'
@@ -27,20 +28,7 @@ const ContentArea: React.FC = () => {
   }
 
   return (
-    <div className="w-[400px] h-screen overflow-hidden bg-white border border-ssaeng-gray-1 flex flex-col">
-      {/* 상단 영역 */}
-      <div className="flex justify-between items-center p-2">
-        <span></span>
-        <button
-          className="text-gray-600 hover:text-black"
-          onClick={() => {
-            setActiveTab(null)
-            setSelectedCard(null)
-          }}
-        >
-          ✖
-        </button>
-      </div>
+    <div className="h-screen overflow-hidden bg-white border border-ssaeng-gray-1 flex flex-col">
       {/* 하단 영역 */}
       <div className="flex-grow overflow-auto">{renderContent()}</div>
     </div>
