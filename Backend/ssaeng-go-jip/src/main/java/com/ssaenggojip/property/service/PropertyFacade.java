@@ -200,6 +200,7 @@ public class PropertyFacade {
                 .totalFloor(property.getTotalFloor())
                 .area(property.getExclusiveArea())
                 .address(property.getAddress())
+                .maintenancePrice(property.getMaintenancePrice())
                 .imageUrls(imageUrls)
                 .transportInfos(transportInfos)
                 .stations(stationInfos)
