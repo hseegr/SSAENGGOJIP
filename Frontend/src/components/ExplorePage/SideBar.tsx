@@ -27,53 +27,53 @@ const Sidebar: React.FC = () => {
   return (
     <div className="flex h-screen">
       {/* Tab 버튼 */}
-      <div className="w-20 bg-white border-r border-ssaeng-gray-1 flex flex-col items-center pt-5">
+      <div className="w-[70px] bg-white border-r border-ssaeng-gray-1 flex flex-col items-center pt-4">
         <button
-          className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
+          className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80"
           onClick={() => clickSidebar('normal_search')}
         >
           {activeTab === 'normal_search' ? (
             <>
-              <HomeBlueIcon className="w-8 h-8" />
+              <HomeBlueIcon className="w-6 h-6" />
               <span className="mt-1 text-sm text-ssaeng-purple">일반검색</span>
             </>
           ) : (
             <>
-              <HomeIcon className="w-8 h-8" />
+              <HomeIcon className="w-6 h-6" />
               <span className="mt-1 text-sm text-gray-600">일반검색</span>
             </>
           )}
         </button>
 
         <button
-          className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
+          className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80"
           onClick={() => clickSidebar('match_search')}
         >
           {activeTab === 'match_search' ? (
             <>
-              <img src={SearchBlueIcon} alt="맞춤검색" className="w-8 h-8" />
+              <img src={SearchBlueIcon} alt="맞춤검색" className="w-6 h-6" />
               <span className="mt-1 text-sm text-ssaeng-purple">맞춤검색</span>
             </>
           ) : (
             <>
-              <img src={SearchIcon} alt="맞춤검색" className="w-8 h-8" />
+              <img src={SearchIcon} alt="맞춤검색" className="w-6 h-6" />
               <span className="mt-1 text-sm text-gray-600">맞춤검색</span>
             </>
           )}
         </button>
 
         <button
-          className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
+          className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80"
           onClick={() => clickSidebar('favorites')}
         >
           {activeTab === 'favorites' ? (
             <>
-              <HeartBlueIcon className="w-8 h-8" />
+              <HeartBlueIcon className="w-6 h-6" />
               <span className="mt-1 text-sm text-ssaeng-purple">관심매물</span>
             </>
           ) : (
             <>
-              <HeartIcon className="w-8 h-8" />
+              <HeartIcon className="w-6 h-6" />
               <span className="mt-1 text-sm text-gray-600">관심매물</span>
             </>
           )}
