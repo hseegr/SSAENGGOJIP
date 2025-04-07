@@ -2,6 +2,7 @@ package com.ssaenggojip.chat.service;
 
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.chat.config.RedisPublisher;
 import com.ssaenggojip.chat.converter.ChatConverter;
 import com.ssaenggojip.chat.dto.ChatMessageResponseDto;
 import com.ssaenggojip.chat.dto.ChatRequestDto;
@@ -20,7 +21,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +35,7 @@ public class ChatMessageService {
     private final UserReportRepository userReportRepository;
 
     private final MongoTemplate mongoTemplate;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final RedisPublisher redisPublisher;
 
     @Transactional
     public void sendMessage(User user, ChatRequestDto message) {
@@ -67,7 +67,8 @@ public class ChatMessageService {
         Update update = new Update().set("lastMessage", message.getContent());
 
         mongoTemplate.updateFirst(query, update, ChatRoom.class);
-        messagingTemplate.convertAndSend("/sub/chat-room." + message.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
+
+        redisPublisher.publish(ChatConverter.toChatMessageResponseDto(chatMessage));
     }
 
     @Transactional
@@ -83,7 +84,7 @@ public class ChatMessageService {
         chatMessage.setContent("삭제된 메시지입니다.");
         chatMessageRepository.save(chatMessage);
 
-        messagingTemplate.convertAndSend("/sub/chat-room." + chatMessage.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
+        redisPublisher.publish(ChatConverter.toChatMessageResponseDto(chatMessage));
     }
 
     @Transactional
@@ -112,7 +113,7 @@ public class ChatMessageService {
             chatMessage.setContent("신고된 메시지입니다.");
             chatMessageRepository.save(chatMessage);
 
-            messagingTemplate.convertAndSend("/sub/chat-room." + chatMessage.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
+            redisPublisher.publish(ChatConverter.toChatMessageResponseDto(chatMessage));
         }
     }
 
