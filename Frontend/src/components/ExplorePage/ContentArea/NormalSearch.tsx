@@ -8,6 +8,7 @@ import useSidebarStore from '@/store/sidebarStore'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
 import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'
+import { useSearchParamsStore } from '@/store/searchParamsStore'
 
 interface Property {
   // 공통 필드
@@ -39,6 +40,8 @@ const NormalSearch: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('') // 검색어 상태 추가
   const { titles } = useSidebarStore()
   const initialData = useMemo<Property[]>(() => [], [])
+  const { generalSearchQuery } = useSearchParamsStore() // ✅ Zustand에서 검색어 가져옴
+
   // 필터 스토어에서 데이터 가져오기
   const {
     propertyTypes,
@@ -49,7 +52,11 @@ const NormalSearch: React.FC = () => {
     MaxmonthlyPrice,
     additionalFilters,
   } = useFilterStore()
-  const [filteredData, setFilteredData] = useState<Property[]>(initialData)
+
+  const [filteredData, setFilteredData] = useState<{
+    total: number
+    properties: Property[]
+  }>({ total: 0, properties: [] })
 
   // 정렬 변경 함수
   const handleSortChange = (sortType: string) => {
@@ -68,6 +75,7 @@ const NormalSearch: React.FC = () => {
 
   // 엔터 키 입력 시 검색 실행
   const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    console.log('🧪 handleKeyPress 호출됨:', e.key)
     if (e.key === 'Enter') {
       if (searchQuery.trim() !== '') {
         // 이거 지우면 빈값 보내면 모든 매물 다 요청함
@@ -82,12 +90,21 @@ const NormalSearch: React.FC = () => {
             MaxmonthlyPrice,
             additionalFilters,
           })
+
+          console.log('🔍 필터 정보:', filters)
+          console.log('🔎 검색어:', searchQuery)
+
           const searchResults = await fetchNormalSearchResults(
             searchQuery,
             filters,
-          ) // 검색 API 호출
+          )
+          console.log('🎉 API 응답 로그:', searchResults)
+          console.log('🔢 총 매물 수:', searchResults?.total)
+          console.log('📋 매물 리스트:', searchResults?.properties)
+
+          // 검색 API 호출
           // API 응답 구조에 따라 데이터 추출 방식 수정 필요
-          setFilteredData(searchResults ?? [])
+          setFilteredData(searchResults ?? { total: 0, properties: [] })
           console.log('검색 결과:', searchResults)
           console.log('필터 저장 결과:', filteredData)
         } catch (error) {
@@ -95,11 +112,45 @@ const NormalSearch: React.FC = () => {
           setFilteredData({ total: 0, properties: [] }) // 오류 발생 시 빈 배열 설정
         }
       } else {
-        setFilteredData(initialData)
+        // ❗ filteredData는 항상 { total, properties } 구조여야 하므로 이 구조로 초기화
+        setFilteredData({ total: 0, properties: [] })
         console.log('필터 저장 결과 (검색어 없음):', filteredData)
       }
     }
   }
+
+  // ✅ Zustand 검색어(generalSearchQuery)가 변경될 때 자동 검색 실행
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!generalSearchQuery.trim()) return
+
+      try {
+        const filters = buildSearchFilters({
+          propertyTypes,
+          dealType,
+          MindepositPrice,
+          MaxdepositPrice,
+          MinmonthlyPrice,
+          MaxmonthlyPrice,
+          additionalFilters,
+        })
+
+        console.log('💬 Zustand로 받은 검색어:', generalSearchQuery)
+        const searchResults = await fetchNormalSearchResults(
+          generalSearchQuery,
+          filters,
+        )
+
+        setFilteredData(searchResults ?? { total: 0, properties: [] })
+        // 상태를 업데이트하면 자동 렌더링됨
+      } catch (err) {
+        console.error('❌ Zustand 검색 자동 실행 중 오류:', err)
+        setFilteredData({ total: 0, properties: [] })
+      }
+    }
+
+    fetchData()
+  }, [generalSearchQuery])
 
   useEffect(() => {
     if (titles?.length) {
@@ -116,6 +167,11 @@ const NormalSearch: React.FC = () => {
       // setFilteredData(initialData);
     }
   }, [titles, initialData]) // ✅ 모든 의존성 명시
+
+  useEffect(() => {
+    console.log('🚨 현재 filteredData:', filteredData)
+    console.log('🔢 매물 수:', filteredData.properties?.length)
+  }, [filteredData])
 
   return (
     <>
