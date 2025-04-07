@@ -159,6 +159,8 @@ public class PropertyService {
                             .floor(p.getFloor())
                             .area(p.getExclusiveArea())
                             .address(p.getAddress())
+                            .latitude(p.getLatitude())
+                            .longitude(p.getLongitude())
                             .isInterest(false)
                             .imageUrl(p.getMainImage())
                             .totalTime(transportTimeProvider.getWalkMinutes(lat, lng, p.getLatitude(),p.getLongitude()))
