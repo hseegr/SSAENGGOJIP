@@ -1,3 +1,4 @@
+// src/components/ExplorePage/Sidebar.tsx
 import React from 'react'
 import useSidebarStore from '@/store/sidebarStore'
 import HeartIcon from '@/assets/map_sidebar/Heart.svg?react'
@@ -42,88 +43,115 @@ export const usePropertyStore = create<PropertyStore>((set) => ({
 }))
 
 const Sidebar: React.FC = () => {
-  const { activeTab, setActiveTab } = useSidebarStore() // Zustand store에서 상태와 업데이트 함수 가져오기
-  const { selectedCard, setSelectedCard, selectedMatchCard, clearMatchCard } =
-    useSidebarStore() // 선택된 카드 상태
+  const {
+    activeTab,
+    setActiveTab,
+    selectedCard,
+    setSelectedCard,
+    selectedMatchCard,
+    clearMatchCard,
+    isContentAreaCollapsed,
+    setContentAreaCollapsed,
+  } = useSidebarStore()
   const { initializeStore } = useMatchInfoStore()
+
   const clickSidebar = (
     tab: 'normal_search' | 'match_search' | 'favorites' | null,
   ) => {
+    if (activeTab === tab) {
+      setActiveTab(null)
+      setSelectedCard(null)
+      clearMatchCard()
+      setContentAreaCollapsed(false)
+      return
+    }
+
     setActiveTab(tab)
     setSelectedCard(null)
     clearMatchCard()
     initializeStore()
+    setContentAreaCollapsed(false)
   }
 
   return (
     <div className="flex h-screen">
-      {/* Tab 버튼 */}
-      <div className="w-20 bg-white border-r border-ssaeng-gray-1 flex flex-col items-center pt-5">
-        <button
-          className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
-          onClick={() => clickSidebar('normal_search')}
-        >
+      {/* 사이드바 아이콘 */}
+      <div className="w-[70px] bg-white border-r border-ssaeng-gray-1 flex flex-col items-center pt-4 z-50">
+        <button className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80" onClick={() => clickSidebar('normal_search')}>
           {activeTab === 'normal_search' ? (
             <>
-              <HomeBlueIcon className="w-8 h-8" />
+              <HomeBlueIcon className="w-6 h-6" />
               <span className="mt-1 text-sm text-ssaeng-purple">일반검색</span>
             </>
           ) : (
             <>
-              <HomeIcon className="w-8 h-8" />
+              <HomeIcon className="w-6 h-6" />
               <span className="mt-1 text-sm text-gray-600">일반검색</span>
             </>
           )}
         </button>
 
-        <button
-          className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
-          onClick={() => clickSidebar('match_search')}
-        >
+        <button className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80" onClick={() => clickSidebar('match_search')}>
           {activeTab === 'match_search' ? (
             <>
-              <img src={SearchBlueIcon} alt="맞춤검색" className="w-8 h-8" />
+              <img src={SearchBlueIcon} alt="맞춤검색" className="w-6 h-6" />
               <span className="mt-1 text-sm text-ssaeng-purple">맞춤검색</span>
             </>
           ) : (
             <>
-              <img src={SearchIcon} alt="맞춤검색" className="w-8 h-8" />
+              <img src={SearchIcon} alt="맞춤검색" className="w-6 h-6" />
               <span className="mt-1 text-sm text-gray-600">맞춤검색</span>
             </>
           )}
         </button>
 
-        <button
-          className="flex flex-col items-center justify-center mt-5 mb-5 hover:opacity-80"
-          onClick={() => clickSidebar('favorites')}
-        >
+        <button className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80" onClick={() => clickSidebar('favorites')}>
           {activeTab === 'favorites' ? (
             <>
-              <HeartBlueIcon className="w-8 h-8" />
+              <HeartBlueIcon className="w-6 h-6" />
               <span className="mt-1 text-sm text-ssaeng-purple">관심매물</span>
             </>
           ) : (
             <>
-              <HeartIcon className="w-8 h-8" />
+              <HeartIcon className="w-6 h-6" />
               <span className="mt-1 text-sm text-gray-600">관심매물</span>
             </>
           )}
         </button>
       </div>
 
-      {/* 본문: 목록 + 상세정보 */}
-      <div className="flex flex-grow h-full">
-        {activeTab && <ContentArea />}
+      {/* 본문 영역 */}
+      <div className="flex flex-grow h-full relative">
+        {/* ContentArea는 항상 렌더링 */}
+        <div
+          className={`transition-transform duration-300 ease-in-out z-30`}
+          style={{
+            transform: isContentAreaCollapsed ? 'translateX(-100%)' : 'translateX(0)',
+            width: '400px',
+          }}
+        >
+          <ContentArea />
+        </div>
+
+        {/* 접기/펼치기 버튼 */}
+        {activeTab && (
+          <button
+            className={`absolute top-1/2 -translate-y-1/2 z-40 bg-white shadow px-2 py-3 rounded-r-lg hover:bg-gray-100 transition-all duration-300
+            ${isContentAreaCollapsed ? 'left-[0px]' : 'left-[400px]'}`}
+            onClick={() => setContentAreaCollapsed(!isContentAreaCollapsed)}
+          >
+            <span className="text-xl font-bold text-ssaeng-purple">
+              {isContentAreaCollapsed ? '▶' : '◀'}
+            </span>
+          </button>
+        )}
+
+        {/* 상세보기 영역 */}
         {selectedCard && (
-          <div className="w-[400px] border-l border-gray-200 bg-white overflow-y-auto shadow-md">
-            <PropertyDetail
-              id={selectedCard}
-              onClose={() => setSelectedCard(null)}
-            />
+          <div className="w-[400px] border-l border-gray-200 bg-white overflow-y-auto shadow-md z-50">
+            <PropertyDetail id={selectedCard} onClose={() => setSelectedCard(null)} />
           </div>
         )}
-        {/* 상세정보 영역 */}
-        {/* {(selectedCard ?? selectedMatchCard) && <DetailInfo />} */}
       </div>
     </div>
   )
