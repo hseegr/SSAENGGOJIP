@@ -1,12 +1,9 @@
 package com.ssaenggojip;
 
-import com.ssaenggojip.config.TestRedisConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
-@SpringBootTest(properties = "spring.main.allow-bean-definition-overriding=true")
-@Import(TestRedisConfig.class)
+@SpringBootTest
 class SsaengGoJipApplicationTests {
 
     @Test
