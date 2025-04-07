@@ -59,7 +59,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query(nativeQuery = true,
             value = "SELECT * " +
-                    "FROM properties " +
+                    "FROM property " +
                     "ORDER BY facility_nearness <=> cast(? as vector) " +
                     "LIMIT ? "
     )
@@ -67,7 +67,7 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query(nativeQuery = true,
             value = "SELECT * " +
-                    "FROM properties " +
+                    "FROM property " +
                     "WHERE ST_DWithin(" +
                     "geography(ST_SetSRID(ST_Point(longitude, latitude), 4326)), " +
                     "geography(ST_SetSRID(ST_Point(:lng, :lat), 4326)), " +
