@@ -26,7 +26,7 @@ const PropertyFilter = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const toggleModal = () => setIsModalOpen((prev) => !prev)
   const { setIsSearching } = matchSearchStore()
-  const { setResults } = useSearchResultStore()
+  const { setResults, setTransportModes } = useSearchResultStore()
 
   // 클릭 시 API 요청을 보내는 함수
   const handleSearch = async () => {
@@ -56,12 +56,20 @@ const PropertyFilter = () => {
       facility: [], // ["편의점", "병원", "약국"]
       // additionalFilters
     }
+    // 교통 수단 모드 추출 및 변환
+    const transportModes = matchInfos.map((info) => {
+      if (info.transportMode === 'SUBWAY') return '지하철'
+      if (info.transportMode === 'WALK') return '도보'
+      return info.transportMode // 다른 경우 원래 값 유지
+    })
 
     try {
       console.log(requestData)
       setIsSearching(true)
       const data = await fetchMatchSearchResults(requestData) // API 호출
       setResults(data)
+      // 변환된 교통 수단 모드 저장
+      setTransportModes(transportModes)
       console.log('Response:', data) // 응답 데이터 출력
     } catch (error) {
       console.error('Error during search:', error) // 에러 처리

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useIsLoggedIn } from '@/store/userStore'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import mockProperties from '@/mocks/mockProperty'
 import PropertySmallCard from '@/components/common/property/PropertySmallCard'
 import { toast } from 'react-toastify'
