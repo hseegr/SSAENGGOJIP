@@ -10,7 +10,6 @@ import {
 } from '@/hooks/useCommunity'
 import { useAllStationsQuery } from '@/hooks/useStation'
 import { useChatSocket } from '@/hooks/useChatSocket'
-const { connect } = useChatSocket()
 
 type Props = {
   onChatOpen: () => void
@@ -34,18 +33,20 @@ const Sidebar = ({ onChatOpen }: Props) => {
   // 검색
   const { data: searchedData } = useSearchChatRoomsQuery(searchKeyword)
 
+  // const { connect } = useChatSocket()
+
   // 전체 역 받아오기
-  const { data: stationData } = useAllStationsQuery()
+  // const { data: stationData } = useAllStationsQuery()
 
   // 현재 탭이 my인지 확인하는 상태 추가
   const isMyTab = activeTab === 'my'
 
   // 전체 역에서 아직 생성되지 않은 채팅방 (검색어 + 기존 채팅방과 중복 x)
-  const fallbackRooms = (stationData?.result ?? []).filter(
-    (station) =>
-      station.name.includes(searchKeyword) &&
-      !chatRooms.some((room) => room.name === station.name),
-  )
+  // const fallbackRooms = (stationData?.result ?? []).filter(
+  //   (station) =>
+  //     station.name.includes(searchKeyword) &&
+  //     !chatRooms.some((room) => room.name === station.name),
+  // )
 
   // 응답 데이터가 없을 경우 대비
   const popularChatRooms = popularData?.result ?? []
@@ -107,7 +108,7 @@ const Sidebar = ({ onChatOpen }: Props) => {
       onChatOpen()
     } else {
       console.log('🟡 참여하지 않은 채팅방 → 오버레이만 표시', room.id)
-      // ❗ 참여하기 버튼 눌러야 입장/연결됨 (MapView.tsx에서 처리)
+      // 참여하기 버튼 눌러야 입장/연결됨 (MapView.tsx에서 처리)
       // 이미 모달이 열려있다면 닫기 (중요!)
     }
   }
@@ -116,9 +117,9 @@ const Sidebar = ({ onChatOpen }: Props) => {
     <aside
       className="w-96 border-r border-ssaeng-gray-1 bg-white py-6"
       style={{
-        height: '100vh', // 💡 높이를 고정
-        overflowY: 'auto', // 💡 스크롤 가능하게
-        flexShrink: 0, // 💡 크기 줄어들지 않게
+        height: '100vh',
+        overflowY: 'auto',
+        flexShrink: 0, //
       }}
     >
       {/* 탭 */}
@@ -163,7 +164,7 @@ const Sidebar = ({ onChatOpen }: Props) => {
         </h3>
       )}
       <ul className="space-y-2">
-        {chatRooms.length === 0 && fallbackRooms.length === 0 ? (
+        {chatRooms.length === 0 ? (
           <li className="text-ssaeng-gray-2 text-sm flex ml-16 mt-3">
             검색 결과가 없습니다.
           </li>
@@ -177,7 +178,7 @@ const Sidebar = ({ onChatOpen }: Props) => {
               />
             ))}
             {/* 아직 생성되지 않았지만 추천 가능한 역 목록 */}
-            {fallbackRooms.map((station) => (
+            {/* {fallbackRooms.map((station) => (
               <ChatRoomCard
                 key={station.id}
                 chatRoom={{
@@ -188,7 +189,7 @@ const Sidebar = ({ onChatOpen }: Props) => {
                 }}
                 onClick={handleClickRoom}
               />
-            ))}
+            ))} */}
           </>
         )}
       </ul>
