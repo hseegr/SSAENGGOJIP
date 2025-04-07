@@ -11,7 +11,7 @@ interface DataState {
   clearData: () => void
 }
 
-// 스토어 생성 (persist 미들웨어 없음)
+// 스토어 생성
 export const useDataStore = create<DataState>((set) => ({
   data: [],
 

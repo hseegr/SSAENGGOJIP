@@ -1,26 +1,14 @@
 import { useState } from 'react'
 import Address from './Address'
 import Transport from './Transport'
+import { addTargetAddress } from '@/services/targetService' // API 함수 import
 
 interface NewAddressModalProps {
   isOpen: boolean
   onClose: () => void
-  addNewAddress: (newAddress: {
-    address: string
-    name: string
-    transportMode: string
-    travelTime: number
-    walkTime: number
-    latitude?: number // 위도
-    longitude?: number // 경도
-  }) => void // 새로운 주소 추가 핸들러
 }
 
-const NewTargetModal = ({
-  isOpen,
-  onClose,
-  addNewAddress,
-}: NewAddressModalProps) => {
+const NewTargetModal = ({ isOpen, onClose }: NewAddressModalProps) => {
   const [currentPage, setCurrentPage] = useState(1) // 현재 페이지 상태
   const [address, setAddress] = useState('')
   const [name, setName] = useState('')
@@ -57,45 +45,25 @@ const NewTargetModal = ({
       }
     }
 
-    // 새로운 주소 추가 핸들러 호출
-    addNewAddress({
+    const newAddressData = {
       address,
       name,
       transportMode: getTransportMode(transportMode), // 변환된 transportMode 사용
       travelTime,
       walkTime,
-      latitude: latitude ?? '', // 위도 값 전달
-      longitude: longitude ?? '', // 경도 값 전달
-    })
-
-    // API로 데이터 전송
-    const requestBody = {
-      address,
-      name,
-      latitude,
-      longitude,
-      transportMode: getTransportMode(transportMode), // 변환된 transportMode 사용
-      travelTime,
-      walkTime,
+      latitude: latitude.toFixed(6) ?? undefined, // 위도 값 전달
+      longitude: longitude.toFixed(6) ?? undefined, // 경도 값 전달
     }
 
+    // addNewAddress(newAddressData)
+
     try {
-      const response = await fetch('/target-addresses', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const responseData = await response.json()
-      console.log('주소가 성공적으로 추가되었습니다:', responseData)
+      // API로 데이터 전송
+      await addTargetAddress(newAddressData)
+      console.log('주소가 성공적으로 추가되었습니다.')
     } catch (error) {
       console.error('주소 추가 실패:', error)
+      // 필요하다면 사용자에게 에러를 알리는 로직 추가
     }
 
     setCurrentPage(1) // 페이지 초기화

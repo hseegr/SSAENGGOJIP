@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { formatPrice } from '@/utils/formPrice'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import { Heart } from 'lucide-react'
 
 interface CardProps {
@@ -126,7 +126,7 @@ const Card: React.FC<CardProps> = ({
         </p>
         <div className="flex">
           <p className="text-xs mt-2">
-            {floor}층 / {totalFloor}층 | {area}평
+            {floor}층 / {totalFloor}층 | {Math.trunc(area / 3.3058)}평
           </p>
         </div>
         {address && (

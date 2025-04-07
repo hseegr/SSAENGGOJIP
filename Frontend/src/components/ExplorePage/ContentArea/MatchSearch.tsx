@@ -6,89 +6,72 @@ import PropertyFilter from './Modals/Match/PropertyInfo'
 import { useUserStore } from '@/store/userStore'
 import matchSearchStore from '@/store/matchSearchStore'
 import MatchSearchResults from './Match/MatchSearchResult'
-import { getTargetAddress } from '@/services/targetService'
 
 const CustomInfo: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedBoxId, setSelectedBoxId] = useState<number | null>(null)
   const { isLoggedIn } = useUserStore()
-  // Zustand store에서 상태 가져오기
-  const { matchInfos, addMatchInfo, updateMatchInfo } = useMatchInfoStore()
-
+  const { resetMatchInfos, matchInfos, addMatchInfo } = useMatchInfoStore()
+  const { isSearching } = matchSearchStore()
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false)
 
-  const { isSearching } = matchSearchStore()
-
+  // 최초 렌더링 시 빈 맞춤 정보 슬롯 하나 추가
   useEffect(() => {
-    if (!isLoggedIn) {
-      console.log('로그인 안되있어요')
-      return
-    }
+    addMatchInfo()
+  }, [addMatchInfo])
 
-    const fetchAndSetDefaultAddress = async () => {
-      try {
-        const targetAddresses = await getTargetAddress()
-        console.log(targetAddresses)
-        if (targetAddresses && targetAddresses.length > 0) {
-          const firstAddress = targetAddresses[0]
-          console.log(firstAddress)
-
-          // 먼저 addMatchInfo 호출하여 항목 추가
-          addMatchInfo(firstAddress.id, {
-            id: firstAddress.id,
-            address: '',
-            name: '',
-            transportMode: '',
-            travelTime: 0,
-            walkTime: 0,
-          })
-
-          // 그 다음 updateMatchInfo 호출하여 데이터 업데이트
-          updateMatchInfo(firstAddress.id, {
-            id: firstAddress.id,
-            address: firstAddress.address,
-            name: firstAddress.name,
-            transportMode: firstAddress.transportMode,
-            travelTime: firstAddress.travelTime,
-            walkTime: firstAddress.walkTime,
-          })
-        }
-      } catch (error) {
-        console.error('타겟 주소 가져오기 실패:', error)
-      }
-    }
-
-    fetchAndSetDefaultAddress()
-  }, [isLoggedIn, addMatchInfo, updateMatchInfo])
-
-  const handleBoxClick = (id: number | void) => {
-    if (id !== undefined) {
-      // void(=undefined) 체크
-      console.log(`Selected Box ID: ${id}`)
-      setSelectedBoxId(id)
-      setIsModalOpen(true)
-    }
+  const handleBoxClick = (id: number) => {
+    console.log(`Selected Box ID: ${id}`)
+    setSelectedBoxId(id)
+    setIsModalOpen(true)
   }
 
   const handleCloseModal = () => {
-    setIsModalOpen(false) // 모달 닫기
-    setSelectedBoxId(null) // 선택된 박스 초기화
+    setIsModalOpen(false)
+    setSelectedBoxId(null)
   }
 
   const handleAddBox = () => {
-    if (matchInfos.length >= 2) {
+    if (useMatchInfoStore.getState().matchInfos.length >= 2) {
       alert('최대 2개의 주소만 추가할 수 있습니다.')
       return
     }
-    const newId = addMatchInfo() // 새로운 박스를 추가하고 ID를 반환받음
-    handleBoxClick(newId) // 새로 생성된 박스의 ID를 전달하여 클릭 처리
+    const newId = addMatchInfo()
+    handleBoxClick(newId)
   }
 
   const handleAddressModalOpen = () => {
     setIsAddressModalOpen(true)
   }
+
   const handleAddressModalClose = () => {
-    setIsAddressModalOpen(false) // AddressModal 닫기
+    setIsAddressModalOpen(false)
+  }
+
+  const handleRemoveBox = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation() // 부모 div의 onClick 이벤트 방지
+    const confirmed = window.confirm('정말 삭제하시겠습니까?')
+    if (confirmed) {
+      console.log(`${id} 삭제됨`)
+      if (matchInfos.length > 1) {
+        // 2개 이상일 경우 해당 박스 제거
+        resetMatchInfos(matchInfos.filter((info) => info.id !== id))
+      } else {
+        // 1개만 있을 경우 내부 정보 초기화 (id는 유지)
+        resetMatchInfos([
+          {
+            id: matchInfos[0].id,
+            address: '',
+            name: '',
+            transportMode: '',
+            travelTime: 0,
+            walkTime: 0,
+            latitude: 0,
+            longitude: 0,
+          },
+        ])
+      }
+    }
   }
 
   return (
@@ -109,111 +92,82 @@ const CustomInfo: React.FC = () => {
               </button>
             </div>
             <div>
-              <button
-                className="flex items-center justify-center bg-green-300 rounded"
-                onClick={handleAddressModalOpen}
-              >
-                저장된 주소
-              </button>
+              {isLoggedIn && (
+                <button
+                  className="flex items-center justify-center bg-green-300 rounded"
+                  onClick={handleAddressModalOpen}
+                >
+                  저장된 주소
+                </button>
+              )}
             </div>
           </div>
 
           {/* 회색 박스들 */}
-          {matchInfos.length > 0 ? (
-            matchInfos.map((info) => (
-              <button
-                key={JSON.stringify(info)}
-                className="flex flex-col justify-center mb-3 items-center w-full h-96 bg-gray-200 rounded-lg text-gray-700"
-                onClick={() => handleBoxClick(info.id)} // 클릭 시 해당 ID 설정 및 모달 열기
-              >
-                {/* 데이터 표시 */}
-                {info.address ||
-                info.name ||
-                info.transportMode ||
-                info.travelTime ||
-                info.walkTime ? (
-                  <>
-                    {/* 데이터가 있는 경우 상세 정보 표시 */}
-                    <h3 className="text-lg font-bold mb-2">주소</h3>
-                    <button
-                      className="z-[9999] text-red-500"
-                      onClick={(e) => {
-                        e.stopPropagation() // 부모 버튼의 클릭 이벤트 방지
-                        const confirmed =
-                          window.confirm('정말 삭제하시겠습니까?')
-                        if (confirmed) {
-                          console.log(`${info.id} 삭제됨`)
-                          // 여기에 삭제 로직 추가
-                        }
-                      }}
-                    >
-                      X
-                    </button>
-                    <div className="flex items-center w-full h-24 justify-between bg-white p-4 rounded-lg shadow-md">
-                      <div className="flex flex-col">
-                        {/* 이름 */}
-                        <span className="text-md font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-lg inline-block">
-                          {info.name}
-                        </span>
-                        {/* 주소 */}
-                        <span className="text-sm text-gray-700 ml-3 truncate">
-                          {info.address}
-                        </span>
-                      </div>
-                      {/* 오른쪽 화살표 아이콘 */}
-                      <span className="text-gray-400 ml-auto">{'>'}</span>
+          {useMatchInfoStore.getState().matchInfos.map((info) => (
+            <div
+              key={info.id}
+              className="flex flex-col justify-center mb-3 items-center w-full h-96 bg-gray-200 rounded-lg text-gray-700"
+              onClick={() => handleBoxClick(info.id)}
+              role="button"
+              aria-hidden="true"
+            >
+              {info.address ||
+              info.name ||
+              info.transportMode ||
+              info.travelTime ||
+              info.walkTime ? (
+                <>
+                  <h3 className="text-lg font-bold mb-2">주소</h3>
+                  <button
+                    className="z-[9999] text-red-500"
+                    onClick={(e) => handleRemoveBox(e, info.id)}
+                  >
+                    X
+                  </button>
+                  <div className="flex items-center w-full h-24 justify-between bg-white p-4 rounded-lg shadow-md">
+                    <div className="flex flex-col">
+                      <span className="text-md font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-lg inline-block">
+                        {info.name}
+                      </span>
+                      <span className="text-sm text-gray-700 ml-3 truncate">
+                        {info.address}
+                      </span>
                     </div>
+                    <span className="text-gray-400 ml-auto">{'>'}</span>
+                  </div>
 
-                    <h3 className="text-lg font-bold mb-2">교통</h3>
-                    <div className="flex w-full bg-white items-center p-4 rounded-lg shadow-md text-gray-700">
-                      <div className="flex flex-col">
-                        {/* 교통 수단 */}
-                        <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-2">
-                          {info.transportMode}
-                        </span>
-
-                        {/* 전체 이동 시간 */}
-                        <p className="text-sm mb-1">
-                          전체 이동시간은{' '}
-                          <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
-                            {info.travelTime}분 이내
-                          </span>{' '}
-                          이면 좋겠고,
-                        </p>
-
-                        {/* 도보 이동 시간 */}
-                        <p className="text-sm">
-                          도보 이동시간은{' '}
-                          <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
-                            {info.walkTime}분 이내
-                          </span>{' '}
-                          이면 좋겠어요.
-                        </p>
-                      </div>
-                      {/* 오른쪽 화살표 아이콘 */}
-                      <span className="text-gray-400 ml-auto">{'>'}</span>
+                  <h3 className="text-lg font-bold mb-2">교통</h3>
+                  <div className="flex w-full bg-white items-center p-4 rounded-lg shadow-md text-gray-700">
+                    <div className="flex flex-col">
+                      <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-2">
+                        {info.transportMode}
+                      </span>
+                      <p className="text-sm mb-1">
+                        전체 이동시간은{' '}
+                        <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
+                          {info.travelTime}분 이내
+                        </span>{' '}
+                        이면 좋겠고,
+                      </p>
+                      <p className="text-sm">
+                        도보 이동시간은{' '}
+                        <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
+                          {info.walkTime}분 이내
+                        </span>{' '}
+                        이면 좋겠어요.
+                      </p>
                     </div>
-                  </>
-                ) : (
-                  <>
-                    {/* 데이터가 없는 경우 메시지 표시 */}
-                    <span className="flex justify-center items-center w-full h-96 bg-gray-200 rounded-lg text-gray-500 cursor-pointer hover:bg-gray-300 transition">
-                      이곳을 클릭해 맞춤 정보를 설정하세요.
-                    </span>
-                  </>
-                )}
-              </button>
-            ))
-          ) : (
-            <div className="flex flex-col justify-center mb-3 items-center w-full h-96 bg-gray-200 rounded-lg text-gray-700">
-              <button
-                className="flex justify-center items-center w-full h-96 bg-gray-200 rounded-lg text-gray-500 cursor-pointer hover:bg-gray-300 transition"
-                onClick={handleAddBox}
-              >
-                이곳을 클릭해 맞춤 정보를 설정해주세요.
-              </button>
+                    <span className="text-gray-400 ml-auto">{'>'}</span>
+                  </div>
+                </>
+              ) : (
+                <span className="flex justify-center items-center w-full h-96 bg-gray-200 rounded-lg text-gray-500 cursor-pointer hover:bg-gray-300 transition">
+                  이곳을 클릭해 맞춤 정보를 설정해주세요.
+                </span>
+              )}
             </div>
-          )}
+          ))}
 
           {/* 공통 필터 컴포넌트 */}
           <PropertyFilter />

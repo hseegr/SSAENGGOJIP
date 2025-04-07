@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { formatPrice } from '@/utils/formPrice'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import { Heart } from 'lucide-react'
 import useMatchInfoStore from '@/store/matchInfoStore'
 
@@ -40,16 +40,26 @@ const MatchCard: React.FC<CardProps> = ({
   isInterest,
   imageUrl,
   transportTimes,
+  latitude,
+  longitude,
 }) => {
-  const { selectedCard, setSelectedCard } = useSidebarStore()
+  const { selectedMatchCard, setSelectedMatchCard } = useSidebarStore()
 
   const [isLiked, setIsLiked] = useState(isInterest ?? false) // 초기 상태는 API에서 제공된 관심 여부
   // 컴포넌트 내부에서
   const { matchInfos } = useMatchInfoStore()
   const handleClick = () => {
-    setSelectedCard(id) // 선택된 카드 ID 저장
+    console.log(
+      'handleClick - Latitude:',
+      latitude,
+      'Longitude:',
+      longitude,
+      '교통수단 타입',
+      matchInfos,
+    ) // 추가 로깅
+    setSelectedMatchCard(id, latitude, longitude, matchInfos[0].transportMode)
+    console.log(selectedMatchCard)
   }
-
   const toggleLike = () => {
     setIsLiked((prev) => !prev)
     if (!isLiked) {
@@ -59,7 +69,7 @@ const MatchCard: React.FC<CardProps> = ({
     }
   }
 
-  const isSelected = selectedCard === id
+  const isSelected = selectedMatchCard?.id === id
 
   return (
     <div
@@ -82,7 +92,7 @@ const MatchCard: React.FC<CardProps> = ({
         )}
         {imageUrl ? (
           <img
-            src={imageUrl}
+            src={`${imageUrl}?w=800&h=600`}
             alt={title ?? '이미지'}
             className="w-full h-full object-cover rounded-lg p-2"
           />
@@ -157,7 +167,7 @@ const MatchCard: React.FC<CardProps> = ({
         </p>
         <div className="flex">
           <p className="text-xs mt-2">
-            {floor}층 / {totalFloor}층 | {area}평
+            {floor}층 / {totalFloor}층 | {Math.floor(area / 3.3058)}평
           </p>
         </div>
         {address && (

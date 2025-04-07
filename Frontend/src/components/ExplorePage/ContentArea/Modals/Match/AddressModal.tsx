@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import NewTargetModal from './NewTarget'
 import EditTargetModal from './EditTarget' // 새로운 주소 수정 모달
 import useMatchInfoStore from '@/store/matchInfoStore' // Zustand 스토어 import
-import { addTargetAddress } from '@/services/targetService'
+import { getTargetAddress, deleteTargetAddress } from '@/services/targetService'
 
 interface Address {
   id: number
@@ -12,6 +12,8 @@ interface Address {
   travelTime: number
   walkTime: number
   isDefault?: boolean // 선택적 속성으로 변경
+  latitude: number
+  longitude: number
 }
 
 interface AddressModalProps {
@@ -20,83 +22,59 @@ interface AddressModalProps {
 }
 
 const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
-  // 임시 테스트 데이터
-  const testData: Address[] = [
-    {
-      id: 1,
-      address: '서울특별시 강남구 테헤란로 212',
-      name: '캠퍼스',
-      transportMode: 'SUBWAY',
-      travelTime: 60,
-      walkTime: 10,
-      isDefault: true,
-    },
-    {
-      id: 2,
-      address: '서울특별시 강남구 테헤란로 212',
-      name: '캠퍼스',
-      transportMode: 'SUBWAY',
-      travelTime: 60,
-      walkTime: 10,
-      isDefault: false,
-    },
-    {
-      id: 3,
-      address: '서울특별시 종로구 종로1길 50',
-      name: '사무실',
-      transportMode: 'BUS',
-      travelTime: 30,
-      walkTime: 5,
-      isDefault: false,
-    },
-    {
-      id: 4,
-      address: '서울특별시 마포구 마포대로 33',
-      name: '집',
-      transportMode: 'WALK',
-      travelTime: 15,
-      walkTime: 15,
-      isDefault: false,
-    },
-  ]
-
-  // 상태 초기화에 임시 데이터 사용
-  const [addresses, setAddresses] = useState<Address[]>(testData) // API 대신 임시 데이터 사용
-  const [selectedIds, setSelectedIds] = useState<number[]>([]) // 선택된 주소 ID들
-  const [isLoading] = useState<boolean>(false) // 로딩 상태 관리 (임시 데이터라 로딩 없음)
+  const [addresses, setAddresses] = useState<Address[]>([])
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isNewTargetModalOpen, setIsNewTargetModalOpen] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false) // 편집 모드 상태
   const [editAddress, setEditAddress] = useState<Address | null>(null) // 수정할 주소 데이터
-  // Zustand 스토어에서 상태 및 액션 가져오기
+  const [notification, setNotification] = useState<string | null>(null)
   const { resetMatchInfos } = useMatchInfoStore()
 
-  // 새로운 주소 추가
-  const handleAddNewTarget = (newAddress: Omit<Address, 'id'>) => {
-    setAddresses((prev) => [...prev, { id: prev.length + 1, ...newAddress }])
+  const showNotification = (message: string) => {
+    setNotification(message)
+    setTimeout(() => {
+      setNotification(null)
+    }, 3000) // 3초 후 알림 사라짐
   }
 
-  const handleDeleteAddress = async (id: number) => {
+  // API를 통해 주소 목록 가져오기
+  const fetchAddresses = async () => {
+    setIsLoading(true)
     try {
-      // API로 DELETE 요청 보내기
-      const response = await fetch(`/target-addresses/${id}`, {
-        method: 'DELETE',
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      console.log(`주소 ID ${id}가 성공적으로 삭제되었습니다.`)
-
-      // 로컬 상태 업데이트
-      setAddresses((prev) => prev.filter((address) => address.id !== id))
-      setSelectedIds((prev) => prev.filter((selectedId) => selectedId !== id)) // 선택된 ID에서도 제거
+      const data = await getTargetAddress()
+      console.log('최초 접속 API', data)
+      setAddresses(data)
     } catch (error) {
-      console.error('주소 삭제 실패:', error)
+      console.error('주소 목록을 불러오는 데 실패했습니다:', error)
+      showNotification('주소 목록을 불러오는 데 실패했습니다.')
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  // 주소 수정 완료
+  const handleDeleteAddress = async (id: number) => {
+    const addressToDelete = addresses.find((addr) => addr.id === id)
+
+    if (addressToDelete?.isDefault) {
+      showNotification('기본 타겟 주소는 삭제할 수 없습니다.')
+      return // 삭제 로직 중단
+    }
+
+    if (window.confirm('정말로 이 주소를 삭제하시겠습니까?')) {
+      try {
+        await deleteTargetAddress(id)
+        showNotification(`주소가 성공적으로 삭제되었습니다.`)
+        setAddresses((prev) => prev.filter((address) => address.id !== id))
+        setSelectedIds((prev) => prev.filter((selectedId) => selectedId !== id))
+      } catch (error) {
+        console.error('주소 삭제 실패:', error)
+        showNotification('주소 삭제에 실패했습니다.')
+      }
+    }
+  }
+
+  // 주소 수정 완료 (미완성 부분이라 현재 로직 유지)
   const handleEditComplete = (updatedAddress: Omit<Address, 'id'>) => {
     if (!editAddress) return
 
@@ -111,25 +89,38 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
     setIsEditMode(false) // 편집 모드 종료
   }
 
-  // 기본 주소 초기화
+  // 모달이 열릴 때 주소 목록을 가져오고 기본 주소를 선택 상태로 설정
   useEffect(() => {
-    if (!isOpen) return // 모달이 열릴 때만 초기화
+    if (isOpen) {
+      fetchAddresses()
+    } else {
+      // 모달이 닫힐 때 상태 초기화 (선택 사항)
+      setSelectedIds([])
+      setEditAddress(null)
+      setIsEditMode(false)
+    }
+  }, [])
 
-    // 기본 주소를 초기 선택 상태로 설정
-    const defaultIds = addresses
-      .filter((item) => item.isDefault)
-      .map((item) => item.id)
-    setSelectedIds(defaultIds)
+  useEffect(() => {
+    if (addresses.length > 0 && isOpen) {
+      // isDefault가 true인 주소를 우선적으로 선택
+      const defaultIds = addresses
+        .filter((item) => item.isDefault)
+        .map((item) => item.id)
+
+      if (defaultIds.length > 0) {
+        setSelectedIds(defaultIds)
+      } else {
+        // isDefault가 없는 경우, id가 1인 주소를 기본 선택 (존재한다면)
+        const firstAddress = addresses.find((addr) => addr.id === 1)
+        if (firstAddress) {
+          setSelectedIds([firstAddress.id])
+        } else {
+          setSelectedIds([]) // 기본 선택할 주소 없으면 초기화
+        }
+      }
+    }
   }, [isOpen, addresses])
-  //   // editAddressId가 변경될 때 selectedAddress 업데이트
-  //   useEffect(() => {
-  //     if (editAddressId !== null) {
-  //       const foundAddress = addresses.find(
-  //         (address) => address.id === editAddressId,
-  //       )
-  //       setSelectedAddress(foundAddress ?? null)
-  //     }
-  //   }, [editAddressId, addresses])
 
   // 주소 선택/취소 핸들러
   const handleSelectAddress = (id: number) => {
@@ -146,6 +137,18 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
     }
   }
 
+  // 주소 추가가 완료되었을 때 실행될 함수
+  const handleNewTargetClosed = () => {
+    fetchAddresses() // 주소 목록 다시 불러오기
+    setIsNewTargetModalOpen(false) // 모달 닫기
+  }
+
+  const handleAddressUpdated = () => {
+    showNotification('주소 정보가 성공적으로 수정되었습니다.')
+    fetchAddresses() // 수정 완료 후 목록 다시 불러오기
+    setEditAddress(null)
+  }
+
   if (!isOpen) return null // 모달이 열리지 않으면 렌더링하지 않음
 
   const handleCloseWithStoreUpdate = () => {
@@ -154,7 +157,7 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
       selectedIds.includes(address.id),
     )
 
-    // 선택된 데이터를 기반으로 새로운 matchInfos 생성
+    // 선택된 데이터를 기반으로 새로운 matchInfos 생성 (latitude, longitude 포함)
     const newMatchInfos = selectedAddresses.map((address) => ({
       id: address.id, // 원래 ID 유지
       address: address.address,
@@ -162,6 +165,8 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
       transportMode: address.transportMode,
       travelTime: address.travelTime,
       walkTime: address.walkTime,
+      latitude: address.latitude, // 위도 포함
+      longitude: address.longitude, // 경도 포함
     }))
 
     // Zustand 스토어의 matchInfos를 초기화하고 새로운 데이터로 설정
@@ -172,6 +177,11 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      {notification && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded-md shadow-lg z-10">
+          {notification}
+        </div>
+      )}
       <div className="bg-white p-6 rounded-lg shadow-lg relative h-3/4 w-1/4 overflow-y-auto">
         {/* 닫기 버튼 */}
         <button
@@ -192,22 +202,21 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
           </button>
           <NewTargetModal
             isOpen={isNewTargetModalOpen}
-            onClose={() => setIsNewTargetModalOpen(false)}
-            addNewAddress={handleAddNewTarget}
+            onClose={() => handleNewTargetClosed()}
           />
           {/* 주소 수정 모달 */}
           {editAddress && (
             <EditTargetModal
               isOpen={!!editAddress}
-              onClose={() => setEditAddress(null)}
+              onClose={handleAddressUpdated}
               initialData={{
+                id: editAddress.id,
                 address: editAddress.address,
                 name: editAddress.name,
                 transportMode: editAddress.transportMode,
                 travelTime: editAddress.travelTime,
                 walkTime: editAddress.walkTime,
               }}
-              editAddress={handleEditComplete}
             />
           )}
         </div>

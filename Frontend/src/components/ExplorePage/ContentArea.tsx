@@ -1,5 +1,5 @@
 import React from 'react'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import NormalSearch from './ContentArea/NormalSearch'
 import MatchSearch from './ContentArea/MatchSearch'
 import Favorites from './ContentArea/Favorite'
@@ -31,13 +31,13 @@ const ContentArea: React.FC = () => {
       {/* 상단 영역 */}
       <div className="flex justify-between items-center p-2">
         <span></span>
-          <button
-            className="text-gray-600 hover:text-black"
-            onClick={() => {
-              setActiveTab(null)
-              setSelectedCard(null)
-            }}
-          >
+        <button
+          className="text-gray-600 hover:text-black"
+          onClick={() => {
+            setActiveTab(null)
+            setSelectedCard(null)
+          }}
+        >
           ✖
         </button>
       </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import HeartIcon from '@/assets/map_sidebar/Heart.svg?react'
 import SearchIcon from '@/assets/map_sidebar/Search.png'
 import HomeIcon from '@/assets/map_sidebar/Home.svg?react'
@@ -8,15 +8,20 @@ import SearchBlueIcon from '@/assets/map_sidebar/Search_blue.png'
 import HomeBlueIcon from '@/assets/map_sidebar/Home_blue.svg?react'
 import ContentArea from './ContentArea'
 import PropertyDetail from '@/components/common/property/PropertyDetail'
+import useMatchInfoStore from '@/store/matchInfoStore'
 
 const Sidebar: React.FC = () => {
-  const { activeTab, setActiveTab, selectedCard, setSelectedCard } = useSidebarStore()
-
+  const { activeTab, setActiveTab } = useSidebarStore() // Zustand store에서 상태와 업데이트 함수 가져오기
+  const { selectedCard, setSelectedCard, selectedMatchCard, clearMatchCard } =
+    useSidebarStore() // 선택된 카드 상태
+  const { initializeStore } = useMatchInfoStore()
   const clickSidebar = (
     tab: 'normal_search' | 'match_search' | 'favorites' | null,
   ) => {
     setActiveTab(tab)
     setSelectedCard(null)
+    clearMatchCard()
+    initializeStore()
   }
 
   return (
@@ -80,9 +85,14 @@ const Sidebar: React.FC = () => {
         {activeTab && <ContentArea />}
         {selectedCard && (
           <div className="w-[400px] border-l border-gray-200 bg-white overflow-y-auto shadow-md">
-            <PropertyDetail id={selectedCard} onClose={() => setSelectedCard(null)} />
+            <PropertyDetail
+              id={selectedCard}
+              onClose={() => setSelectedCard(null)}
+            />
           </div>
         )}
+        {/* 상세정보 영역 */}
+        {/* {(selectedCard ?? selectedMatchCard) && <DetailInfo />} */}
       </div>
     </div>
   )

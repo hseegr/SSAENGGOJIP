@@ -6,8 +6,8 @@ interface TargetInfo {
   address: string
   name: string
   latitude: number
-  longtitude: number
-  tranportMode: string
+  longitude: number
+  transportMode: string
   travelTime: number
   walkTime: number
 }
