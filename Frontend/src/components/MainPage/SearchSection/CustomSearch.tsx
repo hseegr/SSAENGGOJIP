@@ -1,7 +1,9 @@
 import { Search } from 'lucide-react'
 import SearchDropdown from './SearchDropdown'
 import { useState } from 'react'
-import { MOCK_RESULTS } from './SearchDropdown'
+import { useNavigate } from 'react-router-dom'
+import { useSearchParamsStore } from '@/store/searchParamsStore'
+// import { MOCK_RESULTS } from './SearchDropdown'
 
 const CustomSearch = () => {
   const [query, setQuery] = useState('')
@@ -16,6 +18,12 @@ const CustomSearch = () => {
   // 드롭다운 내 키보드 선택 인덱스
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
 
+  // 페이지 이동 훅
+  const navigate = useNavigate()
+
+  // 검색 파라미터 저장 함수
+  const { setCustomSearchParams } = useSearchParamsStore()
+
   const timeOptions = [
     '5분',
     '10분',
@@ -28,36 +36,53 @@ const CustomSearch = () => {
   ]
 
   // 검색 결과 중 특정 항목 클릭 또는 엔터 선택 시 실행되는 함수
-  const handleSelect = (name: string) => {
+  const handleSelect = (name: string, lat: number, lng: number) => {
     setQuery(name) // 검색창에 선택된 텍스트 반영
     setShowSearchDropdown(false) // 드롭다운 닫기
+
+    // 선택 즉시 검색 실행
+    setCustomSearchParams(name, selectedTime, lat, lng)
+    navigate('/explore?tab=match_search')
   }
 
-  // 방향키 및 엔터 처리
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!showSearchDropdown) return
+  // 검색 버튼 클릭 시 호출되는 함수
+  const handleSearch = () => {
+    if (query.trim()) {
+      // 검색어와 시간으로 검색 (좌표 없음)
+      setCustomSearchParams(query, selectedTime)
+      navigate('/explore?tab=match_search')
+    }
+  }
 
+  // 키보드 이벤트 처리
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'ArrowDown') {
-      // 아래 키 → 인덱스 +1
+      // 아래 화살표: 다음 항목 강조
+      e.preventDefault()
       setHighlightedIndex((prev) => prev + 1)
     } else if (e.key === 'ArrowUp') {
-      // 위 키 → 인덱스 -1
+      // 위 화살표: 이전 항목 강조
+      e.preventDefault()
       setHighlightedIndex((prev) => Math.max(prev - 1, 0))
     } else if (e.key === 'Enter') {
-      // 엔터 키 → 현재 인덱스 항목 선택
+      // 엔터: 검색 실행
       e.preventDefault()
-      handleSelectFromIndex()
+      handleSearch()
+    } else if (e.key === 'Escape') {
+      // ESC: 드롭다운 닫기
+      setShowSearchDropdown(false)
+      setShowTimeDropdown(false)
     }
   }
 
   // 현재 인덱스 항목 이름을 검색창에 반영
-  const handleSelectFromIndex = () => {
-    const filtered = MOCK_RESULTS.filter((item) => item.name.includes(query))
-    if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
-      handleSelect(filtered[highlightedIndex].name)
-      setShowSearchDropdown(false)
-    }
-  }
+  // const handleSelectFromIndex = () => {
+  //   const filtered = MOCK_RESULTS.filter((item) => item.name.includes(query))
+  //   if (highlightedIndex >= 0 && highlightedIndex < filtered.length) {
+  //     handleSelect(filtered[highlightedIndex].name)
+  //     setShowSearchDropdown(false)
+  //   }
+  // }
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -75,7 +100,14 @@ const CustomSearch = () => {
               setShowTimeDropdown(false) // 시간 드롭다운 닫기
               setHighlightedIndex(-1) // 인덱스 초기화
             }}
-            onFocus={() => setShowSearchDropdown(true)} // 클릭 시에도 열기
+            onFocus={() => {
+              setShowSearchDropdown(true)
+              setShowTimeDropdown(false)
+            }}
+            onBlur={() => {
+              // 클릭 이벤트가 처리될 시간을 주기 위해 지연 후 드롭다운 닫기
+              setTimeout(() => setShowSearchDropdown(false), 200)
+            }} // 클릭 시에도 열기
             onKeyDown={handleKeyDown} // 방향키 핸들링
             className="flex-1 text-ssaeng-purple focus:outline-none placeholder:text-ssaeng-gray-2 placeholder:text-sm"
           />
@@ -118,7 +150,7 @@ const CustomSearch = () => {
           </div>
 
           {/* 검색 버튼 */}
-          <button className=" text-ssaeng-purple">
+          <button onClick={handleSearch} className=" text-ssaeng-purple">
             <Search size={20} />
           </button>
         </div>

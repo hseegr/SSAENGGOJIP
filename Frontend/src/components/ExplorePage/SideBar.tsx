@@ -10,6 +10,37 @@ import HomeBlueIcon from '@/assets/map_sidebar/Home_blue.svg?react'
 import ContentArea from './ContentArea'
 import PropertyDetail from '@/components/common/property/PropertyDetail'
 import useMatchInfoStore from '@/store/matchInfoStore'
+import { create } from 'zustand'
+
+interface Property {
+  id: number
+  price: number
+  propertyType: string
+  dealType: string
+  floor: number
+  totalFloor: number
+  area: number
+  imageUrl: string
+  isRecommend?: boolean
+  rentPrice?: number
+  address?: string
+  latitude?: number
+  longitude?: number
+  isInterest?: boolean
+  maintenancePrice?: number
+  title?: string
+  details?: string
+}
+
+interface PropertyStore {
+  properties: Property[]
+  setProperties: (data: Property[]) => void
+}
+
+export const usePropertyStore = create<PropertyStore>((set) => ({
+  properties: [],
+  setProperties: (data) => set({ properties: data }),
+}))
 
 const Sidebar: React.FC = () => {
   const {

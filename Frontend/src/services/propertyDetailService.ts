@@ -71,7 +71,7 @@ export const fetchMatchDetailResult = async (requestData: {
       requestData,
     )
     console.log('Match Detail Response:', response)
-    return response.result
+    return response.data.result
   } catch (error) {
     console.error('맞춤 검색 상세 API 요청 중 오류 발생:', error)
     throw error
