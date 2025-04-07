@@ -20,7 +20,7 @@ const Favorites: React.FC = () => {
 
   if (!isLoggedIn) {
     return (
-      <div className="flex flex-col justify-center items-center text-center">
+      <div className="flex flex-col justify-center items-center mt-8 text-center">
         <p className="text-ssaeng-purple text-sm font-semibold mt-1 mb-2">
           관심매물을 확인하고, 비교하고, 알림 설정까지!
         </p>
@@ -52,9 +52,9 @@ const Favorites: React.FC = () => {
   }
 
   return (
-    <div className="flex relative h-full">
-      {/* 매물 목록 */}
-      <div className="relative flex flex-col w-[400px] overflow-y-auto pb-20">
+    <div className="relative w-full h-full">
+      {/* 매물 목록 (스크롤 영역) */}
+      <div className="w-full h-full overflow-y-auto pb-[80px]">
         {properties.length > 0 ? (
           properties.map((property) => (
             <div
@@ -70,16 +70,16 @@ const Favorites: React.FC = () => {
             관심 매물이 없습니다. 관심 매물을 등록해주세요!
           </p>
         )}
+      </div>
 
-        {/* 비교하기 버튼 */}
-        <div className="fixed bottom-3 left-[72px] w-[400px] px-6 z-50">
-          <button
-            onClick={handleCompareClick}
-            className="w-full h-[44px] bg-ssaeng-purple text-white text-md rounded-md shadow hover:bg-indigo-500 hover:shadow-lg hover:scale-[1.02] transition-all"
-          >
-            매물 비교하기
-          </button>
-        </div>
+      {/* 비교하기 버튼 */}
+      <div className="absolute bottom-20 left-0 px-4 w-full z-20">
+        <button
+          onClick={handleCompareClick}
+          className="w-full h-[44px] bg-ssaeng-purple text-white text-md rounded-md shadow hover:bg-indigo-500 hover:shadow-lg hover:scale-[1.02] transition-all"
+        >
+          매물 비교하기
+        </button>
       </div>
     </div>
   )

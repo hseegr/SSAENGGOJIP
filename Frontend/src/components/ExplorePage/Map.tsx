@@ -482,7 +482,7 @@ const KakaoMap = () => {
   }, [setTitles, clearTitles, setActiveTab])
 
   return (
-    <div className="relative w-[95vw] h-screen m-0 p-0">
+    <div className="relative w-[100vw] h-screen m-0 p-0">
       {/* 지도 영역 */}
       <div id="map" ref={mapRef} className="relative w-full h-full">
         {/* 주소 정보를 표시할 영역 */}
