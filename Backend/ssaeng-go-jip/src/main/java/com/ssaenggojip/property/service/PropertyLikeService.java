@@ -30,8 +30,8 @@ public class PropertyLikeService {
         List<PropertyLike> propertyLikeList = propertyLikeRepository.findByUser(user);
 
         return propertyLikeList.stream()
-                .map(propertyLike -> PropertyConverter.mapToDto(propertyLike.getProperty(), true, false)
-                ).toList();
+                .map(propertyLike -> PropertyConverter.mapToDto(propertyLike.getProperty(), true, false))
+                .toList();
     }
 
     @Transactional
