@@ -5,9 +5,11 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
+				'ssaeng-black': '#242424',
 				'ssaeng-purple': '#7171D7',
 				'ssaeng-purple-light': 'rgba(175, 175, 255, 0.3)',
 				'ssaeng-green': '#5195F7',
+				'ssaeng-gray-0': '#909090',
 				'ssaeng-gray-1': '#F4F4F4',
 				'ssaeng-gray-2': '#E5E5E5',
 				'ssaeng-gray-3': '#FCFCFC',

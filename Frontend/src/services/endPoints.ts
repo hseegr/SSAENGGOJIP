@@ -39,7 +39,7 @@ export const COMMUNITY_END_POINT = {
     `/chat-rooms/search?keyword=${keyword}`,
 
   // 채팅방 입장 (chatRoomId는 해당 방의 ID)
-  ENTER_CHAT_ROOM: (chatRoomId: number) => `/chat-rooms/${chatRoomId}/enter`,
+  ENTER_CHAT_ROOM: (chatRoomId: string) => `/chat-rooms/${chatRoomId}/enter`,
 
   // 채팅방 퇴장
   LEAVE_CHAT_ROOM: (chatRoomId: number) => `/chat-rooms/${chatRoomId}/leave`,
@@ -81,4 +81,9 @@ export const MATCH_SEARCH_TARGET_END_POINT = {
   // 타겟 주소 삭제 - DELETE
   DELETE_TARGET: (targetAddressId: number) =>
     `/target-addresses/${targetAddressId}`,
+}
+
+// 관심 매물 관련 API
+export const PROPERTY_END_POINT = {
+  GET_LIKED_PROPERTIES: '/properties/likes',
 }

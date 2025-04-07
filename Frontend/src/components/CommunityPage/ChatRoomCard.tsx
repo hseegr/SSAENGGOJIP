@@ -6,6 +6,13 @@ interface Props {
 }
 
 const ChatRoomCard = ({ chatRoom, onClick }: Props) => {
+  // 최대 16자까지 보여주고 초과 시 '...' 붙이기
+  const MAX_LENGTH = 16
+  const trimmedMessage =
+    chatRoom.lastMessage && chatRoom.lastMessage.length > MAX_LENGTH
+      ? chatRoom.lastMessage.slice(0, MAX_LENGTH) + '...'
+      : chatRoom.lastMessage
+
   return (
     <div className="mt-6">
       <li
@@ -13,8 +20,14 @@ const ChatRoomCard = ({ chatRoom, onClick }: Props) => {
         onClick={() => onClick?.(chatRoom)}
       >
         <div className="text-sm text-gray-600 font-semibold">
-          🚉 {chatRoom.name}
+          🚉 {chatRoom.name}역
         </div>
+
+        {/* 최근 메시지 (16자까지 + 말줄임) */}
+        <div className="mt-1 text-xs text-gray-300 truncate whitespace-nowrap overflow-hidden">
+          {trimmedMessage || '아직 메시지가 없습니다.'}
+        </div>
+
         <div className="flex justify-end text-xs text-gray-300 font-light">
           {chatRoom.userCount}명 참여중
         </div>

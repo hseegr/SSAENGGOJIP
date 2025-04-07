@@ -49,7 +49,7 @@ const Sidebar = ({ onChatOpen }: Props) => {
 
   // 응답 데이터가 없을 경우 대비
   const popularChatRooms = popularData?.result ?? []
-  const myChatRooms = myData?.result ?? []
+  const myChatRooms = useCommunityStore((s) => s.myChatRooms)
   const searchedChatRooms = searchedData?.result ?? []
 
   // 렌더링 채팅방 리스트 출력하기
@@ -96,23 +96,31 @@ const Sidebar = ({ onChatOpen }: Props) => {
     setSelectedChatRoom(room)
 
     if (isAlreadyJoined) {
-      console.log('🟢 이미 참여한 채팅방 → 바로 연결 + 모달 열기', room.id)
+      console.log('🟢 이미 참여한 채팅방 → 모달 열기', room.id)
 
-      connect({
-        chatRoomId: room.id,
-        token,
-        onMessage: (msg) => console.log('📩 받은 메시지:', msg),
-      })
+      // connect({
+      //   chatRoomId: room.id,
+      //   token,
+      //   onMessage: (msg) => console.log('📩 받은 메시지:', msg),
+      // })
 
       onChatOpen()
     } else {
       console.log('🟡 참여하지 않은 채팅방 → 오버레이만 표시', room.id)
       // ❗ 참여하기 버튼 눌러야 입장/연결됨 (MapView.tsx에서 처리)
+      // 이미 모달이 열려있다면 닫기 (중요!)
     }
   }
 
   return (
-    <aside className="w-96 border-r border-ssaeng-gray-1 bg-white py-6">
+    <aside
+      className="w-96 border-r border-ssaeng-gray-1 bg-white py-6"
+      style={{
+        height: '100vh', // 💡 높이를 고정
+        overflowY: 'auto', // 💡 스크롤 가능하게
+        flexShrink: 0, // 💡 크기 줄어들지 않게
+      }}
+    >
       {/* 탭 */}
       <div className="flex -ml-0 text-base font-semibold border-b border-ssaeng-gray-2 w-64">
         <button

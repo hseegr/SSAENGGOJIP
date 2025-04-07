@@ -1,11 +1,16 @@
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import SideMenu from '@/components/MyPage/SideMenu'
 import MyInfoTab from '@/components/MyPage/MyInfoTab'
 import PreferencesTab from '@/components/MyPage/PreferencesTab'
-// import FavoriteListingsTab from '@/components/MyPage/FavoriteListingsTab'
+import FavoriteListingsTab from '@/components/MyPage/FavoriteListingsTab'
 
 const MyPage = () => {
-    const [activeTab, setActiveTab] = useState<'info' | 'preferences' | 'favorites'>('info')
+    const location = useLocation()
+    const params = new URLSearchParams(location.search)
+    const tab = params.get('tab') as 'info' | 'preferences' | 'favorites'
+
+    const [activeTab, setActiveTab] = useState<'info' | 'preferences' | 'favorites'>(tab || 'info')
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -13,8 +18,8 @@ const MyPage = () => {
                 return <MyInfoTab />
             case 'preferences':
                 return <PreferencesTab />
-            // case 'favorites':
-            //     return <FavoriteListingsTab />
+            case 'favorites':
+                return <FavoriteListingsTab />
             default:
                 return null
         }
