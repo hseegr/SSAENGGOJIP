@@ -65,6 +65,8 @@ export const MAP_END_POINT = {
   GET_ALL: '/properties/coordinates',
   // 맞춤 검색
   MATCH_SEARCH: '/properties/recommend-search',
+  // 맞춤 검색 상세
+  MATCH_DETAIL: '/properties/recommend-detail',
 }
 
 // 맞춤 검색 페이지 타겟 주소 관련

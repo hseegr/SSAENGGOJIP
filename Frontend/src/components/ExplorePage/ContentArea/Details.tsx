@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import LazyLoadSlider from './slider'
 import TrafficInfo from './Detail/TrafficInfo'
 import NearbyStations from './Detail/NearbyStation'
-import { fetchDetailResult } from '@/services/propertyDetailService' // API 호출 함수 임포트
+import {
+  fetchDetailResult,
+  fetchMatchDetailResult,
+} from '@/services/propertyDetailService' // API 호출 함수 임포트
 
 interface Station {
   id: number
@@ -15,6 +18,12 @@ interface Facility {
   facilityType: string
   longitude: number
   latitude: number
+}
+interface TransportInfos {
+  id: number
+  totalTransportTime: number
+  transportTimeList: number[]
+  transferCount: number
 }
 
 interface PropertyData {
@@ -32,10 +41,16 @@ interface PropertyData {
   stations: Station[]
   facilites: Facility[]
   imageUrls: string[]
+  transportInfos?: TransportInfos[]
 }
 
 const DetailInfo: React.FC = () => {
-  const { selectedCard, setSelectedCard } = useSidebarStore() // Zustand store에서 상태 가져오기
+  const {
+    selectedCard,
+    setSelectedCard,
+    selectedMatchCard,
+    setSelectedMatchCard,
+  } = useSidebarStore() // Zustand store에서 상태 가져오기
   const [propertyData, setPropertyData] = useState<PropertyData>({
     id: 1,
     name: '멀티캠퍼스 역삼',
@@ -76,14 +91,39 @@ const DetailInfo: React.FC = () => {
 
   useEffect(() => {
     if (selectedCard) {
-      // 선택된 카드 ID를 기반으로 API 호출
+      // 선택된 카드 ID를 기반으로 API 호출 (기존 로직)
       fetchDetailResult(selectedCard)
         .then((data) => setPropertyData(data)) // result 데이터 저장
-        .catch((error) => console.error('API 요청 실패:', error))
+        .catch((error) =>
+          console.error('API 요청 실패 (fetchDetailResult):', error),
+        )
+    } else if (selectedMatchCard) {
+      console.log('선택매치카드 요청')
+      console.log(selectedMatchCard)
+      // selectedMatchCard가 있을 경우 맞춤 검색 상세 API 호출
+      const requestPayload = {
+        propertyId: selectedMatchCard.id, // selectedMatchCard에 id가 있다고 가정
+        addresses: [
+          {
+            latitude: selectedMatchCard.latitude,
+            longitude: selectedMatchCard.longitude,
+            transportationType: selectedMatchCard.transportationType,
+          },
+        ],
+      }
+      console.log(requestPayload)
+      fetchMatchDetailResult(requestPayload)
+        .then((data) => setPropertyData(data)) // 맞춤 검색 상세 데이터 저장
+        .catch((error) =>
+          console.error('API 요청 실패 (fetchMatchDetailResult):', error),
+        )
     }
-  }, [selectedCard])
+  }, [selectedCard, selectedMatchCard])
 
-  if (!selectedCard || !propertyData) return null // 선택된 카드가 없거나 데이터가 없으면 렌더링하지 않음
+  if ((!selectedCard && !selectedMatchCard) || !propertyData) {
+    console.log('선택된게 없어용')
+    return null
+  }
 
   const stations: Station[] = propertyData.stations.map(
     ({ id, name, line }) => ({
@@ -190,6 +230,13 @@ const DetailInfo: React.FC = () => {
 
       {/* 주변 시설 정보 */}
       <NearbyStations stations={stations} />
+
+      {/* 추천 매물 정보 */}
+      {selectedMatchCard && (
+        <div>
+          <p>hello</p>
+        </div>
+      )}
     </div>
   )
 }

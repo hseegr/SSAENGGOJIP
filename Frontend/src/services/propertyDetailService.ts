@@ -56,3 +56,24 @@ export const fetchDetailResult = async (
     throw error // 에러를 호출한 곳으로 전달
   }
 }
+
+export const fetchMatchDetailResult = async (requestData: {
+  propertyId: number
+  addresses: {
+    latitude: number
+    longitude: number
+    transportationType: string
+  }[]
+}) => {
+  try {
+    const response = await http.post<ApiResponse>(
+      MAP_END_POINT.MATCH_DETAIL,
+      requestData,
+    )
+    console.log('Match Detail Response:', response)
+    return response.result
+  } catch (error) {
+    console.error('맞춤 검색 상세 API 요청 중 오류 발생:', error)
+    throw error
+  }
+}

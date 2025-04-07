@@ -1,5 +1,5 @@
 import React from 'react'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import HeartIcon from '@/assets/map_sidebar/Heart.svg?react'
 import SearchIcon from '@/assets/map_sidebar/Search.png'
 import HomeIcon from '@/assets/map_sidebar/Home.svg?react'
@@ -12,13 +12,15 @@ import useMatchInfoStore from '@/store/matchInfoStore'
 
 const Sidebar: React.FC = () => {
   const { activeTab, setActiveTab } = useSidebarStore() // Zustand store에서 상태와 업데이트 함수 가져오기
-  const { selectedCard, setSelectedCard } = useSidebarStore() // 선택된 카드 상태
+  const { selectedCard, setSelectedCard, selectedMatchCard, clearMatchCard } =
+    useSidebarStore() // 선택된 카드 상태
   const { initializeStore } = useMatchInfoStore()
   const clickSidebar = (
     tab: 'normal_search' | 'match_search' | 'favorites' | null,
   ) => {
     setActiveTab(tab)
     setSelectedCard(null)
+    clearMatchCard()
     initializeStore()
   }
 
@@ -84,7 +86,7 @@ const Sidebar: React.FC = () => {
         )}
 
         {/* 상세정보 영역 */}
-        {selectedCard && <DetailInfo />}
+        {(selectedCard ?? selectedMatchCard) && <DetailInfo />}
       </div>
     </div>
   )

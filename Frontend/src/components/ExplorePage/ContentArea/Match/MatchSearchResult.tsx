@@ -19,6 +19,10 @@ interface ResultItem {
   isRecommend: boolean
   imageUrl: string
   transportTimes: number[]
+  latitude: number
+  longitude: number
+  rentPrice: number
+  isInterest: boolean
 }
 
 const MatchSearchResults = () => {
@@ -96,6 +100,7 @@ const MatchSearchResults = () => {
         <SortButton onSortChange={handleSortChange} />
       </div>
       {/* 카드 목록 */}
+
       <div className="flex flex-col gap-4 mb-6">
         {filteredResults.length > 0 ? (
           filteredResults.map((item) => (
@@ -113,6 +118,8 @@ const MatchSearchResults = () => {
               isRecommend={item.isRecommend}
               imageUrl={item.imageUrl}
               transportTimes={item.transportTimes}
+              latitude={item.latitude}
+              longitude={item.longitude}
             />
           ))
         ) : (

@@ -4,7 +4,7 @@ import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
 import Modal from './Modals/NormalModal'
 import Card from '../SearchCard'
 import FilterDropdown from './Modals/Normal/FilterDropdown'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
 import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'

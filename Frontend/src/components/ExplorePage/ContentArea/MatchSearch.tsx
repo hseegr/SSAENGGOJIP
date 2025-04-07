@@ -6,7 +6,6 @@ import PropertyFilter from './Modals/Match/PropertyInfo'
 import { useUserStore } from '@/store/userStore'
 import matchSearchStore from '@/store/matchSearchStore'
 import MatchSearchResults from './Match/MatchSearchResult'
-import { getTargetAddress } from '@/services/targetService'
 
 const CustomInfo: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)

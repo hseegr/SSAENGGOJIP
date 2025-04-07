@@ -252,7 +252,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import CommunityModal from './Community/CommunityModal'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import { fetchDataByBounds } from '@/services/mapService' // fetchDataByBounds 사용
 
 declare global {

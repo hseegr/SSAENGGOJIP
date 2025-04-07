@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { formatPrice } from '@/utils/formPrice'
-import useSidebarStore from '@/store/sidebar'
+import useSidebarStore from '@/store/sidebarStore'
 import { Heart } from 'lucide-react'
 
 interface CardProps {
