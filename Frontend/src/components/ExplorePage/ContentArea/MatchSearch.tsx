@@ -81,7 +81,7 @@ const CustomInfo: React.FC = () => {
       ) : (
         <>
           {/* 상단 텍스트와 버튼 */}
-          <div className="flex items-center justify-between px-4 mb-4">
+          <div className="flex items-center justify-between px-4 mt-8 mb-4">
             <div className="flex">
               <h2 className="text-lg font-bold mr-2">맞춤 정보</h2>
               <button
@@ -113,10 +113,10 @@ const CustomInfo: React.FC = () => {
               aria-hidden="true"
             >
               {info.address ||
-              info.name ||
-              info.transportMode ||
-              info.travelTime ||
-              info.walkTime ? (
+                info.name ||
+                info.transportMode ||
+                info.travelTime ||
+                info.walkTime ? (
                 <>
                   <h3 className="text-lg font-bold mb-2">주소</h3>
                   <button

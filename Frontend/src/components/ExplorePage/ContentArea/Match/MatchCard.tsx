@@ -3,6 +3,7 @@ import { formatPrice } from '@/utils/formPrice'
 import useSidebarStore from '@/store/sidebarStore'
 import { Heart } from 'lucide-react'
 import useMatchInfoStore from '@/store/matchInfoStore'
+import useMatchSearchResultStore from '@/store/searchResultStore'
 
 interface CardProps {
   id: number
@@ -43,7 +44,8 @@ const MatchCard: React.FC<CardProps> = ({
   latitude,
   longitude,
 }) => {
-  const { selectedMatchCard, setSelectedMatchCard } = useSidebarStore()
+  const { selectedCard, setSelectedCard } = useSidebarStore()
+  const { transportModes, setMatchTargetAddress } = useMatchSearchResultStore()
 
   const [isLiked, setIsLiked] = useState(isInterest ?? false) // 초기 상태는 API에서 제공된 관심 여부
   // 컴포넌트 내부에서
@@ -55,10 +57,14 @@ const MatchCard: React.FC<CardProps> = ({
       'Longitude:',
       longitude,
       '교통수단 타입',
-      matchInfos,
+      transportModes,
     ) // 추가 로깅
-    setSelectedMatchCard(id, latitude, longitude, matchInfos[0].transportMode)
-    console.log(selectedMatchCard)
+    setSelectedCard(id)
+    setMatchTargetAddress({
+      latitude: latitude,
+      longitude: longitude,
+      transportationType: transportModes[0],
+    })
   }
   const toggleLike = () => {
     setIsLiked((prev) => !prev)
@@ -69,7 +75,7 @@ const MatchCard: React.FC<CardProps> = ({
     }
   }
 
-  const isSelected = selectedMatchCard?.id === id
+  const isSelected = selectedCard === id
 
   return (
     <div
@@ -153,14 +159,11 @@ const MatchCard: React.FC<CardProps> = ({
         <div className="flex">
           <p className="text-base font-bold text-gray-700 pr-2">{dealType}</p>
           <p className="text-base font-bold text-gray-700">
-            {formatPrice(price)}
+            {dealType === '월세'
+              ? `${formatPrice(price)} / ${formatPrice(rentPrice)}`
+              : formatPrice(price)}
           </p>
         </div>
-        {rentPrice && (
-          <p className="text-sm text-gray-500">
-            월세: {formatPrice(rentPrice)}
-          </p>
-        )}
         <p className="flex text-sm text-gray-500">
           관리비{' '}
           {managementFee ? `${managementFee.toLocaleString()}원` : '없음'}

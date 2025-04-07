@@ -26,6 +26,9 @@ interface AppState {
     transportationType: string | undefined,
   ) => void
   clearMatchCard: () => void // selectedMatchCard 초기화 함수
+
+  isContentAreaCollapsed: boolean
+  setContentAreaCollapsed: (collapsed: boolean) => void
 }
 
 // Zustand store 생성 (devtools 미들웨어 항상 적용)
@@ -33,6 +36,7 @@ const useSidebarStore = create<AppState>()(
   devtools((set) => ({
     activeTab: null, // 초기 상태는 null
     selectedCard: null, // 초기 선택된 카드 상태는 null
+    titles: [],
     setActiveTab: (tab) => set({ activeTab: tab }), // activeTab 업데이트 함수
     setSelectedCard: (card) => set({ selectedCard: card }), // 선택된 카드 업데이트 함수
     setTitles: (titles) => set({ titles }), // titles 배열 업데이트 함수
@@ -49,6 +53,8 @@ const useSidebarStore = create<AppState>()(
         selectedMatchCard: { id, latitude, longitude, transportationType },
       }),
     clearMatchCard: () => set({ selectedMatchCard: null }),
+    isContentAreaCollapsed: false,
+    setContentAreaCollapsed: (collapsed) => set({ isContentAreaCollapsed: collapsed }),
   })),
 )
 

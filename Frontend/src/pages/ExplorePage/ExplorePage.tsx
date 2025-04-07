@@ -174,7 +174,7 @@ const ExplorePage = () => {
   ])
 
   return (
-    <div className="flex">
+    <div className="relative h-screen w-screen">
       {/* 로딩 인디케이터 */}
       {isLoading && (
         <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50">
@@ -184,11 +184,15 @@ const ExplorePage = () => {
         </div>
       )}
 
-      {/* Sidebar */}
-      <Sidebar />
+      {/* Sidebar: 슬라이드 될 영역 */}
+      <div className="absolute top-0 left-0 h-full z-10">
+        <Sidebar />
+      </div>
 
-      {/* Main Content */}
-      <Map />
+      {/* Map: 항상 고정된 전체 화면 */}
+      <div className="absolute top-0 left-0 w-full h-full z-0">
+        <Map />
+      </div>
     </div>
   )
 }

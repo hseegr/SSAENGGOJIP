@@ -9,6 +9,7 @@ import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오�
 import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'
 import { useSearchParamsStore } from '@/store/searchParamsStore'
+import usePropertyStore from '@/store/propertyStore'
 
 interface Property {
   // 공통 필드
@@ -41,6 +42,7 @@ const NormalSearch: React.FC = () => {
   const { titles, setTitles } = useSidebarStore() // setTitles 추가
   const initialData = useMemo<Property[]>(() => [], [])
   const { generalSearchQuery, setGeneralSearchParams } = useSearchParamsStore() // setGeneralSearchParams 추가
+  const { properties } = usePropertyStore()
 
   // 필터 스토어에서 데이터 가져오기
   const {
@@ -76,7 +78,6 @@ const NormalSearch: React.FC = () => {
           return 0
         },
       )
-
       // 새 객체 생성하여 업데이트 (불변성 유지)
       setFilteredData({
         total: filteredData.total,
@@ -256,7 +257,7 @@ const NormalSearch: React.FC = () => {
   return (
     <>
       {/* 검색창 */}
-      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-2 px-4 py-2">
+      <div className="relative flex items-center justify-between mb-4 border border-gray-300 rounded-md mx-2 mt-8 px-4 py-2">
         <div className="flex items-center w-full">
           <Search className="mr-2 text-gray-400" size={20} />
           <input
