@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -54,8 +55,12 @@ public class StationService {
 
         for (Station pointStation : stationsNearPoint){
             for (Station propertyStation : stationsNearProperty) {
+                if(propertyStation.getId().equals(pointStation.getId()))
+                    continue;
+
                 int pointToStationTime = transportTimeProvider.getWalkMinutes(pointLongitude, pointLatitude, pointStation.getLongitude(), pointStation.getLatitude());
                 StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
+
                 int stationToStationTime = stationRoute.getTransportTime();
                 int stationToPropertyTime = transportTimeProvider.getWalkMinutes(propertyLongitude, propertyLatitude,propertyStation.getLongitude(),propertyStation.getLatitude());
                 if(answer.stream().mapToInt(Integer::intValue).sum() > pointToStationTime + stationToStationTime + stationToPropertyTime) {
