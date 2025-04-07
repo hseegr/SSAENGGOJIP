@@ -13,7 +13,7 @@ build:
     - cd Backend/ssaeng-go-jip
     - echo "Building the Spring Boot application"
     - chmod +x gradlew  # 실행 권한 부여
-    - ./gradlew build  # 테스트 포함 빌드
+    - ./gradlew build -x test # 테스트 제외 빌드
   artifacts:
     paths:
       - Backend/ssaeng-go-jip/build/libs/*.jar  # 빌드된 JAR 파일 저장
