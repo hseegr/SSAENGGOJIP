@@ -27,7 +27,8 @@ interface ResultItem {
 
 const MatchSearchResults = () => {
   const { setIsSearching } = matchSearchStore()
-  const { results, resetResults } = useMatchSearchResultStore()
+  const { results, resetResults, transportModes, setTransportModes } =
+    useMatchSearchResultStore()
   const [filteredResults, setFilteredResults] = useState<ResultItem[]>([])
 
   useEffect(() => {
@@ -49,6 +50,7 @@ const MatchSearchResults = () => {
   const handleGoBack = () => {
     setIsSearching(false)
     resetResults()
+    setTransportModes([])
   }
 
   const handleSortChange = (option: number | string) => {
