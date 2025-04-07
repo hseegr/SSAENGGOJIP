@@ -10,6 +10,7 @@ import com.ssaenggojip.chat.entity.ChatMessage;
 import com.ssaenggojip.chat.entity.ChatRoom;
 import com.ssaenggojip.chat.entity.UserReport;
 import com.ssaenggojip.chat.repository.ChatMessageRepository;
+import com.ssaenggojip.chat.repository.UserChatRoomRepository;
 import com.ssaenggojip.chat.repository.UserReportRepository;
 import com.ssaenggojip.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatMessageService {
 
+    private final UserChatRoomRepository userChatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserReportRepository userReportRepository;
 
@@ -51,6 +53,9 @@ public class ChatMessageService {
         if (!mongoTemplate.exists(new Query(Criteria.where("_id").is(message.getChatRoomId())), ChatRoom.class)) {
             throw new GeneralException(ErrorStatus.NOT_FOUND_CHAT_ROOM_ID);
         }
+
+        userChatRoomRepository.findByUserAndChatRoomId(user, message.getChatRoomId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_ENTERED));
 
         ChatMessage chatMessage = ChatMessage.builder()
                 .userId(user.getId())
@@ -76,6 +81,9 @@ public class ChatMessageService {
         ChatMessage chatMessage = chatMessageRepository.findById(message.getMessageId())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_FOUND_MESSAGE_ID));
 
+        userChatRoomRepository.findByUserAndChatRoomId(user, message.getChatRoomId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_ENTERED));
+
         if (!chatMessage.getUserId().equals(user.getId())) {
             throw new GeneralException(ErrorStatus._UNAUTHORIZED); // 본인만 삭제 가능
         }
@@ -92,6 +100,9 @@ public class ChatMessageService {
         if (userReportRepository.findByUserAndChatMessageId(user, message.getMessageId()).isPresent()) {
             throw new GeneralException(ErrorStatus.ALREADY_REPORTED);
         }
+
+        userChatRoomRepository.findByUserAndChatRoomId(user, message.getChatRoomId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_ENTERED));
 
         userReportRepository.save(UserReport.builder()
                         .user(user)
