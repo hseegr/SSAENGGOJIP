@@ -107,7 +107,7 @@ export const fetchDataByBounds = async (
 ) => {
   try {
     const requestParams: BoundsData = {
-      middle: [center.latitude, center.longitude],
+      // middle: [center.latitude, center.longitude],
       leftDown: [
         southWestLatitude !== undefined
           ? southWestLatitude
@@ -125,7 +125,6 @@ export const fetchDataByBounds = async (
           : bounds.getNorthEast().getLng(),
       ],
     }
-
     const response = await http.post(MAP_END_POINT.GET_ALL, requestParams)
     return response.data.result // 응답 데이터를 반환
   } catch (error) {

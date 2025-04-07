@@ -254,6 +254,7 @@ import { useState, useRef, useEffect } from 'react'
 import CommunityModal from './Community/CommunityModal'
 import useSidebarStore from '@/store/sidebarStore'
 import { fetchDataByBounds } from '@/services/mapService' // fetchDataByBounds 사용
+import usePropertyStore from '@/store/propertyStore'
 
 declare global {
   interface Window {
@@ -263,7 +264,7 @@ declare global {
 
 const KakaoMap = () => {
   const { setTitles, clearTitles, setActiveTab } = useSidebarStore()
-  const [jsonData, setJsonData] = useState<any[]>([])
+  const { setProperties } = usePropertyStore()
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstance = useRef<any>(null) // 지도 인스턴스를 저장할 ref
   const clustererInstance = useRef<any>(null) // 클러스터러 인스턴스를 저장할 ref
@@ -320,7 +321,7 @@ const KakaoMap = () => {
         northEastLatitude: ne.getLat(),
         northEastLongitude: ne.getLng(),
       })
-      setJsonData(data)
+      setProperties(data)
       updateMarkers(data)
     } catch (error) {
       console.error('지도 영역 기반 매물 정보를 불러오는 중 오류 발생:', error)

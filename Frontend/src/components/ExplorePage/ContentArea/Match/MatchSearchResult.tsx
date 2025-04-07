@@ -116,6 +116,7 @@ const MatchSearchResults = () => {
               floor={item.floor}
               area={item.area}
               price={item.price}
+              rentPrice={item.rentPrice}
               managementFee={item.maintenancePrice}
               isRecommend={item.isRecommend}
               imageUrl={item.imageUrl}

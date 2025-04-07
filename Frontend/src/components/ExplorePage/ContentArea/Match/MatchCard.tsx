@@ -45,8 +45,7 @@ const MatchCard: React.FC<CardProps> = ({
   longitude,
 }) => {
   const { selectedCard, setSelectedCard } = useSidebarStore()
-  const { transportModes, matchTargetAddress, setMatchTargetAddress } =
-    useMatchSearchResultStore()
+  const { transportModes, setMatchTargetAddress } = useMatchSearchResultStore()
 
   const [isLiked, setIsLiked] = useState(isInterest ?? false) // 초기 상태는 API에서 제공된 관심 여부
   // 컴포넌트 내부에서
@@ -66,7 +65,6 @@ const MatchCard: React.FC<CardProps> = ({
       longitude: longitude,
       transportationType: transportModes[0],
     })
-    console.log(selectedCard)
   }
   const toggleLike = () => {
     setIsLiked((prev) => !prev)
@@ -161,14 +159,11 @@ const MatchCard: React.FC<CardProps> = ({
         <div className="flex">
           <p className="text-base font-bold text-gray-700 pr-2">{dealType}</p>
           <p className="text-base font-bold text-gray-700">
-            {formatPrice(price)}
+            {dealType === '월세'
+              ? `${formatPrice(price)} / ${formatPrice(rentPrice)}`
+              : formatPrice(price)}
           </p>
         </div>
-        {rentPrice && (
-          <p className="text-sm text-gray-500">
-            월세: {formatPrice(rentPrice)}
-          </p>
-        )}
         <p className="flex text-sm text-gray-500">
           관리비{' '}
           {managementFee ? `${managementFee.toLocaleString()}원` : '없음'}

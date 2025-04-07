@@ -8,6 +8,7 @@ import useSidebarStore from '@/store/sidebarStore'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
 import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'
+import usePropertyStore from '@/store/propertyStore'
 
 interface Property {
   // 공통 필드
@@ -38,7 +39,8 @@ const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('') // 검색어 상태 추가
   const { titles } = useSidebarStore()
-  const initialData = useMemo<Property[]>(() => [], [])
+
+  const { properties } = usePropertyStore()
   // 필터 스토어에서 데이터 가져오기
   const {
     propertyTypes,
@@ -49,28 +51,26 @@ const NormalSearch: React.FC = () => {
     MaxmonthlyPrice,
     additionalFilters,
   } = useFilterStore()
-  const [filteredData, setFilteredData] = useState<Property[]>(initialData)
+  const [filteredData, setFilteredData] = useState<Property[]>(properties)
 
   // 정렬 변경 함수
   const handleSortChange = (sortType: string) => {
-    const sortedData = [...(filteredData?.properties || filteredData)].sort(
-      (a: Property, b: Property) => {
-        if (sortType === '금액 비싼 순') return b.price - a.price
-        if (sortType === '금액 싼 순') return a.price - b.price
-        return 0
-      },
-    )
-    const newData = filteredData
-      ? { ...filteredData, properties: sortedData }
-      : sortedData
-    setFilteredData(newData as Property[])
+    if (filteredData?.properties) {
+      const sortedData = [...filteredData.properties].sort(
+        (a: Property, b: Property) => {
+          if (sortType === '금액 비싼 순') return b.price - a.price
+          if (sortType === '금액 싼 순') return a.price - b.price
+          return 0
+        },
+      )
+      setFilteredData({ ...filteredData, properties: sortedData })
+    }
   }
 
   // 엔터 키 입력 시 검색 실행
   const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       if (searchQuery.trim() !== '') {
-        // 이거 지우면 빈값 보내면 모든 매물 다 요청함
         try {
           // 필터 구성
           const filters = buildSearchFilters({
@@ -86,36 +86,47 @@ const NormalSearch: React.FC = () => {
             searchQuery,
             filters,
           ) // 검색 API 호출
-          // API 응답 구조에 따라 데이터 추출 방식 수정 필요
-          setFilteredData(searchResults ?? [])
+
+          // API 응답 구조 그대로 사용
+          setFilteredData(searchResults ?? { properties: [], total: 0 })
           console.log('검색 결과:', searchResults)
-          console.log('필터 저장 결과:', filteredData)
         } catch (error) {
           console.error('검색 중 오류 발생:', error)
-          setFilteredData({ total: 0, properties: [] }) // 오류 발생 시 빈 배열 설정
+          setFilteredData({ properties: [], total: 0 }) // 오류 발생 시 빈 배열 설정
         }
       } else {
-        setFilteredData(initialData)
-        console.log('필터 저장 결과 (검색어 없음):', filteredData)
+        // 검색어가 없으면 전체 properties 데이터 사용 (형식 맞춤)
+        const propertiesArray = Array.isArray(properties) ? properties : []
+        setFilteredData({
+          properties: propertiesArray,
+          total: propertiesArray.length,
+        })
       }
     }
   }
 
+  // properties가 변경될 때마다 filteredData 업데이트
   useEffect(() => {
+    // properties가 배열인지 확인
+    const propertiesArray = Array.isArray(properties) ? properties : []
+
+    // titles가 있으면 titles에 해당하는 항목만 필터링
     if (titles?.length) {
       const numericTitles = titles.map(Number)
-      setFilteredData((prev) => {
-        const newData = initialData.filter((item) =>
-          numericTitles.includes(item.id),
-        )
-        return JSON.stringify(prev) === JSON.stringify(newData) ? prev : newData
-      })
+      const newData = propertiesArray.filter((item) =>
+        numericTitles.includes(item.id),
+      )
+
+      // 검색 결과와 동일한 형식으로 맞추기
+      setFilteredData({ properties: newData, total: newData.length })
     } else {
-      // titles가 없으면 초기 데이터 또는 이전 검색 결과를 유지 (선택)
-      // 만약 titles가 비어있을 때 전체 데이터를 보여주고 싶다면 아래 주석 해제
-      // setFilteredData(initialData);
+      // titles가 없으면 전체 properties 데이터 사용
+      setFilteredData({
+        properties: propertiesArray,
+        total: propertiesArray.length,
+      })
     }
-  }, [titles, initialData]) // ✅ 모든 의존성 명시
+  }, [titles, properties])
 
   return (
     <>
@@ -154,7 +165,7 @@ const NormalSearch: React.FC = () => {
         {filteredData?.properties?.map((item) => (
           <Card
             key={item.id}
-            id={item.id}
+            id={item.id || item.propertyId}
             title={item.title}
             propertyType={item.propertyType}
             dealType={item.dealType}
@@ -162,6 +173,7 @@ const NormalSearch: React.FC = () => {
             floor={item.floor}
             area={item.area}
             price={item.price}
+            rentPrice={item.rentPrice}
             managementFee={item.maintenancePrice}
             isRecommend={item.isRecommend}
             imageUrl={item.imageUrl}
