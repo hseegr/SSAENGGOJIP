@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Search } from 'lucide-react'
 import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
 import Modal from './Modals/NormalModal'
-import Card from '../SearchCard'
-import FilterDropdown from './Modals/Normal/FilterDropdown'
 import useSidebarStore from '@/store/sidebarStore'
 import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
 import { fetchNormalSearchResults } from '@/services/mapService'
 import { buildSearchFilters } from '@/utils/filterUtils'
 import { useSearchParamsStore } from '@/store/searchParamsStore'
 import usePropertyStore from '@/store/propertyStore'
+import PropertySmallCard from '@/components/common/property/PropertySmallCard'
 
 interface Property {
   // 공통 필드
@@ -55,20 +54,6 @@ const NormalSearch: React.FC = () => {
     additionalFilters,
   } = useFilterStore()
   const [filteredData, setFilteredData] = useState<Property[]>(properties)
-
-  // 정렬 변경 함수
-  const handleSortChange = (sortType: string) => {
-    if (filteredData?.properties) {
-      const sortedData = [...filteredData.properties].sort(
-        (a: Property, b: Property) => {
-          if (sortType === '금액 비싼 순') return b.price - a.price
-          if (sortType === '금액 싼 순') return a.price - b.price
-          return 0
-        },
-      )
-      setFilteredData({ ...filteredData, properties: sortedData })
-    }
-  }
 
   // 엔터 키 입력 시 검색 실행
   const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -235,31 +220,28 @@ const NormalSearch: React.FC = () => {
         </button>
       </div>
 
-      {/* 검색 결과가 있거나 검색어가 있을 때 필터링 버튼 표시 */}
-      {filteredData?.properties?.length > 0 && (
-        <div className="flex items-center justify-between w-full px-2 pb-2 mb-4 bg-white border-b border-ssaeng-gray-2">
-          <p className="text-gray-700 font-medium">검색 결과</p>
-          <FilterDropdown onSortChange={handleSortChange} />
-        </div>
-      )}
-
-      {/* 카드 목록 */}
       <div className="flex flex-col gap-4">
-        {filteredData?.properties?.map((item) => (
-          <Card
-            key={item.id}
-            id={item.id || item.propertyId}
-            title={item.title}
-            propertyType={item.propertyType}
-            dealType={item.dealType}
-            totalFloor={item.totalFloor}
-            floor={item.floor}
-            area={item.area}
-            price={item.price}
-            rentPrice={item.rentPrice}
-            managementFee={item.maintenancePrice}
-            isRecommend={item.isRecommend}
-            imageUrl={item.imageUrl}
+        {filteredData?.properties?.map((item, key) => (
+          <PropertySmallCard
+            key={key}
+            property={{
+              id: item.id || item.propertyId,
+              propertyType: item.propertyType,
+              dealType: item.dealType,
+              price: item.price,
+              rentPrice: item.rentPrice,
+              maintenancePrice: item.maintenancePrice,
+              totalFloor: item.totalFloor,
+              floor: item.floor,
+              area: item.area,
+              imageUrl: item.imageUrl,
+              isRecommend: item.isRecommend,
+              isInterest: item.isInterest,
+              // title: item.title, // Property 타입에 title은 없으므로 제거하거나 Property 타입에 추가해야 합니다.
+              // address: item.address, // Property 타입에 address는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
+              // latitude: item.latitude, // Property 타입에 latitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
+              // longitude: item.longitude, // Property 타입에 longitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
+            }}
           />
         ))}
         {filteredData?.properties?.length === 0 &&
