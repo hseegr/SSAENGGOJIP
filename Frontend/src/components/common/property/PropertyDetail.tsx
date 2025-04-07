@@ -90,17 +90,22 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ id, onClose }) => {
     }
 
     fetchAllData()
+    setCurrentImageIndex(0)
   }, [id, isLoggedIn, matchTargetAddress])
 
   const handlePrevImage = () => {
-    if (!data?.imageUrls) return
+    // 이미지 배열이 없거나 길이가 0인 경우 함수 실행 중단
+    if (!data?.imageUrls || data.imageUrls.length === 0) return
+
     setCurrentImageIndex((prev) =>
       prev === 0 ? data.imageUrls.length - 1 : prev - 1,
     )
   }
 
   const handleNextImage = () => {
-    if (!data?.imageUrls) return
+    // 이미지 배열이 없거나 길이가 0인 경우 함수 실행 중단
+    if (!data?.imageUrls || data.imageUrls.length === 0) return
+
     setCurrentImageIndex((prev) =>
       prev === data.imageUrls.length - 1 ? 0 : prev + 1,
     )
@@ -144,15 +149,21 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ id, onClose }) => {
             transform: `translateX(-${currentImageIndex * (100 / (data.imageUrls?.length || 1))}%)`,
           }}
         >
-          {data.imageUrls?.map((url: string, idx: number) => (
-            <img
-              key={idx}
-              src={`${url}?w=800&h=600`}
-              alt={`image-${idx}`}
-              className="w-full h-full object-cover flex-shrink-0"
-              style={{ width: `${100 / data.imageUrls.length}%` }}
-            />
-          ))}
+          {data.imageUrls?.length > 0 ? (
+            data.imageUrls.map((url: string, idx: number) => (
+              <img
+                key={idx}
+                src={`${url}?w=800&h=600`}
+                alt={`image-${idx}`}
+                className="w-full h-full object-cover flex-shrink-0"
+                style={{ width: `${100 / data.imageUrls.length}%` }}
+              />
+            ))
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gray-200">
+              <p className="text-gray-500">이미지가 없습니다</p>
+            </div>
+          )}
         </div>
 
         {/* 버튼 */}
@@ -186,7 +197,7 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ id, onClose }) => {
           value={
             data.dealType === '전세'
               ? `전세금 ${formatToKoreanCurrency(data.price)}`
-              : `월세 ${formatToKoreanCurrency(data.rentPrice)} / 보증금 ${formatToKoreanCurrency(data.price)}`
+              : `보증금 ${formatToKoreanCurrency(data.price)} / 월세 ${formatToKoreanCurrency(data.rentPrice)}`
           }
         />
         <InfoRow
