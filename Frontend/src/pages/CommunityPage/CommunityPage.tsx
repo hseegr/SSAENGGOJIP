@@ -9,7 +9,7 @@ const CommunityPage = () => {
   const [forceMyTab, setForceMyTab] = useState(false) // ✅ Sidebar에 전달할 상태
 
   return (
-    <div className="relative flex h-full min-w-[1440px] px-10">
+    <div className="relative flex min-w-[1440px] px-10">
       {/* 사이드바 - 고정 너비 */}
       <div className="w-[302px]">
         <Sidebar

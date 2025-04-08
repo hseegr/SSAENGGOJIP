@@ -555,7 +555,7 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
   return (
     // 전체 채팅방 컨테이너 (모달로 오른쪽에 뜬다고 가정)
-    <div className="flex flex-col justify-between w-full h-full bg-ssaeng-gray-3 px-10">
+    <div className="flex flex-col justify-between w-full h-[88%] bg-ssaeng-gray-3 px-10">
       {/* 채팅방 상단 헤더 - flex-shrink-0으로 고정 크기 유지 */}
       <div className="flex-shrink-0">
         <ChatHeader onClose={onClose} />
