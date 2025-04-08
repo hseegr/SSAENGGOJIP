@@ -23,7 +23,7 @@ export interface LikedProperty {
 export const fetchLikedProperties = async (): Promise<LikedProperty[]> => {
   const response = await http.get(PROPERTY_END_POINT.GET_LIKED_PROPERTIES)
   console.log('관심 매물 응답', response.data)
-  return response.data.result.properties
+  return response.data.result
 }
 
 // 좋아요 상태 반영 - POST
