@@ -1,4 +1,4 @@
-package com.ssaenggojip.facility.entity;
+package com.ssaenggojip.facility.dto;
 
 import lombok.Builder;
 import lombok.Data;

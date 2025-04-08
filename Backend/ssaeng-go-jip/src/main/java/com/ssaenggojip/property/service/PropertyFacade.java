@@ -4,6 +4,8 @@ import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.enums.TransportationType;
 import com.ssaenggojip.common.util.TransportTimeProvider;
+import com.ssaenggojip.facility.dto.NearFacilityResponse;
+import com.ssaenggojip.facility.service.FacilityService;
 import com.ssaenggojip.property.dto.request.RecommendDetailRequest;
 import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
 import com.ssaenggojip.property.dto.response.*;
@@ -24,6 +26,7 @@ public class PropertyFacade {
 
     private final StationService stationService;
     private final PropertyService propertyService;
+    private final FacilityService facilityService;
     private final TransportTimeProvider transportTimeProvider;
 
     public SearchResponse searchProperties(SearchRequest request) {
@@ -46,8 +49,10 @@ public class PropertyFacade {
     public DetailResponse getDetail(Long id) {
         Property property = propertyService.getDetail(id);
 
-        // TODO:편의 시설 구하는 로직
-        List<DetailFacility> detailFacilities = new ArrayList<>();
+        List<NearFacilityResponse> nearFacilities =  facilityService.findNearestFacilities(
+                property.getLatitude(),
+                property.getLongitude()
+        );
 
         List<DetailStation> detailStations = new ArrayList<>();
         for(Station station: stationService.findStationsWithin1km(property.getLongitude(), property.getLatitude())){
@@ -75,7 +80,7 @@ public class PropertyFacade {
                 .area(property.getExclusiveArea())
                 .address(property.getAddress())
                 .stations(detailStations)
-                .facilities(detailFacilities)
+                .facilities(nearFacilities)
                 .imageUrls(imageUrls)
                 .build();
     }

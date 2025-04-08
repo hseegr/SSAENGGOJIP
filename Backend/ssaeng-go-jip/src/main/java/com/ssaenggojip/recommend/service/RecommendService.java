@@ -5,8 +5,6 @@ import com.ssaenggojip.facility.service.FacilityService;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.repository.PropertyRepository;
 import com.ssaenggojip.recommend.dto.request.RecommendByPreferencesRequest;
-import com.ssaenggojip.facility.entity.NearFacilityListResponse;
-import com.ssaenggojip.facility.entity.NearFacilityResponse;
 import com.ssaenggojip.recommend.dto.request.RecommendByLocationRequest;
 import com.ssaenggojip.recommend.dto.response.FacilityPreferencesResponse;
 import com.ssaenggojip.recommend.dto.request.UpdateFacilityPreferencesRequest;
@@ -81,29 +79,4 @@ public class RecommendService {
         );
         return RecommendPropertyListResponse.from(properties);
     }
-
-    @Transactional
-    public void updateFacilityNearness(Long propertyId) {
-        Property property = propertyRepository.getReferenceById(propertyId);
-        List<NearFacilityResponse> nearFacilities = findNearestFacilities(property).getFacilities();
-        List<Double> facilityNearness = Arrays.asList(0d, 0d, 0d, 0d, 0d, 0d, 0d, 0d);
-        for (NearFacilityResponse dto : nearFacilities) {
-            Double distance = dto.getDistance();
-            Double nearness = (1200d - Math.min(distance, 1200d)) / 1200d;
-            facilityNearness.set((int) (dto.getFacilityTypeId() - 1), nearness);
-        }
-        property.setFacilityNearness(facilityNearness);
-        propertyRepository.save(property);
-    }
-
-    @Transactional
-    public NearFacilityListResponse findNearestFacilities(Property property) {
-        return NearFacilityListResponse.builder()
-                .propertyId(property.getId())
-                .facilities(facilityRepository.findNearFacilities(
-                        property.getLatitude(),
-                        property.getLongitude()))
-                .build();
-    }
-
 }
