@@ -1,8 +1,10 @@
 import { Search } from 'lucide-react'
 import SearchDropdown from './SearchDropdown'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSearchParamsStore } from '@/store/searchParamsStore'
+import { searchLocations } from '@/services/searchService'
+import { set } from 'react-hook-form'
 // import { MOCK_RESULTS } from './SearchDropdown'
 
 const CustomSearch = () => {
@@ -24,6 +26,31 @@ const CustomSearch = () => {
   // 검색 파라미터 저장 함수
   const { setCustomSearchParams } = useSearchParamsStore()
 
+  // 검색 결과 상태
+  const [searchResults, setSearchResults] = useState<any[]>([])
+
+  // 검색어가 변경될 때마다 결과 업데이트
+  useEffect(() => {
+    if (query.trim() === '') {
+      setSearchResults([])
+      return
+    }
+
+    // 검색 요청
+    const fetchResults = async () => {
+      try {
+        const result = await searchLocations(query)
+        setSearchResults(result)
+      } catch (error) {
+        console.error('위치 검색 실패:', error)
+      }
+    }
+
+    // 디바운스 처리
+    const timer = setTimeout(fetchResults, 300)
+    return () => clearTimeout(timer)
+  }, [query])
+
   const timeOptions = [
     '5분',
     '10분',
@@ -36,22 +63,23 @@ const CustomSearch = () => {
   ]
 
   // 검색 결과 중 특정 항목 클릭 또는 엔터 선택 시 실행되는 함수
-  const handleSelect = (name: string, lat: number, lng: number) => {
-    setQuery(name) // 검색창에 선택된 텍스트 반영
-    setShowSearchDropdown(false) // 드롭다운 닫기
+  const handleSelect = (item: any) => {
+    // 검색창에 선택된 텍스트 반영
+    setQuery(item.name)
 
     // 선택 즉시 검색 실행
-    setCustomSearchParams(name, selectedTime, lat, lng)
-    navigate('/explore?tab=match_search')
-  }
+    setCustomSearchParams(
+      item.name,
+      selectedTime,
+      item.latitude,
+      item.longitude,
+    )
 
-  // 검색 버튼 클릭 시 호출되는 함수
-  const handleSearch = () => {
-    if (query.trim()) {
-      // 검색어와 시간으로 검색 (좌표 없음)
-      setCustomSearchParams(query, selectedTime)
-      navigate('/explore?tab=match_search')
-    }
+    // 매물탐색 페이지로 이동
+    navigate('/explore?tab=match_search')
+
+    // 드롭다운 닫기
+    setShowSearchDropdown(false)
   }
 
   // 키보드 이벤트 처리
@@ -67,13 +95,22 @@ const CustomSearch = () => {
     } else if (e.key === 'Enter') {
       // 엔터: 검색 실행
       e.preventDefault()
-      handleSearch()
+      handleSearchClick()
     } else if (e.key === 'Escape') {
       // ESC: 드롭다운 닫기
       setShowSearchDropdown(false)
       setShowTimeDropdown(false)
     }
   }
+
+  // 검색 버튼 클릭 시 호출되는 함수
+  // const handleSearch = () => {
+  //   if (query.trim()) {
+  //     // 검색어와 시간으로 검색 (좌표 없음)
+  //     setCustomSearchParams(query, selectedTime)
+  //     navigate('/explore?tab=match_search')
+  //   }
+  // }
 
   // 현재 인덱스 항목 이름을 검색창에 반영
   // const handleSelectFromIndex = () => {
@@ -83,6 +120,46 @@ const CustomSearch = () => {
   //     setShowSearchDropdown(false)
   //   }
   // }
+
+  // 검색 버튼 클릭 핸들러
+  const handleSearchClick = () => {
+    if (query.trim() === '') {
+      return
+    }
+
+    // 검색어와 일치하는 첫 번째 결과 찾기
+    const exactMatch = searchResults.find(
+      (item) => item.name.toLowerCase() === query.toLowerCase(),
+    )
+
+    if (exactMatch) {
+      // 정확히 일치하는 항목 선택
+      handleSelect(exactMatch)
+    } else if (searchResults.length > 0) {
+      // 일치하는 항목 없으면 첫 번째 결과 선택
+      handleSelect(searchResults[0])
+    } else {
+      // 카카오맵 API로 좌표 검색 시도
+      if (window.kakao && window.kakao.maps) {
+        const geocoder = new window.kakao.maps.services.Geocoder()
+        geocoder.addressSearch(query, (result, status) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            const latitude = parseFloat(result[0].y)
+            const longitude = parseFloat(result[0].x)
+
+            // 맞춤 검색 파라미터 설정
+            setCustomSearchParams(query, selectedTime, latitude, longitude)
+
+            // 매물탐색 페이지로 이동
+            navigate(`/explore?tab=match_search`)
+          } else {
+            // 좌표 검색 실패 시
+            alert('주소를 찾을 수 없습니다. 다른 검색어를 입력해주세요.')
+          }
+        })
+      }
+    }
+  }
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -150,7 +227,7 @@ const CustomSearch = () => {
           </div>
 
           {/* 검색 버튼 */}
-          <button onClick={handleSearch} className=" text-ssaeng-purple">
+          <button onClick={handleSearchClick} className=" text-ssaeng-purple">
             <Search size={20} />
           </button>
         </div>
