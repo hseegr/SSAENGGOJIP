@@ -113,10 +113,10 @@ const CustomInfo: React.FC = () => {
               aria-hidden="true"
             >
               {info.address ||
-                info.name ||
-                info.transportMode ||
-                info.travelTime ||
-                info.walkTime ? (
+              info.name ||
+              info.transportMode ||
+              info.travelTime ||
+              info.walkTime ? (
                 <>
                   <h3 className="text-lg font-bold mb-2">주소</h3>
                   <button

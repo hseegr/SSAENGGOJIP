@@ -3,6 +3,7 @@ import NewTargetModal from './NewTarget'
 import EditTargetModal from './EditTarget' // 새로운 주소 수정 모달
 import useMatchInfoStore from '@/store/matchInfoStore' // Zustand 스토어 import
 import { getTargetAddress, deleteTargetAddress } from '@/services/targetService'
+import ReactDOM from 'react-dom' // ReactDOM import 추가
 
 interface Address {
   id: number
@@ -175,7 +176,7 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
     onClose() // 모달 닫기
   }
 
-  return (
+  return ReactDOM.createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       {notification && (
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded-md shadow-lg z-10">
@@ -328,7 +329,8 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
           </ul>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
