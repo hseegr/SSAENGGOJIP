@@ -2,6 +2,8 @@ package com.ssaenggojip.property.service;
 
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.common.enums.TransportationType;
+import com.ssaenggojip.common.util.RoutingUtil;
 import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.converter.PropertyConverter;
 import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
@@ -27,7 +29,7 @@ public class PropertyService {
     private final PropertyRepository propertyRepository;
     private final PropertyImageRepository propertyImageRepository;
     private final TransportTimeProvider transportTimeProvider;
-
+    private final RoutingUtil routingUtil;
 
     public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lng, Double lat) {
         // lat, lng 기준 반경 1KM, 설정한 조건 기준으로 검색
@@ -82,7 +84,9 @@ public class PropertyService {
         Double lng2 = property.getLongitude();
 
         Integer ans = transportTimeProvider.getWalkMinutes(lat1, lng1, lat2, lng2);
+        Integer ans2 = routingUtil.getRoute(lat1, lng1, lat2, lng2, TransportationType.도보);
 
+        System.out.println(ans);
         List<Integer> transportTimeList = new ArrayList<>();
         transportTimeList.add(ans);
 
