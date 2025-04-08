@@ -365,7 +365,7 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
     updateLastMessage(selectedChatRoom.id, input)
 
-    // ✅ 현재 날짜 포맷팅 (YYYY년 MM월 DD일 요일)
+    //✅ 현재 날짜 포맷팅 (YYYY년 MM월 DD일 요일)
     // const now = new Date()
     // const formattedDate = now.toLocaleDateString('ko-KR', {
     //   year: 'numeric',

@@ -13,9 +13,10 @@ import { useChatSocket } from '@/hooks/useChatSocket'
 
 type Props = {
   onChatOpen: () => void
+  forceMyTab?: boolean
 }
 
-const Sidebar = ({ onChatOpen }: Props) => {
+const Sidebar = ({ onChatOpen, forceMyTab }: Props) => {
   // 탭 상태 관리 -> list : 채팅방 목록 / my : 내가 참여한 채팅방
   const [activeTab, setActiveTab] = useState<'list' | 'my'>('list')
 
@@ -32,6 +33,14 @@ const Sidebar = ({ onChatOpen }: Props) => {
 
   // 검색
   const { data: searchedData } = useSearchChatRoomsQuery(searchKeyword)
+
+  // 모달 열릴 때 내 채팅방으로 이동
+  // 추가: props.forceMyTab가 true이면 'my' 탭으로 전환
+  useEffect(() => {
+    if (forceMyTab) {
+      setActiveTab('my')
+    }
+  }, [forceMyTab])
 
   // const { connect } = useChatSocket()
 
@@ -50,6 +59,15 @@ const Sidebar = ({ onChatOpen }: Props) => {
 
   // 응답 데이터가 없을 경우 대비
   const popularChatRooms = popularData?.result ?? []
+
+  // ✅ 인기 채팅방이 refetch되었을 때 마커/리스트 상태를 갱신해주는 useEffect
+  useEffect(() => {
+    // 조건: 인기 탭(list)이며, 검색 중이 아닐 때만 반영
+    if (activeTab === 'list' && searchKeyword === '' && popularData?.result) {
+      setMarkerChatRooms(popularData.result) // 마커용 상태 업데이트
+    }
+  }, [popularData, activeTab, searchKeyword]) // 의존성에 popularData 포함!
+
   const myChatRooms = useCommunityStore((s) => s.myChatRooms)
   const searchedChatRooms = searchedData?.result ?? []
 
@@ -82,9 +100,21 @@ const Sidebar = ({ onChatOpen }: Props) => {
   }, [activeTab])
 
   // chatRooms가 바뀔 때마다 지도 마커 상태를 업데이트
+  // useEffect(() => {
+  //   setMarkerChatRooms(chatRooms)
+  // }, [chatRooms])
+
   useEffect(() => {
-    setMarkerChatRooms(chatRooms)
-  }, [chatRooms])
+    if (activeTab === 'list' && searchKeyword === '') {
+      if (popularData?.result) {
+        setMarkerChatRooms(popularData.result)
+      }
+    } else if (activeTab === 'my') {
+      if (myData?.result) {
+        setMarkerChatRooms(myData.result)
+      }
+    }
+  }, [activeTab, searchKeyword, popularData, myData])
 
   // 채팅방 클릭 시 선택된 채팅방 상태 저장 + 탭이 'my'일 경우 모달 열기
 
