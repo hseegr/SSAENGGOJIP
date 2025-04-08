@@ -92,7 +92,7 @@ type Listing = {
 const transformToListing = (property: Property): Listing => ({
   id: property.id,
   type: '원룸', // 백엔드에서 타입이 없을 경우 기본값 지정
-  price: `월세 ${property.price.toLocaleString()}원`,
+  price: `${property.price.toLocaleString()}원`,
   floor: `${property.floor}층 | ${property.area}평`,
   address: property.address || '주소 정보 없음',
   station: '내 주변', // 현재는 위치 기반 기준
@@ -131,7 +131,9 @@ const RecommendedSection = () => {
   // console.log('매물 수:', data.properties.length)
 
   // 매물 데이터를 UI 카드 형태로 가공
-  const listings: Listing[] = data.properties.map(transformToListing)
+  const listings: Listing[] = data.properties
+    .slice(0, 8) // 최대 8개로 제한
+    .map(transformToListing)
   //console.log('렌더링될 listings:', listings)
 
   return (

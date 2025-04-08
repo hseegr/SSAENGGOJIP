@@ -196,12 +196,15 @@ export const fetchMatchSearchWithQuery = async (
   latitude?: number,
   longitude?: number,
 ) => {
+  console.log('🔍 맞춤 검색 시작 - 쿼리:', query, '시간:', travelTime)
+  console.log('🔍 맞춤 검색 좌표 정보:', { latitude, longitude })
   try {
     // 좌표가 없으면 카카오 API로 가져오기
     let lat = latitude
     let lng = longitude
 
     if (!lat || !lng) {
+      console.log('⚠️ 좌표 정보가 없어 카카오 API로 변환 시도')
       try {
         // 카카오 Geocoder를 사용해 주소를 좌표로 변환
         lat = 37.501286 // 기본값 설정 (성공하지 못할 경우 대비)
@@ -213,12 +216,16 @@ export const fetchMatchSearchWithQuery = async (
             const geocoder = new window.kakao.maps.services.Geocoder()
             geocoder.addressSearch(query, (result, status) => {
               if (status === window.kakao.maps.services.Status.OK) {
+                console.log('✅ 카카오맵 API 좌표 변환 성공:', { lat, lng })
                 lat = parseFloat(result[0].y)
                 lng = parseFloat(result[0].x)
+              } else {
+                console.log('❌ 카카오맵 API 좌표 변환 실패:', status)
               }
               resolve()
             })
           } else {
+            console.log('❌ 카카오맵 API가 로드되지 않음')
             resolve()
           }
         })
@@ -228,40 +235,48 @@ export const fetchMatchSearchWithQuery = async (
       }
     }
 
+    console.log('📌 최종 사용 좌표:', { lat, lng })
+    console.log('📌 필터 정보:', filters)
+
     // 맞춤 검색 요청 데이터 구성
-    const requestData: RequestData = {
+    const requestData = {
       addresses: [
         {
-          searchSet: {
-            address: query,
-            transportationType: '지하철', // 기본값
-            totalTransportTime: travelTime,
-            walkTime: Math.min(travelTime / 2, 10), // 이동 시간의 절반 또는 최대 10분
-          },
+          latitude: lat,
+          longitude: lng,
+          transportationType: '지하철', // 기본값
+          totalTransportTime: travelTime,
+          walkTime: Math.min(travelTime / 2, 10), // 이동 시간의 절반 또는 최대 10분
         },
       ],
-      propertyType: filters.propertyTypes ?? [],
-      dealType: filters.dealType ?? '',
-      minPrice: filters.MindepositPrice ?? 0,
-      maxPrice: filters.MaxdepositPrice ?? 200000000,
-      minRentPrice: filters.MinmonthlyPrice ?? 0,
-      maxRentPrice: filters.MaxmonthlyPrice ?? 200000000,
-      facility: filters.additionalFilters ?? [],
     }
 
-    // 좌표 정보 추가 (address 내부에 추가)
-    if (lat && lng) {
-      requestData.addresses[0].searchSet['latitude'] = lat
-      requestData.addresses[0].searchSet['longitude'] = lng
-    }
+    console.log(
+      '📤 맞춤 검색 API 요청 데이터:',
+      JSON.stringify(requestData, null, 2),
+    )
 
-    console.log('맞춤 검색 요청 데이터:', requestData)
-
-    // API 호출 (기존 함수 대신 직접 호출)
+    // API 호출
+    console.log('🔄 API 호출 시작:', MAP_END_POINT.MATCH_SEARCH)
     const response = await http.post(MAP_END_POINT.MATCH_SEARCH, requestData)
+    console.log('✅ API 호출 성공, 응답:', response.status)
+    console.log('📥 응답 데이터:', response.data)
+
     return response.data.result
   } catch (error) {
-    console.error('맞춤 검색 API 요청 중 오류 발생:', error)
+    console.error('❌ 맞춤 검색 API 요청 중 오류 발생:', error)
+
+    // 에러 상세 정보 출력
+    if (error.response) {
+      console.error('❌ 응답 상태:', error.response.status)
+      console.error('❌ 응답 데이터:', error.response.data)
+      console.error('❌ 응답 헤더:', error.response.headers)
+    } else if (error.request) {
+      console.error('❌ 요청은 되었으나 응답이 없음:', error.request)
+    } else {
+      console.error('❌ 요청 설정 중 오류 발생:', error.message)
+    }
+
     throw error
   }
 }
