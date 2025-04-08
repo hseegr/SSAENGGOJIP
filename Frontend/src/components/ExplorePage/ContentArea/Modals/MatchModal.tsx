@@ -8,10 +8,11 @@ interface ModalProps {
   isOpen: boolean
   onClose: () => void
   boxId: number // 선택된 박스의 ID
+  initialPage?: number
 }
 
-const Modal = ({ isOpen, onClose, boxId }: ModalProps) => {
-  const [currentPage, setCurrentPage] = useState(1) // 현재 페이지 상태
+const Modal = ({ isOpen, onClose, boxId, initialPage = 1 }: ModalProps) => {
+  const [currentPage, setCurrentPage] = useState(initialPage) // 현재 페이지 상태
   const [address, setAddress] = useState('')
   const [name, setName] = useState('')
   const [transportMode, setTransportMode] = useState('')

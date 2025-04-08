@@ -7,9 +7,21 @@ import { useUserStore } from '@/store/userStore'
 import matchSearchStore from '@/store/matchSearchStore'
 import MatchSearchResults from './Match/MatchSearchResult'
 
+interface MatchInfo {
+  id: number
+  address: string
+  name: string
+  transportMode: string
+  travelTime: number
+  walkTime: number
+  latitude: number
+  longitude: number
+}
+
 const CustomInfo: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedBoxId, setSelectedBoxId] = useState<number | null>(null)
+  const [initialModalPage, setInitialModalPage] = useState(1) // 모달 초기 페이지 상태
   const { isLoggedIn } = useUserStore()
   const { resetMatchInfos, matchInfos, addMatchInfo } = useMatchInfoStore()
   const { isSearching } = matchSearchStore()
@@ -20,15 +32,17 @@ const CustomInfo: React.FC = () => {
     addMatchInfo()
   }, [addMatchInfo])
 
-  const handleBoxClick = (id: number) => {
-    console.log(`Selected Box ID: ${id}`)
+  const handleBoxClick = (id: number, initialPage: number = 1) => {
+    console.log(`Selected Box ID: ${id}, Initial Page: ${initialPage}`)
     setSelectedBoxId(id)
+    setInitialModalPage(initialPage) // 초기 페이지 설정
     setIsModalOpen(true)
   }
 
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setSelectedBoxId(null)
+    setInitialModalPage(1) // 모달 닫을 때 초기 페이지 상태 리셋
   }
 
   const handleAddBox = () => {
@@ -104,10 +118,10 @@ const CustomInfo: React.FC = () => {
           </div>
 
           {/* 회색 박스들 */}
-          {useMatchInfoStore.getState().matchInfos.map((info) => (
+          {useMatchInfoStore.getState().matchInfos.map((info: MatchInfo) => (
             <div
               key={info.id}
-              className="flex flex-col justify-center mb-3 items-center w-full h-96 bg-gray-200 rounded-lg text-gray-700"
+              className="flex flex-col justify-center mb-3 items-center w-full h-auto bg-gray-200 rounded-lg text-gray-700 cursor-pointer"
               onClick={() => handleBoxClick(info.id)}
               role="button"
               aria-hidden="true"
@@ -118,47 +132,67 @@ const CustomInfo: React.FC = () => {
               info.travelTime ||
               info.walkTime ? (
                 <>
-                  <h3 className="text-lg font-bold mb-2">주소</h3>
-                  <button
-                    className="z-[9999] text-red-500"
-                    onClick={(e) => handleRemoveBox(e, info.id)}
-                  >
-                    X
-                  </button>
-                  <div className="flex items-center w-full h-24 justify-between bg-white p-4 rounded-lg shadow-md">
-                    <div className="flex flex-col">
-                      <span className="text-md font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-lg inline-block">
-                        {info.name}
-                      </span>
-                      <span className="text-sm text-gray-700 ml-3 truncate">
-                        {info.address}
-                      </span>
+                  <div className="relative w-full p-4">
+                    <h3 className="text-lg font-bold mb-2">주소</h3>
+                    <button
+                      className="absolute top-2 right-2 z-[9999] text-red-500"
+                      onClick={(e) => handleRemoveBox(e, info.id)}
+                    >
+                      X
+                    </button>
+                    <div
+                      className="flex items-center w-full h-24 justify-between bg-white p-4 rounded-lg shadow-md"
+                      role="button"
+                      aria-hidden="true"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleBoxClick(info.id, 1) // 주소 영역 클릭 시 1페이지로 모달 열기
+                      }}
+                    >
+                      <div className="flex flex-col">
+                        <span className="text-md font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-lg inline-block">
+                          {info.name}
+                        </span>
+                        <span className="text-sm text-gray-700 ml-3 truncate">
+                          {info.address}
+                        </span>
+                      </div>
+                      <span className="text-gray-400 ml-auto">{'>'}</span>
                     </div>
-                    <span className="text-gray-400 ml-auto">{'>'}</span>
                   </div>
 
-                  <h3 className="text-lg font-bold mb-2">교통</h3>
-                  <div className="flex w-full bg-white items-center p-4 rounded-lg shadow-md text-gray-700">
-                    <div className="flex flex-col">
-                      <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-2">
-                        {info.transportMode}
-                      </span>
-                      <p className="text-sm mb-1">
-                        전체 이동시간은{' '}
-                        <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
-                          {info.travelTime}분 이내
-                        </span>{' '}
-                        이면 좋겠고,
-                      </p>
-                      <p className="text-sm">
-                        도보 이동시간은{' '}
-                        <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
-                          {info.walkTime}분 이내
-                        </span>{' '}
-                        이면 좋겠어요.
-                      </p>
+                  <div className="relative w-full p-4">
+                    <h3 className="text-lg font-bold mb-2">교통</h3>
+                    <div
+                      className="flex w-full bg-white items-center p-4 rounded-lg shadow-md text-gray-700"
+                      role="button"
+                      aria-hidden="true"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleBoxClick(info.id, 2) // 교통 영역 클릭 시 2페이지로 모달 열기
+                      }}
+                    >
+                      <div className="flex flex-col">
+                        <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-2">
+                          {info.transportMode}
+                        </span>
+                        <p className="text-sm mb-1">
+                          전체 이동시간은{' '}
+                          <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
+                            {info.travelTime}분 이내
+                          </span>{' '}
+                          이면 좋겠고,
+                        </p>
+                        <p className="text-sm">
+                          도보 이동시간은{' '}
+                          <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
+                            {info.walkTime}분 이내
+                          </span>{' '}
+                          이면 좋겠어요.
+                        </p>
+                      </div>
+                      <span className="text-gray-400 ml-auto">{'>'}</span>
                     </div>
-                    <span className="text-gray-400 ml-auto">{'>'}</span>
                   </div>
                 </>
               ) : (
@@ -178,6 +212,7 @@ const CustomInfo: React.FC = () => {
               isOpen={isModalOpen}
               onClose={handleCloseModal}
               boxId={selectedBoxId}
+              initialPage={initialModalPage} // 초기 페이지 prop 전달
             />
           )}
 
