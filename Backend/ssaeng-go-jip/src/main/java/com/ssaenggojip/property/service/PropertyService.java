@@ -2,6 +2,8 @@ package com.ssaenggojip.property.service;
 
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.common.enums.TransportationType;
+import com.ssaenggojip.common.util.RoutingUtil;
 import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.converter.PropertyConverter;
 import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
@@ -27,7 +29,7 @@ public class PropertyService {
     private final PropertyRepository propertyRepository;
     private final PropertyImageRepository propertyImageRepository;
     private final TransportTimeProvider transportTimeProvider;
-
+    private final RoutingUtil routingUtil;
 
     public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lng, Double lat) {
         // lat, lng 기준 반경 1KM, 설정한 조건 기준으로 검색
@@ -81,7 +83,7 @@ public class PropertyService {
         Double lat2 = property.getLatitude();
         Double lng2 = property.getLongitude();
 
-        Integer ans = transportTimeProvider.getWalkMinutes(lat1, lng1, lat2, lng2);
+        Integer ans = routingUtil.getRoute(lat1, lng1, lat2, lng2, request.getTransportationType());
 
         List<Integer> transportTimeList = new ArrayList<>();
         transportTimeList.add(ans);
@@ -121,7 +123,7 @@ public class PropertyService {
 
     }
 
-    public List<RecommendSearchDto> searchPropertiesWithWalkTime(RecommendSearchRequest request, Integer targetNum){
+    public List<RecommendSearchDto> searchPropertiesWithinTime(RecommendSearchRequest request, Integer targetNum){
         // 주소 기준 K시간 이내 도보권 매물 - p
         Double lat = request.getAddresses().get(targetNum).getLatitude();
         Double lng = request.getAddresses().get(targetNum).getLongitude();
@@ -142,11 +144,18 @@ public class PropertyService {
                 dist
         );
 
-        if(properties.size()>5000)
+        if(properties.size()>2000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
         List<RecommendSearchDto> recommendSearchProperties = new ArrayList<>();
+        
         for (Property p: properties){
+            TransportationType transportationType =  request.getAddresses().get(targetNum).getTransportationType();
+            if (transportationType == TransportationType.지하철)
+                transportationType = TransportationType.도보;
+            int totalTime = routingUtil.getRoute(lat, lng, p.getLatitude(), p.getLongitude(), transportationType);
+            if (totalTime > request.getAddresses().get(targetNum).getWalkTime())
+                continue;
             recommendSearchProperties.add(
                     RecommendSearchDto.builder()
                             .id(p.getId())
@@ -163,7 +172,7 @@ public class PropertyService {
                             .longitude(p.getLongitude())
                             .isInterest(false)
                             .imageUrl(p.getMainImage())
-                            .totalTime(transportTimeProvider.getWalkMinutes(lat, lng, p.getLatitude(),p.getLongitude()))
+                            .totalTime(totalTime)
                             .build()
             );
         }
