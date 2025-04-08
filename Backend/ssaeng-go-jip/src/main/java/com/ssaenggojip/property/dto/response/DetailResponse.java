@@ -2,6 +2,7 @@ package com.ssaenggojip.property.dto.response;
 
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.PropertyType;
+import com.ssaenggojip.facility.dto.NearFacilityResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class DetailResponse {
 
     private List<DetailStation> stations;
 
-    private List<DetailFacility> facilities;
+    private List<NearFacilityResponse> facilities;
 
     private List<String> imageUrls;
 }

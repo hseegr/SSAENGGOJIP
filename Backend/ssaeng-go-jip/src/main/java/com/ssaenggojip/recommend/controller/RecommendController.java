@@ -35,19 +35,19 @@ public class RecommendController {
         return ApiResponse.onSuccess(null);
     }
 
-    @PostMapping("/by-preferences")
-    public ApiResponse<RecommendPropertyListResponse> recommendByPreferences(
-            @RequestBody @Valid RecommendByPreferencesRequest request,
-            @AuthUser User user
-    ) {
-        return ApiResponse.onSuccess(recommendService.findTopKByPreferences(user, request.getK()));
-    }
-
     @PostMapping("/by-locations")
     public ApiResponse<RecommendPropertyListResponse> recommendByLocation(
             @RequestBody @Valid RecommendByLocationRequest request
     ) {
         return ApiResponse.onSuccess(recommendService.findByLocation(request));
+    }
+
+    @PostMapping("/by-preferences")
+    public ApiResponse<RecommendPropertyListResponse> recommendByPreferences(
+            @RequestBody @Valid RecommendByPreferencesRequest request,
+            @AuthUser User user
+    ) {
+        return ApiResponse.onSuccess(recommendService.findTopKByPreferences(user, request));
     }
 
 }
