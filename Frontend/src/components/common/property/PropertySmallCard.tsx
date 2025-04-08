@@ -29,7 +29,7 @@ type Props = {
 
 const PropertySmallCard = ({ property }: Props) => {
   const [isLiked, setIsLiked] = useState(property.isInterest ?? false)
-
+  const [imageError, setImageError] = useState(false)
   const { selectedCard, setSelectedCard } = useSidebarStore()
 
   const handleClick = () => {
@@ -71,29 +71,14 @@ const PropertySmallCard = ({ property }: Props) => {
 
         {/* 이미지 출력 */}
         <div className="relative w-32 h-24 bg-gray-200 rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
-          {property.imageUrl ? (
+          {property.imageUrl && !imageError ? (
             <img
               src={`${property.imageUrl}?w=800&h=600`}
               alt="매물 이미지"
               className="w-full h-full object-cover"
               onError={(e) => {
-                e.currentTarget.onerror = null
-                e.currentTarget.style.display = 'none'
-                // onError 발생 시 플레이스홀더를 보이게 하는 로직 (선택 사항)
-                const placeholder =
-                  e.currentTarget.parentNode.querySelector('.image-placeholder')
-                if (placeholder) {
-                  placeholder.style.display = 'flex'
-                } else {
-                  // 플레이스홀더가 없는 경우, 현재 div에 텍스트 표시 (대안)
-                  e.currentTarget.parentNode.classList.add(
-                    'flex',
-                    'items-center',
-                    'justify-center',
-                  )
-                  e.currentTarget.parentNode.innerHTML =
-                    '<span style="color: #6B7280; font-size: 0.875rem;">이미지 없음</span>'
-                }
+                e.currentTarget.onerror = null // onError 무한 호출 방지
+                setImageError(true) // 에러 발생 시 상태 업데이트
               }}
             />
           ) : (
