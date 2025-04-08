@@ -27,11 +27,11 @@ public class FacilityService {
     @Transactional
     public List<NearFacilityResponse> findNearestFacilities(Double latitude, Double longitude) {
         List<NearFacilityResponse> nearFacilities = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            nearFacilities.add(new NearFacilityResponse());
-        }
+        System.out.println("latitude: " + latitude + " longitude: " + longitude);
         for(NearFacilityResponse facility : facilityRepository.findNearFacilities(latitude, longitude)) {
-            nearFacilities.set((int) (facility.getFacilityTypeId() - 1), facility );
+            System.out.println(facility);
+            facility.setFacilityTypeName(facilityTypeRepository.getReferenceById(facility.getFacilityTypeId()).getName());
+            nearFacilities.add((int) (facility.getFacilityTypeId() - 1), facility );
         }
         return nearFacilities;
     }
