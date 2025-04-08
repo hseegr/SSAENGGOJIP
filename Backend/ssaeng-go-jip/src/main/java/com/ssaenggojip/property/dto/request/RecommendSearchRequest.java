@@ -2,6 +2,7 @@ package com.ssaenggojip.property.dto.request;
 import com.ssaenggojip.common.enums.DealType;
 import com.ssaenggojip.common.enums.FacilityType;
 import com.ssaenggojip.common.enums.PropertyType;
+import com.ssaenggojip.common.enums.TransportationType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -24,7 +25,7 @@ public class RecommendSearchRequest {
     public static class SearchSet {
         private Double latitude;
         private Double longitude;
-        private String transportationType;
+        private TransportationType transportationType;
         private Integer totalTransportTime;
         private Integer walkTime;
     }
