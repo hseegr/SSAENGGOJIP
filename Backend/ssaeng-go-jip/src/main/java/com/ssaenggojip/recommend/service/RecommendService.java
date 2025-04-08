@@ -82,4 +82,14 @@ public class RecommendService {
         propertyRepository.save(property);
     }
 
+    @Transactional
+    public NearFacilityListResponse findNearestFacilities(Property property) {
+        return NearFacilityListResponse.builder()
+                .propertyId(property.getId())
+                .facilities(facilityRepository.findNearFacilities(
+                        property.getLatitude(),
+                        property.getLongitude()))
+                .build();
+    }
+
 }
