@@ -60,8 +60,12 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
     @Query(nativeQuery = true,
             value = "SELECT * " +
                     "FROM property " +
-                    "ORDER BY facility_nearness <=> cast(? as vector) " +
-                    "LIMIT ? "
+                    "WHERE ST_DWithin(" +
+                    "geography(ST_SetSRID(ST_Point(longitude, latitude), 4326)), " +
+                    "geography(ST_SetSRID(ST_Point(:lng, :lat), 4326)), " +
+                    ":radius) " +
+                    "ORDER BY facility_nearness <=> cast(:vector as vector) " +
+                    "LIMIT :limit "
     )
     List<Property> findTopKByFacilityNearness(String facilityPreferences,Integer limit);
 
