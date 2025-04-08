@@ -89,4 +89,5 @@ export const MATCH_SEARCH_TARGET_END_POINT = {
 // 관심 매물 관련 API
 export const PROPERTY_END_POINT = {
   GET_LIKED_PROPERTIES: '/properties/likes',
+  TOGGLE_LIKE: (propertyId: number) => `/properties/likes/${propertyId}`,
 }

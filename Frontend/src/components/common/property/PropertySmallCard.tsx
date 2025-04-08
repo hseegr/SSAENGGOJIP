@@ -7,6 +7,7 @@ import {
   formatMaintenanceFee,
 } from '@/utils/formatUtils'
 import useSidebarStore from '@/store/sidebarStore'
+import { useUserStore } from '@/store/userStore'
 
 type Property = {
   id: number
@@ -31,6 +32,7 @@ const PropertySmallCard = ({ property }: Props) => {
   const [isLiked, setIsLiked] = useState(property.isInterest ?? false)
   const [imageError, setImageError] = useState(false)
   const { selectedCard, setSelectedCard } = useSidebarStore()
+  const { isLoggedIn } = useUserStore()
 
   const handleClick = () => {
     setSelectedCard(property.id) // 선택된 카드 ID 저장
