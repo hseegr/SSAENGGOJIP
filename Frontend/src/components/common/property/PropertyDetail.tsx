@@ -130,8 +130,8 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ id, onClose }) => {
           <div>전세 {formatToKoreanCurrency(data.price)}</div>
         ) : (
           <div>
-            월세 {formatToKoreanCurrency(data.rentPrice)} /{' '}
-            {formatToKoreanCurrency(data.price)}
+            월세 {formatToKoreanCurrency(data.price)} /{' '}
+            {formatToKoreanCurrency(data.rentPrice)}
           </div>
         )}
         <span className="text-sm font-normal text-gray-500 ml-2">
@@ -189,7 +189,7 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ id, onClose }) => {
       {/* 매물 기본 정보 */}
       <h3 className="text-lg font-bold mb-4">매물 상세 정보 🏡</h3>
       <div className="text-sm text-gray-800 space-y-2 border-b pb-4">
-        <InfoRow label="매물 이름" value={data.name} />
+        <InfoRow label="매물 설명" value={data.name} />
         <InfoRow label="매물 유형" value={data.propertyType} />
         <InfoRow label="거래 유형" value={data.dealType} />
         <InfoRow

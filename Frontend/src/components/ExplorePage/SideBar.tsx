@@ -48,7 +48,6 @@ const Sidebar: React.FC = () => {
     setActiveTab,
     selectedCard,
     setSelectedCard,
-    selectedMatchCard,
     clearMatchCard,
     isContentAreaCollapsed,
     setContentAreaCollapsed,
@@ -77,7 +76,10 @@ const Sidebar: React.FC = () => {
     <div className="flex h-screen">
       {/* 사이드바 아이콘 */}
       <div className="w-[70px] bg-white border-r border-ssaeng-gray-1 flex flex-col items-center pt-4 z-50">
-        <button className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80" onClick={() => clickSidebar('normal_search')}>
+        <button
+          className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80"
+          onClick={() => clickSidebar('normal_search')}
+        >
           {activeTab === 'normal_search' ? (
             <>
               <HomeBlueIcon className="w-6 h-6" />
@@ -91,7 +93,10 @@ const Sidebar: React.FC = () => {
           )}
         </button>
 
-        <button className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80" onClick={() => clickSidebar('match_search')}>
+        <button
+          className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80"
+          onClick={() => clickSidebar('match_search')}
+        >
           {activeTab === 'match_search' ? (
             <>
               <img src={SearchBlueIcon} alt="맞춤검색" className="w-6 h-6" />
@@ -105,7 +110,10 @@ const Sidebar: React.FC = () => {
           )}
         </button>
 
-        <button className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80" onClick={() => clickSidebar('favorites')}>
+        <button
+          className="flex flex-col items-center justify-center mt-4 mb-4 hover:opacity-80"
+          onClick={() => clickSidebar('favorites')}
+        >
           {activeTab === 'favorites' ? (
             <>
               <HeartBlueIcon className="w-6 h-6" />
@@ -126,7 +134,9 @@ const Sidebar: React.FC = () => {
         <div
           className={`transition-transform duration-300 ease-in-out z-30`}
           style={{
-            transform: isContentAreaCollapsed ? 'translateX(-100%)' : 'translateX(0)',
+            transform: isContentAreaCollapsed
+              ? 'translateX(-100%)'
+              : 'translateX(0)',
             width: '400px',
           }}
         >
@@ -149,7 +159,10 @@ const Sidebar: React.FC = () => {
         {/* 상세보기 영역 */}
         {selectedCard && (
           <div className="w-[400px] border-l border-gray-200 bg-white overflow-y-auto shadow-md z-50">
-            <PropertyDetail id={selectedCard} onClose={() => setSelectedCard(null)} />
+            <PropertyDetail
+              id={selectedCard}
+              onClose={() => setSelectedCard(null)}
+            />
           </div>
         )}
       </div>

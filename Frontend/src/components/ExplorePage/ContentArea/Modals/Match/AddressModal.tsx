@@ -3,6 +3,7 @@ import NewTargetModal from './NewTarget'
 import EditTargetModal from './EditTarget' // 새로운 주소 수정 모달
 import useMatchInfoStore from '@/store/matchInfoStore' // Zustand 스토어 import
 import { getTargetAddress, deleteTargetAddress } from '@/services/targetService'
+import ReactDOM from 'react-dom' // ReactDOM import 추가
 
 interface Address {
   id: number
@@ -11,7 +12,7 @@ interface Address {
   transportMode: string
   travelTime: number
   walkTime: number
-  isDefault?: boolean // 선택적 속성으로 변경
+  isDefault: boolean // 선택적 속성으로 변경
   latitude: number
   longitude: number
 }
@@ -29,7 +30,7 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
   const [isEditMode, setIsEditMode] = useState(false) // 편집 모드 상태
   const [editAddress, setEditAddress] = useState<Address | null>(null) // 수정할 주소 데이터
   const [notification, setNotification] = useState<string | null>(null)
-  const { resetMatchInfos } = useMatchInfoStore()
+  const { matchInfos, resetMatchInfos } = useMatchInfoStore()
 
   const showNotification = (message: string) => {
     setNotification(message)
@@ -43,7 +44,6 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
     setIsLoading(true)
     try {
       const data = await getTargetAddress()
-      console.log('최초 접속 API', data)
       setAddresses(data)
     } catch (error) {
       console.error('주소 목록을 불러오는 데 실패했습니다:', error)
@@ -74,53 +74,21 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
     }
   }
 
-  // 주소 수정 완료 (미완성 부분이라 현재 로직 유지)
-  const handleEditComplete = (updatedAddress: Omit<Address, 'id'>) => {
-    if (!editAddress) return
-
-    setAddresses((prev) =>
-      prev.map((address) =>
-        address.id === editAddress.id
-          ? { ...address, ...updatedAddress }
-          : address,
-      ),
-    )
-    setEditAddress(null) // 수정 대상 초기화
-    setIsEditMode(false) // 편집 모드 종료
-  }
-
-  // 모달이 열릴 때 주소 목록을 가져오고 기본 주소를 선택 상태로 설정
+  // 모달이 열릴 때 주소 목록을 가져오고 matchInfos에 있는 ID들을 selectedIds에 설정
   useEffect(() => {
     if (isOpen) {
-      fetchAddresses()
+      fetchAddresses().then(() => {
+        // fetchAddresses 완료 후 matchInfos의 ID들을 selectedIds에 반영
+        const initialSelectedIds = matchInfos.map((match) => match.id)
+        setSelectedIds(initialSelectedIds)
+      })
     } else {
       // 모달이 닫힐 때 상태 초기화 (선택 사항)
       setSelectedIds([])
       setEditAddress(null)
       setIsEditMode(false)
     }
-  }, [])
-
-  useEffect(() => {
-    if (addresses.length > 0 && isOpen) {
-      // isDefault가 true인 주소를 우선적으로 선택
-      const defaultIds = addresses
-        .filter((item) => item.isDefault)
-        .map((item) => item.id)
-
-      if (defaultIds.length > 0) {
-        setSelectedIds(defaultIds)
-      } else {
-        // isDefault가 없는 경우, id가 1인 주소를 기본 선택 (존재한다면)
-        const firstAddress = addresses.find((addr) => addr.id === 1)
-        if (firstAddress) {
-          setSelectedIds([firstAddress.id])
-        } else {
-          setSelectedIds([]) // 기본 선택할 주소 없으면 초기화
-        }
-      }
-    }
-  }, [isOpen, addresses])
+  }, [isOpen, matchInfos])
 
   // 주소 선택/취소 핸들러
   const handleSelectAddress = (id: number) => {
@@ -157,17 +125,45 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
       selectedIds.includes(address.id),
     )
 
-    // 선택된 데이터를 기반으로 새로운 matchInfos 생성 (latitude, longitude 포함)
-    const newMatchInfos = selectedAddresses.map((address) => ({
-      id: address.id, // 원래 ID 유지
-      address: address.address,
-      name: address.name,
-      transportMode: address.transportMode,
-      travelTime: address.travelTime,
-      walkTime: address.walkTime,
-      latitude: address.latitude, // 위도 포함
-      longitude: address.longitude, // 경도 포함
-    }))
+    let newMatchInfos: {
+      id: number
+      address: string
+      name: string
+      transportMode: string
+      travelTime: number
+      walkTime: number
+      latitude: number
+      longitude: number
+    }[] = []
+
+    if (selectedAddresses.length > 0) {
+      // 선택된 데이터가 있을 경우 기존 로직 유지
+      newMatchInfos = selectedAddresses.map((address) => ({
+        id: address.id, // 원래 ID 유지
+        address: address.address,
+        name: address.name,
+        transportMode: address.transportMode,
+        travelTime: address.travelTime,
+        walkTime: address.walkTime,
+        latitude: address.latitude, // 위도 포함
+        longitude: address.longitude, // 경도 포함
+      }))
+    } else {
+      // 아무것도 선택하지 않았을 경우 깡통 matchInfos 생성
+      const newId = Date.now() // 간단하게 현재 시간을 ID로 사용 (실제로는 고유 ID 생성 방식 적용 권장)
+      newMatchInfos = [
+        {
+          id: newId,
+          address: '',
+          name: '',
+          transportMode: '',
+          travelTime: 0,
+          walkTime: 0,
+          latitude: 0,
+          longitude: 0,
+        },
+      ]
+    }
 
     // Zustand 스토어의 matchInfos를 초기화하고 새로운 데이터로 설정
     resetMatchInfos(newMatchInfos)
@@ -175,7 +171,7 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
     onClose() // 모달 닫기
   }
 
-  return (
+  return ReactDOM.createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       {notification && (
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded-md shadow-lg z-10">
@@ -209,6 +205,7 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
             <EditTargetModal
               isOpen={!!editAddress}
               onClose={handleAddressUpdated}
+              isDefault={editAddress.isDefault}
               initialData={{
                 id: editAddress.id,
                 address: editAddress.address,
@@ -260,15 +257,12 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
                         : handleSelectAddress(info.id) // 선택/취소 토글
                   }
                   className={`p-4 rounded-lg shadow-md cursor-pointer ${
-                    selectedIds.includes(info.id)
-                      ? 'bg-gray-300' // 선택된 경우 배경색 어두움
-                      : 'bg-white' // 선택되지 않은 경우 배경색 밝음
+                    selectedIds.includes(info.id) ? 'bg-gray-300' : 'bg-white'
                   }`}
                 >
                   {/* 주소 섹션 */}
-                  <h3 className="text-lg font-bold mb-2">주소</h3>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
                       {/* 이름 */}
                       <span className="text-md font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-lg inline-block">
                         {info.name}
@@ -283,43 +277,36 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
                   </div>
 
                   {/* 교통 섹션 */}
-                  <h3 className="text-lg font-bold mt-4 mb-2">교통</h3>
-                  <div className="flex flex-col text-gray-700">
-                    {/* 교통 수단 */}
-                    <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-2">
+                  <div className="mb-2">
+                    <h3 className="text-sm font-bold text-gray-700">교통</h3>
+                    <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-1">
                       {info.transportMode}
                     </span>
-
-                    {/* 전체 이동 시간 */}
-                    <p className="text-sm mb-1">
-                      전체 이동시간은{' '}
+                    <p className="text-xs text-gray-700">
+                      전체 이동시간:
                       <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
                         {info.travelTime}분 이내
-                      </span>{' '}
-                      이면 좋겠고,
+                      </span>
                     </p>
-
-                    {/* 도보 이동 시간 */}
-                    <p className="text-sm">
-                      도보 이동시간은{' '}
+                    <p className="text-xs text-gray-700">
+                      도보 이동시간:
                       <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
                         {info.walkTime}분 이내
-                      </span>{' '}
-                      이면 좋겠어요.
+                      </span>
                     </p>
                   </div>
 
                   {/* 기본 주소 여부 섹션 */}
-                  <div className="mt-4 flex items-center">
+                  <div className="mt-2">
                     기본 주소 여부:{' '}
                     {info.isDefault ? (
-                      <span className="ml-2 text-green-600 font-semibold">
+                      <div className="ml-2 bg-green-500 text-white py-1 px-2 rounded-md text-xs font-semibold">
                         예
-                      </span>
+                      </div>
                     ) : (
-                      <span className="ml-2 text-red-600 font-semibold">
+                      <div className="ml-2 bg-red-500 text-white py-1 px-2 rounded-md text-xs font-semibold">
                         아니오
-                      </span>
+                      </div>
                     )}
                   </div>
                 </button>
@@ -328,7 +315,8 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
           </ul>
         )}
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
