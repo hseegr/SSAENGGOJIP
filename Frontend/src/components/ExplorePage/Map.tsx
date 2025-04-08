@@ -250,8 +250,7 @@
 
 // export default KakaoMap
 
-import { useState, useRef, useEffect } from 'react'
-import CommunityModal from './Community/CommunityModal'
+import { useRef, useEffect } from 'react'
 import useSidebarStore from '@/store/sidebarStore'
 import { fetchDataByBounds } from '@/services/mapService' // fetchDataByBounds 사용
 import usePropertyStore from '@/store/propertyStore'
@@ -495,9 +494,6 @@ const KakaoMap = () => {
           로딩 중...
         </button>
       </div>
-
-      {/* 커뮤니티 영역 */}
-      <CommunityModal />
     </div>
   )
 }
