@@ -20,8 +20,6 @@ public class GraphHopperConfig {
     @Bean
     public GraphHopper graphHopper() {
         String osmPath = Paths.get("src/main/resources/map-data/south-korea-latest.osm.pbf").toString();
-        System.out.println("OSM 파일 경로: " + osmPath);
-        System.out.println("OSM 파일 존재? " + new File(osmPath).exists());
 
         String graphFolder = "graph-cache";
 
