@@ -1,11 +1,11 @@
-package com.ssaenggojip.recommend.dto;
+package com.ssaenggojip.recommend.dto.response;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class NearFacilityDto {
+public class NearFacilityResponse {
     private Long id;
     private Long facilityTypeId;
     private String name;

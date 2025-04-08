@@ -1,7 +1,7 @@
 package com.ssaenggojip.facility.repository;
 
 import com.ssaenggojip.facility.entity.Facility;
-import com.ssaenggojip.recommend.dto.NearFacilityDto;
+import com.ssaenggojip.recommend.dto.response.NearFacilityResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,7 +26,7 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
                     ") " +
                     "ORDER BY facility_type_id, distance ASC"
     )
-    List<NearFacilityDto> findNearFacilities(
+    List<NearFacilityResponse> findNearFacilities(
             @Param("lat") Double lat,
             @Param("lon") Double lon
     );

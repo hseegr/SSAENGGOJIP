@@ -5,6 +5,7 @@ import com.ssaenggojip.facility.service.FacilityService;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.repository.PropertyRepository;
 import com.ssaenggojip.recommend.dto.NearFacilityDto;
+import com.ssaenggojip.recommend.dto.response.NearFacilityResponse;
 import com.ssaenggojip.recommend.dto.request.RecommendByLocationRequest;
 import com.ssaenggojip.recommend.dto.response.FacilityPreferencesResponse;
 import com.ssaenggojip.recommend.dto.request.UpdateFacilityPreferencesRequest;
