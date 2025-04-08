@@ -30,7 +30,7 @@ export const fetchLikedProperties = async (): Promise<LikedProperty[]> => {
 export const toggleLike = async (propertyId: number) => {
   try {
     const response = await http.post(PROPERTY_END_POINT.TOGGLE_LIKE(propertyId)) // 함수를 호출하여 문자열 주소 획득
-    console.log(response)
+    console.log('좋아요 요청', response)
     return
   } catch (error) {
     console.log('좋아요 반영 중 에러: ', error)
