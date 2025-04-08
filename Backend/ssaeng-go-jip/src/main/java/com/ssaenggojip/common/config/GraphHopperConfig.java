@@ -1,6 +1,7 @@
 package com.ssaenggojip.common.config;
 
 import com.graphhopper.GraphHopper;
+import com.graphhopper.config.Profile;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.BikeFlagEncoder;
 import com.graphhopper.routing.util.CarFlagEncoder;
@@ -9,7 +10,9 @@ import com.graphhopper.routing.util.FootFlagEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.File;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Configuration
 public class GraphHopperConfig {
@@ -17,6 +20,9 @@ public class GraphHopperConfig {
     @Bean
     public GraphHopper graphHopper() {
         String osmPath = Paths.get("src/main/resources/map-data/south-korea-latest.osm.pbf").toString();
+        System.out.println("OSM 파일 경로: " + osmPath);
+        System.out.println("OSM 파일 존재? " + new File(osmPath).exists());
+
         String graphFolder = "graph-cache";
 
         // ✅ 이동 수단 추가: 자동차, 자전거, 도보
@@ -26,11 +32,19 @@ public class GraphHopperConfig {
                 .add(new FootFlagEncoder())
                 .build();
 
-        GraphHopper hopper = new GraphHopperOSM() // ✅ 여기만 GraphHopperOSM 으로 바꾸면 해결
+        // ✅ 각각의 vehicle 이름과 동일한 profile을 등록해야 함!
+        List<Profile> profiles = List.of(
+                new Profile("car").setVehicle("car").setWeighting("fastest"),
+                new Profile("bike").setVehicle("bike").setWeighting("fastest"),
+                new Profile("foot").setVehicle("foot").setWeighting("fastest")
+        );
+
+        GraphHopper hopper = new GraphHopperOSM()
                 .forServer()
                 .setDataReaderFile(osmPath)
                 .setGraphHopperLocation(graphFolder)
                 .setEncodingManager(encodingManager)
+                .setProfiles(profiles) // ✅ 꼭 넣어줘야 setProfile() 호출 시 인식됨
                 .importOrLoad();
 
         return hopper;

@@ -82,16 +82,15 @@ public class PropertyFacade {
 
     public TransportTimeResponse getTransportTime(TransportTimeRequest request) {
         TransportTimeResponse response;
-
         switch (request.getTransportationType()) {
-            case 도보 -> response = propertyService.getTransportTime(request);
+            case 도보, 차, 자전거 -> response = propertyService.getTransportTime(request);
             case 지하철 -> {
                 Property property = propertyService.getPropertyById(request.getPropertyId());
                 TransportTimeResponse responseWalk = propertyService.getTransportTime(request);
                 response = stationService.getTransportTime(request.getLongitude(), request.getLatitude(), property.getLongitude(), property.getLatitude());
                 response = response.getTotalTransportTime()< responseWalk.getTotalTransportTime() ? response: responseWalk;
             }
-            default -> throw new GeneralException(ErrorStatus._BAD_REQUEST);
+            default -> throw new GeneralException(ErrorStatus.NOT_SUPPORTED_ENUM_TYPE);
         }
 
         return response;
@@ -139,14 +138,14 @@ public class PropertyFacade {
     public Map<Long, RecommendSearchProperty> getMergedPropertiesByIndex(RecommendSearchRequest request, int index) {
         Map<Long, RecommendSearchProperty> merged = new HashMap<>();
 
-        // 도보만
-        List<RecommendSearchDto> walkOnly = propertyService.searchPropertiesWithWalkTime(request, index);
+        // 도보/차/자전거 만
+        List<RecommendSearchDto> walkOnly = propertyService.searchPropertiesWithinTime(request, index);
         for (RecommendSearchDto dto : walkOnly) {
             merged.put(dto.getId(), new RecommendSearchProperty(dto));
         }
 
         // 지하철 포함
-        if (TransportationType.valueOf(request.getAddresses().get(index).getTransportationType()) == TransportationType.지하철) {
+        if (request.getAddresses().get(index).getTransportationType() == TransportationType.지하철) {
             List<RecommendSearchDto> subwayIncluded = propertyService.getRecommendedProperties(request, index);
             for (RecommendSearchDto dto : subwayIncluded) {
                 RecommendSearchProperty existing = merged.get(dto.getId());
