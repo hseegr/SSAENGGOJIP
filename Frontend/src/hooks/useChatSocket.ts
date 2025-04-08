@@ -5,11 +5,11 @@ let stompClient: Client | null = null
 
 // ✅ 여러 채팅방을 동시에 구독할 수 있도록 Map으로 구독 정보 저장
 // key: chatRoomId, value: Subscription 객체
-let subscriptions = new Map<number, Subscription>()
+let subscriptions = new Map<string, Subscription>()
 
 // connect 함수에 넘겨줘야 하는 값들 타입 정의
 interface UseChatSocketProps {
-  chatRoomId: number // 연결할 채팅방 ID
+  chatRoomId: string // 연결할 채팅방 ID
   token: string // JWT 인증 토큰
   onMessage?: (msg: any) => void // 서버로부터 메시지를 받을 때 실행할 콜백 함수
 }
@@ -50,12 +50,13 @@ export const useChatSocket = () => {
       stompClient.activate()
     } else if (stompClient.connected) {
       // 이미 연결되어 있다면 즉시 구독 시작
+      console.log(`🔄 채팅방 ${chatRoomId} 기존 연결 재사용하여 구독 시작`)
       subscribe(chatRoomId, onMessage)
     }
   }
 
   // ✅ 특정 채팅방에 대해 구독을 시작하는 함수
-  const subscribe = (chatRoomId: number, onMessage?: (msg: any) => void) => {
+  const subscribe = (chatRoomId: string, onMessage?: (msg: any) => void) => {
     if (!stompClient || !stompClient.connected) {
       console.warn('⚠️ STOMP 클라이언트가 아직 연결되지 않았습니다.')
       return
@@ -63,18 +64,27 @@ export const useChatSocket = () => {
 
     // 이미 구독한 채팅방이라면 중복 구독 방지
     if (subscriptions.has(chatRoomId)) {
-      console.log(`ℹ️ 이미 구독 중인 채팅방: ${chatRoomId}`)
+      console.log(
+        `ℹ️ 이미 구독 중인 채팅방 ${chatRoomId} - 기존 구독 해제 후 재구독`,
+      )
       return
+      // unsubscribe(chatRoomId)
     }
 
     // STOMP 구독 시작
     const subscription = stompClient.subscribe(
-      `/sub/chatroom.${chatRoomId}`,
+      `/sub/chat-room.${chatRoomId}`,
       (message) => {
         const payload = JSON.parse(message.body)
         console.log('💬 메시지 수신:', payload)
 
-        if (onMessage) onMessage(payload)
+        // if (onMessage) onMessage(payload)
+        // 여기서 콜백 실행이 제대로 되는지 확인
+        if (onMessage) {
+          console.log('onMessage 콜백 실행 전')
+          onMessage(payload)
+          console.log('onMessage 콜백 실행 후')
+        }
       },
     )
 
@@ -83,7 +93,7 @@ export const useChatSocket = () => {
   }
 
   // ✅ 특정 채팅방에 대한 구독만 해제 (뒤로가기, 일시 이탈 등)
-  const unsubscribe = (chatRoomId: number) => {
+  const unsubscribe = (chatRoomId: string) => {
     const subscription = subscriptions.get(chatRoomId)
 
     if (subscription) {
@@ -113,5 +123,53 @@ export const useChatSocket = () => {
     }
   }
 
-  return { connect, unsubscribe, disconnect }
+  // ✅ 메시지 전송
+  const sendMessage = (payload: {
+    messageType: 'TALK' | 'DELETE' | 'REPORT'
+    chatRoomId: string
+    content?: string
+    isAnonymous?: boolean
+    messageId?: string
+  }) => {
+    if (
+      !stompClient ||
+      !stompClient.connected ||
+      typeof stompClient.publish !== 'function'
+    ) {
+      console.warn('🚫 WebSocket이 연결되지 않았습니다.')
+      return
+    }
+
+    // messageType에 따라 다른 payload 구성
+    let messagePayload = {}
+
+    // TALK인 경우
+    if (payload.messageType === 'TALK') {
+      messagePayload = {
+        messageType: payload.messageType,
+        chatRoomId: payload.chatRoomId,
+        isAnonymous: payload.isAnonymous ?? false,
+        content: payload.content ?? '',
+      }
+    }
+    // DELETE나 REPORT인 경우
+    else if (
+      payload.messageType === 'DELETE' ||
+      payload.messageType === 'REPORT'
+    ) {
+      messagePayload = {
+        messageType: payload.messageType,
+        messageId: payload.messageId, // messageId 유지
+        chatRoomId: payload.chatRoomId,
+      }
+    }
+
+    stompClient.publish({
+      destination: '/pub/chat-messages',
+      headers: {},
+      body: JSON.stringify(messagePayload),
+    })
+  }
+
+  return { connect, unsubscribe, disconnect, sendMessage }
 }

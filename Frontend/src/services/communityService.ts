@@ -28,7 +28,7 @@ export const fetchSearchChatRooms = async (
 
 // 채팅방 입장
 export const fetchEnterChatRoom = async (
-  chatRoomId: number,
+  chatRoomId: string,
 ): Promise<EmptyResponse> => {
   const res = await http.post(
     COMMUNITY_END_POINT.ENTER_CHAT_ROOM(chatRoomId),
@@ -43,6 +43,19 @@ export const fetchLeaveChatRoom = async (
 ): Promise<EmptyResponse> => {
   const res = await http.post(COMMUNITY_END_POINT.LEAVE_CHAT_ROOM(chatRoomId))
   return res.data
+}
+
+// 채팅방의 이전 메시지 불러오기
+//chatRoomId 채팅방 ID
+// lastMessageId 마지막 메시지 ID (페이징용, null이면 최신 메시지부터)
+export const fetchChatMessages = async (
+  chatRoomId: string,
+  lastMessageId?: string,
+) => {
+  const res = await http.get(`/chat-rooms/${chatRoomId}/chat-messages`, {
+    params: lastMessageId ? { lastMessageId } : undefined,
+  })
+  return res.data.result // 메시지 배열 반환
 }
 
 // 채팅 메시지 삭제

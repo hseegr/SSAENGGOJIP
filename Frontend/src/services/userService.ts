@@ -5,17 +5,17 @@ import { USER_END_POINT } from './endPoints'
 export const fetchSocialLogin = async (
     socialType: string,
     code: string
-): Promise<{ accessToken: string; isNew: boolean }> => {
+): Promise<{ accessToken: string; userId: string; isNew: boolean }> => {
     try {
         const response = await http.post(USER_END_POINT.SOCIAL_LOGIN(socialType, code))
 
-        const { accessToken, isNew } = response.data?.result ?? {}
+        const { accessToken, userId, isNew } = response.data?.result ?? {}
 
-        if (!accessToken) {
-            throw new Error('accessToken 없음')
+        if (!accessToken || !userId) {
+            throw new Error('accessToken 또는 userId 없음')
         }
 
-        return { accessToken, isNew }
+        return { accessToken, userId, isNew }
     } catch (error: any) {
         const message =
             error.response?.data?.message || '소셜 로그인 중 문제가 발생했습니다.'

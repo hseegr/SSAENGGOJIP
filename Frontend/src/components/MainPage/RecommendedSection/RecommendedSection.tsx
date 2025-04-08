@@ -92,7 +92,7 @@ type Listing = {
 const transformToListing = (property: Property): Listing => ({
   id: property.id,
   type: '원룸', // 백엔드에서 타입이 없을 경우 기본값 지정
-  price: `월세 ${property.price.toLocaleString()}원`,
+  price: `${property.price.toLocaleString()}원`,
   floor: `${property.floor}층 | ${property.area}평`,
   address: property.address || '주소 정보 없음',
   station: '내 주변', // 현재는 위치 기반 기준
@@ -105,27 +105,35 @@ const RecommendedSection = () => {
   const isLoggedIn = useUserStore((state) => state.isLoggedIn)
 
   // 로그인 여부에 따라 적절한 추천 쿼리 훅 호출
-  const { data, isLoading, isError } = isLoggedIn ? preference : location
+  const { data, isLoading, isError, error } = isLoggedIn ? preference : location
 
   // 에러 발생 시 토스트로 알림
   useEffect(() => {
     if (isError) {
+      console.error('❌ 에러 내용:', error) // 이 줄이 핵심!
       toast.error('추천 매물을 불러오지 못했습니다.')
     }
-  }, [isError])
+  }, [isError, error])
 
   // 로딩 중일 때 로딩 메시지 출력
   if (isLoading) return <div>매물 추천 로딩 중...</div>
 
   // 에러 또는 데이터 없음 시 아무것도 렌더링하지 않음 (토스트만 띄움)
-  if (isError || !data) return null
+  if (isError) return <div>추천 매물을 불러오지 못했습니다.</div>
+
+  if (!data) {
+    console.warn('❌ data가 없습니다:', data)
+    return <div>데이터 없음</div>
+  }
 
   // 디버깅용 로그
   // console.log('API 응답:', data)
   // console.log('매물 수:', data.properties.length)
 
   // 매물 데이터를 UI 카드 형태로 가공
-  const listings: Listing[] = data.properties.map(transformToListing)
+  const listings: Listing[] = data.properties
+    .slice(0, 8) // 최대 8개로 제한
+    .map(transformToListing)
   //console.log('렌더링될 listings:', listings)
 
   return (

@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css' // 스타일도 추가
 import { useUserStore } from '@/store/userStore'
 import { getUserInfo } from '@/services/userService'
 
-
 const BaseLayout = () => {
   const location = useLocation()
   const hideFooterRoutes = ['/explore', '/community'] // 푸터를 숨길 경로 목록

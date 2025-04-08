@@ -10,8 +10,6 @@ import {
 } from '@/hooks/useCommunity'
 import { useAllStationsQuery } from '@/hooks/useStation'
 import { useChatSocket } from '@/hooks/useChatSocket'
-import { fetchEnterChatRoom } from '@/services/communityService'
-const { connect, disconnect } = useChatSocket()
 
 type Props = {
   onChatOpen: () => void
@@ -35,19 +33,24 @@ const Sidebar = ({ onChatOpen }: Props) => {
   // 검색
   const { data: searchedData } = useSearchChatRoomsQuery(searchKeyword)
 
+  // const { connect } = useChatSocket()
+
   // 전체 역 받아오기
-  const { data: stationData } = useAllStationsQuery()
+  // const { data: stationData } = useAllStationsQuery()
+
+  // 현재 탭이 my인지 확인하는 상태 추가
+  const isMyTab = activeTab === 'my'
 
   // 전체 역에서 아직 생성되지 않은 채팅방 (검색어 + 기존 채팅방과 중복 x)
-  const fallbackRooms = (stationData?.result ?? []).filter(
-    (station) =>
-      station.name.includes(searchKeyword) &&
-      !chatRooms.some((room) => room.name === station.name),
-  )
+  // const fallbackRooms = (stationData?.result ?? []).filter(
+  //   (station) =>
+  //     station.name.includes(searchKeyword) &&
+  //     !chatRooms.some((room) => room.name === station.name),
+  // )
 
   // 응답 데이터가 없을 경우 대비
   const popularChatRooms = popularData?.result ?? []
-  const myChatRooms = myData?.result ?? []
+  const myChatRooms = useCommunityStore((s) => s.myChatRooms)
   const searchedChatRooms = searchedData?.result ?? []
 
   // 렌더링 채팅방 리스트 출력하기
@@ -87,40 +90,38 @@ const Sidebar = ({ onChatOpen }: Props) => {
 
   // 채팅방 클릭 시 처리
   const handleClickRoom = async (room: ChatRoom) => {
-    setSelectedChatRoom(room)
     const token = localStorage.getItem('accessToken')!
     const isAlreadyJoined = myChatRooms.some((r) => r.id === room.id)
 
-    try {
-      if (!isAlreadyJoined) {
-        // 처음 입장한 채팅방이면 API 호출
-        console.log('📤 입장 요청 시작', room.id)
-        await fetchEnterChatRoom(room.id)
-        console.log('✅ 입장 성공')
-      } else {
-        console.log('🟢 이미 참여한 채팅방 → API 생략')
-      }
-    } catch (err: any) {
-      const status = err?.response?.status
-      if (status !== 400 && status !== 409) {
-        console.error('❌ 입장 실패:', err)
-        alert('채팅방 입장에 실패했습니다.')
-        return
-      } else {
-        console.warn('⚠️ 이미 입장한 채팅방입니다. 연결만 진행')
-      }
-    }
+    // 선택한 채팅방을 상태에 저장 (오버레이 or 모달용)
+    setSelectedChatRoom(room)
 
-    connect({
-      chatRoomId: room.id,
-      token,
-      onMessage: (msg) => console.log('📩 받은 메시지:', msg),
-    })
-    onChatOpen()
+    if (isAlreadyJoined) {
+      console.log('🟢 이미 참여한 채팅방 → 모달 열기', room.id)
+
+      // connect({
+      //   chatRoomId: room.id,
+      //   token,
+      //   onMessage: (msg) => console.log('📩 받은 메시지:', msg),
+      // })
+
+      onChatOpen()
+    } else {
+      console.log('🟡 참여하지 않은 채팅방 → 오버레이만 표시', room.id)
+      // 참여하기 버튼 눌러야 입장/연결됨 (MapView.tsx에서 처리)
+      // 이미 모달이 열려있다면 닫기 (중요!)
+    }
   }
 
   return (
-    <aside className="w-96 border-r border-ssaeng-gray-1 bg-white py-6">
+    <aside
+      className="w-96 border-r border-ssaeng-gray-1 bg-white py-6"
+      style={{
+        height: '100vh',
+        overflowY: 'auto',
+        flexShrink: 0, //
+      }}
+    >
       {/* 탭 */}
       <div className="flex -ml-0 text-base font-semibold border-b border-ssaeng-gray-2 w-64">
         <button
@@ -163,7 +164,7 @@ const Sidebar = ({ onChatOpen }: Props) => {
         </h3>
       )}
       <ul className="space-y-2">
-        {chatRooms.length === 0 && fallbackRooms.length === 0 ? (
+        {chatRooms.length === 0 ? (
           <li className="text-ssaeng-gray-2 text-sm flex ml-16 mt-3">
             검색 결과가 없습니다.
           </li>
@@ -177,7 +178,7 @@ const Sidebar = ({ onChatOpen }: Props) => {
               />
             ))}
             {/* 아직 생성되지 않았지만 추천 가능한 역 목록 */}
-            {fallbackRooms.map((station) => (
+            {/* {fallbackRooms.map((station) => (
               <ChatRoomCard
                 key={station.id}
                 chatRoom={{
@@ -188,7 +189,7 @@ const Sidebar = ({ onChatOpen }: Props) => {
                 }}
                 onClick={handleClickRoom}
               />
-            ))}
+            ))} */}
           </>
         )}
       </ul>

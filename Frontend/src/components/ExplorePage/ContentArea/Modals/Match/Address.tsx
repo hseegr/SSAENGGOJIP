@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Search } from 'lucide-react'
 import DaumPostcode from 'react-daum-postcode'
 
-// 간소화된 인터페이스
+// 주소 인터페이스
 interface AddressProps {
   address: string
   setAddress: React.Dispatch<React.SetStateAction<string>>
@@ -15,18 +15,60 @@ interface AddressProps {
 const Address: React.FC<AddressProps> = ({
   address,
   setAddress,
-  name,
+  name: initialName, // 이전 name prop을 initialName으로 변경
   setName,
   setLatitude,
   setLongitude,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [nameType, setNameType] = useState('')
-  const [customName, setCustomName] = useState('')
-  const [isValidName, setIsValidName] = useState(false)
-  const [confirmedName, setConfirmedName] = useState(name)
+  const [selectedNameType, setSelectedNameType] = useState<
+    '직접 입력' | '직장' | '학교' | ''
+  >('')
+  const [customNameInput, setCustomNameInput] = useState('')
+  const [nameError, setNameError] = useState(false)
 
-  // 좌표 변환 로직 수정
+  // ✅ 초기 값 설정 (마운트 시 한 번만 실행)
+  useEffect(() => {
+    if (initialName === '직장' || initialName === '학교') {
+      setSelectedNameType(initialName)
+      setCustomNameInput('')
+    } else if (initialName) {
+      setSelectedNameType('직접 입력')
+      setCustomNameInput(initialName)
+    } else {
+      setSelectedNameType('')
+      setCustomNameInput('')
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // 빈 의존성 배열로 마운트 시에만 실행
+
+  const handleNameButtonClick = (type: '직접 입력' | '직장' | '학교') => {
+    setSelectedNameType(type)
+    if (type === '직접 입력') {
+      setCustomNameInput('')
+      setNameError(false)
+      setName('') // 부모 상태 업데이트 (사용자 액션에 따른 변경)
+    } else {
+      setCustomNameInput('')
+      setNameError(false)
+      setName(type) // 부모 상태 업데이트 (사용자 액션에 따른 변경)
+    }
+  }
+
+  const handleCustomNameInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const value = event.target.value
+    setCustomNameInput(value)
+    if (value.length > 5) {
+      setNameError(true)
+    } else {
+      setNameError(false)
+      setName(value) // 입력 중에도 부모 상태 업데이트
+    }
+  }
+
+  // 좌표 변환 로직 (기존 코드 유지)
   const handleComplete = async (data: any) => {
     try {
       const { roadAddress } = data
@@ -51,43 +93,16 @@ const Address: React.FC<AddressProps> = ({
     }
   }
 
-  // 모달 열기/닫기
+  // 모달 열기/닫기 (기존 코드 유지)
   const openModal = () => setIsModalOpen(true)
   const closeModal = () => setIsModalOpen(false)
-
-  // 이름 타입 변경 핸들러
-  const handleNameTypeChange = (type: string) => {
-    setNameType(type)
-    if (type !== '직접 입력') {
-      setCustomName(type)
-      setConfirmedName(type)
-      setName(type) // 부모 상태 업데이트
-    }
-  }
-
-  // 이름 입력 핸들러
-  const handleNameInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const value = event.target.value
-    setCustomName(value)
-    setIsValidName(value.length >= 1 && value.length <= 5) // 유효성 검사
-  }
-
-  // 이름 확인 핸들러
-  const handleConfirmName = () => {
-    if (isValidName) {
-      setConfirmedName(customName)
-      setName(customName) // 부모 상태 업데이트
-    }
-  }
 
   return (
     <div>
       <p>주소</p>
       <h2 className="text-lg font-bold mb-4">주소 설정</h2>
 
-      {/* 주소 검색창 */}
+      {/* 주소 검색창 (기존 코드 유지) */}
       <div className="mb-4">
         <div className="relative">
           <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
@@ -104,7 +119,7 @@ const Address: React.FC<AddressProps> = ({
           />
         </div>
 
-        {/* 주소 검색 모달 */}
+        {/* 주소 검색 모달 (기존 코드 유지) */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg relative w-full max-w-md">
@@ -120,60 +135,46 @@ const Address: React.FC<AddressProps> = ({
         )}
       </div>
 
-      {/* 이름 설정 */}
+      {/* 이름 설정 (이전 코드 이식) */}
       <div>
         <h3 className="text-sm font-medium text-gray-700">이름 설정</h3>
         <div className="flex space-x-4 mt-2">
           {['직접 입력', '직장', '학교'].map((type) => (
             <button
               key={type}
-              onClick={() => handleNameTypeChange(type)}
-              className={`py-2 px-4 rounded-lg ${
-                nameType === type
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-200 text-gray-700'
-              }`}
+              onClick={() =>
+                handleNameButtonClick(type as '직접 입력' | '직장' | '학교')
+              }
+              className={`py-2 px-4 rounded-lg text-sm font-medium transition-all
+                ${
+                  selectedNameType === type
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
             >
               {type}
             </button>
           ))}
         </div>
 
-        {/* 직접 입력일 때만 이름 입력창 표시 */}
-        {nameType === '직접 입력' && (
-          <div className="mt-4 flex items-center space-x-2">
+        {selectedNameType === '직접 입력' && (
+          <div className="mt-4">
             <input
               type="text"
-              value={customName}
-              onChange={handleNameInputChange}
-              placeholder="이름을 입력하세요"
-              className={`flex-1 border rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500 ${
-                !isValidName && customName.length > 5
-                  ? 'border-red-500'
-                  : 'border-gray-300'
+              placeholder="이름을 입력해주세요."
+              value={customNameInput}
+              onChange={handleCustomNameInputChange}
+              className={`w-full border rounded-md py-2 px-3 text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
+                nameError ? 'border-red-500' : 'border-gray-300'
               }`}
+              maxLength={5}
             />
-            <button
-              onClick={handleConfirmName}
-              disabled={!isValidName}
-              className={`py-2 px-4 rounded-lg ${
-                confirmedName
-                  ? 'bg-purple-500 text-white hover:bg-purple-600'
-                  : isValidName
-                    ? 'bg-green-500 text-white hover:bg-green-600'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              확인
-            </button>
+            {nameError && (
+              <p className="text-xs text-red-500 mt-1 text-left pl-1">
+                최대 5자까지 입력할 수 있어요.
+              </p>
+            )}
           </div>
-        )}
-
-        {/* 에러 메시지 출력 */}
-        {!isValidName && customName.length > 5 && (
-          <p className="text-sm text-red-500 mt-1">
-            5글자 이내로 입력해주세요.
-          </p>
         )}
       </div>
     </div>

@@ -32,9 +32,9 @@ const useFilterStore = create<FilterState>((set) => ({
   propertyTypes: [],
   dealType: '',
   MindepositPrice: 0,
-  MinmonthlyPrice: 10000000000,
-  MaxdepositPrice: 0,
-  MaxmonthlyPrice: 10000000000,
+  MinmonthlyPrice: 0,
+  MaxdepositPrice: 200000000,
+  MaxmonthlyPrice: 200000000,
   additionalFilters: [],
 
   // 매물 유형 설정
@@ -58,9 +58,9 @@ const useFilterStore = create<FilterState>((set) => ({
       propertyTypes: [],
       dealType: '',
       MindepositPrice: 0,
-      MinmonthlyPrice: 10000000000,
-      MaxdepositPrice: 0,
-      MaxmonthlyPrice: 10000000000,
+      MinmonthlyPrice: 0,
+      MaxdepositPrice: 200000000,
+      MaxmonthlyPrice: 200000000,
       additionalFilters: [],
     }),
 }))
