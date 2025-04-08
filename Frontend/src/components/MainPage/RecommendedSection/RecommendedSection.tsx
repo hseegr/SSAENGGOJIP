@@ -92,7 +92,7 @@ type Listing = {
 const transformToListing = (property: Property): Listing => ({
   id: property.id,
   type: '원룸', // 백엔드에서 타입이 없을 경우 기본값 지정
-  price: `월세 ${property.price.toLocaleString()}원`,
+  price: `${property.price.toLocaleString()}원`,
   floor: `${property.floor}층 | ${property.area}평`,
   address: property.address || '주소 정보 없음',
   station: '내 주변', // 현재는 위치 기반 기준
