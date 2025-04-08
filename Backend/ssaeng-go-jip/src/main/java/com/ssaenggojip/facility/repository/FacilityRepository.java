@@ -1,7 +1,7 @@
 package com.ssaenggojip.facility.repository;
 
 import com.ssaenggojip.facility.entity.Facility;
-import com.ssaenggojip.recommend.dto.response.NearFacilityResponse;
+import com.ssaenggojip.facility.entity.NearFacilityResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
