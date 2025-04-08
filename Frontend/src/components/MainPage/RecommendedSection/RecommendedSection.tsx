@@ -100,6 +100,7 @@ const transformToListing = (property: Property): Listing => ({
 
 const RecommendedSection = () => {
   // 전역 로그인 상태 가져오기 (Zustand 등에서 관리 중)
+  // 로그인 사용자용 선호도 기반 추천 (새로운 파라미터 형식으로 호출)
   const preference = usePreferenceRecommendations(8)
   const location = useLocationRecommendations()
   const isLoggedIn = useUserStore((state) => state.isLoggedIn)
