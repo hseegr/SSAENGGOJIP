@@ -10,8 +10,8 @@ import { useSearchParamsStore } from '@/store/searchParamsStore'
 import { fetchMatchSearchWithQuery } from '@/services/mapService'
 import { convertTimeStringToMinutes } from '@/utils/timeUtiles'
 import useFilterStore from '@/store/filterStore'
-import Card from '../SearchCard'
 import MatchCard from './Match/MatchCard'
+import { getTargetAddress } from '@/services/targetService'
 
 interface MatchInfo {
   id: number
@@ -56,10 +56,24 @@ const CustomInfo: React.FC = () => {
 
   // 최초 렌더링 시 빈 맞춤 정보 슬롯 하나 추가
   useEffect(() => {
-    addMatchInfo()
-  }, [addMatchInfo])
+    if (isLoggedIn) {
+      const fetchTargetAddress = async () => {
+        const target = await getTargetAddress() // 비동기 함수로 가정
+        console.log(target)
+        if (target && target.length > 0) {
+          addMatchInfo(target[0].id, target[0]) // 첫 번째 데이터를 초기 데이터로 사용
+        } else {
+          addMatchInfo() // 타겟 주소 없으면 빈 슬롯 추가
+        }
+      }
 
-  const handleBoxClick = (id: number, initialPage: number = 1) => {
+      fetchTargetAddress()
+    } else {
+      addMatchInfo() // 로그인 안 했으면 빈 슬롯 추가
+    }
+  }, [isLoggedIn, getTargetAddress, addMatchInfo])
+
+  const handleBoxClick = (id: number, initialPage: 1) => {
     console.log(`Selected Box ID: ${id}, Initial Page: ${initialPage}`)
     setSelectedBoxId(id)
     setInitialModalPage(initialPage) // 초기 페이지 설정

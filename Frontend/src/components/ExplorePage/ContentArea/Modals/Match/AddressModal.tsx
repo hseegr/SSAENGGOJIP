@@ -30,7 +30,7 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
   const [isEditMode, setIsEditMode] = useState(false) // 편집 모드 상태
   const [editAddress, setEditAddress] = useState<Address | null>(null) // 수정할 주소 데이터
   const [notification, setNotification] = useState<string | null>(null)
-  const { resetMatchInfos } = useMatchInfoStore()
+  const { matchInfos, resetMatchInfos } = useMatchInfoStore()
 
   const showNotification = (message: string) => {
     setNotification(message)
@@ -44,7 +44,6 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
     setIsLoading(true)
     try {
       const data = await getTargetAddress()
-      console.log('최초 접속 API', data)
       setAddresses(data)
     } catch (error) {
       console.error('주소 목록을 불러오는 데 실패했습니다:', error)
@@ -75,38 +74,21 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
     }
   }
 
-  // 모달이 열릴 때 주소 목록을 가져오고 기본 주소를 선택 상태로 설정
+  // 모달이 열릴 때 주소 목록을 가져오고 matchInfos에 있는 ID들을 selectedIds에 설정
   useEffect(() => {
     if (isOpen) {
-      fetchAddresses()
+      fetchAddresses().then(() => {
+        // fetchAddresses 완료 후 matchInfos의 ID들을 selectedIds에 반영
+        const initialSelectedIds = matchInfos.map((match) => match.id)
+        setSelectedIds(initialSelectedIds)
+      })
     } else {
       // 모달이 닫힐 때 상태 초기화 (선택 사항)
       setSelectedIds([])
       setEditAddress(null)
       setIsEditMode(false)
     }
-  }, [])
-
-  useEffect(() => {
-    if (addresses.length > 0 && isOpen) {
-      // isDefault가 true인 주소를 우선적으로 선택
-      const defaultIds = addresses
-        .filter((item) => item.isDefault)
-        .map((item) => item.id)
-
-      if (defaultIds.length > 0) {
-        setSelectedIds(defaultIds)
-      } else {
-        // isDefault가 없는 경우, id가 1인 주소를 기본 선택 (존재한다면)
-        const firstAddress = addresses.find((addr) => addr.id === 1)
-        if (firstAddress) {
-          setSelectedIds([firstAddress.id])
-        } else {
-          setSelectedIds([]) // 기본 선택할 주소 없으면 초기화
-        }
-      }
-    }
-  }, [isOpen, addresses])
+  }, [isOpen, matchInfos])
 
   // 주소 선택/취소 핸들러
   const handleSelectAddress = (id: number) => {
@@ -275,15 +257,12 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
                         : handleSelectAddress(info.id) // 선택/취소 토글
                   }
                   className={`p-4 rounded-lg shadow-md cursor-pointer ${
-                    selectedIds.includes(info.id)
-                      ? 'bg-gray-300' // 선택된 경우 배경색 어두움
-                      : 'bg-white' // 선택되지 않은 경우 배경색 밝음
+                    selectedIds.includes(info.id) ? 'bg-gray-300' : 'bg-white'
                   }`}
                 >
                   {/* 주소 섹션 */}
-                  <h3 className="text-lg font-bold mb-2">주소</h3>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-col">
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
                       {/* 이름 */}
                       <span className="text-md font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-lg inline-block">
                         {info.name}
@@ -298,29 +277,22 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
                   </div>
 
                   {/* 교통 섹션 */}
-                  <h3 className="text-lg font-bold mt-4 mb-2">교통</h3>
-                  <div className="flex flex-col text-gray-700">
-                    {/* 교통 수단 */}
-                    <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-2">
+                  <div className="mb-2">
+                    <h3 className="text-sm font-bold text-gray-700">교통</h3>
+                    <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-1">
                       {info.transportMode}
                     </span>
-
-                    {/* 전체 이동 시간 */}
-                    <p className="text-sm mb-1">
-                      전체 이동시간은{' '}
+                    <p className="text-xs text-gray-700">
+                      전체 이동시간:
                       <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
                         {info.travelTime}분 이내
-                      </span>{' '}
-                      이면 좋겠고,
+                      </span>
                     </p>
-
-                    {/* 도보 이동 시간 */}
-                    <p className="text-sm">
-                      도보 이동시간은{' '}
+                    <p className="text-xs text-gray-700">
+                      도보 이동시간:
                       <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
                         {info.walkTime}분 이내
-                      </span>{' '}
-                      이면 좋겠어요.
+                      </span>
                     </p>
                   </div>
 
