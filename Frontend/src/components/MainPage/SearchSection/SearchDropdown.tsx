@@ -4,7 +4,7 @@ import { LocationSearchResult, searchLocations } from '@/services/searchService'
 
 type Props = {
   query: string
-  onSelect: (name: string, lat: number, lng: number) => void
+  onSelect: (item: any) => void
   highlightedIndex: number
 }
 
@@ -73,7 +73,7 @@ const SearchDropdown = ({ query, onSelect, highlightedIndex }: Props) => {
         results.map((item, idx) => (
           <li
             key={`${item.type}-${item.name}-${idx}`}
-            onClick={() => onSelect(item.name, item.latitude, item.longitude)}
+            onClick={() => onSelect(item)}
             className={`
               flex items-center justify-between px-3 py-3 cursor-pointer
               ${highlightedIndex === idx ? 'bg-ssaeng-gray-3 rounded-lg' : 'hover:bg-ssaeng-gray-3 hover:rounded-lg'}

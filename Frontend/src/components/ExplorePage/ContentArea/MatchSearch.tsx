@@ -6,6 +6,12 @@ import PropertyFilter from './Modals/Match/PropertyInfo'
 import { useUserStore } from '@/store/userStore'
 import matchSearchStore from '@/store/matchSearchStore'
 import MatchSearchResults from './Match/MatchSearchResult'
+import { useSearchParamsStore } from '@/store/searchParamsStore'
+import { fetchMatchSearchWithQuery } from '@/services/mapService'
+import { convertTimeStringToMinutes } from '@/utils/timeUtiles'
+import useFilterStore from '@/store/filterStore'
+import Card from '../SearchCard'
+import MatchCard from './Match/MatchCard'
 
 const CustomInfo: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -14,6 +20,27 @@ const CustomInfo: React.FC = () => {
   const { resetMatchInfos, matchInfos, addMatchInfo } = useMatchInfoStore()
   const { isSearching } = matchSearchStore()
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false)
+
+  // Zustand 스토어에서 맞춤 검색 파라미터 가져오기
+  // 메인 페이지 검색 관련 코드
+  const { customSearchQuery, customSearchLat, customSearchLng, travelTime } =
+    useSearchParamsStore()
+
+  // 필터 스토어 가져오기
+  // 메인 페이지 검색 관련 코드
+  const {
+    propertyTypes,
+    dealType,
+    MindepositPrice,
+    MinmonthlyPrice,
+    MaxdepositPrice,
+    MaxmonthlyPrice,
+    additionalFilters,
+  } = useFilterStore()
+
+  // 맞춤 검색 결과를 위한 상태 추가
+  // 메인 페이지 검색 관련 코드
+  const [searchResults, setSearchResults] = useState<any[]>([])
 
   // 최초 렌더링 시 빈 맞춤 정보 슬롯 하나 추가
   useEffect(() => {
@@ -74,10 +101,86 @@ const CustomInfo: React.FC = () => {
     }
   }
 
+  // ✅ customSearchQuery 변경 시 자동으로 맞춤 검색 API 호출
+  // 메인 페이지 검색 관련 코드
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!customSearchQuery.trim()) return
+
+      try {
+        console.log('💬 맞춤 검색 자동 실행 - 쿼리:', customSearchQuery)
+        console.log('⏱️ 설정된 시간:', travelTime)
+
+        // 시간 문자열을 숫자로 변환
+        const timeValue = convertTimeStringToMinutes(travelTime)
+
+        // API 호출
+        const results = await fetchMatchSearchWithQuery(
+          customSearchQuery,
+          timeValue,
+          {
+            propertyTypes,
+            dealType,
+            MindepositPrice,
+            MinmonthlyPrice,
+            MaxdepositPrice,
+            MaxmonthlyPrice,
+            additionalFilters,
+          },
+          customSearchLat,
+          customSearchLng,
+        )
+
+        console.log('✅ 맞춤 검색 결과:', results)
+
+        // 결과 처리 및 상태 업데이트
+        if (results && results.properties) {
+          setSearchResults(results.properties)
+        } else {
+          setSearchResults([])
+        }
+      } catch (err) {
+        console.error('❌ 맞춤 검색 자동 실행 중 오류:', err)
+        setSearchResults([])
+      }
+    }
+
+    fetchData()
+  }, [customSearchQuery])
+
   return (
     <div className="mb-6">
       {isSearching ? (
         <MatchSearchResults />
+      ) : searchResults.length > 0 ? (
+        // 맞춤 검색 결과 표시
+        <div className="flex flex-col gap-4 pt-4">
+          <h2 className="text-lg font-bold mb-4">맞춤 검색 결과</h2>
+          {searchResults.map((item) => (
+            <MatchCard
+              key={item.id}
+              id={Number(item.id)}
+              title={item.title}
+              propertyType={item.propertyType}
+              dealType={item.dealType}
+              totalFloor={item.totalFloor}
+              floor={item.floor}
+              area={item.area}
+              price={item.price}
+              managementFee={item.maintenancePrice}
+              isRecommend={item.isRecommend}
+              imageUrl={item.imageUrl}
+              transportTimes={item.transportTimes}
+              latitude={item.latitude}
+              longitude={item.longitude}
+            />
+          ))}
+        </div>
+      ) : customSearchQuery ? (
+        // 검색어는 있지만 결과가 없는 경우
+        <div className="text-center text-gray-500 py-8">
+          "{customSearchQuery}" 검색 결과가 없습니다.
+        </div>
       ) : (
         <>
           {/* 상단 텍스트와 버튼 */}

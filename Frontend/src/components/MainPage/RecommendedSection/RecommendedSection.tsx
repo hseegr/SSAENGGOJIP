@@ -131,7 +131,9 @@ const RecommendedSection = () => {
   // console.log('매물 수:', data.properties.length)
 
   // 매물 데이터를 UI 카드 형태로 가공
-  const listings: Listing[] = data.properties.map(transformToListing)
+  const listings: Listing[] = data.properties
+    .slice(0, 8) // 최대 8개로 제한
+    .map(transformToListing)
   //console.log('렌더링될 listings:', listings)
 
   return (

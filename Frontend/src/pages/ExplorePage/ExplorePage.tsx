@@ -167,10 +167,6 @@ const ExplorePage = () => {
     filters,
     setActiveTab,
     setTitles,
-    generalSearchLat,
-    generalSearchLng,
-    customSearchLat,
-    customSearchLng,
   ])
 
   return (
