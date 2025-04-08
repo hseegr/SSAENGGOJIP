@@ -40,7 +40,7 @@ public class RecommendController {
             @RequestBody @Valid RecommendByPreferencesRequest request,
             @AuthUser User user
     ) {
-        return ApiResponse.onSuccess(recommendService.findTopKByPreferences(user, request.getK()));
+        return ApiResponse.onSuccess(recommendService.findTopKByPreferences(user, request));
     }
 
     @PostMapping("/by-locations")

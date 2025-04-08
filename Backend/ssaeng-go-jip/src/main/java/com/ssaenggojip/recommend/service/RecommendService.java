@@ -41,9 +41,18 @@ public class RecommendService {
     }
 
     @Transactional(readOnly = true)
-    public RecommendPropertyListResponse findTopKByPreferences(User user, int k) {
+    public RecommendPropertyListResponse findTopKByPreferences(
+            User user,
+            RecommendByPreferencesRequest request
+    ) {
         String preferences = Arrays.toString(user.getFacilityPreferences().toArray());
-        List<Property> properties = propertyRepository.findTopKByFacilityNearness(preferences, k);
+        List<Property> properties = propertyRepository.findTopKByVector(
+                request.getLongitude(),
+                request.getLatitude(),
+                request.getRadius(),
+                preferences,
+                request.getK()
+        );
         return RecommendPropertyListResponse.from(properties);
     }
 
