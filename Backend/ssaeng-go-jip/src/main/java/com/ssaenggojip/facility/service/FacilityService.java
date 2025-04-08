@@ -26,7 +26,10 @@ public class FacilityService {
 
     @Transactional
     public List<NearFacilityResponse> findNearestFacilities(Double latitude, Double longitude) {
-        List<NearFacilityResponse> nearFacilities = new ArrayList<>(8);
+        List<NearFacilityResponse> nearFacilities = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            nearFacilities.add(new NearFacilityResponse());
+        }
         for(NearFacilityResponse facility : facilityRepository.findNearFacilities(latitude, longitude)) {
             nearFacilities.set((int) (facility.getFacilityTypeId() - 1), facility );
         }
