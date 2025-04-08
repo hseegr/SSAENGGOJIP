@@ -82,9 +82,21 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
                     "WHERE ST_DWithin(" +
                     "geography(ST_SetSRID(ST_Point(longitude, latitude), 4326)), " +
                     "geography(ST_SetSRID(ST_Point(:lng, :lat), 4326)), " +
-                    ":radius) "
+                    ":radius) " +
+                    "ORDER BY ST_Distance(" +
+                    "   geom, " +
+                    "   geography(" +
+                    "       ST_SetSRID(ST_Point(:lng, :lat), 4326)" +
+                    "   )" +
+                    ") ASC " +
+                    "LIMIT 100 "
     )
-    List<Property> findByFacilityNearness(@Param("lng") Double lng, @Param("lat") Double lat, @Param("radius") Double radius);
+    List<Property> findByLocation(
+            @Param("lng") Double lng,
+            @Param("lat") Double lat,
+            @Param("radius") Double radius
+    );
+
     @Query(value = """
     SELECT 
         *
