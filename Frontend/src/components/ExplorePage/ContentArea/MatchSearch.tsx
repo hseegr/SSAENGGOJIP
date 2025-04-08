@@ -10,7 +10,7 @@ import { useSearchParamsStore } from '@/store/searchParamsStore'
 import { fetchMatchSearchWithQuery } from '@/services/mapService'
 import { convertTimeStringToMinutes } from '@/utils/timeUtiles'
 import useFilterStore from '@/store/filterStore'
-import MatchCard from './Match/MatchCard'
+// import MatchCard from './Match/MatchCard'
 import { getTargetAddress } from '@/services/targetService'
 
 interface MatchInfo {
@@ -180,34 +180,10 @@ const CustomInfo: React.FC = () => {
     <div className="mb-6">
       {isSearching ? (
         <MatchSearchResults />
-      ) : searchResults.length > 0 ? (
-        // 맞춤 검색 결과 표시
-        <div className="flex flex-col gap-4 pt-4">
-          <h2 className="text-lg font-bold mb-4">맞춤 검색 결과</h2>
-          {searchResults.map((item) => (
-            <MatchCard
-              key={item.id}
-              id={Number(item.id)}
-              title={item.title}
-              propertyType={item.propertyType}
-              dealType={item.dealType}
-              totalFloor={item.totalFloor}
-              floor={item.floor}
-              area={item.area}
-              price={item.price}
-              managementFee={item.maintenancePrice}
-              isRecommend={item.isRecommend}
-              imageUrl={item.imageUrl}
-              transportTimes={item.transportTimes}
-              latitude={item.latitude}
-              longitude={item.longitude}
-            />
-          ))}
-        </div>
       ) : customSearchQuery ? (
         // 검색어는 있지만 결과가 없는 경우
         <div className="text-center text-gray-500 py-8">
-          "{customSearchQuery}" 검색 결과가 없습니다.
+          &quot;{customSearchQuery}&quot; 검색 결과가 없습니다.
         </div>
       ) : (
         <>

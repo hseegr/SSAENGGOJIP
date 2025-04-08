@@ -11,6 +11,8 @@ import ContentArea from './ContentArea'
 import PropertyDetail from '@/components/common/property/PropertyDetail'
 import useMatchInfoStore from '@/store/matchInfoStore'
 import { create } from 'zustand'
+import useMatchSearchResultStore from '@/store/searchResultStore'
+import matchSearchStore from '@/store/matchSearchStore'
 
 interface Property {
   id: number
@@ -53,6 +55,8 @@ const Sidebar: React.FC = () => {
     setContentAreaCollapsed,
   } = useSidebarStore()
   const { initializeStore } = useMatchInfoStore()
+  const { resetResults } = useMatchSearchResultStore()
+  const { setIsSearching } = matchSearchStore()
 
   const clickSidebar = (
     tab: 'normal_search' | 'match_search' | 'favorites' | null,
@@ -62,6 +66,8 @@ const Sidebar: React.FC = () => {
       setSelectedCard(null)
       clearMatchCard()
       setContentAreaCollapsed(false)
+      resetResults()
+      setIsSearching(false)
       return
     }
 
@@ -70,6 +76,8 @@ const Sidebar: React.FC = () => {
     clearMatchCard()
     initializeStore()
     setContentAreaCollapsed(false)
+    resetResults()
+    setIsSearching(false)
   }
 
   return (
