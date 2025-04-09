@@ -99,8 +99,15 @@ public class PropertyFacade {
         switch (request.getTransportationType()) {
             case 도보, 차, 자전거 -> response = propertyService.getTransportTime(request);
             case 지하철 -> {
+
                 Property property = propertyService.getPropertyById(request.getPropertyId());
-                TransportTimeResponse responseWalk = propertyService.getTransportTime(request);
+                TransportTimeRequest walkRequest = TransportTimeRequest.builder()
+                        .propertyId(request.getPropertyId())
+                        .latitude(request.getLatitude())
+                        .longitude(request.getLongitude())
+                        .transportationType(TransportationType.도보)
+                        .build();
+                TransportTimeResponse responseWalk = propertyService.getTransportTime(walkRequest);
                 response = stationService.getTransportTime(request.getLongitude(), request.getLatitude(), property.getLongitude(), property.getLatitude());
                 response = response.getTotalTransportTime()< responseWalk.getTotalTransportTime() ? response: responseWalk;
             }
