@@ -32,13 +32,18 @@ const MatchSearchResults = () => {
   const [filteredResults, setFilteredResults] = useState<ResultItem[]>([])
 
   useEffect(() => {
+    console.log('Results from store:', results)
+    console.log('Results properties:', results?.properties)
+
     // results가 업데이트될 때 filteredResults를 초기화하고 가격순으로 정렬
     if (results && results.properties) {
       const initialSort = [...(results.properties as ResultItem[])].sort(
         (a, b) => a.price - b.price,
       )
+      console.log('Filtered results after sorting:', initialSort)
       setFilteredResults(initialSort)
     } else {
+      console.log('No results to filter')
       setFilteredResults([])
     }
   }, [results])

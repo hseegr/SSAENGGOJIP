@@ -5,6 +5,7 @@ import usePriceStore from '@/store/matchPriceStore'
 import { fetchMatchSearchResults } from '@/services/mapService'
 import matchSearchStore from '@/store/matchSearchStore'
 import useSearchResultStore from '@/store/searchResultStore'
+import useMatchSearchResultStore from '@/store/searchResultStore'
 
 const PropertyFilter = () => {
   const {
@@ -67,7 +68,11 @@ const PropertyFilter = () => {
       console.log(requestData)
       setIsSearching(true)
       const data = await fetchMatchSearchResults(requestData) // API 호출
+      console.log('API 응답 데이터 구조:', data)
+      console.log('properties 배열:', data.properties)
       setResults(data)
+      const storeState = useMatchSearchResultStore.getState()
+      console.log('Current store state:', storeState)
       // 변환된 교통 수단 모드 저장
       setTransportModes(transportModes)
       console.log('Response:', data) // 응답 데이터 출력
