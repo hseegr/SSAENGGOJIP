@@ -2,12 +2,16 @@ import ItemCard from './ItemCard'
 
 type Listing = {
   id: number
-  type: string
+  name: string
   price: string
-  floor: string
+  area: number
   address: string
-  station: string
-  imageUrl?: string
+  floor: string
+  latitude: number
+  longitude: number
+  mainImage: string | null
+  dealType: string
+  propertyType: string
 }
 
 type Props = {

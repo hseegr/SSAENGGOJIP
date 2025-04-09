@@ -13,6 +13,8 @@ import {
 import { convertTimeStringToMinutes } from '@/utils/timeUtiles'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import matchSearchStore from '@/store/matchSearchStore'
+import useMatchSearchResultStore from '@/store/searchResultStore'
 
 const ExplorePage = () => {
   // React Router hooks
@@ -143,7 +145,15 @@ const ExplorePage = () => {
             )
 
             // 사이드바 스토어에 저장
+            console.log('🟣 매물 ID 저장 완료:', propertyIds)
             setTitles(propertyIds)
+
+            usePropertyStore.getState().setProperties(result.properties)
+
+            console.log('🟢 매물 리스트 저장 완료:', result.properties)
+            useMatchSearchResultStore.getState().setResults(result)
+
+            matchSearchStore.getState().setIsSearching(true)
           }
         })
         .catch((error) => {
