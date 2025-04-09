@@ -78,7 +78,7 @@ const Card: React.FC<CardProps> = ({
         )}
         {imageUrl ? (
           <img
-            src={imageUrl}
+            src={`${imageUrl}?w=800&h=600`}
             alt={title ?? '이미지'}
             className="w-full h-full object-cover rounded-lg p-2"
           />
@@ -112,14 +112,11 @@ const Card: React.FC<CardProps> = ({
         <div className="flex">
           <p className="text-base font-bold text-gray-700 pr-2">{dealType}</p>
           <p className="text-base font-bold text-gray-700">
-            {formatPrice(price)}
+            {dealType === '월세'
+              ? `${formatPrice(price)} / ${formatPrice(rentPrice)}`
+              : formatPrice(price)}
           </p>
         </div>
-        {rentPrice && (
-          <p className="text-sm text-gray-500">
-            월세: {formatPrice(rentPrice)}
-          </p>
-        )}
         <p className="flex text-sm text-gray-500">
           관리비{' '}
           {managementFee ? `${managementFee.toLocaleString()}원` : '없음'}

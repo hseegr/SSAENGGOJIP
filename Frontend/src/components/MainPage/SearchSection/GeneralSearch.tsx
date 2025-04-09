@@ -68,7 +68,7 @@ const GeneralSearch = () => {
           {/* 입력창 */}
           <input
             type="text"
-            placeholder="지역명, 지하철역을 입력해 주세요."
+            placeholder="지하철역을 입력해 주세요. (예. 잠실역)"
             value={query}
             onChange={(e) => {
               setQuery(e.target.value)

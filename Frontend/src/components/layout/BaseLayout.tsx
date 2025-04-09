@@ -31,14 +31,14 @@ const BaseLayout = () => {
   return (
     <div className="flex flex-col w-screen h-screen min-w-[1440px]">
       <Header />
-      <main className="flex-1 ">
+      <main className="flex-1">
         <Outlet />
       </main>
       {!shouldHideFooter && <Footer />}
       {/* 토스트 에러 처리 메시지를 위함 */}
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={1500}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover

@@ -3,6 +3,7 @@ import DepositSlider from '../Normal/DepositSlider' // 슬라이더 컴포넌트
 import usePriceStore from '@/store/matchPriceStore'
 import MonthlySlider from '../Normal/MonthlySlider'
 import AdditionalFilters from '../Normal/AdditionalFilter'
+import ReactDOM from 'react-dom' // ReactDOM import 추가
 
 interface ModalWithPaginationProps {
   isOpen: boolean
@@ -75,7 +76,7 @@ const ModalWithPagination: React.FC<ModalWithPaginationProps> = ({
 
   if (!isOpen) return null
 
-  return (
+  return ReactDOM.createPortal(
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-[400px] relative">
         {/* 닫기 버튼 */}
@@ -160,7 +161,8 @@ const ModalWithPagination: React.FC<ModalWithPaginationProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
