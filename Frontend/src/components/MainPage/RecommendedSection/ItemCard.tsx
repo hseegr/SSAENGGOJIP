@@ -64,7 +64,7 @@ const ItemCard = ({ listing }: Props) => {
         {typeof listing.mainImage === 'string' &&
         listing.mainImage.trim() !== '' ? (
           <img
-            src={listing.mainImage}
+            src={`${listing.mainImage}?w=800&h=600`}
             alt="매물 이미지"
             className="w-full h-full object-cover"
             onError={(e) => {
