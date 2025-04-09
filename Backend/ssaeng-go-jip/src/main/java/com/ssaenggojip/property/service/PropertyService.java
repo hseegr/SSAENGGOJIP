@@ -177,6 +177,7 @@ public class PropertyService {
             if (transportationType == TransportationType.지하철)
                 transportationType = TransportationType.도보;
             int totalTime = routingUtil.getRoute(lat, lng, p.getLatitude(), p.getLongitude(), transportationType);
+            // 도보 시간 초과시 추가 하지 않음
             if (totalTime > request.getAddresses().get(targetNum).getWalkTime())
                 continue;
             recommendSearchProperties.add(
@@ -229,25 +230,39 @@ public class PropertyService {
                 request.getFacility().contains(FacilityType.세탁소) ? true : null
                 );
 
-        return pointStationPropertyDtos.stream()
-                .map(dto -> new RecommendSearchDto(
-                        dto.getId(),
-                        dto.getIsRecommend(),
-                        dto.getDealType(),
-                        dto.getPrice(),
-                        dto.getRentPrice(),
-                        dto.getMaintenancePrice(),
-                        dto.getTotalFloor(),
-                        dto.getFloor(),
-                        dto.getArea(),
-                        dto.getAddress(),
-                        dto.getLatitude(),
-                        dto.getLongitude(),
-                        false,
-                        dto.getImageUrl(),
-                        routingUtil.getRoute(pointLatitude, pointLongitude, dto.getStationALatitude(), dto.getStationALongitude(), TransportationType.도보) + dto.getTotalTime() + routingUtil.getRoute(dto.getStationBLatitude(), dto.getStationBLongitude(), dto.getLatitude(), dto.getLongitude(), TransportationType.도보)
-                ))
-                .collect(Collectors.toList());
+        List<RecommendSearchDto> result = new ArrayList<>();
+
+        for (PointStationPropertyDto dto : pointStationPropertyDtos) {
+            int route1 = routingUtil.getRoute(pointLatitude, pointLongitude, dto.getStationALatitude(), dto.getStationALongitude(), TransportationType.도보);
+            int route2 = routingUtil.getRoute(dto.getStationBLatitude(), dto.getStationBLongitude(), dto.getLatitude(), dto.getLongitude(), TransportationType.도보);
+            // 시간 초과시 추가 하지 않음
+            if(route1+route2 > request.getAddresses().get(targetNum).getWalkTime()
+                    || route1+route2+dto.getTotalTime() > request.getAddresses().get(targetNum).getTotalTransportTime())
+                continue;
+
+            RecommendSearchDto recommendSearchDto = new RecommendSearchDto(
+                    dto.getId(),
+                    dto.getIsRecommend(),
+                    dto.getDealType(),
+                    dto.getPrice(),
+                    dto.getRentPrice(),
+                    dto.getMaintenancePrice(),
+                    dto.getTotalFloor(),
+                    dto.getFloor(),
+                    dto.getArea(),
+                    dto.getAddress(),
+                    dto.getLatitude(),
+                    dto.getLongitude(),
+                    false,
+                    dto.getImageUrl(),
+                    route1 + dto.getTotalTime() + route2
+            );
+
+            result.add(recommendSearchDto);
+        }
+
+        return result;
+
     }
 
 }

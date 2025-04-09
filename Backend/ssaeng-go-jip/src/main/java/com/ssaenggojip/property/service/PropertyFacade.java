@@ -200,6 +200,10 @@ public class PropertyFacade {
                 }
             }
         }
+        for(Long propertyId: merged.keySet())
+            if(merged.get(propertyId).getTransportTimes().get(0) > request.getAddresses().get(index).getTotalTransportTime())
+                merged.remove(propertyId);
+
 
         return merged;
     }
