@@ -251,7 +251,6 @@
 // export default KakaoMap
 
 import { useState, useRef, useEffect } from 'react'
-import CommunityModal from './Community/CommunityModal'
 import useSidebarStore from '@/store/sidebarStore'
 import { fetchDataByBounds } from '@/services/mapService' // fetchDataByBounds 사용
 import usePropertyStore from '@/store/propertyStore'
@@ -456,11 +455,12 @@ const KakaoMap = () => {
         updateClustererGridSize(level)
       })
 
-      // 클러스터 클릭 이벤트 리스너
+      // 클러스터 클릭 이벤트 - 선택된 클러스터의 매물 ID값 추출
       window.kakao.maps.event.addListener(
         clusterer,
         'clusterclick',
         (cluster: any) => {
+          // 선택된 클러스터들 ID 추출 및 store에 저장
           const includedMarkers = cluster.getMarkers()
           const markerTitles = includedMarkers.map((marker: any) =>
             marker.getTitle(),
@@ -470,6 +470,60 @@ const KakaoMap = () => {
           setActiveTab('normal_search')
         },
       )
+
+      let previouslySelectedOverlay = null
+      const originalBackgroundColor = 'rgba(113, 113, 215, 0.7)' // 원래 배경색을 저장할 변수
+
+      // 마우스 오버 시 색 변경
+      window.kakao.maps.event.addListener(
+        clusterer,
+        'clusterover',
+        (cluster: any) => {
+          const overlay = cluster.getClusterMarker().getContent()
+          if (overlay && overlay !== previouslySelectedOverlay) {
+            overlay.style.backgroundColor = 'lightgreen' // 마우스 오버 시 원하는 색상
+          }
+        },
+      )
+      // 마우스 아웃 시 색 변경
+      window.kakao.maps.event.addListener(
+        clusterer,
+        'clusterout',
+        (cluster: any) => {
+          const overlay = cluster.getClusterMarker().getContent()
+          if (overlay && overlay !== previouslySelectedOverlay) {
+            overlay.style.backgroundColor = originalBackgroundColor // 마우스 아웃 시 원래 색상으로
+          } else if (overlay === previouslySelectedOverlay) {
+            overlay.style.backgroundColor = 'lightgreen' // 선택된 클러스터는 유지
+          }
+        },
+      )
+
+      // 클러스터 클릭 이벤트 - 선택된 클러스터의 디자인 변경
+      window.kakao.maps.event.addListener(
+        clusterer,
+        'clusterclick',
+        (cluster: any) => {
+          const currentOverlay = cluster.getClusterMarker().getContent()
+          // 현재 배경색과 유사한 테두리 색상 추출 (rgba에서 rgb로 변환)
+          // 배경색을 연두색으로 변경
+          // overlay.style.backgroundColor = 'lightgreen'
+          // 이전에 선택된 오버레이가 있다면 원래 색으로 되돌리기
+          if (previouslySelectedOverlay) {
+            previouslySelectedOverlay.style.backgroundColor =
+              originalBackgroundColor
+          }
+
+          // 현재 선택된 오버레이의 원래 배경색 저장 및 색상 변경
+          // originalBackgroundColor = currentOverlay.style.backgroundColor
+          currentOverlay.style.backgroundColor = 'lightgreen'
+
+          // 현재 선택된 오버레이를 previouslySelectedOverlay 변수에 저장
+          previouslySelectedOverlay = currentOverlay
+        },
+      )
+
+      // 마우스 올렸을때 선택 표시
 
       // 화면 크기 변경 시 지도 리사이징
       const handleResize = () => {
@@ -495,9 +549,6 @@ const KakaoMap = () => {
           로딩 중...
         </button>
       </div>
-
-      {/* 커뮤니티 영역 */}
-      <CommunityModal />
     </div>
   )
 }

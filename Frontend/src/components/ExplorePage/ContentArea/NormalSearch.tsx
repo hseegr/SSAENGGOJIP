@@ -29,6 +29,7 @@ interface Property {
   longitude?: number
   isInterest?: boolean
   maintenancePrice?: number
+  propertyId?: number
 
   // 초기 데이터 전용 필드 (옵셔널)
   title?: string
@@ -168,16 +169,18 @@ const NormalSearch: React.FC = () => {
     fetchData()
   }, [generalSearchQuery])
 
-  // properties가 변경될 때마다 filteredData 업데이트
+  // properties 또는 titles가 변경될 때마다 filteredData 업데이트
   useEffect(() => {
     // properties가 배열인지 확인
     const propertiesArray = Array.isArray(properties) ? properties : []
 
-    // titles가 있으면 titles에 해당하는 항목만 필터링
+    // titles가 있으면 titles에 해당하는 propertyId를 가진 항목만 필터링
     if (titles?.length) {
-      const numericTitles = titles.map(Number)
+      console.log('타이틀은 잇어요', titles)
+      console.log('property도 이써용', propertiesArray)
+
       const newData = propertiesArray.filter((item) =>
-        numericTitles.includes(item.id),
+        titles.includes(String(item.propertyId)),
       )
 
       // 검색 결과와 동일한 형식으로 맞추기
