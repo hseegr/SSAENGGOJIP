@@ -46,7 +46,8 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
             //refresh-token 추출
             Cookie[] cookies = request.getCookies();
             if (cookies == null) {
-                throw new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN);
+                if (required) throw new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN);
+                return null;
             }
 
             String refreshToken = Arrays.stream(cookies)
