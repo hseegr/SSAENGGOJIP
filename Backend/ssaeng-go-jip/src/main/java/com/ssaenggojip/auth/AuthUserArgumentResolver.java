@@ -39,34 +39,48 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
             WebDataBinderFactory binderFactory
     ) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+        AuthUser authUserAnnotation = parameter.getParameterAnnotation(AuthUser.class);
+        boolean required = authUserAnnotation.required();
 
-        //refresh-token 추출
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            throw new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN);
+        try {
+            //refresh-token 추출
+            Cookie[] cookies = request.getCookies();
+            if (cookies == null) {
+                throw new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN);
+            }
+
+            String refreshToken = Arrays.stream(cookies)
+                    .filter(cookie -> cookie.getName().equals("refresh-token"))
+                    .findFirst()
+                    .orElseThrow(() -> new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN))
+                    .getValue();
+
+            //access token 추출
+            String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+            String accessToken = authHeader.split(" ")[1];
+            log.info("AuthUserArgumentResolver access token={}", accessToken);
+
+            //검증
+            boolean isAccessTokenValid = jwtUtil.validateAccessToken(accessToken);
+            boolean isRefreshTokenValid = jwtUtil.validateRefreshToken(refreshToken);
+            if (!isAccessTokenValid || !isRefreshTokenValid) {
+                throw new GeneralException(ErrorStatus.FAILED_TO_VALIDATE_TOKEN);
+            }
+
+            //Access Token으로 정보 추출
+            Long userId = Long.valueOf(jwtUtil.getSubject(accessToken));
+            return userRepository.findById(userId)
+                    .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_FOUND_USER_ID));
+        } catch (RuntimeException e) {
+            if (e instanceof GeneralException) {
+                throw e; // 이미 GeneralException이면 그대로 던짐
+            }
+
+            if (required) {
+                throw new GeneralException(ErrorStatus.FAILED_TO_VALIDATE_TOKEN);
+            } else {
+                return null;
+            }
         }
-
-        String refreshToken = Arrays.stream(cookies)
-                .filter(cookie -> cookie.getName().equals("refresh-token"))
-                .findFirst()
-                .orElseThrow(() -> new GeneralException(ErrorStatus.INVALID_REFRESH_TOKEN))
-                .getValue();
-
-        //access token 추출
-        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String accessToken = authHeader.split(" ")[1];
-        log.info("AuthUserArgumentResolver access token={}", accessToken);
-
-        //검증
-        boolean isAccessTokenValid = jwtUtil.validateAccessToken(accessToken);
-        boolean isRefreshTokenValid = jwtUtil.validateRefreshToken(refreshToken);
-        if (!isAccessTokenValid || !isRefreshTokenValid) {
-            throw new GeneralException(ErrorStatus.FAILED_TO_VALIDATE_TOKEN);
-        }
-
-        //Access Token으로 정보 추출
-        Long userId = Long.valueOf(jwtUtil.getSubject(accessToken));
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_FOUND_USER_ID));
     }
 }

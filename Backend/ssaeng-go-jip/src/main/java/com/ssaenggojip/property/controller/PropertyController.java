@@ -23,7 +23,7 @@ public class PropertyController {
 
 
     @PostMapping("/search")
-    public ApiResponse<SearchResponse> searchProperty(@RequestBody SearchRequest searchRequest, @AuthUser User user) {
+    public ApiResponse<SearchResponse> searchProperty(@RequestBody SearchRequest searchRequest, @AuthUser(required = false) User user) {
         return ApiResponse.onSuccess(propertyFacade.searchProperties(searchRequest, user));
     }
 
