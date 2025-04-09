@@ -43,8 +43,8 @@ public class PropertyController {
     }
 
     @PostMapping("/recommend-search")
-    public ApiResponse<RecommendSearchResponse> searchRecommend(@RequestBody RecommendSearchRequest recommendSearchRequest) {
-        return ApiResponse.onSuccess(propertyFacade.searchRecommend(recommendSearchRequest));
+    public ApiResponse<RecommendSearchResponse> searchRecommend(@RequestBody RecommendSearchRequest recommendSearchRequest, @AuthUser(required = false) User user) {
+        return ApiResponse.onSuccess(propertyFacade.searchRecommend(recommendSearchRequest, user));
     }
 
     @PostMapping("/recommend-detail")

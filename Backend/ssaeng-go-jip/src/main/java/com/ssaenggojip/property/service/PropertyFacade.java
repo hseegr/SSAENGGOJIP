@@ -36,7 +36,6 @@ public class PropertyFacade {
         boolean isStationSearch = false;
         Double lat = null;
         Double lng = null;
-
         // 역으로 끝나면 isStationSearch 업데이트
         if (search.endsWith("역")) {
             Station station =  stationService.findByName(search);
@@ -49,12 +48,17 @@ public class PropertyFacade {
         SearchResponse searchResponse = propertyService.searchWithFilter(request, isStationSearch, lng, lat);;
 
         // 필터링 한 값에 관심/추천 부여
-        Set<Long> LikePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
-        for (SearchProperty searchProperty:searchResponse.getProperties()){
-            searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
+//        for (SearchProperty searchProperty:searchResponse.getProperties()){
+//            searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
             //TODO: 여기 아래처럼 추천
             //searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
+//        }
+        if(user != null) {
+            Set<Long> LikePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
+            for (SearchProperty searchProperty:searchResponse.getProperties())
+                searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
         }
+
         return searchResponse;
     }
 
@@ -125,7 +129,7 @@ public class PropertyFacade {
     }
 
 
-    public RecommendSearchResponse searchRecommend(RecommendSearchRequest request) {
+    public RecommendSearchResponse searchRecommend(RecommendSearchRequest request, User user) {
 
         Map<Long, RecommendSearchProperty> merged1 = getMergedPropertiesByIndex(request,0);
 
@@ -134,7 +138,7 @@ public class PropertyFacade {
         if(request.getAddresses().size() == 1) {
             result = new ArrayList<>(merged1.values());
         }
-        else if(request.getAddresses().size() == 2){ // 주소가 2개인 경우
+        else if(request.getAddresses().size() == 2){ // 입력 주소가 2개인 경우
             Map<Long, RecommendSearchProperty> merged2 = getMergedPropertiesByIndex(request, 1);
             result = merged1.entrySet().stream()
                     .filter(entry -> merged2.containsKey(entry.getKey()))
@@ -154,11 +158,30 @@ public class PropertyFacade {
         if (result.size() > 5000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
-
-        return RecommendSearchResponse.builder()
+        RecommendSearchResponse response = RecommendSearchResponse.builder()
                 .total(result.size())
                 .properties(result)
                 .build();
+        // 필터링 한 값에 관심/추천 부여
+//        Set<Long> LikePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
+//        for (RecommendSearchProperty recommendSearchProperty:response.getProperties())
+//            recommendSearchProperty.setIsInterest(LikePropertyIds.contains(recommendSearchProperty.getId()));
+        //TODO: 여기 아래처럼 추천
+        //searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
+//        }
+        if(user != null) {
+            Set<Long> LikePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
+            for (RecommendSearchProperty recommendSearchProperty:response.getProperties())
+                recommendSearchProperty.setIsInterest(LikePropertyIds.contains(recommendSearchProperty.getId()));
+        }
+
+        return response;
+
+//
+//        return RecommendSearchResponse.builder()
+//                .total(result.size())
+//                .properties(result)
+//                .build();
 
 
     }
