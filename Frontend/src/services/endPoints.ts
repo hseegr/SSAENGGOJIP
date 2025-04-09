@@ -67,6 +67,8 @@ export const MAP_END_POINT = {
   MATCH_SEARCH: '/properties/recommend-search',
   // 맞춤 검색 상세
   MATCH_DETAIL: '/properties/recommend-detail',
+  // 직장과 매물 사이 시간 - POST
+  GET_TRANSPORT_TIME: '/properties/get-transport-time',
 }
 
 // 맞춤 검색 페이지 타겟 주소 관련
