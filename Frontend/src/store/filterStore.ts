@@ -1,66 +1,85 @@
 import { create } from 'zustand'
 
+const DEPOSIT_UNIT = 50_000_000
+const DEPOSIT_MAX = 2_000_000_000 + DEPOSIT_UNIT // 마지막은 무제한을 의미
+
+const MONTHLY_UNIT = 100_000
+const MONTHLY_MAX = 4_000_000 + MONTHLY_UNIT // 마지막은 무제한을 의미
+
 interface FilterState {
-  // 매물 유형 (다중 선택 가능)
+  // 매물 유형 (예: 아파트, 오피스텔, 빌라 등)
   propertyTypes: string[]
   setPropertyTypes: (types: string[]) => void
+  togglePropertyType: (type: string) => void
 
-  // 거래 유형
+  // 거래 유형 (예: 전세, 월세, 매매 중 하나만 선택)
   dealType: string
-  setDealType: (types: string) => void
+  setDealType: (type: string) => void
 
-  // 가격 (보증금과 월세)
+  // 가격 필터
   MindepositPrice: number
-  MinmonthlyPrice: number
   MaxdepositPrice: number
+  MinmonthlyPrice: number
   MaxmonthlyPrice: number
-  setMinDepositPrice: (price: number) => void
-  setMinMonthlyPrice: (price: number) => void
-  setMaxDepositPrice: (price: number) => void
-  setMaxMonthlyPrice: (price: number) => void
+  setDepositPriceRange: (min: number, max: number) => void
+  setMonthlyPriceRange: (min: number, max: number) => void
 
-  // 추가 필터 (다중 선택 가능, 빈칸 가능)
+  // 추가 필터 (주변 시설)
   additionalFilters: string[]
   setAdditionalFilters: (filters: string[]) => void
+  resetAdditionalFilters: () => void
+  toggleAdditionalFilter: (filter: string) => void
 
-  // 초기화 함수
-  resetFilters: () => void
+  // 전체 초기화
+  resetAllFilters: () => void
 }
 
-const useFilterStore = create<FilterState>((set) => ({
-  // 초기 상태
+export const useFilterStore = create<FilterState>((set) => ({
   propertyTypes: [],
-  dealType: '',
-  MindepositPrice: 0,
-  MinmonthlyPrice: 0,
-  MaxdepositPrice: 200000000,
-  MaxmonthlyPrice: 200000000,
-  additionalFilters: [],
-
-  // 매물 유형 설정
   setPropertyTypes: (types) => set({ propertyTypes: types }),
+  togglePropertyType: (type) =>
+    set((state) => ({
+      propertyTypes: state.propertyTypes.includes(type)
+        ? state.propertyTypes.filter((t) => t !== type)
+        : [...state.propertyTypes, type],
+    })),
 
-  // 거래 유형 설정
-  setDealType: (types) => set({ dealType: types }),
+  dealType: '',
+  setDealType: (type) => set({ dealType: type }),
 
-  // 가격 설정
-  setMinDepositPrice: (price) => set({ MindepositPrice: price }),
-  setMaxDepositPrice: (price) => set({ MaxdepositPrice: price }),
-  setMinMonthlyPrice: (price) => set({ MinmonthlyPrice: price }),
-  setMaxMonthlyPrice: (price) => set({ MaxmonthlyPrice: price }),
+  MindepositPrice: 0,
+  MaxdepositPrice: DEPOSIT_MAX,
+  MinmonthlyPrice: 0,
+  MaxmonthlyPrice: MONTHLY_MAX,
+  setDepositPriceRange: (min, max) =>
+    set({
+      MindepositPrice: min,
+      MaxdepositPrice: max,
+    }),
+  setMonthlyPriceRange: (min, max) =>
+    set({
+      MinmonthlyPrice: min,
+      MaxmonthlyPrice: max,
+    }),
 
-  // 추가 필터 설정
+  additionalFilters: [],
   setAdditionalFilters: (filters) => set({ additionalFilters: filters }),
+  resetAdditionalFilters: () => set({ additionalFilters: [] }),
+  toggleAdditionalFilter: (filter) =>
+    set((state) => ({
+      additionalFilters: state.additionalFilters.includes(filter)
+        ? state.additionalFilters.filter((f) => f !== filter)
+        : [...state.additionalFilters, filter],
+    })),
 
-  // 초기화 함수
-  resetFilters: () =>
+  resetAllFilters: () =>
     set({
       propertyTypes: [],
       dealType: '',
       MindepositPrice: 0,
+      MaxdepositPrice: DEPOSIT_MAX,
       MinmonthlyPrice: 0,
-      MaxdepositPrice: 200000000,
-      MaxmonthlyPrice: 200000000,
+      MaxmonthlyPrice: MONTHLY_MAX,
       additionalFilters: [],
     }),
 }))
