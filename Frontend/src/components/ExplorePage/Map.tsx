@@ -549,6 +549,8 @@ const KakaoMap = () => {
           로딩 중...
         </button>
       </div>
+      {/* 커뮤니티 영역 */}
+      {/* <CommunityModal /> */}
     </div>
   )
 }

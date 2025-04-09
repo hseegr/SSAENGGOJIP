@@ -249,96 +249,171 @@ const ChatRoomModal = ({ onClose }: Props) => {
   }, [fetchPreviousMessages, hasMoreMessages, isLoadingMore])
 
   // ✅ WebSocket 메시지 수신 처리
+  // useEffect(() => {
+  //   if (!selectedChatRoom || !token) return
+
+  //   const handleMessage = (msg) => {
+  //     console.log('수신된 메시지 전체:', msg)
+
+  //     // 수정된 조건문
+  //     if (msg.isActive === false) {
+  //       setMessages((prevMessages) =>
+  //         prevMessages.map((m) =>
+  //           m.id === msg.id
+  //             ? {
+  //                 ...m,
+  //                 content: msg.content,
+  //                 isActive: false,
+  //               }
+  //             : m,
+  //         ),
+  //       )
+
+  //       // 마지막 활성화 메시지 찾기
+  //       const activeMessages = messages.filter((m) => m.isActive)
+  //       if (activeMessages.length > 0 && selectedChatRoom) {
+  //         // 아직 활성화된 메시지가 있으면 그 중 가장 최신 메시지로 업데이트
+  //         const lastActiveMessage = activeMessages[activeMessages.length - 1]
+  //         updateLastMessage(selectedChatRoom.id, lastActiveMessage.content)
+  //       }
+
+  //       return
+  //     }
+
+  //     // 일반 TALK 메시지 처리
+  //     if (msg.content) {
+  //       // ✅ 현재 날짜 포맷팅 (YYYY년 MM월 DD일 요일)
+  //       const now = new Date()
+  //       const formattedDate = now.toLocaleDateString('ko-KR', {
+  //         year: 'numeric',
+  //         month: 'long',
+  //         day: 'numeric',
+  //         weekday: 'long',
+  //       })
+
+  //       // 받은 메시지를 상태에 추가
+  //       const newMsg = {
+  //         id: msg.id || Date.now().toString(),
+  //         nickname: msg.nickname || '알 수 없음',
+  //         content: msg.content,
+  //         time: now.toLocaleTimeString([], {
+  //           hour: '2-digit',
+  //           minute: '2-digit',
+  //         }),
+  //         date: formattedDate, // ✅ 날짜 정보 추가
+  //         isMe: Number(msg.userId) === myUserId,
+  //         isActive: true,
+  //       }
+
+  //       console.log('새 메시지 객체 생성:', newMsg)
+
+  //       // 함수형 업데이트 사용
+  //       setMessages((prevMessages) => {
+  //         // 중복 메시지 방지
+  //         if (prevMessages.some((m) => m.id === newMsg.id)) {
+  //           console.log('중복 메시지 무시')
+  //           return prevMessages
+  //         }
+
+  //         console.log('메시지 배열에 추가')
+  //         // 새 메시지 배열 생성
+  //         return [...prevMessages, newMsg]
+  //       })
+
+  //       // 마지막 메시지 업데이트 (Sidebar 표시용)
+  //       if (selectedChatRoom) {
+  //         console.log(
+  //           '마지막 메시지 업데이트:',
+  //           selectedChatRoom.id,
+  //           newMsg.content,
+  //         )
+  //         updateLastMessage(selectedChatRoom.id, newMsg.content)
+  //       }
+
+  //       // 스크롤 아래로 이동
+  //       setTimeout(scrollToBottom, 100)
+  //     } else {
+  //       console.log('메시지 content가 없음:', msg)
+  //     }
+  //   }
+
+  //   // 웹소켓 연결
+  //   console.log('웹소켓 연결 시도:', selectedChatRoom.id)
+  //   connect({
+  //     chatRoomId: String(selectedChatRoom.id),
+  //     token,
+  //     onMessage: handleMessage,
+  //   })
+  // }, [selectedChatRoom?.id])
+
+  // ✅ WebSocket 메시지 수신 처리
   useEffect(() => {
     if (!selectedChatRoom || !token) return
 
     const handleMessage = (msg) => {
-      console.log('수신된 메시지 전체:', msg)
+      console.log('📩 메시지 수신:', msg)
 
-      // 수정된 조건문
       if (msg.isActive === false) {
-        setMessages((prevMessages) =>
-          prevMessages.map((m) =>
+        setMessages((prev) =>
+          prev.map((m) =>
             m.id === msg.id
-              ? {
-                  ...m,
-                  content: msg.content,
-                  isActive: false,
-                }
+              ? { ...m, content: msg.content, isActive: false }
               : m,
           ),
         )
-
-        // 마지막 활성화 메시지 찾기
-        const activeMessages = messages.filter((m) => m.isActive)
-        if (activeMessages.length > 0 && selectedChatRoom) {
-          // 아직 활성화된 메시지가 있으면 그 중 가장 최신 메시지로 업데이트
-          const lastActiveMessage = activeMessages[activeMessages.length - 1]
-          updateLastMessage(selectedChatRoom.id, lastActiveMessage.content)
-        }
-
         return
       }
 
-      // 일반 TALK 메시지 처리
-      if (msg.content) {
-        // ✅ 현재 날짜 포맷팅 (YYYY년 MM월 DD일 요일)
-        const now = new Date()
-        const formattedDate = now.toLocaleDateString('ko-KR', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          weekday: 'long',
-        })
+      const now = new Date(msg.createdAt)
+      const formattedDate = now.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long',
+      })
 
-        // 받은 메시지를 상태에 추가
-        const newMsg = {
-          id: msg.id || Date.now().toString(),
-          nickname: msg.nickname || '알 수 없음',
-          content: msg.content,
-          time: now.toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          }),
-          date: formattedDate, // ✅ 날짜 정보 추가
-          isMe: Number(msg.userId) === myUserId,
-          isActive: true,
-        }
-
-        console.log('새 메시지 객체 생성:', newMsg)
-
-        // 함수형 업데이트 사용
-        setMessages((prevMessages) => {
-          // 중복 메시지 방지
-          if (prevMessages.some((m) => m.id === newMsg.id)) {
-            console.log('중복 메시지 무시')
-            return prevMessages
-          }
-
-          console.log('메시지 배열에 추가')
-          // 새 메시지 배열 생성
-          return [...prevMessages, newMsg]
-        })
-
-        // 마지막 메시지 업데이트 (Sidebar 표시용)
-        if (selectedChatRoom) {
-          console.log(
-            '마지막 메시지 업데이트:',
-            selectedChatRoom.id,
-            newMsg.content,
-          )
-          updateLastMessage(selectedChatRoom.id, newMsg.content)
-        }
-
-        // 스크롤 아래로 이동
-        setTimeout(scrollToBottom, 100)
-      } else {
-        console.log('메시지 content가 없음:', msg)
+      const newMsg = {
+        id: msg.id,
+        nickname: msg.nickname,
+        content: msg.content,
+        time: now.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        date: formattedDate,
+        isMe: Number(msg.userId) === myUserId,
+        isActive: msg.isActive !== false,
       }
+
+      setMessages((prevMessages) => {
+        // 1. 같은 ID면 무시 (중복 방지)
+        if (prevMessages.some((m) => m.id === msg.id)) {
+          console.log('⛔ 중복 메시지 무시')
+          return prevMessages
+        }
+
+        // 2. 낙관 메시지 제거
+        const withoutTemp = prevMessages.filter(
+          (m) =>
+            !(
+              m.id.startsWith('temp') &&
+              m.content === msg.content &&
+              m.nickname === msg.nickname &&
+              m.isMe === true
+            ),
+        )
+
+        console.log('✅ 메시지 배열에 추가됨:', newMsg)
+
+        return [...withoutTemp, newMsg]
+      })
+
+      // ✅ 마지막 메시지 업데이트 (Sidebar 용)
+      updateLastMessage(selectedChatRoom.id, msg.content)
+
+      setTimeout(scrollToBottom, 100)
     }
 
-    // 웹소켓 연결
-    console.log('웹소켓 연결 시도:', selectedChatRoom.id)
     connect({
       chatRoomId: String(selectedChatRoom.id),
       token,
@@ -347,13 +422,86 @@ const ChatRoomModal = ({ onClose }: Props) => {
   }, [selectedChatRoom?.id])
 
   // ✅ 메시지 전송 핸들러
+  // const handleSend = () => {
+  //   if (!input.trim() || !selectedChatRoom) return // 공백 메시지는 무시
+
+  //   // 익명 여부에 따른 닉네임 설정
+  //   const nickname = isAnonymous ? '익명' : myNickname
+
+  //   // 웹소켓으로 메시지 전송
+  //   sendMessage({
+  //     messageType: 'TALK',
+  //     chatRoomId: String(selectedChatRoom.id),
+  //     isAnonymous: isAnonymous,
+  //     content: input,
+  //   })
+
+  //   console.log('📤 전송 요청 보냄:', input)
+
+  //   updateLastMessage(selectedChatRoom.id, input)
+
+  //   //✅ 현재 날짜 포맷팅 (YYYY년 MM월 DD일 요일)
+  //   // const now = new Date()
+  //   // const formattedDate = now.toLocaleDateString('ko-KR', {
+  //   //   year: 'numeric',
+  //   //   month: 'long',
+  //   //   day: 'numeric',
+  //   //   weekday: 'long',
+  //   // })
+
+  //   // ✅ 즉시 UI에 반영하기 위해 로컬 상태 업데이트
+  //   // const newMessage: Message = {
+  //   //   id: Date.now().toString(), // 임시 ID (서버에서 실제 ID 부여됨)
+  //   //   nickname: nickname,
+  //   //   content: input,
+  //   //   time: now.toLocaleTimeString([], {
+  //   //     hour: '2-digit',
+  //   //     minute: '2-digit',
+  //   //   }),
+  //   //   date: formattedDate, // ✅ 날짜 정보 추가
+  //   //   isMe: true, // 내가 보낸 메시지
+  //   //   isActive: true,
+  //   // }
+
+  //   // 새 메시지 추가 (최신 메시지는 배열의 끝에 추가)
+  //   // setMessages((prev) => [...prev, newMessage])
+
+  //   // 입력창 초기화
+  //   setInput('')
+
+  //   // 스크롤을 아래로 이동
+  //   setTimeout(scrollToBottom, 100)
+  // }
+
+  // ✅ 메시지 전송 핸들러
   const handleSend = () => {
     if (!input.trim() || !selectedChatRoom) return // 공백 메시지는 무시
 
-    // 익명 여부에 따른 닉네임 설정
-    const nickname = isAnonymous ? '익명' : myNickname
+    const now = new Date()
+    const formattedDate = now.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+    })
 
-    // 웹소켓으로 메시지 전송
+    const newMessage = {
+      id: `temp-${Date.now()}`, // ✅ 가짜 ID
+      nickname: isAnonymous ? '익명' : myNickname,
+      content: input,
+      time: now.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+      date: formattedDate,
+      isMe: true,
+      isActive: true,
+    }
+
+    // ✅ 낙관적 메시지 UI에 먼저 추가
+    setMessages((prev) => [...prev, newMessage])
+
+    // ✅ 서버에 전송
     sendMessage({
       messageType: 'TALK',
       chatRoomId: String(selectedChatRoom.id),
@@ -363,38 +511,8 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
     console.log('📤 전송 요청 보냄:', input)
 
-    updateLastMessage(selectedChatRoom.id, input)
-
-    // ✅ 현재 날짜 포맷팅 (YYYY년 MM월 DD일 요일)
-    // const now = new Date()
-    // const formattedDate = now.toLocaleDateString('ko-KR', {
-    //   year: 'numeric',
-    //   month: 'long',
-    //   day: 'numeric',
-    //   weekday: 'long',
-    // })
-
-    // ✅ 즉시 UI에 반영하기 위해 로컬 상태 업데이트
-    // const newMessage: Message = {
-    //   id: Date.now().toString(), // 임시 ID (서버에서 실제 ID 부여됨)
-    //   nickname: nickname,
-    //   content: input,
-    //   time: now.toLocaleTimeString([], {
-    //     hour: '2-digit',
-    //     minute: '2-digit',
-    //   }),
-    //   date: formattedDate, // ✅ 날짜 정보 추가
-    //   isMe: true, // 내가 보낸 메시지
-    //   isActive: true,
-    // }
-
-    // 새 메시지 추가 (최신 메시지는 배열의 끝에 추가)
-    // setMessages((prev) => [...prev, newMessage])
-
-    // 입력창 초기화
+    // 입력창 비우기 + 스크롤 아래로
     setInput('')
-
-    // 스크롤을 아래로 이동
     setTimeout(scrollToBottom, 100)
   }
 
@@ -437,7 +555,7 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
   return (
     // 전체 채팅방 컨테이너 (모달로 오른쪽에 뜬다고 가정)
-    <div className="flex flex-col justify-between w-full h-full bg-ssaeng-gray-3 px-10">
+    <div className="flex flex-col justify-between w-full h-[88%] bg-ssaeng-gray-3 px-10">
       {/* 채팅방 상단 헤더 - flex-shrink-0으로 고정 크기 유지 */}
       <div className="flex-shrink-0">
         <ChatHeader onClose={onClose} />

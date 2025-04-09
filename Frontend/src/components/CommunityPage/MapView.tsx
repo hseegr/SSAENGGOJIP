@@ -6,6 +6,7 @@ import {
   useMyChatRoomQuery,
   usePopularChatRoomsQuery,
 } from '@/hooks/useCommunity'
+import { toast } from 'react-toastify'
 
 // ts를 위한 코드
 declare global {
@@ -115,7 +116,7 @@ const MapView = ({ onChatOpen }: Props) => {
           joinBtn.addEventListener('click', async () => {
             const token = localStorage.getItem('accessToken')
             if (!token) {
-              alert('로그인이 필요합니다!')
+              toast.error('로그인 후 이용해 주세요!')
               return
             }
 
@@ -161,8 +162,15 @@ const MapView = ({ onChatOpen }: Props) => {
           })
         }
 
+        // 지도 위치 조정 - 오버레이가 중앙에 오도록 조정
+        // 오버레이의 위치를 지도 중앙에서 약간 왼쪽으로 이동
+        const moveLatLng = new window.kakao.maps.LatLng(
+          selectedChatRoom.latitude,
+          selectedChatRoom.longitude + 0.002, // 경도값을 약간 줄여 지도를 왼쪽으로 이동
+        )
+
         // 지도 위치 이동
-        map.setCenter(position)
+        map.setCenter(moveLatLng)
       }
     }
     // ✅ 참여 버튼을 눌렀을 때만 WebSocket 연결
