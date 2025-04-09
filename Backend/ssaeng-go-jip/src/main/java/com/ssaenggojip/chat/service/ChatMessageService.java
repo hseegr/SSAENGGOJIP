@@ -2,6 +2,7 @@ package com.ssaenggojip.chat.service;
 
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.chat.config.RedisPublisher;
 import com.ssaenggojip.chat.converter.ChatConverter;
 import com.ssaenggojip.chat.dto.ChatMessageResponseDto;
 import com.ssaenggojip.chat.dto.ChatRequestDto;
@@ -9,6 +10,7 @@ import com.ssaenggojip.chat.entity.ChatMessage;
 import com.ssaenggojip.chat.entity.ChatRoom;
 import com.ssaenggojip.chat.entity.UserReport;
 import com.ssaenggojip.chat.repository.ChatMessageRepository;
+import com.ssaenggojip.chat.repository.UserChatRoomRepository;
 import com.ssaenggojip.chat.repository.UserReportRepository;
 import com.ssaenggojip.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,11 +32,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatMessageService {
 
+    private final UserChatRoomRepository userChatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserReportRepository userReportRepository;
 
     private final MongoTemplate mongoTemplate;
-    private final SimpMessagingTemplate messagingTemplate;
+    private final RedisPublisher redisPublisher;
 
     @Transactional
     public void sendMessage(User user, ChatRequestDto message) {
@@ -52,6 +54,9 @@ public class ChatMessageService {
             throw new GeneralException(ErrorStatus.NOT_FOUND_CHAT_ROOM_ID);
         }
 
+        userChatRoomRepository.findByUserAndChatRoomId(user, message.getChatRoomId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_ENTERED));
+
         ChatMessage chatMessage = ChatMessage.builder()
                 .userId(user.getId())
                 .chatRoomId(message.getChatRoomId())
@@ -67,13 +72,17 @@ public class ChatMessageService {
         Update update = new Update().set("lastMessage", message.getContent());
 
         mongoTemplate.updateFirst(query, update, ChatRoom.class);
-        messagingTemplate.convertAndSend("/sub/chat-room." + message.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
+
+        redisPublisher.publish(ChatConverter.toChatMessageResponseDto(chatMessage));
     }
 
     @Transactional
     private void handleDelete(User user, ChatRequestDto message) {
         ChatMessage chatMessage = chatMessageRepository.findById(message.getMessageId())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.NOT_FOUND_MESSAGE_ID));
+
+        userChatRoomRepository.findByUserAndChatRoomId(user, message.getChatRoomId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_ENTERED));
 
         if (!chatMessage.getUserId().equals(user.getId())) {
             throw new GeneralException(ErrorStatus._UNAUTHORIZED); // 본인만 삭제 가능
@@ -83,7 +92,7 @@ public class ChatMessageService {
         chatMessage.setContent("삭제된 메시지입니다.");
         chatMessageRepository.save(chatMessage);
 
-        messagingTemplate.convertAndSend("/sub/chat-room." + chatMessage.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
+        redisPublisher.publish(ChatConverter.toChatMessageResponseDto(chatMessage));
     }
 
     @Transactional
@@ -91,6 +100,9 @@ public class ChatMessageService {
         if (userReportRepository.findByUserAndChatMessageId(user, message.getMessageId()).isPresent()) {
             throw new GeneralException(ErrorStatus.ALREADY_REPORTED);
         }
+
+        userChatRoomRepository.findByUserAndChatRoomId(user, message.getChatRoomId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.USER_NOT_ENTERED));
 
         userReportRepository.save(UserReport.builder()
                         .user(user)
@@ -112,7 +124,7 @@ public class ChatMessageService {
             chatMessage.setContent("신고된 메시지입니다.");
             chatMessageRepository.save(chatMessage);
 
-            messagingTemplate.convertAndSend("/sub/chat-room." + chatMessage.getChatRoomId(), ChatConverter.toChatMessageResponseDto(chatMessage));
+            redisPublisher.publish(ChatConverter.toChatMessageResponseDto(chatMessage));
         }
     }
 

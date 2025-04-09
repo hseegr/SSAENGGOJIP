@@ -3,7 +3,9 @@ package com.ssaenggojip.station.service;
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.enums.DayType;
+import com.ssaenggojip.common.enums.TransportationType;
 import com.ssaenggojip.common.enums.UpDownType;
+import com.ssaenggojip.common.util.RoutingUtil;
 import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.dto.response.TransportTimeResponse;
 import com.ssaenggojip.station.dto.response.Congestion;
@@ -30,6 +32,7 @@ public class StationService {
     private final StationRouteReporitory stationRouteReporitory;
     private final TransportTimeProvider transportTimeProvider;
     private final StationDetailRepository stationDetailRepository;
+    private final RoutingUtil routingUtil;
 
     public Station findByName(String search) {
         if (search.endsWith("역"))
@@ -54,10 +57,14 @@ public class StationService {
 
         for (Station pointStation : stationsNearPoint){
             for (Station propertyStation : stationsNearProperty) {
-                int pointToStationTime = transportTimeProvider.getWalkMinutes(pointLongitude, pointLatitude, pointStation.getLongitude(), pointStation.getLatitude());
+                if(propertyStation.getId().equals(pointStation.getId()))
+                    continue;
+
+                int pointToStationTime = routingUtil.getRoute(pointLatitude,pointLongitude, pointStation.getLatitude(), pointStation.getLongitude(), TransportationType.도보);
                 StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
+
                 int stationToStationTime = stationRoute.getTransportTime();
-                int stationToPropertyTime = transportTimeProvider.getWalkMinutes(propertyLongitude, propertyLatitude,propertyStation.getLongitude(),propertyStation.getLatitude());
+                int stationToPropertyTime = routingUtil.getRoute(propertyLatitude,propertyLongitude,propertyStation.getLatitude(),propertyStation.getLongitude(), TransportationType.도보);
                 if(answer.stream().mapToInt(Integer::intValue).sum() > pointToStationTime + stationToStationTime + stationToPropertyTime) {
                     answer = List.of(pointToStationTime, stationToStationTime, stationToPropertyTime);
                     transferCount = stationRoute.getTransferCount();

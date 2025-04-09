@@ -22,6 +22,7 @@ public class RecommendDetailResponse {
     private String totalFloor;
     private Double area;
     private String address;
+    private Long maintenancePrice;
     private List<String> imageUrls;
 
     private List<TransportInfo> transportInfos;

@@ -2,10 +2,12 @@ package com.ssaenggojip.property.controller;
 
 
 import com.ssaenggojip.apipayload.ApiResponse;
+import com.ssaenggojip.auth.annotation.AuthUser;
 import com.ssaenggojip.property.dto.request.*;
 import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.service.PropertyFacade;
 import com.ssaenggojip.property.service.PropertyService;
+import com.ssaenggojip.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +23,8 @@ public class PropertyController {
 
 
     @PostMapping("/search")
-    public ApiResponse<SearchResponse> searchProperty(@RequestBody SearchRequest searchRequest) {
-        return ApiResponse.onSuccess(propertyFacade.searchProperties(searchRequest));
+    public ApiResponse<SearchResponse> searchProperty(@RequestBody SearchRequest searchRequest, @AuthUser(required = false) User user) {
+        return ApiResponse.onSuccess(propertyFacade.searchProperties(searchRequest, user));
     }
 
     @GetMapping("/{propertyId}")
@@ -41,8 +43,8 @@ public class PropertyController {
     }
 
     @PostMapping("/recommend-search")
-    public ApiResponse<RecommendSearchResponse> searchRecommend(@RequestBody RecommendSearchRequest recommendSearchRequest) {
-        return ApiResponse.onSuccess(propertyFacade.searchRecommend(recommendSearchRequest));
+    public ApiResponse<RecommendSearchResponse> searchRecommend(@RequestBody RecommendSearchRequest recommendSearchRequest, @AuthUser(required = false) User user) {
+        return ApiResponse.onSuccess(propertyFacade.searchRecommend(recommendSearchRequest, user));
     }
 
     @PostMapping("/recommend-detail")

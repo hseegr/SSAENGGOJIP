@@ -59,21 +59,44 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query(nativeQuery = true,
             value = "SELECT * " +
-                    "FROM properties " +
-                    "ORDER BY facility_nearness <=> cast(? as vector) " +
-                    "LIMIT ? "
-    )
-    List<Property> findTopKByFacilityNearness(String facilityPreferences,Integer limit);
-
-    @Query(nativeQuery = true,
-            value = "SELECT * " +
-                    "FROM properties " +
+                    "FROM property " +
                     "WHERE ST_DWithin(" +
                     "geography(ST_SetSRID(ST_Point(longitude, latitude), 4326)), " +
                     "geography(ST_SetSRID(ST_Point(:lng, :lat), 4326)), " +
-                    ":radius) "
+                    ":radius) " +
+                    "ORDER BY facility_nearness <=> cast(:vector as vector) " +
+                    "LIMIT :limit "
     )
-    List<Property> findByFacilityNearness(@Param("lng") Double lng, @Param("lat") Double lat, @Param("radius") Double radius);
+    List<Property> findTopKByVector(
+            @Param("lng") Double lng,
+            @Param("lat") Double lat,
+            @Param("radius") Double radius,
+            @Param("vector") String vector,
+            @Param("limit") Integer limit
+    );
+
+
+    @Query(nativeQuery = true,
+            value = "SELECT * " +
+                    "FROM property " +
+                    "WHERE ST_DWithin(" +
+                    "geography(ST_SetSRID(ST_Point(longitude, latitude), 4326)), " +
+                    "geography(ST_SetSRID(ST_Point(:lng, :lat), 4326)), " +
+                    ":radius) " +
+                    "ORDER BY ST_Distance(" +
+                    "   geom, " +
+                    "   geography(" +
+                    "       ST_SetSRID(ST_Point(:lng, :lat), 4326)" +
+                    "   )" +
+                    ") ASC " +
+                    "LIMIT 100 "
+    )
+    List<Property> findByLocation(
+            @Param("lng") Double lng,
+            @Param("lat") Double lat,
+            @Param("radius") Double radius
+    );
+
     @Query(value = """
     SELECT 
         *

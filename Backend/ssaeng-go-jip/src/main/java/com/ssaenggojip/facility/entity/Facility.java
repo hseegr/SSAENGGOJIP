@@ -2,6 +2,7 @@ package com.ssaenggojip.facility.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.locationtech.jts.geom.Point;
 
 @Getter
 @Builder
@@ -17,6 +18,9 @@ public class Facility {
     private String address;
     private Double latitude;
     private Double longitude;
+
+    @Column(columnDefinition = "geometry(Point, 4326)")
+    private Point geom;
 
     @ManyToOne
     @JoinColumn(name = "facility_type_id")

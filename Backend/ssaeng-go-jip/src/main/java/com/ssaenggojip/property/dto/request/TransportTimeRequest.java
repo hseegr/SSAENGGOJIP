@@ -2,6 +2,7 @@ package com.ssaenggojip.property.dto.request;
 import com.ssaenggojip.common.enums.TransportationType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class TransportTimeRequest {
     @NotBlank
     private Double latitude;
@@ -21,10 +23,4 @@ public class TransportTimeRequest {
 
     private TransportationType transportationType;
 
-    public TransportTimeRequest(Double latitude, Double longitude, Long propertyId){
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.propertyId = propertyId;
-        this.transportationType = null;
-    }
 }

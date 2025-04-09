@@ -1,8 +1,10 @@
 package com.ssaenggojip.recommend.service;
 
+import com.ssaenggojip.facility.repository.FacilityRepository;
 import com.ssaenggojip.facility.service.FacilityService;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.repository.PropertyRepository;
+import com.ssaenggojip.recommend.dto.request.RecommendByPreferencesRequest;
 import com.ssaenggojip.recommend.dto.request.RecommendByLocationRequest;
 import com.ssaenggojip.recommend.dto.response.FacilityPreferencesResponse;
 import com.ssaenggojip.recommend.dto.request.UpdateFacilityPreferencesRequest;
@@ -22,6 +24,9 @@ public class RecommendService {
     private final UserRepository userRepository;
     private final PropertyRepository propertyRepository;
     private final FacilityService facilityService;
+    private final FacilityRepository facilityRepository;
+
+    private static final Double DEFAULT_RADIUS = 2000d;
 
     @Transactional(readOnly = true)
     public FacilityPreferencesResponse getPreferences(User user) {
@@ -37,19 +42,41 @@ public class RecommendService {
     }
 
     @Transactional(readOnly = true)
-    public RecommendPropertyListResponse findTopKByPreferences(User user, int k) {
-        String preferences = Arrays.toString(user.getFacilityPreferences().toArray());
-        List<Property> properties = propertyRepository.findTopKByFacilityNearness(preferences, k);
-        return RecommendPropertyListResponse.from(properties);
-    }
-
-    @Transactional(readOnly = true)
     public RecommendPropertyListResponse findByLocation(RecommendByLocationRequest request) {
         Double latitude = request.getLatitude();
         Double longitude = request.getLongitude();
         Double radius = request.getRadius();
-        List<Property> properties = propertyRepository.findByFacilityNearness(longitude, latitude, radius);
+        List<Property> properties = propertyRepository.findByLocation(longitude, latitude, radius);
         return RecommendPropertyListResponse.from(properties);
     }
 
+    @Transactional(readOnly = true)
+    public RecommendPropertyListResponse findTopKByPreferences(
+            User user,
+            RecommendByPreferencesRequest request
+    ) {
+        String preferences = Arrays.toString(user.getFacilityPreferences().toArray());
+        List<Property> properties = propertyRepository.findTopKByVector(
+                request.getLongitude(),
+                request.getLatitude(),
+                request.getRadius(),
+                preferences,
+                request.getK()
+        );
+        return RecommendPropertyListResponse.from(properties);
+    }
+
+    @Transactional(readOnly = true)
+    public RecommendPropertyListResponse findTopKByProperty(Long propertyId, Integer k) {
+        Property property = propertyRepository.getReferenceById(propertyId);
+        String facilityNearness = Arrays.toString(property.getFacilityNearness().toArray());
+        List<Property> properties = propertyRepository.findTopKByVector(
+                property.getLongitude(),
+                property.getLatitude(),
+                DEFAULT_RADIUS,
+                facilityNearness,
+                k
+        );
+        return RecommendPropertyListResponse.from(properties);
+    }
 }
