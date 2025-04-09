@@ -49,7 +49,7 @@ public class RoutingUtil {
             }
 
             var path = response.getBest();
-            return (int) Math.ceil(path.getTime() / 1000.0 / 60.0); // ms → 분 단위 (올림)
+            return (int) Math.ceil(path.getTime() / 1000.0 / 60.0);
 
         } catch (Exception e) {
             System.err.println("GraphHopper 예외 발생: " + e.getMessage());
