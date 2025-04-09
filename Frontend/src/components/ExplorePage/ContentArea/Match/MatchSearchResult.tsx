@@ -27,7 +27,7 @@ interface ResultItem {
 
 const MatchSearchResults = () => {
   const { setIsSearching } = matchSearchStore()
-  const { results, resetResults, transportModes, setTransportModes } =
+  const { results, resetResults, setTransportModes } =
     useMatchSearchResultStore()
   const [filteredResults, setFilteredResults] = useState<ResultItem[]>([])
 

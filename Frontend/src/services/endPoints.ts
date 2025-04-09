@@ -81,9 +81,13 @@ export const MATCH_SEARCH_TARGET_END_POINT = {
   // 타겟 주소 삭제 - DELETE
   DELETE_TARGET: (targetAddressId: number) =>
     `/target-addresses/${targetAddressId}`,
+  // 기본 주소 설정 - PATCH
+  SET_DEFAULT: (targetAddressId: number) =>
+    `/target-addresses/${targetAddressId}/default`,
 }
 
 // 관심 매물 관련 API
 export const PROPERTY_END_POINT = {
   GET_LIKED_PROPERTIES: '/properties/likes',
+  TOGGLE_LIKE: (propertyId: number) => `/properties/likes/${propertyId}`,
 }

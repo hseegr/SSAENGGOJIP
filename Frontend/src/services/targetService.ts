@@ -77,3 +77,16 @@ export const deleteTargetAddress = async (targetAddressId: number) => {
     throw error
   }
 }
+
+// 타겟 주소 -> 기본 주소로 설정 - PATCH
+export const setDefaultAddress = async (targetAddressId: number) => {
+  try {
+    const response = await http.patch(
+      MATCH_SEARCH_TARGET_END_POINT.SET_DEFAULT(targetAddressId),
+    )
+    console.log(response.data)
+  } catch (error) {
+    console.error('기본 주소 설정 중 오류발생:', error)
+    throw error
+  }
+}
