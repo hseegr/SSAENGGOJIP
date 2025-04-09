@@ -20,6 +20,7 @@ export interface LikedProperty {
   imageUrl: string
 }
 
+// 관심 매물 리스트 받아오기 - GET
 export const fetchLikedProperties = async (): Promise<LikedProperty[]> => {
   const response = await http.get(PROPERTY_END_POINT.GET_LIKED_PROPERTIES)
   console.log('관심 매물 응답', response.data)

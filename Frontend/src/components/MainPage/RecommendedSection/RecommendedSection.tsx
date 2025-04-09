@@ -91,7 +91,7 @@ type Listing = {
 // API에서 받은 Property를 Listing 형태로 변환하는 함수
 const transformToListing = (property: Property): Listing => ({
   id: property.id,
-  type: '원룸', // 백엔드에서 타입이 없을 경우 기본값 지정
+  type: '매물 타입', // 백엔드에서 타입이 없을 경우 기본값 지정
   price: `${property.price.toLocaleString()}원`,
   floor: `${property.floor}층 | ${property.area}평`,
   address: property.address || '주소 정보 없음',

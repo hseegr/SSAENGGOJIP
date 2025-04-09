@@ -1,5 +1,8 @@
+import { toggleLike } from '@/services/propertyService'
+import { useLikeStore } from '@/store/propertyStore'
 import { Heart } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 
 type Listing = {
   id: number
@@ -17,11 +20,22 @@ type Props = {
 
 const ItemCard = ({ listing }: Props) => {
   // 찜 상태 저장
-  const [isLiked, setIsLiked] = useState(false)
+  const likeIds = useLikeStore((s) => s.likedIds)
+  const toggleLikeId = useLikeStore((s) => s.toggleLikeId)
 
-  // 하트 누르면 상태를 반대로 바꿔주는 함수
-  const toggleLike = () => {
-    setIsLiked((prev) => !prev)
+  // 현재 매물의 좋아요 여부
+  const isLiked = likeIds.includes(listing.id)
+
+  // 하트 클릭 핸들러
+  const handleLikeClick = async () => {
+    try {
+      // 1. 상태 먼저 토글 (낙관적 UI 반영)
+      toggleLikeId(listing.id)
+      await toggleLike(listing.id)
+    } catch (err) {
+      console.error('❌ 좋아요 요청 실패', err)
+      toast.error('로그인 후 이용해 주세요!')
+    }
   }
 
   return (
@@ -30,7 +44,10 @@ const ItemCard = ({ listing }: Props) => {
       {/* 이미지 */}
       <div className="relative w-full h-32 bg-gray-100 rounded mb-2 overflow-hidden">
         {/* 하트 */}
-        <button onClick={toggleLike} className="absolute top-2 right-2 z-9">
+        <button
+          onClick={handleLikeClick}
+          className="absolute top-2 right-2 z-9"
+        >
           <Heart
             size={24}
             fill={isLiked ? '#f87171' : '#E5E5E5'}
