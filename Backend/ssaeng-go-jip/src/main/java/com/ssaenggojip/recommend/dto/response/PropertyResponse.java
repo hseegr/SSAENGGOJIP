@@ -1,5 +1,7 @@
 package com.ssaenggojip.recommend.dto.response;
 
+import com.ssaenggojip.common.enums.DealType;
+import com.ssaenggojip.common.enums.PropertyType;
 import com.ssaenggojip.property.entity.Property;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,6 +17,9 @@ public class PropertyResponse {
     private String floor;
     private Double latitude;
     private Double longitude;
+    private String mainImage;
+    private DealType dealType;
+    private PropertyType propertyType;
 
     public static PropertyResponse from(Property p) {
         return PropertyResponse.builder()
@@ -26,6 +31,9 @@ public class PropertyResponse {
                 .floor(p.getFloor())
                 .latitude(p.getLatitude())
                 .longitude(p.getLongitude())
+                .mainImage(p.getMainImage())
+                .dealType(p.getDealType())
+                .propertyType(p.getPropertyType())
                 .build();
     }
 }
