@@ -60,11 +60,11 @@ public class StationService {
                 if(propertyStation.getId().equals(pointStation.getId()))
                     continue;
 
-                int pointToStationTime = routingUtil.getRoute(pointLongitude, pointLatitude, pointStation.getLongitude(), pointStation.getLatitude(), TransportationType.도보);
+                int pointToStationTime = routingUtil.getRoute(pointLatitude,pointLongitude, pointStation.getLatitude(), pointStation.getLongitude(), TransportationType.도보);
                 StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
 
                 int stationToStationTime = stationRoute.getTransportTime();
-                int stationToPropertyTime = routingUtil.getRoute(propertyLongitude, propertyLatitude,propertyStation.getLongitude(),propertyStation.getLatitude(), TransportationType.도보);
+                int stationToPropertyTime = routingUtil.getRoute(propertyLatitude,propertyLongitude,propertyStation.getLatitude(),propertyStation.getLongitude(), TransportationType.도보);
                 if(answer.stream().mapToInt(Integer::intValue).sum() > pointToStationTime + stationToStationTime + stationToPropertyTime) {
                     answer = List.of(pointToStationTime, stationToStationTime, stationToPropertyTime);
                     transferCount = stationRoute.getTransferCount();

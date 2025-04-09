@@ -7,21 +7,26 @@ import com.graphhopper.routing.util.BikeFlagEncoder;
 import com.graphhopper.routing.util.CarFlagEncoder;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.routing.util.FootFlagEncoder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.File;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Configuration
 public class GraphHopperConfig {
 
+    @Value("${graphhopper.osm-file-path}")
+    private String osmPath;
+
+    @Value("${graphhopper.graph-cache-path}")
+    private String graphFolder;
+
     @Bean
     public GraphHopper graphHopper() {
-        String osmPath = Paths.get("src/main/resources/map-data/south-korea-latest.osm.pbf").toString();
-
-        String graphFolder = "graph-cache";
+//        String osmPath = Paths.get("src/main/ources/map-data/south-korea-latest.osm.pbf").toString();
+//
+//        String graphFolder = "graph-cache";res
 
         // ✅ 이동 수단 추가: 자동차, 자전거, 도보
         EncodingManager encodingManager = new EncodingManager.Builder()

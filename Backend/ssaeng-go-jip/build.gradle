@@ -65,6 +65,10 @@ dependencyManagement {
     }
 }
 
+jar {
+    exclude 'map-data/**' // jar 만들 때만 제외
+}
+
 tasks.named('test') {
     useJUnitPlatform()
 }

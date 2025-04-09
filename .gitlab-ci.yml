@@ -1,43 +1,27 @@
 stages:
-  - build
-  - docker
+  - build_and_push
   - deploy
 
-# Build Stage
-build:
-  stage: build
-  tags:
-    - runner  # 이 태그를 가진 러너에서만 실행
-  image: gradle:7.6-jdk17  # Gradle 빌드 이미지
-  script:
-    - cd Backend/ssaeng-go-jip
-    - echo "Building the Spring Boot application"
-    - chmod +x gradlew  # 실행 권한 부여
-    - ./gradlew build -x test # 테스트 제외 빌드
-  artifacts:
-    paths:
-      - Backend/ssaeng-go-jip/build/libs/*.jar  # 빌드된 JAR 파일 저장
-  only:
-    - backend  # backend 브랜치에서만 실행
-
-# Docker Build & Push Stage
-docker_build_push:
-  stage: docker
+# Build & Docker Build & Push Stage
+build_and_push:
+  stage: build_and_push
   tags:
     - runner
   image: docker:latest
   services:
     - docker:dind
   variables:
-    DOCKER_TLS_CERTDIR: ""    
+    DOCKER_TLS_CERTDIR: ""
   before_script:
-    - echo "Logging into Docker Hub"
+    - apk update && apk add openjdk17 gradle git
     - echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
   script:
     - cd Backend/ssaeng-go-jip
-    - echo "Building Docker image"
+    - echo "Building Spring Boot Application"
+    - gradle build -x test
+    - echo "Building Docker Image"
     - docker build -t ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} .
-    - echo "Pushing Docker image to Docker Hub"
+    - echo "Pushing Docker Image"
     - docker push ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME}
   after_script:
     - docker logout
@@ -56,6 +40,6 @@ deploy:
     - mkdir -p ~/.ssh
     - echo "${SSH_PRIVATE_KEY}" | base64 -d > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
-    - ssh-agent sh -c "ssh-add ~/.ssh/id_rsa && ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} 'sudo docker pull ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} && sudo docker stop my-backend-container || true && sudo docker rm my-backend-container || true && sudo docker run --network host -d --name my-backend-container -p 8080:8080 -e POSTGRESQL_URL=${POSTGRESQL_URL} -e POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME} -e POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} -e REDIS_HOST=${REDIS_HOST} -e JWT_SECRET_KEY=${JWT_SECRET_KEY} -e KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID} -e KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET} -e KAKAO_REDIRECT_URL=${KAKAO_REDIRECT_URL} -e NAVER_CLIENT_ID=${NAVER_CLIENT_ID} -e NAVER_CLIENT_SECRET=${NAVER_CLIENT_SECRET} -e NAVER_REDIRECT_URL=${NAVER_REDIRECT_URL} -e GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} -e GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} -e GOOGLE_REDIRECT_URL=${GOOGLE_REDIRECT_URL} -e SSAFY_CLIENT_ID=${SSAFY_CLIENT_ID} -e SSAFY_CLIENT_SECRET=${SSAFY_CLIENT_SECRET} -e SSAFY_REDIRECT_URL=${SSAFY_REDIRECT_URL} -e MAIL_USERNAME=${MAIL_USERNAME} -e MAIL_PASSWORD=${MAIL_PASSWORD} -e MONGODB_URL=${MONGODB_URL} ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} && sudo docker image prune -f'"
+    - ssh-agent sh -c "ssh-add ~/.ssh/id_rsa && ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} 'sudo docker pull ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} && sudo docker stop my-backend-container || true && sudo docker rm my-backend-container || true && sudo docker run --network host -d --name my-backend-container -p 8080:8080 -e POSTGRESQL_URL=${POSTGRESQL_URL} -e POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME} -e POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD} -e REDIS_HOST=${REDIS_HOST} -e JWT_SECRET_KEY=${JWT_SECRET_KEY} -e KAKAO_CLIENT_ID=${KAKAO_CLIENT_ID} -e KAKAO_CLIENT_SECRET=${KAKAO_CLIENT_SECRET} -e KAKAO_REDIRECT_URL=${KAKAO_REDIRECT_URL} -e NAVER_CLIENT_ID=${NAVER_CLIENT_ID} -e NAVER_CLIENT_SECRET=${NAVER_CLIENT_SECRET} -e NAVER_REDIRECT_URL=${NAVER_REDIRECT_URL} -e GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID} -e GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET} -e GOOGLE_REDIRECT_URL=${GOOGLE_REDIRECT_URL} -e SSAFY_CLIENT_ID=${SSAFY_CLIENT_ID} -e SSAFY_CLIENT_SECRET=${SSAFY_CLIENT_SECRET} -e SSAFY_REDIRECT_URL=${SSAFY_REDIRECT_URL} -e MAIL_USERNAME=${MAIL_USERNAME} -e MAIL_PASSWORD=${MAIL_PASSWORD} -e MONGODB_URL=${MONGODB_URL} -e GRAPHHOPPER_OSM_FILE_PATH=${GRAPHHOPPER_OSM_FILE_PATH} -e GRAPHHOPPER_GRAPH_CACHE_PATH=${GRAPHHOPPER_GRAPH_CACHE_PATH} ${DOCKER_USERNAME}/${DOCKER_BACKEND_IMAGE_NAME} && sudo docker image prune -f'"
   only:
     - backend
