@@ -6,6 +6,7 @@ import {
   useMyChatRoomQuery,
   usePopularChatRoomsQuery,
 } from '@/hooks/useCommunity'
+import { toast } from 'react-toastify'
 
 // ts를 위한 코드
 declare global {
@@ -115,7 +116,7 @@ const MapView = ({ onChatOpen }: Props) => {
           joinBtn.addEventListener('click', async () => {
             const token = localStorage.getItem('accessToken')
             if (!token) {
-              alert('로그인이 필요합니다!')
+              toast.error('로그인 후 이용해 주세요!')
               return
             }
 

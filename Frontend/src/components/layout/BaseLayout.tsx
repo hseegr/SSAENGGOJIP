@@ -38,7 +38,7 @@ const BaseLayout = () => {
       {/* 토스트 에러 처리 메시지를 위함 */}
       <ToastContainer
         position="top-center"
-        autoClose={3000}
+        autoClose={1500}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover
