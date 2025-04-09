@@ -45,12 +45,7 @@ interface PropertyData {
 }
 
 const DetailInfo: React.FC = () => {
-  const {
-    selectedCard,
-    setSelectedCard,
-    selectedMatchCard,
-    setSelectedMatchCard,
-  } = useSidebarStore() // Zustand store에서 상태 가져오기
+  const { selectedCard, setSelectedCard, selectedMatchCard } = useSidebarStore() // Zustand store에서 상태 가져오기
   const [propertyData, setPropertyData] = useState<PropertyData>({
     id: 1,
     name: '멀티캠퍼스 역삼',
@@ -152,7 +147,7 @@ const DetailInfo: React.FC = () => {
           {propertyData.dealType === '월세' ? (
             <>
               {propertyData.price.toLocaleString()} /&nbsp;
-              {propertyData.rentPrice.toLocaleString()}원
+              {propertyData.rentPrice.toLocaleString()}
             </>
           ) : (
             <>
@@ -228,7 +223,7 @@ const DetailInfo: React.FC = () => {
         <TrafficInfo />
       </div>
 
-      {/* 주변 시설 정보 */}
+      {/* 주변 역 정보 */}
       <NearbyStations stations={stations} />
 
       {/* 추천 매물 정보 */}

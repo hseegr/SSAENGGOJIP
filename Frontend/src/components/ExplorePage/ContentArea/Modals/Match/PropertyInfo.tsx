@@ -36,7 +36,10 @@ const PropertyFilter = () => {
         let transportationTypeForApi = '지하철' // 기본값
         if (info.transportMode === 'SUBWAY') {
           transportationTypeForApi = '지하철'
-        } else if (info.transportMode === 'WALK') {
+        } else if (
+          info.transportMode === 'WALK' ||
+          info.transportMode === '도보'
+        ) {
           transportationTypeForApi = '도보'
         }
         return {

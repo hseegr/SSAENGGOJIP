@@ -217,7 +217,7 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ id, onClose }) => {
       {/* 교통 정보 */}
       <div className="my-6">
         <h3 className="text-xl font-bold mb-2">교통 정보 🚇</h3>
-        <TrafficInfo trafficData={trafficData} />
+        <TrafficInfo trafficData={data} />
       </div>
       {/* 매물 주변 지하철 정보 */}
       <NearbyStations stations={data.stations} />
