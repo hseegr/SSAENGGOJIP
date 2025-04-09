@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Address from './Address'
 import Transport from './Transport'
 import { editTargetAddress, setDefaultAddress } from '@/services/targetService' // 수정 API import
+import { X } from 'lucide-react'
 
 interface EditTargetModalProps {
   isOpen: boolean
@@ -132,7 +133,7 @@ const EditTargetModal = ({
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
           onClick={onClose}
         >
-          ✕
+          <X />
         </button>
 
         {/* 페이지 렌더링 */}

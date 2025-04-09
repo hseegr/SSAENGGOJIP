@@ -189,7 +189,7 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
         </button>
 
         {/* 헤더 부분 */}
-        <div className="flex justify-between mb-3">
+        <div className="flex justify-between mb-3 px-3">
           <p className="text-lg font-bold mt-4 mb-1">주소</p>
           <div className="mt-6">
             <button
@@ -240,7 +240,7 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
           /* 주소 목록 */
           <ul>
             {addresses.map((info) => (
-              <div key={info.id} className="mb-6 p-4 rounded-lg shadow-md">
+              <div key={info.id} className="px-3">
                 {/* 편집 모드일 때 삭제 및 수정 버튼 */}
                 {isEditMode && (
                   <div className="flex justify-between mb-2">
@@ -269,15 +269,17 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
                         ? setEditAddress(info) // 편집 모드에서는 수정 대상 설정
                         : handleSelectAddress(info.id) // 선택/취소 토글
                   }
-                  className={`p-4 rounded-lg shadow-md cursor-pointer ${
-                    selectedIds.includes(info.id) ? 'bg-gray-300' : 'bg-white'
+                  className={`w-full p-4 rounded-lg cursor-pointer border-3 ${
+                    selectedIds.includes(info.id)
+                      ? 'bg-gray-100'
+                      : 'bg-white border border-gray-100'
                   }`}
                 >
                   {/* 주소 섹션 */}
                   <div className="flex items-center justify-between mb-2">
                     <div>
                       {/* 이름 */}
-                      <span className="text-md font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-lg inline-block">
+                      <span className="text-md font-semibold text-ssaeng-purple bg-ssaeng-purple-light px-2 py-1 rounded-lg inline-block">
                         {info.name}
                       </span>
                       {/* 주소 */}

@@ -98,12 +98,11 @@ const Address: React.FC<AddressProps> = ({
   const closeModal = () => setIsModalOpen(false)
 
   return (
-    <div>
-      <p>주소</p>
-      <h2 className="text-lg font-bold mb-4">주소 설정</h2>
+    <div className="flex flex-col mb-3 px-3">
+      <h2 className="text-lg font-bold mt-4 mb-1">주소 설정</h2>
 
       {/* 주소 검색창 (기존 코드 유지) */}
-      <div className="mb-4">
+      <div className="mb-4 mt-4">
         <div className="relative">
           <span className="absolute inset-y-0 left-3 flex items-center text-gray-400">
             <Search size={20} strokeWidth={2} />
@@ -145,11 +144,11 @@ const Address: React.FC<AddressProps> = ({
               onClick={() =>
                 handleNameButtonClick(type as '직접 입력' | '직장' | '학교')
               }
-              className={`py-2 px-4 rounded-lg text-sm font-medium transition-all
+              className={`w-28 py-2 text-sm rounded-lg border transition-all
                 ${
                   selectedNameType === type
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
+                    : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
                 }`}
             >
               {type}
