@@ -138,7 +138,7 @@ public class PropertyFacade {
         if(request.getAddresses().size() == 1) {
             result = new ArrayList<>(merged1.values());
         }
-        else if(request.getAddresses().size() == 2){ // 입력 주소가 2개인 경우
+        else if(request.getAddresses().size() == 2){ // 입력 주소가 2개인 경우 결합
             Map<Long, RecommendSearchProperty> merged2 = getMergedPropertiesByIndex(request, 1);
             result = merged1.entrySet().stream()
                     .filter(entry -> merged2.containsKey(entry.getKey()))
@@ -163,6 +163,7 @@ public class PropertyFacade {
                 .properties(result)
                 .build();
         // 필터링 한 값에 관심/추천 부여
+
 //        Set<Long> LikePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
 //        for (RecommendSearchProperty recommendSearchProperty:response.getProperties())
 //            recommendSearchProperty.setIsInterest(LikePropertyIds.contains(recommendSearchProperty.getId()));
@@ -177,19 +178,12 @@ public class PropertyFacade {
 
         return response;
 
-//
-//        return RecommendSearchResponse.builder()
-//                .total(result.size())
-//                .properties(result)
-//                .build();
-
-
     }
 
     public Map<Long, RecommendSearchProperty> getMergedPropertiesByIndex(RecommendSearchRequest request, int index) {
         Map<Long, RecommendSearchProperty> merged = new HashMap<>();
 
-        // 도보/차/자전거 만
+        // 도보/차/자전거 만 (정밀 검사까지 수행 완료)
         List<RecommendSearchDto> walkOnly = propertyService.searchPropertiesWithinTime(request, index);
         for (RecommendSearchDto dto : walkOnly) {
             merged.put(dto.getId(), new RecommendSearchProperty(dto));
@@ -197,7 +191,11 @@ public class PropertyFacade {
 
         // 지하철 포함
         if (request.getAddresses().get(index).getTransportationType() == TransportationType.지하철) {
+            // 직선 거리로 필터링
             List<RecommendSearchDto> subwayIncluded = propertyService.getRecommendedProperties(request, index);
+            // 필터링한 한 애들을 다시 제대로 계산
+            // TODO:여기에 넣을 것
+
             for (RecommendSearchDto dto : subwayIncluded) {
                 RecommendSearchProperty existing = merged.get(dto.getId());
                 if (existing == null || dto.getTotalTime() < existing.getTransportTimes().get(0)) {

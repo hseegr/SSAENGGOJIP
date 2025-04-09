@@ -61,7 +61,10 @@ public class StationService {
                     continue;
 
                 int pointToStationTime = routingUtil.getRoute(pointLatitude,pointLongitude, pointStation.getLatitude(), pointStation.getLongitude(), TransportationType.도보);
-                StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
+                // StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
+                StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElse(null);
+                if (stationRoute == null)
+                    continue;
 
                 int stationToStationTime = stationRoute.getTransportTime();
                 int stationToPropertyTime = routingUtil.getRoute(propertyLatitude,propertyLongitude,propertyStation.getLatitude(),propertyStation.getLongitude(), TransportationType.도보);
