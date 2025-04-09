@@ -60,7 +60,7 @@ public class PropertyService {
         // 최종 dto로 변경
         return SearchResponse.builder()
                 .total(result.size())
-                .properties(result.toArray(new SearchProperty[0]))
+                .properties(result)
                 .build();
     }
 

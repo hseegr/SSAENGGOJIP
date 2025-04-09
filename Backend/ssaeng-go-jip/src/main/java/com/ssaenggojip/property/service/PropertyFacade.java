@@ -14,6 +14,7 @@ import com.ssaenggojip.property.dto.request.SearchRequest;
 import com.ssaenggojip.property.dto.request.TransportTimeRequest;
 import com.ssaenggojip.station.entity.Station;
 import com.ssaenggojip.station.service.StationService;
+import com.ssaenggojip.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,9 @@ public class PropertyFacade {
     private final PropertyService propertyService;
     private final FacilityService facilityService;
     private final TransportTimeProvider transportTimeProvider;
+    private final PropertyLikeService propertyLikeService;
 
-    public SearchResponse searchProperties(SearchRequest request) {
+    public SearchResponse searchProperties(SearchRequest request, User user) {
         String search = request.getSearch();
         boolean isStationSearch = false;
         Double lat = null;
@@ -42,8 +44,15 @@ public class PropertyFacade {
             lat = station.getLatitude();
             lng = station.getLongitude();
         }
-
-        return propertyService.searchWithFilter(request, isStationSearch, lng, lat);
+        SearchResponse searchResponse = propertyService.searchWithFilter(request, isStationSearch, lng, lat);;
+        List<Long> LikePropertyIds = propertyLikeService.getLikePropertyIds(user);
+//        if (!LikePropertyIds.isEmpty()){
+//            for(int i = 0; i < searchResponse.getProperties().size(); i++){
+//
+//            }
+//        }
+        return searchResponse;
+        // return propertyService.searchWithFilter(request, isStationSearch, lng, lat);
     }
 
     public DetailResponse getDetail(Long id) {
