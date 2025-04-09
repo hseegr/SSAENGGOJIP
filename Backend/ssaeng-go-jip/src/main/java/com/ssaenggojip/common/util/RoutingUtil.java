@@ -33,6 +33,7 @@ public class RoutingUtil {
                 case 차 -> "car";
                 case 도보 -> "foot";
                 case 자전거 -> "bike";
+                case 지하철 -> "foot";
                 default -> throw new GeneralException(ErrorStatus.NOT_SUPPORTED_ENUM_TYPE);
             };
 

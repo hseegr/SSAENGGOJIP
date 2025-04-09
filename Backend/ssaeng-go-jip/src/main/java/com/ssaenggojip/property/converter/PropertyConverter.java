@@ -20,6 +20,7 @@ public class PropertyConverter {
                 .maintenancePrice(p.getMaintenancePrice())
                 .isInterest(isLiked)     // TODO:관심 매물 여부: 추후 구현
                 .isRecommend(isRecommend)    // TODO:추천 여부: 추후 구현
+                .imageUrl(p.getMainImage())
                 .build();
     }
 }

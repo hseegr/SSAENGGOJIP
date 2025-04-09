@@ -44,25 +44,28 @@ public class PropertyFacade {
             lat = station.getLatitude();
             lng = station.getLongitude();
         }
+
+        // 조건으로 필터링
         SearchResponse searchResponse = propertyService.searchWithFilter(request, isStationSearch, lng, lat);;
-        List<Long> LikePropertyIds = propertyLikeService.getLikePropertyIds(user);
-//        if (!LikePropertyIds.isEmpty()){
-//            for(int i = 0; i < searchResponse.getProperties().size(); i++){
-//
-//            }
-//        }
+
+        // 필터링 한 값에 관심/추천 부여
+        Set<Long> LikePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
+        for (SearchProperty searchProperty:searchResponse.getProperties()){
+            searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
+            //TODO: 여기 아래처럼 추천
+            //searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
+        }
         return searchResponse;
-        // return propertyService.searchWithFilter(request, isStationSearch, lng, lat);
     }
 
     public DetailResponse getDetail(Long id) {
         Property property = propertyService.getDetail(id);
-
+        // 주변시설 조립
         List<NearFacilityResponse> nearFacilities =  facilityService.findNearestFacilities(
                 property.getLatitude(),
                 property.getLongitude()
         );
-
+        // 주변 역 조립
         List<DetailStation> detailStations = new ArrayList<>();
         for(Station station: stationService.findStationsWithin1km(property.getLongitude(), property.getLatitude())){
             detailStations.add(
@@ -73,7 +76,7 @@ public class PropertyFacade {
                             .build()
             );
         }
-
+        // 이미지 불러오기
         List<String> imageUrls = propertyService.getDetailImage(property.getId());
 
         return DetailResponse.builder()
@@ -96,11 +99,14 @@ public class PropertyFacade {
 
     public TransportTimeResponse getTransportTime(TransportTimeRequest request) {
         TransportTimeResponse response;
+        // 이동 수단별로 처리
         switch (request.getTransportationType()) {
             case 도보, 차, 자전거 -> response = propertyService.getTransportTime(request);
             case 지하철 -> {
 
                 Property property = propertyService.getPropertyById(request.getPropertyId());
+
+                // 도보도 구해줌
                 TransportTimeRequest walkRequest = TransportTimeRequest.builder()
                         .propertyId(request.getPropertyId())
                         .latitude(request.getLatitude())
@@ -108,8 +114,9 @@ public class PropertyFacade {
                         .transportationType(TransportationType.도보)
                         .build();
                 TransportTimeResponse responseWalk = propertyService.getTransportTime(walkRequest);
+                // 지하철 시간과 도보시간과 비교한 후 짧은 쪽으로 리턴, 동일한 경우에는 도보
                 response = stationService.getTransportTime(request.getLongitude(), request.getLatitude(), property.getLongitude(), property.getLatitude());
-                response = response.getTotalTransportTime()< responseWalk.getTotalTransportTime() ? response: responseWalk;
+                response = response.getTotalTransportTime() < responseWalk.getTotalTransportTime() ? response: responseWalk;
             }
             default -> throw new GeneralException(ErrorStatus.NOT_SUPPORTED_ENUM_TYPE);
         }
