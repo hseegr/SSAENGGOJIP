@@ -10,12 +10,15 @@ export interface CommonResponse<T> {
 export interface Property {
   id: number
   name: string
-  price: number
+  price: string
   area: number
   address: string
-  floor: number
+  floor: string
   latitude: number
   longitude: number
+  mainImage: string | null
+  dealType: string
+  propertyType: string
 }
 
 // 매물 추천 응답의 result 필드 타입
