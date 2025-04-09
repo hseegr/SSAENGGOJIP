@@ -10,11 +10,11 @@ public class PropertyResponse {
     private Long id;
     private String name;
     private Long price;
-    private double area;
+    private Double area;
     private String address;
     private String floor;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 
     public static PropertyResponse from(Property p) {
         return PropertyResponse.builder()
