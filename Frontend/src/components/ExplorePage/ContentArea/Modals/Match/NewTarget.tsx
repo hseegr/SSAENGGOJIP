@@ -83,7 +83,7 @@ const NewTargetModal = ({ isOpen, onClose }: NewAddressModalProps) => {
   }
 
   return ReactDOM.createPortal(
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 ">
       <div className="bg-white p-6 rounded-lg shadow-lg relative h-3/4 w-1/4">
         {/* 닫기 버튼 */}
         <button

@@ -4,6 +4,7 @@ import EditTargetModal from './EditTarget' // 새로운 주소 수정 모달
 import useMatchInfoStore from '@/store/matchInfoStore' // Zustand 스토어 import
 import { getTargetAddress, deleteTargetAddress } from '@/services/targetService'
 import ReactDOM from 'react-dom' // ReactDOM import 추가
+import { X } from 'lucide-react'
 
 interface Address {
   id: number
@@ -178,28 +179,38 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
           {notification}
         </div>
       )}
-      <div className="bg-white p-6 rounded-lg shadow-lg relative h-3/4 w-1/4 overflow-y-auto">
+      <div className="relative bg-white rounded-xl shadow-2xl w-[420px] h-[588px] max-w-md max-h-[90vh] overflow-y-auto p-6">
         {/* 닫기 버튼 */}
         <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          className="absolute top-5 right-5 text-gray-500 hover:text-gray-800 text-xl"
           onClick={handleCloseWithStoreUpdate}
         >
-          ✕
+          <X />
         </button>
 
         {/* 헤더 부분 */}
         <div className="flex justify-between mb-3">
-          <p>주소</p>
-          <button onClick={() => setIsNewTargetModalOpen(true)}>
-            추가하기
-          </button>
-          <button onClick={() => setIsEditMode(!isEditMode)}>
-            {isEditMode ? '편집 완료' : '편집'}
-          </button>
-          <NewTargetModal
-            isOpen={isNewTargetModalOpen}
-            onClose={() => handleNewTargetClosed()}
-          />
+          <p className="text-lg font-bold mt-4 mb-1">주소</p>
+          <div className="mt-6">
+            <button
+              className="text-lg font-normal mt-4 mb-1 mr-4"
+              onClick={() => setIsEditMode(!isEditMode)}
+            >
+              {isEditMode ? '편집 완료' : '편집'}
+            </button>
+
+            <NewTargetModal
+              isOpen={isNewTargetModalOpen}
+              onClose={() => handleNewTargetClosed()}
+            />
+            <button
+              className="text-lg font-normal mt-4 mb-1"
+              onClick={() => setIsNewTargetModalOpen(true)}
+            >
+              추가하기
+            </button>
+          </div>
+
           {/* 주소 수정 모달 */}
           {editAddress && (
             <EditTargetModal
@@ -222,7 +233,9 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
         {isLoading ? (
           <p className="text-center text-gray-500">로딩 중...</p>
         ) : addresses.length === 0 ? (
-          <p className="text-center text-gray-500">표시할 주소가 없습니다.</p>
+          <p className="text-center mt-[200px] text-gray-500">
+            표시할 주소가 없습니다.
+          </p>
         ) : (
           /* 주소 목록 */
           <ul>
