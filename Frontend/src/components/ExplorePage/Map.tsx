@@ -497,7 +497,7 @@ const KakaoMap = () => {
       </div>
 
       {/* 커뮤니티 영역 */}
-      <CommunityModal />
+      {/* <CommunityModal /> */}
     </div>
   )
 }
