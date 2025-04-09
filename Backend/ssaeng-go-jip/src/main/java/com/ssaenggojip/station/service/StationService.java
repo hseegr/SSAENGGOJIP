@@ -28,9 +28,7 @@ import java.util.stream.Collectors;
 @Service
 public class StationService {
     private final StationRepository stationRepository;
-    private final NearStationRepository nearStationRepository;
     private final StationRouteReporitory stationRouteReporitory;
-    private final TransportTimeProvider transportTimeProvider;
     private final StationDetailRepository stationDetailRepository;
     private final RoutingUtil routingUtil;
 
@@ -61,7 +59,7 @@ public class StationService {
                     continue;
 
                 int pointToStationTime = routingUtil.getRoute(pointLatitude,pointLongitude, pointStation.getLatitude(), pointStation.getLongitude(), TransportationType.도보);
-                // StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
+                // StationRoute stationRoute = stationRouteRepository.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
                 StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(pointStation.getId(), propertyStation.getId()).orElse(null);
                 if (stationRoute == null)
                     continue;
