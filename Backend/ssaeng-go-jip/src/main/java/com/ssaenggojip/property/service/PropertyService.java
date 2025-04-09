@@ -217,7 +217,16 @@ public class PropertyService {
                 request.getMinPrice(),
                 request.getMaxPrice(),
                 request.getMinRentPrice(),
-                request.getMaxRentPrice()
+                request.getMaxRentPrice(),
+                // 사설 필터
+                request.getFacility().contains(FacilityType.병원) ? true : null,
+                request.getFacility().contains(FacilityType.약국) ? true : null,
+                request.getFacility().contains(FacilityType.동물병원) ? true : null,
+                request.getFacility().contains(FacilityType.공원) ? true : null,
+                request.getFacility().contains(FacilityType.관공서) ? true : null,
+                request.getFacility().contains(FacilityType.편의점) ? true : null,
+                request.getFacility().contains(FacilityType.대형마트) ? true : null,
+                request.getFacility().contains(FacilityType.세탁소) ? true : null
                 );
 
         return pointStationPropertyDtos.stream()

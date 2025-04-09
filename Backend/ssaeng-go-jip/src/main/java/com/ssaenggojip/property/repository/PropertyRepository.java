@@ -231,9 +231,17 @@ SELECT
 FROM property_candidates pc
 JOIN property p ON pc.property_id = p.id
 WHERE (:dealType IS NULL OR p.deal_type::text = :dealType)
-  AND (:propertyTypesEmpty OR p.property_type::text IN (:propertyTypes))
-  AND p.price BETWEEN :minPrice AND :maxPrice
-  AND p.rent_price BETWEEN :minRentPrice AND :maxRentPrice
+    AND (:propertyTypesEmpty OR p.property_type::text IN (:propertyTypes))
+    AND p.price BETWEEN :minPrice AND :maxPrice
+    AND p.rent_price BETWEEN :minRentPrice AND :maxRentPrice
+    AND (:isHospitalNear IS NULL OR p.is_hospital_near = :isHospitalNear)
+    AND (:isPharmacyNear IS NULL OR p.is_pharmacy_near = :isPharmacyNear)
+    AND (:isVetNear IS NULL OR p.is_vet_near = :isVetNear)
+    AND (:isParkNear IS NULL OR p.is_park_near = :isParkNear)
+    AND (:isGovernmentNear IS NULL OR p.is_government_near = :isGovernmentNear)
+    AND (:isConvenienceStoreNear IS NULL OR p.is_convenience_store_near = :isConvenienceStoreNear)
+    AND (:isMartNear IS NULL OR p.is_mart_near = :isMartNear)
+    AND (:isLaundryNear IS NULL OR p.is_laundry_near = :isLaundryNear)
 ORDER BY pc.t2 ASC
 """, nativeQuery = true)
     List<PointStationPropertyDto> findReachableProperties(
@@ -247,7 +255,15 @@ ORDER BY pc.t2 ASC
             @Param("minPrice") Long minPrice,
             @Param("maxPrice") Long maxPrice,
             @Param("minRentPrice") Long minRentPrice,
-            @Param("maxRentPrice") Long maxRentPrice
+            @Param("maxRentPrice") Long maxRentPrice,
+            @Param("isHospitalNear") Boolean isHospitalNear,
+            @Param("isPharmacyNear") Boolean isPharmacyNear,
+            @Param("isVetNear") Boolean isVetNear,
+            @Param("isParkNear") Boolean isParkNear,
+            @Param("isGovernmentNear") Boolean isGovernmentNear,
+            @Param("isConvenienceStoreNear") Boolean isConvenienceStoreNear,
+            @Param("isMartNear") Boolean isMartNear,
+            @Param("isLaundryNear") Boolean isLaundryNear
     );
 
 

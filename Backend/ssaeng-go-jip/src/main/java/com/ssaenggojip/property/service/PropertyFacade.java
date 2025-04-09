@@ -189,13 +189,10 @@ public class PropertyFacade {
             merged.put(dto.getId(), new RecommendSearchProperty(dto));
         }
 
-        // 지하철 포함
+        // 지하철 포함 (정밀 검사까지 수행 완료)
         if (request.getAddresses().get(index).getTransportationType() == TransportationType.지하철) {
-            // 직선 거리로 필터링
             List<RecommendSearchDto> subwayIncluded = propertyService.getRecommendedProperties(request, index);
-            // 필터링한 한 애들을 다시 제대로 계산
-            // TODO:여기에 넣을 것
-
+            // 빠른 쪽으로
             for (RecommendSearchDto dto : subwayIncluded) {
                 RecommendSearchProperty existing = merged.get(dto.getId());
                 if (existing == null || dto.getTotalTime() < existing.getTransportTimes().get(0)) {
