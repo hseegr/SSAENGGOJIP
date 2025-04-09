@@ -179,7 +179,7 @@ public class PropertyFacade {
         for(int i = 0; i < request.getAddresses().size(); i++){
             Double latA = request.getAddresses().get(i).getLatitude();
             Double lngA = request.getAddresses().get(i).getLongitude();
-            TransportTimeRequest transportTimeRequest = new TransportTimeRequest(latA, lngA, property.getId());
+            TransportTimeRequest transportTimeRequest = new TransportTimeRequest(latA, lngA, property.getId(),TransportationType.도보);
             TransportTimeResponse response = propertyService.getTransportTime(transportTimeRequest);
 
             if(request.getAddresses().get(i).getTransportationType() == TransportationType.지하철) {

@@ -21,10 +21,4 @@ public class TransportTimeRequest {
 
     private TransportationType transportationType;
 
-    public TransportTimeRequest(Double latitude, Double longitude, Long propertyId){
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.propertyId = propertyId;
-        this.transportationType = null;
-    }
 }
