@@ -35,7 +35,7 @@ public class PropertyService {
 
     public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lng, Double lat) {
         // lat, lng 기준 반경 1KM, 설정한 조건 기준으로 검색
-        Integer SEARCH_DISTANCE = 1200;
+        Integer SEARCH_DISTANCE = 1250;
         List<Property> properties = propertyRepository.searchFilteredProperties(
                 request.getDealType() != null ? request.getDealType().name() : null,
                 request.getPropertyTypes().stream().map(Enum::name).toList(),
@@ -167,7 +167,7 @@ public class PropertyService {
 
         );
 
-        if(properties.size()>2000)
+        if(properties.size()>5000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
         List<RecommendSearchDto> recommendSearchProperties = new ArrayList<>();
