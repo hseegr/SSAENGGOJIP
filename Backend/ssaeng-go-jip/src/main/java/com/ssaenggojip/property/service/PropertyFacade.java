@@ -17,6 +17,7 @@ import com.ssaenggojip.station.service.StationService;
 import com.ssaenggojip.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,6 +32,7 @@ public class PropertyFacade {
     private final PropertyLikeService propertyLikeService;
     private final RecommendService recommendService;
 
+    @Transactional(readOnly = true)
     public SearchResponse searchProperties(SearchRequest request, User user) {
         String search = request.getSearch();
         boolean isStationSearch = false;
@@ -63,7 +65,7 @@ public class PropertyFacade {
 
         return searchResponse;
     }
-
+    @Transactional(readOnly = true)
     public DetailResponse getDetail(Long id) {
         Property property = propertyService.getDetail(id);
 
@@ -97,7 +99,7 @@ public class PropertyFacade {
                 .imageUrls(imageUrls)
                 .build();
     }
-
+    @Transactional(readOnly = true)
     public TransportTimeResponse getTransportTime(TransportTimeRequest request) {
         TransportTimeResponse response = null;
         // 이동 수단별로 처리
@@ -125,7 +127,7 @@ public class PropertyFacade {
         return response;
     }
 
-
+    @Transactional(readOnly = true)
     public RecommendSearchResponse searchRecommend(RecommendSearchRequest request, User user) {
 
         Map<Long, RecommendSearchProperty> merged1 = getMergedPropertiesByIndex(request,0);
@@ -176,7 +178,7 @@ public class PropertyFacade {
         return response;
 
     }
-
+    @Transactional(readOnly = true)
     public Map<Long, RecommendSearchProperty> getMergedPropertiesByIndex(RecommendSearchRequest request, int index) {
         Map<Long, RecommendSearchProperty> merged = new HashMap<>();
 
@@ -204,7 +206,7 @@ public class PropertyFacade {
 
         return merged;
     }
-
+    @Transactional(readOnly = true)
     public RecommendDetailResponse getRecommendDetail(RecommendDetailRequest request) {
         Property property = propertyService.getPropertyById(request.getPropertyId());
 
