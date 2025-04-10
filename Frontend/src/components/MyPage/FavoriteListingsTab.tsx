@@ -54,6 +54,16 @@ const FavoriteListingsTab = () => {
     }
   }
 
+  const formatPrice = (price: number): string => {
+    const eok = Math.floor(price / 100000000) // 억 단위
+    const man = Math.floor((price % 100000000) / 10000) // 만 단위
+
+    if (eok > 0 && man > 0) return `${eok}억 ${man}만`
+    if (eok > 0) return `${eok}억`
+    if (man > 0) return `${man}만`
+    return `${price.toLocaleString()}원` // 1만원 미만 처리
+  }
+
   const handleCompareClick = () => {
     if (selectedIds.length < 2) {
       toast.info('매물을 2개 이상 선택해야 비교할 수 있어요!')
@@ -86,7 +96,7 @@ const FavoriteListingsTab = () => {
       )}
 
       {/* 고정 하단 바 */}
-      <div className="fixed bottom-0 left-0 w-full bg-ssaeng-purple text-white px-6 py-4 z-50">
+      <div className="fixed bottom-0 left-0 w-full bg-ssaeng-purple text-white px-4 py-4 z-50">
         <div className="max-w-screen-xl mx-auto flex justify-between items-center">
           <div className="text-sm flex gap-6 items-center flex-wrap">
             {isCompareMode ? (
@@ -100,16 +110,14 @@ const FavoriteListingsTab = () => {
                   return (
                     <span
                       key={i}
-                      className={`px-12 py-2 border-2 rounded-full text-sm ${
-                        selected ? 'border-white' : 'border-dashed border-white'
-                      }`}
+                      className={`w-[260px] text-center px-4 py-2 border-2 rounded-full text-sm ${selected ? 'border-white' : 'border-dashed border-white'
+                        }`}
                     >
                       {selected
-                        ? `${i + 1}. ${property?.propertyType} ${
-                            property?.dealType === '전세'
-                              ? `전세 ${property?.price.toLocaleString()}`
-                              : `월세 ${property?.price.toLocaleString()} / ${property?.rentPrice.toLocaleString()}`
-                          }`
+                        ? `${i + 1}. ${property?.dealType} ${property?.dealType === '전세'
+                          ? `${formatPrice(property?.price || 0)}`
+                          : `${formatPrice(property?.price || 0)} / ${formatPrice(property?.rentPrice || 0)}`
+                        }`
                         : `${i + 1}. 비교할 매물을 선택해주세요`}
                     </span>
                   )
