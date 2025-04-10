@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,7 +64,7 @@ public class PropertyService {
                 request.getFacilityTypes().contains(FacilityType.세탁소) ? true : null
         );
 
-        if(properties.size()>5000)
+        if(properties.size()>20000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
         // dto로 변경
@@ -170,7 +171,7 @@ public class PropertyService {
 
         );
 
-        if(properties.size()>5000)
+        if(properties.size()>20000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
         List<RecommendSearchDto> recommendSearchProperties = new ArrayList<>();
@@ -207,7 +208,7 @@ public class PropertyService {
     }
     @Transactional(readOnly = true)
     public List<RecommendSearchDto> getRecommendedProperties(RecommendSearchRequest request, Integer targetNum) {
-
+        System.out.println("FFFF");
         Double pointLatitude = request.getAddresses().get(targetNum).getLatitude();
         Double pointLongitude = request.getAddresses().get(targetNum).getLongitude();
         List<PointStationPropertyDto> pointStationPropertyDtos = propertyRepository.findReachableProperties(
@@ -232,38 +233,83 @@ public class PropertyService {
                 request.getFacility().contains(FacilityType.대형마트) ? true : null,
                 request.getFacility().contains(FacilityType.세탁소) ? true : null
                 );
-        if (pointStationPropertyDtos.size() > 5000)
+//        System.out.println("LLL");
+//        System.out.println(pointStationPropertyDtos.size());
+//        long uniqueCount = pointStationPropertyDtos.stream()
+//                .map(PointStationPropertyDto::getId) // 또는 getPropertyId()
+//                .distinct()
+//                .count();
+//        System.out.println("고유 propertyId 수: " + uniqueCount);
+        if (pointStationPropertyDtos.size() > 20000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
-        List<RecommendSearchDto> result = new ArrayList<>();
 
-        for (PointStationPropertyDto dto : pointStationPropertyDtos) {
-            int route1 = routingUtil.getRoute(pointLatitude, pointLongitude, dto.getStationALatitude(), dto.getStationALongitude(), TransportationType.도보);
-            int route2 = routingUtil.getRoute(dto.getStationBLatitude(), dto.getStationBLongitude(), dto.getLatitude(), dto.getLongitude(), TransportationType.도보);
-            // 시간 초과시 추가 하지 않음
-            if(route1+route2 > request.getAddresses().get(targetNum).getWalkTime()
-                    || route1+route2+dto.getTotalTime() > request.getAddresses().get(targetNum).getTotalTransportTime())
-                continue;
-            RecommendSearchDto recommendSearchDto = new RecommendSearchDto(
-                    dto.getId(),
-                    dto.getIsRecommend(),
-                    dto.getDealType(),
-                    dto.getPrice(),
-                    dto.getRentPrice(),
-                    dto.getMaintenancePrice(),
-                    dto.getTotalFloor(),
-                    dto.getFloor(),
-                    dto.getArea(),
-                    dto.getAddress(),
-                    dto.getLatitude(),
-                    dto.getLongitude(),
-                    false,
-                    dto.getImageUrl(),
-                    route1 + dto.getTotalTime() + route2
-            );
-            result.add(recommendSearchDto);
-        }
-        return result;
+        // 정밀계산
+        List<RecommendSearchDto> result = pointStationPropertyDtos.parallelStream()
+                .map(dto -> {
+                    try {
+                        int route1 = routingUtil.getRoute(pointLatitude, pointLongitude, dto.getStationALatitude(), dto.getStationALongitude(), TransportationType.도보);
+                        int route2 = routingUtil.getRoute(dto.getStationBLatitude(), dto.getStationBLongitude(), dto.getLatitude(), dto.getLongitude(), TransportationType.도보);
+
+                        int walkTime = request.getAddresses().get(targetNum).getWalkTime();
+                        int totalTime = request.getAddresses().get(targetNum).getTotalTransportTime();
+
+                        if (route1 + route2 > walkTime || route1 + route2 + dto.getTotalTime() > totalTime) {
+                            return null;
+                        }
+
+                        return new RecommendSearchDto(
+                                dto.getId(),
+                                dto.getIsRecommend(),
+                                dto.getDealType(),
+                                dto.getPrice(),
+                                dto.getRentPrice(),
+                                dto.getMaintenancePrice(),
+                                dto.getTotalFloor(),
+                                dto.getFloor(),
+                                dto.getArea(),
+                                dto.getAddress(),
+                                dto.getLatitude(),
+                                dto.getLongitude(),
+                                false,
+                                dto.getImageUrl(),
+                                route1 + dto.getTotalTime() + route2
+                        );
+                    } catch (Exception e) {
+                        // 예외 발생 시 무시하고 제외
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .toList();
+//        List<RecommendSearchDto> result = new ArrayList<>();
+//        for (PointStationPropertyDto dto : pointStationPropertyDtos) {
+//            int route1 = routingUtil.getRoute(pointLatitude, pointLongitude, dto.getStationALatitude(), dto.getStationALongitude(), TransportationType.도보);
+//            int route2 = routingUtil.getRoute(dto.getStationBLatitude(), dto.getStationBLongitude(), dto.getLatitude(), dto.getLongitude(), TransportationType.도보);
+//            // 시간 초과시 추가 하지 않음
+//            if(route1+route2 > request.getAddresses().get(targetNum).getWalkTime()
+//                    || route1+route2+dto.getTotalTime() > request.getAddresses().get(targetNum).getTotalTransportTime())
+//                continue;
+//            RecommendSearchDto recommendSearchDto = new RecommendSearchDto(
+//                    dto.getId(),
+//                    dto.getIsRecommend(),
+//                    dto.getDealType(),
+//                    dto.getPrice(),
+//                    dto.getRentPrice(),
+//                    dto.getMaintenancePrice(),
+//                    dto.getTotalFloor(),
+//                    dto.getFloor(),
+//                    dto.getArea(),
+//                    dto.getAddress(),
+//                    dto.getLatitude(),
+//                    dto.getLongitude(),
+//                    false,
+//                    dto.getImageUrl(),
+//                    route1 + dto.getTotalTime() + route2
+//            );
+//            result.add(recommendSearchDto);
+//        }
+    return result;
 
     }
 
