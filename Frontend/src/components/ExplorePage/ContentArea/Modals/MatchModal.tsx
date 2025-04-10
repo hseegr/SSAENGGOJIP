@@ -77,73 +77,74 @@ const Modal = ({ isOpen, onClose, boxId, initialPage = 1 }: ModalProps) => {
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg relative h-3/4 w-1/4">
+      <div className="relative bg-white rounded-xl shadow-2xl w-[420px] h-[588px] max-w-md max-h-[90vh] overflow-y-auto p-6">
         {/* 닫기 버튼 */}
         <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          className="absolute top-5 right-5 text-gray-500 hover:text-gray-800 text-xl"
           onClick={onClose}
         >
           ✕
         </button>
-
-        {/* 페이지 렌더링 */}
-        {currentPage === 1 && (
-          <Address
-            address={address}
-            setAddress={setAddress}
-            name={name}
-            setName={setName}
-            setLatitude={setLatitude}
-            setLongitude={setLongitude}
-          />
-        )}
-        {currentPage === 2 && (
-          <Transport
-            transportMode={transportMode}
-            setTransportMode={setTransportMode}
-            travelTime={travelTime}
-            setTravelTime={setTravelTime}
-            walkTime={walkTime}
-            setWalkTime={setWalkTime}
-          />
-        )}
-
-        {/* 페이지네이션 버튼 */}
-        <div className="mt-6">
+        <div className="flex flex-col gap-48">
+          {/* 페이지 렌더링 */}
           {currentPage === 1 && (
-            <div className="flex justify-end">
-              <button
-                onClick={handleNextPage}
-                className={`py-2 px-4 bg-purple-500 text-white rounded-lg hover:bg-purple-600 ${
-                  isNextButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-                disabled={isNextButtonDisabled}
-              >
-                다음
-              </button>
-            </div>
+            <Address
+              address={address}
+              setAddress={setAddress}
+              name={name}
+              setName={setName}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+            />
           )}
           {currentPage === 2 && (
-            <div className="flex justify-between">
-              <button
-                onClick={handlePrevPage}
-                className="py-2 px-4 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-              >
-                이전
-              </button>
-              <button
-                onClick={handleComplete}
-                className={`py-2 px-4 bg-purple-500 text-white rounded-lg hover:bg-purple-600 ${
-                  isCompleteButtonDisabled
-                    ? 'opacity-50 cursor-not-allowed'
-                    : ''
-                }`}
-                disabled={isCompleteButtonDisabled}
-              >
-                완료
-              </button>
-            </div>
+            <Transport
+              transportMode={transportMode}
+              setTransportMode={setTransportMode}
+              travelTime={travelTime}
+              setTravelTime={setTravelTime}
+              walkTime={walkTime}
+              setWalkTime={setWalkTime}
+            />
           )}
+
+          {/* 페이지네이션 버튼 */}
+          <div className="mt-6 px-3 justify-end">
+            {currentPage === 1 && (
+              <div className="flex justify-end">
+                <button
+                  onClick={handleNextPage}
+                  className={`mt-16 px-6 py-2 bg-ssaeng-purple text-white rounded-md text-sm shadow-md ${
+                    isNextButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  disabled={isNextButtonDisabled}
+                >
+                  다음
+                </button>
+              </div>
+            )}
+            {currentPage === 2 && (
+              <div className="flex justify-between">
+                <button
+                  onClick={handlePrevPage}
+                  className="px-6 py-2 bg-[#e5e7eb] text-[#4b5563] rounded-md text-sm"
+                >
+                  이전
+                </button>
+                <button
+                  onClick={handleComplete}
+                  className={`px-6 py-2 bg-ssaeng-purple text-white rounded-md text-sm shadow-md ${
+                    isCompleteButtonDisabled
+                      ? 'opacity-50 cursor-not-allowed'
+                      : ''
+                  }`}
+                  disabled={isCompleteButtonDisabled}
+                >
+                  완료
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>,

@@ -60,7 +60,11 @@ const Transport: React.FC<TransportProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center gap-y-8 mt-8">
+    <div className="relative flex flex-col items-center gap-y-5 mt-4 pt-10">
+      {/* ✅ 제목을 고정 위치로 렌더링 */}
+      <h2 className="absolute top-0 left-0 text-lg font-bold px-3">
+        교통 수단
+      </h2>
       <div className="flex gap-4 justify-center">
         <button
           onClick={() => handleTransportTypeChange('지하철')}
