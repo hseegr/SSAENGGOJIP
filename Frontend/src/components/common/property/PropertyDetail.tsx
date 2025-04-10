@@ -237,8 +237,8 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({
       {/* 주변 시설 확인 */}
       <NearFacility
         Location={{
-          latitude: latitude || data.latitude,
-          longitude: longitude || data.longitude,
+          latitude: latitude || matchTargetAddress.latitude,
+          longitude: longitude || matchTargetAddress.longitude,
         }}
       />
     </div>

@@ -116,7 +116,7 @@ const NearFacility: React.FC<{ Location: Location }> = ({ Location }) => {
   }
 
   return (
-    <>
+    <div className="mb-16">
       <div className="mb-3 flex flex-col">
         <span className="text-xl font-bold">주변 시설 정보 🤓</span>
         <span className="text-xs text-gray-400 text-right">
@@ -132,7 +132,7 @@ const NearFacility: React.FC<{ Location: Location }> = ({ Location }) => {
         ></div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-3 gap-4">
         {[
           { name: '병원', markerSrc: HospitalMarker, color: 'ssaeng-purple' },
           { name: '약국', markerSrc: ParmacyMarker, color: 'ssaeng-purple' },
@@ -172,7 +172,7 @@ const NearFacility: React.FC<{ Location: Location }> = ({ Location }) => {
           )
         })}
       </div>
-    </>
+    </div>
   )
 }
 

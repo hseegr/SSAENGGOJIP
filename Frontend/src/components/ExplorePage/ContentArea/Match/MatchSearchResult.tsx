@@ -1,6 +1,5 @@
 import matchSearchStore from '@/store/matchSearchStore'
 import useMatchSearchResultStore from '@/store/searchResultStore'
-import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
 import { useState, useEffect } from 'react'
 import SortButton from './SortButton' // SortButton 컴포넌트 import
 import MatchCard from './MatchCard'
@@ -99,13 +98,6 @@ const MatchSearchResults = () => {
           className="text-sm ml-2 py-2 px-8 bg-ssaeng-purple-light text-ssaeng-purple rounded-lg hover:bg-ssaeng-purple-light transition"
         >
           설정으로 돌아가기
-        </button>
-        <button
-          className="flex items-center cursor-pointer whitespace-nowrap"
-          onClick={() => setIsFilterOpen()}
-        >
-          <SearchBlueIcon className="text-ssaeng-purple w-5 h-5" />
-          <span className="ml-1 text-ssaeng-purple">필터</span>
         </button>
         <SortButton onSortChange={handleSortChange} />
       </div>
