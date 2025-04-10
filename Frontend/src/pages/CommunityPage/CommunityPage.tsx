@@ -18,6 +18,7 @@ const CommunityPage = () => {
             setChatOpen(true)
           }}
           forceMyTab={forceMyTab} // ✅ props로 전달
+          isChatOpen={chatOpen}
         />
       </div>
 
