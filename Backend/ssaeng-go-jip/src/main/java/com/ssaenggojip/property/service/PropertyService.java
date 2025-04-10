@@ -207,9 +207,9 @@ public class PropertyService {
     }
     @Transactional(readOnly = true)
     public List<RecommendSearchDto> getRecommendedProperties(RecommendSearchRequest request, Integer targetNum) {
+
         Double pointLatitude = request.getAddresses().get(targetNum).getLatitude();
         Double pointLongitude = request.getAddresses().get(targetNum).getLongitude();
-
         List<PointStationPropertyDto> pointStationPropertyDtos = propertyRepository.findReachableProperties(
                 pointLongitude,
                 pointLatitude,
@@ -232,6 +232,8 @@ public class PropertyService {
                 request.getFacility().contains(FacilityType.대형마트) ? true : null,
                 request.getFacility().contains(FacilityType.세탁소) ? true : null
                 );
+        if (pointStationPropertyDtos.size() > 5000)
+            throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
         List<RecommendSearchDto> result = new ArrayList<>();
 
@@ -242,7 +244,6 @@ public class PropertyService {
             if(route1+route2 > request.getAddresses().get(targetNum).getWalkTime()
                     || route1+route2+dto.getTotalTime() > request.getAddresses().get(targetNum).getTotalTransportTime())
                 continue;
-
             RecommendSearchDto recommendSearchDto = new RecommendSearchDto(
                     dto.getId(),
                     dto.getIsRecommend(),
@@ -260,10 +261,8 @@ public class PropertyService {
                     dto.getImageUrl(),
                     route1 + dto.getTotalTime() + route2
             );
-
             result.add(recommendSearchDto);
         }
-
         return result;
 
     }

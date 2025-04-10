@@ -249,6 +249,7 @@ WHERE (:dealType IS NULL OR p.deal_type::text = :dealType)
     AND (:isMartNear IS NULL OR p.is_mart_near = :isMartNear)
     AND (:isLaundryNear IS NULL OR p.is_laundry_near = :isLaundryNear)
 ORDER BY pc.t2 ASC
+LIMIT 5001
 """, nativeQuery = true)
     List<PointStationPropertyDto> findReachableProperties(
             @Param("lng") Double lng,
