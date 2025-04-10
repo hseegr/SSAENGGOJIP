@@ -9,6 +9,7 @@ public class PropertyConverter {
         return SearchProperty.builder()
                 .id(p.getId())
                 .dealType(p.getDealType())
+                .propertyType(p.getPropertyType())
                 .price(p.getPrice())
                 .rentPrice(p.getRentPrice())
                 .totalFloor(p.getTotalFloor())

@@ -6,10 +6,10 @@ import com.ssaenggojip.common.enums.TransportationType;
 import com.ssaenggojip.facility.service.FacilityService;
 import com.ssaenggojip.property.dto.request.RecommendDetailRequest;
 import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
-import com.ssaenggojip.property.dto.response.*;
-import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.dto.request.SearchRequest;
 import com.ssaenggojip.property.dto.request.TransportTimeRequest;
+import com.ssaenggojip.property.dto.response.*;
+import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.recommend.service.RecommendService;
 import com.ssaenggojip.station.entity.Station;
 import com.ssaenggojip.station.service.StationService;
@@ -194,7 +194,7 @@ public class PropertyFacade {
                 }
             }
         }
-        for(Long propertyId: merged.keySet())
+        for(Long propertyId: new ArrayList<>(merged.keySet()))
             if(merged.get(propertyId).getTransportTimes().get(0) > request.getAddresses().get(index).getTotalTransportTime())
                 merged.remove(propertyId);
 

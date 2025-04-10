@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,7 @@ public class RecommendSearchProperty {
     Long id;
     Boolean isRecommend = false;
     String dealType;
+    String propertyType;
     Long price;
     Long rentPrice;
     Long maintenancePrice;
@@ -47,5 +47,6 @@ public class RecommendSearchProperty {
         this.imageUrl = dto.getImageUrl();
         this.transportTimes = new ArrayList<>();
         this.transportTimes.add(dto.getTotalTime());
+        this.propertyType = dto.getPropertyType();
     }
 }

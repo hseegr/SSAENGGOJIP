@@ -9,11 +9,11 @@ import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.converter.PropertyConverter;
 import com.ssaenggojip.property.dto.request.CoordinateGetRequest;
 import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
+import com.ssaenggojip.property.dto.request.SearchRequest;
+import com.ssaenggojip.property.dto.request.TransportTimeRequest;
 import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.entity.PropertyImage;
-import com.ssaenggojip.property.dto.request.SearchRequest;
-import com.ssaenggojip.property.dto.request.TransportTimeRequest;
 import com.ssaenggojip.property.repository.PropertyImageRepository;
 import com.ssaenggojip.property.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -262,6 +261,7 @@ public class PropertyService {
                                 dto.getId(),
                                 dto.getIsRecommend(),
                                 dto.getDealType(),
+                                dto.getPropertyType(),
                                 dto.getPrice(),
                                 dto.getRentPrice(),
                                 dto.getMaintenancePrice(),
