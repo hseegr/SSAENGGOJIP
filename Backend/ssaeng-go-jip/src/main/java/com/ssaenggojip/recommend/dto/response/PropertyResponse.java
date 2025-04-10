@@ -25,7 +25,7 @@ public class PropertyResponse {
         return PropertyResponse.builder()
                 .id(p.getId())
                 .name(p.getName())
-                .price(p.getPrice())
+                .price(p.getDealType() == DealType.월세 ? p.getRentPrice() : p.getPrice())
                 .area(p.getExclusiveArea())
                 .address(p.getAddress())
                 .floor(p.getFloor())
