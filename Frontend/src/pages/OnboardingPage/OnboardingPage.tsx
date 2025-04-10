@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import one from '@/assets/images/01.png'
+import two from '@/assets/images/02.png'
+import three from '@/assets/images/03.png'
+import four from '@/assets/images/04.png'
+import five from '@/assets/images/05.png'
 
 // 온보딩에 표시할 슬라이드 데이터 배열 (아이콘, 제목, 설명 포함)
 const onboardingSlides = [
@@ -9,35 +14,35 @@ const onboardingSlides = [
     title: '맞춤 매물',
     description:
       '타겟 주소와 이동 시간을 설정하고,\n내 상황에 딱 맞는 매물을 추천받아보세요.',
-    image: 'src/assets/images/01.png', // ✅ 이미지 경로 추가
+    image: one, // ✅ 이미지 경로 추가
   },
   {
     icon: '🚆',
     title: '교통 정보',
     description:
       '도보, 지하철, 자차!\n다양한 교통 수단을 선택하고,\n한눈에 소요 시간을 확인해요. 😉',
-    image: 'src/assets/images/02.png',
+    image: two,
   },
   {
     icon: '🏪',
     title: '주변 인프라 체크',
     description:
       '병원, 약국, 세탁소 등\n생활 편의시설 선호도를 체크하면,\n그에 맞는 매물을 우선 추천해드려요!',
-    image: 'src/assets/images/03.png',
+    image: three,
   },
   {
     icon: '🏙️',
     title: '매물 추천',
     description:
       '현재 내 위치 주변, \n내가 선호하는 인프라를 기반으로\n딱 맞는 매물을 추천해드려요!',
-    image: 'src/assets/images/04.png',
+    image: four,
   },
   {
     icon: '🏠',
     title: '관심 매물 비교',
     description:
       '눈에 띄는 매물을 관심 매물로 등록하고 비교해서,\n내게 더 맞는 집을 선택해보세요!',
-    image: 'src/assets/images/05.png',
+    image: five,
   },
 ]
 
