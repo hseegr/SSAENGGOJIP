@@ -3,7 +3,7 @@ import { useState } from 'react'
 import SearchDropdown from './SearchDropdown'
 import { useNavigate } from 'react-router-dom'
 import { useSearchParamsStore } from '@/store/searchParamsStore'
-// import { MOCK_RESULTS } from './SearchDropdown'
+import LoadingModal from '@/components/common/LoadingModal'
 
 const GeneralSearch = () => {
   // 검색어 상태
@@ -14,6 +14,9 @@ const GeneralSearch = () => {
 
   // 드롭다운 표시 여부
   const [showSearchDropdown, setShowSearchDropdown] = useState(false)
+
+  // 로딩 상태
+  const [isLoading, setIsLoading] = useState(false)
 
   // 페이지 이동을 위한 훅
   const navigate = useNavigate()
@@ -26,17 +29,41 @@ const GeneralSearch = () => {
     setQuery(name)
     setShowSearchDropdown(false)
 
+    // 로딩 시작
+    setIsLoading(true)
+
     // 선택 즉시 검색 실행
     setGeneralSearchParams(name, lat, lng)
-    navigate('/explore?tab=normal_search')
+
+    // 약간의 지연 후 페이지 이동 (로딩 모달이 보이게 하기 위해)
+    setTimeout(() => {
+      navigate('/explore?tab=normal_search')
+
+      // 잠시 후 로딩 상태 해제 (ExplorePage에서 자체적으로 로딩을 처리하기 때문)
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 500)
+    }, 500)
   }
 
   // 검색 버튼 클릭 시 호출되는 함수
   const handleSearch = () => {
     if (query.trim()) {
+      // 로딩 시작
+      setIsLoading(true)
+
       // 검색어만으로 검색 (좌표 없음)
       setGeneralSearchParams(query)
-      navigate('/explore?tab=normal_search')
+
+      // 약간의 지연 후 페이지 이동 (로딩 모달이 보이게 하기 위해)
+      setTimeout(() => {
+        navigate('/explore?tab=normal_search')
+
+        // 잠시 후 로딩 상태 해제 (ExplorePage에서 자체적으로 로딩을 처리하기 때문)
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 500)
+      }, 500)
     }
   }
 
@@ -62,6 +89,9 @@ const GeneralSearch = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
+      {/* 로딩 모달 */}
+      <LoadingModal isOpen={isLoading} message="일반 검색 중..." />
+
       {/* 검색창 */}
       <div className="relative w-96">
         <div className="flex border-2 border-ssaeng-purple rounded-lg px-4 py-2 w-96">

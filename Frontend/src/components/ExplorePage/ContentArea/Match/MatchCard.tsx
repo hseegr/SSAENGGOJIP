@@ -4,6 +4,12 @@ import useSidebarStore from '@/store/sidebarStore'
 import { Heart } from 'lucide-react'
 import useMatchInfoStore from '@/store/matchInfoStore'
 import useMatchSearchResultStore from '@/store/searchResultStore'
+import { convertToPyeong } from '@/utils/areaUtils'
+import {
+  formatToKoreanCurrency,
+  formatMaintenanceFee,
+} from '@/utils/formatUtils'
+import clsx from 'clsx'
 
 interface CardProps {
   id: number
@@ -46,10 +52,12 @@ const MatchCard: React.FC<CardProps> = ({
 }) => {
   const { selectedCard, setSelectedCard } = useSidebarStore()
   const { transportModes, setMatchTargetAddress } = useMatchSearchResultStore()
+  const [isLiked, setIsLiked] = useState(isInterest ?? false)
+  const [imageError, setImageError] = useState(false)
 
-  const [isLiked, setIsLiked] = useState(isInterest ?? false) // 초기 상태는 API에서 제공된 관심 여부
   // 컴포넌트 내부에서
   const { matchInfos } = useMatchInfoStore()
+
   const handleClick = () => {
     console.log(
       'handleClick - Latitude:',
@@ -58,7 +66,7 @@ const MatchCard: React.FC<CardProps> = ({
       longitude,
       '교통수단 타입',
       transportModes,
-    ) // 추가 로깅
+    )
     setSelectedCard(id)
     setMatchTargetAddress({
       latitude: latitude,
@@ -66,7 +74,9 @@ const MatchCard: React.FC<CardProps> = ({
       transportationType: transportModes[0],
     })
   }
-  const toggleLike = () => {
+
+  const toggleLike = (e: React.MouseEvent) => {
+    e.stopPropagation()
     setIsLiked((prev) => !prev)
     if (!isLiked) {
       console.log(`매물 ${id}가 관심매물로 등록되었습니다.`)
@@ -79,56 +89,62 @@ const MatchCard: React.FC<CardProps> = ({
 
   return (
     <div
-      className={`flex overflow-hidden border cursor-pointer ${
-        isSelected
-          ? 'bg-ssaeng-gray-3 rounded-lg border-ssaeng-gray-2'
-          : 'hover:bg-gray-50 hover:rounded-lg border-transparent'
-      }`}
+      className={`flex p-4 rounded-xl ${
+        isSelected ? 'bg-ssaeng-gray-3' : 'bg-white hover:bg-gray-50'
+      } transition`}
       onClick={handleClick}
       role="button"
       aria-hidden="true"
     >
       {/* 이미지 영역 */}
-      <div className="h-36 w-48 relative">
+      <div className="relative w-32 h-24 bg-gray-200 rounded-lg overflow-hidden shrink-0">
         {/* 추천 태그 */}
         {isRecommend && (
-          <div className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+          <div className="absolute top-1 left-1 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded z-10">
             추천
           </div>
         )}
-        {imageUrl ? (
-          <img
-            src={`${imageUrl}?w=800&h=600`}
-            alt={title ?? '이미지'}
-            className="w-full h-full object-cover rounded-lg p-2"
-          />
-        ) : (
-          <div className="w-full h-full bg-gray-100 rounded-lg p-2 flex items-center justify-center">
-            <span className="text-gray-500 text-sm">이미지 없음</span>
-          </div>
-        )}
 
-        {/* ❤️ 하트 버튼 영역 */}
+        {/* 찜 아이콘 */}
         <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation()
-            toggleLike()
-          }}
-          className="absolute top-2 right-2 z-10"
+          onClick={toggleLike}
+          className="absolute top-1.5 right-1.5 z-10"
         >
           <Heart
-            size={24}
+            size={20}
             fill={isLiked ? '#f87171' : '#E5E5E5'}
             color={isLiked ? '#f87171' : '#E5E5E5'}
-            style={{ opacity: isLiked ? 1 : 0.6 }}
+            className={clsx('drop-shadow-sm', {
+              'opacity-100': isLiked,
+              'opacity-80': !isLiked,
+            })}
           />
         </button>
+
+        {/* 이미지 출력 */}
+        <div className="relative w-32 h-24 bg-gray-200 rounded-lg overflow-hidden shrink-0 flex items-center justify-center">
+          {imageUrl && !imageError ? (
+            <img
+              src={`${imageUrl}?w=800&h=600`}
+              alt={title ?? '이미지'}
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                e.currentTarget.onerror = null // onError 무한 호출 방지
+                setImageError(true) // 에러 발생 시 상태 업데이트
+              }}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-gray-500 text-sm">이미지 없음</span>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* 텍스트 영역 */}
-      <div className="p-4 w-1/2">
-        <div className="flex items-center gap-2 text-sm">
+      {/* 정보 영역 */}
+      <div className="ml-4 flex flex-col justify-between py-1">
+        {/* 이동 시간 정보 */}
+        <div className="flex items-center gap-2 text-xs mb-1">
           {(transportTimes ?? []).length > 0 && (
             <>
               <span className="text-green-500 font-medium">
@@ -136,7 +152,7 @@ const MatchCard: React.FC<CardProps> = ({
                   ? `${matchInfos[0].name.slice(0, 3)}${matchInfos[0].name.length > 3 ? '...' : ''}`
                   : ''}
               </span>
-              <span className="bg-green-100 px-2 py-1 rounded-md text-green-700 font-medium">
+              <span className="bg-green-100 px-2 py-0.5 rounded-md text-green-700 font-medium">
                 {transportTimes?.[0]}분
               </span>
             </>
@@ -149,32 +165,41 @@ const MatchCard: React.FC<CardProps> = ({
                   ? `${matchInfos[1].name.slice(0, 3)}${matchInfos[1].name.length > 3 ? '...' : ''}`
                   : ''}
               </span>
-              <span className="bg-green-100 px-2 py-1 rounded-md text-green-700 font-medium">
+              <span className="bg-green-100 px-2 py-0.5 rounded-md text-green-700 font-medium">
                 {transportTimes?.[1]}분
               </span>
             </>
           )}
         </div>
-        <p className="flex text-sm">{propertyType}</p>
-        <div className="flex">
-          <p className="text-base font-bold text-gray-700 pr-2">{dealType}</p>
-          <p className="text-base font-bold text-gray-700">
-            {dealType === '월세'
-              ? `${formatPrice(price)} / ${formatPrice(rentPrice)}`
-              : formatPrice(price)}
-          </p>
+
+        <div className="text-xs text-gray-800">{propertyType}</div>
+
+        <div className="font-bold text-base">
+          {dealType === '전세' || dealType === '매매' ? (
+            <>
+              {dealType} {formatToKoreanCurrency(price)}
+            </>
+          ) : (
+            <>
+              월세 {formatToKoreanCurrency(price)} /{' '}
+              {formatToKoreanCurrency(rentPrice || 0)}
+            </>
+          )}
         </div>
-        <p className="flex text-sm text-gray-500">
-          관리비{' '}
-          {managementFee ? `${managementFee.toLocaleString()}원` : '없음'}
-        </p>
-        <div className="flex">
-          <p className="text-xs mt-2">
-            {floor}층 / {totalFloor}층 | {Math.floor(area / 3.3058)}평
-          </p>
+
+        <div className="text-sm text-gray-600">
+          관리비 {formatMaintenanceFee(managementFee || 0)}
         </div>
+
+        <div className="text-xs text-gray-600">
+          {floor}층 / {totalFloor}층 &nbsp;&nbsp;|&nbsp;&nbsp;
+          {convertToPyeong(area)}평 ({area}㎡)
+        </div>
+
         {address && (
-          <p className="text-xs text-gray-500 mt-1">주소: {address}</p>
+          <p className="text-xs text-gray-500 mt-1 truncate max-w-[200px]">
+            {address}
+          </p>
         )}
       </div>
     </div>

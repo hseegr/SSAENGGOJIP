@@ -96,12 +96,12 @@ const MatchSearchResults = () => {
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={handleGoBack}
-          className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition"
+          className="text-sm ml-2 py-2 px-8 bg-ssaeng-purple-light text-ssaeng-purple rounded-lg hover:bg-ssaeng-purple-light transition"
         >
           설정으로 돌아가기
         </button>
         <button
-          className="flex items-center ml-4 cursor-pointer whitespace-nowrap"
+          className="flex items-center cursor-pointer whitespace-nowrap"
           onClick={() => setIsFilterOpen()}
         >
           <SearchBlueIcon className="text-ssaeng-purple w-5 h-5" />
