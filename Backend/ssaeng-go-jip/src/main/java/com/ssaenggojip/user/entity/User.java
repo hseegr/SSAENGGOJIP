@@ -2,6 +2,7 @@ package com.ssaenggojip.user.entity;
 
 import com.ssaenggojip.common.enums.SocialLoginType;
 import com.ssaenggojip.common.entity.BaseEntity;
+import com.ssaenggojip.property.entity.PropertyLike;
 import com.ssaenggojip.targetaddress.entity.TargetAddress;
 import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.*;
@@ -40,6 +41,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<TargetAddress> targetAddressList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PropertyLike> propertyLikeList;
 
     @Setter
     @Type(value = JsonType.class)
