@@ -77,7 +77,7 @@ const Favorites: React.FC = () => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500 text-md mt-2 ml-4">
+          <p className="text-gray-500 text-md mt-8 ml-6">
             관심 매물이 없습니다. 관심 매물을 등록해주세요!
           </p>
         )}
