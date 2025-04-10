@@ -92,3 +92,16 @@ export const getTransportTime = async (requestData: any) => {
     throw error
   }
 }
+
+// 주변 선호 시설 구하기
+export const getNearFacilities = async (requestData: any) => {
+  try {
+    const response = await http.get(
+      `${MAP_END_POINT.GET_NEAR_FACILITIES}?lat=${requestData.lat}&lng=${requestData.lng}`,
+    )
+    return response.data.result
+  } catch (error) {
+    console.error('주변 시설 API 요청 오류:', error)
+    throw error
+  }
+}

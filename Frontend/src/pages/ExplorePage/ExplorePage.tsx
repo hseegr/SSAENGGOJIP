@@ -15,6 +15,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import matchSearchStore from '@/store/matchSearchStore'
 import useMatchSearchResultStore from '@/store/searchResultStore'
+import MatchMap from '@/components/ExplorePage/MatchMap'
 
 const ExplorePage = () => {
   // React Router hooks
@@ -22,7 +23,7 @@ const ExplorePage = () => {
   const [searchParams] = useSearchParams()
 
   // Sidebar store hooks
-  const { setActiveTab, setTitles } = useSidebarStore()
+  const { activeTab, setActiveTab, setTitles } = useSidebarStore()
 
   // 로딩 상태
   const [isLoading, setIsLoading] = useState(false)
@@ -208,10 +209,26 @@ const ExplorePage = () => {
         <Sidebar />
       </div>
 
-      {/* Map: 항상 고정된 전체 화면 */}
+      {/* Map: 항상 고정된 전체 화면
       <div className="absolute top-0 left-0 w-full h-full z-0">
         <Map />
       </div>
+
+      {/* MatchMap: 맞춤 검색 시 나올 화면 */}
+      {/* <div className="absolute top-0 left-0 w-full h-full z-0">
+        <MatchMap />
+      </div> */}
+
+      {/* 조건부 렌더링: tabParam에 따라 Map 또는 MatchMap 렌더링 */}
+      {activeTab === 'match_search' ? (
+        <div className="absolute top-0 left-0 w-full h-full z-0">
+          <MatchMap />
+        </div>
+      ) : (
+        <div className="absolute top-0 left-0 w-full h-full z-0">
+          <Map />
+        </div>
+      )}
     </div>
   )
 }
