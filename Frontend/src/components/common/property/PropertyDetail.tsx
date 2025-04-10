@@ -31,9 +31,10 @@ interface PropertyDetailProps {
 
 const PropertyDetail: React.FC<PropertyDetailProps> = ({
   id,
+  onClose,
+  isCompareMode = false, // ✅ 기본값 false
   latitude,
   longitude,
-  onClose,
 }) => {
   const isLoggedIn = useIsLoggedIn()
   const [data, setData] = useState<any>(null)
@@ -124,13 +125,15 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({
 
   return (
     <div className="relative w-full h-full p-6 overflow-y-auto bg-white">
-      {/* 닫기 버튼 */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 text-xl font-bold"
-      >
-        ✕
-      </button>
+      {/* 닫기 버튼 - 비교 모드일 땐 숨김 */}
+      {!isCompareMode && (
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-xl font-bold"
+        >
+          ✕
+        </button>
+      )}
 
       {/* 거래 정보 */}
       <div className="mb-2 text-sm text-gray-600">{data.propertyType}</div>

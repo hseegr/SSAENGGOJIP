@@ -293,7 +293,9 @@ const CustomInfo: React.FC = () => {
                         <p className="text-xs ml-1">
                           도보 이동시간은{' '}
                           <span className="text-xs font-medium text-ssaeng-purple bg-ssaeng-purple-light px-1 py-1 rounded-lg inline-block">
-                            {info.walkTime}분 이내
+                            {info.walkTime === 999
+                              ? '상관없음'
+                              : `${info.walkTime}분 이내`}
                           </span>{' '}
                           이면 좋겠어요.
                         </p>
