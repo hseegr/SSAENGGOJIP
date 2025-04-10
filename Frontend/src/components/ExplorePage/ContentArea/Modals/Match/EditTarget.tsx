@@ -113,7 +113,7 @@ const EditTargetModal = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-xl shadow-2xl w-[420px] h-[588px] max-w-md max-h-[90vh] overflow-y-auto p-6 flex flex-col">
+      <div className="relative bg-white rounded-xl shadow-2xl w-[420px] h-[588px] max-w-md max-h-[90vh] overflow-y-auto p-6 flex flex-col">
         <button
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl"
           onClick={onClose}
