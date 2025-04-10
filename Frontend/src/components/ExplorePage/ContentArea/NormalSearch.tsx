@@ -80,6 +80,11 @@ const NormalSearch: React.FC = () => {
           if (error.response?.data?.code === 'PROPERTY4013') {
             toast.warning(
               '검색 결과가 너무 많아요! 조건을 조금 더 구체적으로 설정해 주세요.',
+              {
+                style: {
+                  width: '700px',
+                },
+              },
             )
           } else {
             console.error('검색 중 오류 발생:', error)

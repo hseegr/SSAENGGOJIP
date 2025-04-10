@@ -6,8 +6,14 @@ import { fetchMatchSearchResults } from '@/services/mapService'
 import matchSearchStore from '@/store/matchSearchStore'
 import useSearchResultStore from '@/store/searchResultStore'
 import useMatchSearchResultStore from '@/store/searchResultStore'
+import LoadingModal from '@/components/common/LoadingModal'
+import { toast } from 'react-toastify'
 
-const PropertyFilter = () => {
+type Props = {
+  setIsLoading: (val: boolean) => void
+}
+
+const PropertyFilter = ({ setIsLoading }: Props) => {
   const {
     propertyType,
     dealType,
@@ -68,12 +74,14 @@ const PropertyFilter = () => {
     })
 
     try {
+      setIsLoading(true) // ✅ 상위에서 관리
+      console.log(requestData)
       console.log('요청 데이터', requestData)
-      setIsSearching(true)
       const data = await fetchMatchSearchResults(requestData) // API 호출
       console.log('API 응답 데이터 구조:', data)
       console.log('properties 배열:', data.properties)
       setResults(data)
+      setIsSearching(true)
       const storeState = useMatchSearchResultStore.getState()
       console.log('Current store state:', storeState)
       // 변환된 교통 수단 모드 저장
@@ -81,6 +89,25 @@ const PropertyFilter = () => {
       console.log('Response:', data) // 응답 데이터 출력
     } catch (error) {
       console.error('Error during search:', error) // 에러 처리
+      // ✅ 에러 응답 코드와 메시지 확인
+      const code = error?.response?.data?.code
+      const message = error?.response?.data?.message
+
+      if (code === 'PROPERTY4013') {
+        toast.error(
+          '검색 결과가 너무 많아요! 조건을 조금 더 구체적으로 설정해 주세요.',
+          {
+            style: {
+              width: '700px',
+            },
+          },
+        )
+      } else {
+        toast.error('알 수 없는 오류가 발생했습니다.')
+      }
+      console.error('Error during search:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
