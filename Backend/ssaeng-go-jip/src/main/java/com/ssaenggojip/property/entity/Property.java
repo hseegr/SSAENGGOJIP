@@ -86,8 +86,13 @@ public class Property {
     @Column(name = "facility_nearness", columnDefinition = "vector(8)")
     private List<Double> facilityNearness;
 
-
-
-
+    private Boolean isHospitalNear;
+    private Boolean isPharmacyNear;
+    private Boolean isVetNear;
+    private Boolean isParkNear;
+    private Boolean isGovernmentNear;
+    private Boolean isConvenienceStoreNear;
+    private Boolean isMartNear;
+    private Boolean isLaundryNear;
 
 }

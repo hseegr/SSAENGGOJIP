@@ -129,9 +129,7 @@ public class PropertyFacade {
 
     @Transactional(readOnly = true)
     public RecommendSearchResponse searchRecommend(RecommendSearchRequest request, User user) {
-
         Map<Long, RecommendSearchProperty> merged1 = getMergedPropertiesByIndex(request,0);
-
         List<RecommendSearchProperty> result;
         // 결과 리스트
         if(request.getAddresses().size() == 1) {
@@ -153,10 +151,8 @@ public class PropertyFacade {
         }
         else
             throw new GeneralException(ErrorStatus.MISSING_ADDRESS_INFO_RECOMMEND);
-
         if (result.size() > 5000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
-
         RecommendSearchResponse response = RecommendSearchResponse.builder()
                 .total(result.size())
                 .properties(result)
@@ -173,7 +169,6 @@ public class PropertyFacade {
                 recommendSearchProperty.setIsRecommend(recommendIds.contains(recommendSearchProperty.getId()));
 
             }
-
         }
         return response;
 
@@ -187,7 +182,6 @@ public class PropertyFacade {
         for (RecommendSearchDto dto : walkOnly) {
             merged.put(dto.getId(), new RecommendSearchProperty(dto));
         }
-
         // 지하철 포함 (정밀 검사까지 수행 완료)
         if (request.getAddresses().get(index).getTransportationType() == TransportationType.지하철) {
             List<RecommendSearchDto> subwayIncluded = propertyService.getRecommendedProperties(request, index);
@@ -202,7 +196,6 @@ public class PropertyFacade {
         for(Long propertyId: merged.keySet())
             if(merged.get(propertyId).getTransportTimes().get(0) > request.getAddresses().get(index).getTotalTransportTime())
                 merged.remove(propertyId);
-
 
         return merged;
     }
