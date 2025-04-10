@@ -53,6 +53,10 @@ const Sidebar: React.FC = () => {
     clearMatchCard,
     isContentAreaCollapsed,
     setContentAreaCollapsed,
+    selectedLatitude,
+    selectedLongitude,
+    setSelectedLatitude,
+    setSelectedLongitude,
   } = useSidebarStore()
   const { initializeStore } = useMatchInfoStore()
   const { resetResults } = useMatchSearchResultStore()
@@ -64,6 +68,8 @@ const Sidebar: React.FC = () => {
     if (activeTab === tab) {
       setActiveTab(null)
       setSelectedCard(null)
+      setSelectedLatitude(null)
+      setSelectedLongitude(null)
       clearMatchCard()
       setContentAreaCollapsed(false)
       resetResults()
@@ -169,6 +175,8 @@ const Sidebar: React.FC = () => {
           <div className="w-[400px] border-l border-gray-200 bg-white overflow-y-auto shadow-md z-50">
             <PropertyDetail
               id={selectedCard}
+              latitude={selectedLatitude}
+              longitude={selectedLongitude}
               onClose={() => setSelectedCard(null)}
             />
           </div>
