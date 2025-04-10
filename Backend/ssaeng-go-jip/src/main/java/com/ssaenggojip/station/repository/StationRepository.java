@@ -16,7 +16,7 @@ public interface StationRepository extends JpaRepository<Station, Long> {
     WHERE ST_DWithin(
        geom_3857,
        ST_Transform(ST_SetSRID(ST_MakePoint(:lng, :lat), 4326), 3857),
-       2500
+       1250
      )
      
     """, nativeQuery = true)

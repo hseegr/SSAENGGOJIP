@@ -48,7 +48,7 @@ public class StationService {
         List<Station> stationsNearProperty = stationRepository.findStationsWithin1km(propertyLongitude, propertyLatitude);
 
         if (stationsNearProperty.isEmpty() || stationsNearPoint.isEmpty())
-            throw new GeneralException(ErrorStatus.NO_STATION_NEAR_POINT);
+            return null;
 
         Integer transferCount = -1;
         List<Integer> answer = List.of(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);

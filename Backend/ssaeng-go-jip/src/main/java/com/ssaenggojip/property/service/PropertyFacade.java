@@ -99,7 +99,7 @@ public class PropertyFacade {
     }
 
     public TransportTimeResponse getTransportTime(TransportTimeRequest request) {
-        TransportTimeResponse response;
+        TransportTimeResponse response = null;
         // 이동 수단별로 처리
         switch (request.getTransportationType()) {
             case 도보, 차, 자전거 -> response = propertyService.getTransportTime(request);
@@ -117,7 +117,7 @@ public class PropertyFacade {
                 TransportTimeResponse responseWalk = propertyService.getTransportTime(walkRequest);
                 // 지하철 시간과 도보시간과 비교한 후 짧은 쪽으로 리턴, 동일한 경우에는 도보
                 response = stationService.getTransportTime(request.getLongitude(), request.getLatitude(), property.getLongitude(), property.getLatitude());
-                response = response.getTotalTransportTime() < responseWalk.getTotalTransportTime() ? response: responseWalk;
+                response = response != null && response.getTotalTransportTime() < responseWalk.getTotalTransportTime() ? response: responseWalk;
             }
             default -> throw new GeneralException(ErrorStatus.NOT_SUPPORTED_ENUM_TYPE);
         }
@@ -226,7 +226,7 @@ public class PropertyFacade {
 
             if(request.getAddresses().get(i).getTransportationType() == TransportationType.지하철) {
                 TransportTimeResponse responseSub = stationService.getTransportTime(lngA, latA, property.getLongitude(), property.getLatitude());
-                response = responseSub.getTotalTransportTime() < response.getTotalTransportTime() ? responseSub : response;
+                response = responseSub != null && responseSub.getTotalTransportTime() < response.getTotalTransportTime() ? responseSub : response;
             }
             transportInfos.add(new RecommendDetailResponse.TransportInfo(response));
         }
