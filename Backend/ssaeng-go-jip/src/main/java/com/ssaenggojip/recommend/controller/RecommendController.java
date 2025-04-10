@@ -50,9 +50,4 @@ public class RecommendController {
         return ApiResponse.onSuccess(recommendService.findTopKByPreferences(user, request));
     }
 
-    @GetMapping("/test")
-    public void test() {
-        recommendService.test();
-    }
-
 }
