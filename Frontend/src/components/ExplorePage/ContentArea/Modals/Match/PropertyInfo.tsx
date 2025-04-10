@@ -95,8 +95,12 @@ const PropertyFilter = ({ setIsLoading }: Props) => {
 
       if (code === 'PROPERTY4013') {
         toast.error(
-          message ||
-            '검색 결과가 너무 많아요! 조건을 조금 더 구체적으로 설정해 주세요.',
+          '검색 결과가 너무 많아요! 조건을 조금 더 구체적으로 설정해 주세요.',
+          {
+            style: {
+              width: '700px',
+            },
+          },
         )
       } else {
         toast.error('알 수 없는 오류가 발생했습니다.')

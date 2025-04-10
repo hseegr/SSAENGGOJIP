@@ -18,7 +18,6 @@ import useMatchSearchResultStore from '@/store/searchResultStore'
 import LoadingModal from '@/components/common/LoadingModal'
 import MatchMap from '@/components/ExplorePage/MatchMap'
 
-
 const ExplorePage = () => {
   // React Router hooks
   const location = useLocation()
@@ -176,7 +175,12 @@ const ExplorePage = () => {
           ) {
             toast.error(
               '검색 결과가 너무 많아요. 매물탐색 페이지에서 좀 더 상세한 조건으로 검색해 주세요!',
-              { toastId: 'search-error' },
+              {
+                toastId: 'search-error',
+                style: {
+                  width: '700px',
+                },
+              },
             )
           } else {
             toast.error('맞춤 검색 중 오류가 발생했습니다.')
