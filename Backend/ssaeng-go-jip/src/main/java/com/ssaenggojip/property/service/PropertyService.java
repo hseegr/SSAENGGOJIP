@@ -18,6 +18,7 @@ import com.ssaenggojip.property.repository.PropertyImageRepository;
 import com.ssaenggojip.property.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class PropertyService {
     private final TransportTimeProvider transportTimeProvider;
     private final RoutingUtil routingUtil;
 
+    @Transactional(readOnly = true)
     public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lng, Double lat) {
         // lat, lng 기준 반경 1KM, 설정한 조건 기준으로 검색
         Integer SEARCH_DISTANCE = 1250;
@@ -76,17 +78,18 @@ public class PropertyService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public Property getDetail(Long id) {
         return propertyRepository.findById(id).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_PROPERTY_INFO));
     }
-
+    @Transactional(readOnly = true)
     public List<String> getDetailImage(Long id) {
         List<String> imageUrls = new ArrayList<>();
         for (PropertyImage propertyImage : propertyImageRepository.findByProperty_Id(id))
             imageUrls.add(propertyImage.getImageUrl());
         return imageUrls;
     }
-
+    @Transactional(readOnly = true)
     public TransportTimeResponse getTransportTime(TransportTimeRequest request) {
         Property property = propertyRepository.findById(request.getPropertyId()).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_PROPERTY_INFO));
 
@@ -106,11 +109,11 @@ public class PropertyService {
                 .transferCount(0)
                 .build();
     }
-
+    @Transactional(readOnly = true)
     public Property getPropertyById(Long propertyId) {
         return propertyRepository.findById(propertyId).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_PROPERTY_INFO));
     }
-
+    @Transactional(readOnly = true)
     public List<CoordinateResponse> getCoordinates(CoordinateGetRequest coordinateGetRequest) {
         Double minY = Math.min(coordinateGetRequest.getLeftDown().get(0), coordinateGetRequest.getRightUp().get(0));
         Double maxY = Math.max(coordinateGetRequest.getLeftDown().get(0), coordinateGetRequest.getRightUp().get(0));
@@ -134,7 +137,7 @@ public class PropertyService {
                 .toList();
 
     }
-
+    @Transactional(readOnly = true)
     public List<RecommendSearchDto> searchPropertiesWithinTime(RecommendSearchRequest request, Integer targetNum){
         // 주소 기준 K시간 이내 도보권 매물 - p
         Double lat = request.getAddresses().get(targetNum).getLatitude();
@@ -202,7 +205,7 @@ public class PropertyService {
         }
         return recommendSearchProperties;
     }
-
+    @Transactional(readOnly = true)
     public List<RecommendSearchDto> getRecommendedProperties(RecommendSearchRequest request, Integer targetNum) {
         Double pointLatitude = request.getAddresses().get(targetNum).getLatitude();
         Double pointLongitude = request.getAddresses().get(targetNum).getLongitude();

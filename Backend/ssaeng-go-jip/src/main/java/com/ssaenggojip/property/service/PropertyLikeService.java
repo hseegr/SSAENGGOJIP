@@ -51,6 +51,7 @@ public class PropertyLikeService {
                             .build());
         }
     }
+    @Transactional(readOnly = true)
     public List<Long> getLikePropertyIds(User user) {
         return propertyLikeRepository.findPropertyIdsByUser(user);
     }
