@@ -1,211 +1,55 @@
 import React, { useEffect, useState } from 'react'
-import DaumPostcodeEmbed, { Address } from 'react-daum-postcode'
 import { useForm } from 'react-hook-form'
 import { MapPin } from 'lucide-react'
 import useMatchInfoStore from '@/store/matchInfoStore'
 import { getTransportTime } from '@/services/propertyDetailService'
-
-interface AddressModalProps {
-  setValue: (field: string, value: string) => void
-  isOpen: boolean
-  onClose: () => void
-}
-
-const AddressModal: React.FC<AddressModalProps> = ({
-  isOpen,
-  onClose,
-  setValue,
-}) => {
-  const handleComplete = (data: Address) => {
-    let fullAddress = data.address
-    let extraAddress = ''
-
-    if (data.addressType === 'R') {
-      if (data.bname) extraAddress += data.bname
-      if (data.buildingName) {
-        extraAddress += extraAddress
-          ? `, ${data.buildingName}`
-          : data.buildingName
-      }
-      fullAddress += extraAddress ? ` (${extraAddress})` : ''
-    }
-    setValue('address', fullAddress)
-    onClose()
-  }
-
-  if (!isOpen) return null
-
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
-        <button
-          className="absolute top-2 right-2 text-gray-600 text-xl"
-          onClick={onClose}
-        >
-          &times;
-        </button>
-        <h2 className="text-lg font-semibold mb-4">주소 검색</h2>
-        <DaumPostcodeEmbed onComplete={handleComplete} />
-      </div>
-    </div>
-  )
-}
-
-const TransportDetail: React.FC<any> = ({
-  transportTimeList,
-  transportMode,
-  transferCount,
-  target,
-}) => {
-  if (!transportTimeList || transportTimeList.length === 0) {
-    return null
-  }
-
-  const getKoreanTransportationType = (mode: string) => {
-    switch (mode) {
-      case 'WALK':
-        return '도보'
-      case '도보':
-        return '도보'
-      case 'SUBWAY':
-        return '지하철'
-      case '지하철':
-        return '지하철'
-      case 'CAR':
-        return '자차'
-      case '자차':
-        return '자차'
-      default:
-        return '알 수 없음'
-    }
-  }
-
-  // steps 동적 생성
-  const steps = []
-  if (transportTimeList.length === 1) {
-    // 길이가 1일 경우: walk, car, 또는 기타
-    steps.push({
-      type: transportMode,
-      mode: getKoreanTransportationType(transportMode),
-      destination: '집',
-    })
-    steps.push({
-      type: transportMode,
-      mode: getKoreanTransportationType(transportMode),
-      destination: '설정 주소',
-    })
-  } else if (transportTimeList.length === 3) {
-    // 길이가 3일 경우: walk-subway-walk
-    steps.push({ type: 'WALK', mode: '도보', destination: '집' })
-    steps.push({
-      type: transportMode,
-      mode: getKoreanTransportationType(transportMode),
-      destination: '',
-    })
-    steps.push({ type: 'WALK', mode: '도보', destination: target })
-  }
-
-  const getIcon = (type: string) => {
-    switch (type) {
-      case 'WALK':
-        return (
-          <span role="img" aria-label="walking">
-            🚶‍➡️
-          </span>
-        )
-      case '도보':
-        return (
-          <span role="img" aria-label="walking">
-            🚶‍➡️
-          </span>
-        )
-      case 'SUBWAY':
-        return (
-          <span role="img" aria-label="subway">
-            🚉
-          </span>
-        )
-      case '지하철':
-        return (
-          <span role="img" aria-label="subway">
-            🚉
-          </span>
-        )
-      case 'CAR':
-        return (
-          <span role="img" aria-label="car">
-            🚗
-          </span>
-        )
-      case '자차':
-        return (
-          <span role="img" aria-label="car">
-            🚗
-          </span>
-        )
-      default:
-        return (
-          <span role="img" aria-label="unknown">
-            ❓
-          </span>
-        )
-    }
-  }
-
-  return (
-    <div className="bg-white pt-6 px-2 rounded-lg">
-      {steps.map((step, index) => (
-        <React.Fragment key={index}>
-          {/* 공과 설명 */}
-          <div className="flex items-center">
-            <div
-              className={`w-2 h-2 rounded-full ${
-                step.type === 'SUBWAY' ? 'bg-[#AFAFFF]' : 'bg-gray-300'
-              }`}
-            ></div>
-            <div className="ml-2 flex items-center">
-              {getIcon(step.type)} <span className="ml-1">{step.mode}</span>
-              {step.destination && (
-                <span className="ml-2 text-sm text-gray-400">
-                  {step.destination}
-                </span>
-              )}
-            </div>
-            {step.type === 'SUBWAY' &&
-              transferCount !== undefined &&
-              transferCount > 0 && (
-                <>
-                  <span className="ml-2 text-sm text-gray-400"> 환승 횟수</span>
-                  <span className="ml-2 px-3 text-sm font-bold bg-[rgba(175,175,255,0.3)] text-ssaeng-purple rounded-full">
-                    {transferCount}번
-                  </span>
-                </>
-              )}
-          </div>
-
-          {/* 선 (마지막 단계에는 선을 표시하지 않음) */}
-          {index < steps.length - 1 && (
-            <div className="px-1">
-              <div className="w-px h-6 bg-gray-300"></div>
-            </div>
-          )}
-        </React.Fragment>
-      ))}
-    </div>
-  )
-}
+import TransportDetail from './TransportDetail'
+import TransportTimeBar from './TransportTimeBar'
+import DetailAddressModal from './DetailAddressModal'
 
 interface TrafficInfoProps {
-  trafficData: any // 필요에 따라 더 구체적인 타입으로 변경
+  trafficData: TrafficData // 구체적인 타입으로 변경
 }
 
-const AddressForm: React.FC<TrafficInfoProps> = ({ trafficData }) => {
+interface TrafficData {
+  id: number // 고유 ID
+  address: string // 주소
+  area: number // 면적 (㎡)
+  dealType: '월세' | '전세' | '매매' // 거래 유형
+  facilities: string[] // 시설 목록 (빈 배열 가능)
+  floor: string // 층수 (문자열로 표시됨)
+  imageUrls: string[] // 이미지 URL 배열
+  maintenancePrice: number // 관리비 (원 단위)
+  name: string // 매물 이름
+  price: number // 보증금 (원 단위)
+  propertyType: string // 매물 유형 (예: "오피스텔")
+  rentPrice?: number // 월세 금액 (원 단위, 월세가 아닌 경우 undefined일 수 있음)
+  stations: StationInfo[] // 주변 역 정보 배열
+  totalFloor: string // 총 층수 (문자열로 표시됨)
+  transportInfos: TransportInfo[] // 교통 정보 배열
+}
+
+interface StationInfo {
+  name: string // 역 이름
+  distance: number // 거리 (단위 예시: m 또는 km)
+}
+
+interface TransportInfo {
+  type: string // 교통수단 유형 (예: 버스, 지하철 등)
+  line?: string // 노선 이름 (지하철의 경우, 예: "2호선")
+  timeToStation?: number // 소요 시간 (분 단위)
+}
+
+const TransportInfo: React.FC<TrafficInfoProps> = ({ trafficData }) => {
   const { setValue, watch } = useForm<{ address: string }>()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { matchInfos } = useMatchInfoStore()
   const [transportTime, setTransportTime] = useState(null)
   const [isLoadingTime, setIsLoadingTime] = useState(false) // 로딩 상태 추가
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isAddressSearched, setIsAddressSearched] = useState(false)
+  const [initialModalPage, setInitialModalPage] = useState(1)
+  const [transportType, setTransportType] = useState('')
 
   const handleNextAddress = () => {
     if (matchInfos && currentIndex < matchInfos.length - 1) {
@@ -213,6 +57,10 @@ const AddressForm: React.FC<TrafficInfoProps> = ({ trafficData }) => {
     }
   }
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setInitialModalPage(1) // 모달 닫을 때 초기 페이지 상태 리셋
+  }
   const handlePrevAddress = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1)
@@ -274,42 +122,6 @@ const AddressForm: React.FC<TrafficInfoProps> = ({ trafficData }) => {
       fetchTransportTime()
     }
   }, [trafficData, currentIndex, matchInfos])
-
-  const TransportTimeBar = ({
-    transportTimeList,
-    totalTime,
-  }: {
-    transportTimeList: number[]
-    totalTime: number
-  }) => {
-    const segments =
-      transportTimeList.length > 0 ? transportTimeList : [totalTime]
-    const segmentWidths = segments.map((time) =>
-      totalTime > 0 ? `${(time / totalTime) * 100}%` : '0%',
-    )
-
-    return (
-      <div className="relative w-full h-5 rounded-full overflow-hidden mt-3">
-        {segmentWidths.map((width, index) => (
-          <div
-            key={index}
-            className={`absolute top-0 left-0 h-full ${
-              index === 1 ? 'bg-[#AFAFFF]' : 'bg-gray-300'
-            } flex items-center justify-center text-white text-xs font-semibold`}
-            style={{
-              width: width,
-              left:
-                segmentWidths
-                  .slice(0, index)
-                  .reduce((sum, w) => sum + parseFloat(w), 0) + '%',
-            }}
-          >
-            {segments[index]}분
-          </div>
-        ))}
-      </div>
-    )
-  }
 
   return (
     <>
@@ -386,12 +198,17 @@ const AddressForm: React.FC<TrafficInfoProps> = ({ trafficData }) => {
             />
           </>
         )}
-        <AddressModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          setValue={setValue}
-        />
       </div>
+      <DetailAddressModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        initialPage={initialModalPage}
+        propertyId={trafficData.id}
+        setTransportTime={setTransportTime}
+        setIsLoadingTime={setIsLoadingTime}
+        setIsAddressSearched={setIsAddressSearched}
+        setTransportType={setTransportType}
+      />
 
       {/* 그림 */}
       <div className="p-3 my-5 rounded-lg bg-gray-100">
@@ -399,7 +216,9 @@ const AddressForm: React.FC<TrafficInfoProps> = ({ trafficData }) => {
         <p className="text-lg font-semibold pb-2">
           {isLoadingTime ? (
             <span>계산 중...</span>
-          ) : transportTime?.totalTransportTime ? (
+          ) : matchInfos &&
+            matchInfos.length > 0 &&
+            transportTime?.totalTransportTime ? (
             <>
               <span className="text-ssaeng-purple">
                 {matchInfos[currentIndex]?.name}
@@ -410,8 +229,26 @@ const AddressForm: React.FC<TrafficInfoProps> = ({ trafficData }) => {
               </span>
               ✨ 걸려요!
             </>
+          ) : isAddressSearched ? (
+            transportTime?.totalTransportTime > 0 ? (
+              <>
+                <span className="text-ssaeng-purple">선택한 위치</span> 까지{' '}
+                <span className="text-ssaeng-purple">
+                  {transportTime.totalTransportTime}분
+                </span>
+                ✨ 걸려요!
+              </>
+            ) : (
+              <span>
+                경로를 찾을 수 없거나, 교통 정보를 불러오지 못했습니다.
+              </span>
+            )
           ) : (
-            <span>검색에 실패했어요</span> // 실패 메시지
+            <span>
+              출발지를 검색해서
+              <br />
+              교통 정보를 알아보세요
+            </span>
           )}
         </p>
 
@@ -431,6 +268,14 @@ const AddressForm: React.FC<TrafficInfoProps> = ({ trafficData }) => {
                   target={matchInfos[currentIndex].name}
                 />
               )}
+              {transportType && (
+                <TransportDetail
+                  transportTimeList={transportTime.transportTimeList}
+                  transportMode={transportType}
+                  transferCount={transportTime.transferCount}
+                  target={'목표 지점'}
+                />
+              )}
             </div>
           )}
       </div>
@@ -438,4 +283,4 @@ const AddressForm: React.FC<TrafficInfoProps> = ({ trafficData }) => {
   )
 }
 
-export default AddressForm
+export default TransportInfo

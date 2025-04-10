@@ -5,6 +5,8 @@ import { devtools } from 'zustand/middleware'
 interface AppState {
   activeTab: 'normal_search' | 'match_search' | 'favorites' | null
   selectedCard: number | null // 선택된 일반 검색 카드 정보
+  selectedLatitude: number | null // 선택된 일반 카드 좌표값
+  selectedLongitude: number | null // 선택된 일반 카드 좌표값
   titles: string[] // 클러스터에 포함된 마커들의 title 값 저장
   setActiveTab: (
     tab: 'normal_search' | 'match_search' | 'favorites' | null,
@@ -29,6 +31,8 @@ interface AppState {
 
   isContentAreaCollapsed: boolean
   setContentAreaCollapsed: (collapsed: boolean) => void
+  setSelectedLatitude: (latitude: number | null) => void
+  setSelectedLongitude: (longitude: number | null) => void
 }
 
 // Zustand store 생성 (devtools 미들웨어 항상 적용)
@@ -54,7 +58,12 @@ const useSidebarStore = create<AppState>()(
       }),
     clearMatchCard: () => set({ selectedMatchCard: null }),
     isContentAreaCollapsed: false,
-    setContentAreaCollapsed: (collapsed) => set({ isContentAreaCollapsed: collapsed }),
+    setContentAreaCollapsed: (collapsed) =>
+      set({ isContentAreaCollapsed: collapsed }),
+    selectedLatitude: null,
+    selectedLongitude: null,
+    setSelectedLatitude: (latitude) => set({ selectedLatitude: latitude }),
+    setSelectedLongitude: (longitude) => set({ selectedLongitude: longitude }),
   })),
 )
 

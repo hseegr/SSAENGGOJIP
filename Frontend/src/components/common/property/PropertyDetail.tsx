@@ -20,8 +20,12 @@ import NearbyStations from '@/components/ExplorePage/ContentArea/Detail/NearbySt
 import { getTargetAddress } from '@/services/targetService'
 import useMatchSearchResultStore from '@/store/searchResultStore'
 
+import NearFacility from '@/components/ExplorePage/ContentArea/Detail/NearFacility'
+
 interface PropertyDetailProps {
   id: number
+  latitude: number
+  longitude: number
   onClose: () => void
 }
 
@@ -29,6 +33,8 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({
   id,
   onClose,
   isCompareMode = false, // ✅ 기본값 false
+  latitude,
+  longitude,
 }) => {
   const isLoggedIn = useIsLoggedIn()
   const [data, setData] = useState<any>(null)
@@ -227,6 +233,14 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({
       </div>
       {/* 매물 주변 지하철 정보 */}
       <NearbyStations stations={data.stations} />
+
+      {/* 주변 시설 확인 */}
+      <NearFacility
+        Location={{
+          latitude: latitude || data.latitude,
+          longitude: longitude || data.longitude,
+        }}
+      />
     </div>
   )
 }
