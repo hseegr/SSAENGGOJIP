@@ -6,7 +6,6 @@ const SortButton = ({ onSortChange }) => {
   const [sortOption, setSortOption] = useState('1')
 
   useEffect(() => {
-    // 기본값 설정 (첫 번째 matchInfo가 있는 경우)
     if (matchInfos && matchInfos.length > 0) {
       setSortOption(matchInfos[0].name)
     }
@@ -18,18 +17,17 @@ const SortButton = ({ onSortChange }) => {
   }
 
   return (
-    <div className="flex items-center">
-      <span className="mr-2"></span>
+    <div className="flex items-center justify-center">
       <select
         value={sortOption}
         onChange={(e) => handleSortChange(e.target.value)}
-        className="border border-gray-300 rounded-md px-2 py-1"
+        className="w-30 h-9 px-4 text-ssaeng-purple text-md rounded-lg bg-ssaeng-purple-light hover:border-ssaeng-purple-light focus:outline-none"
       >
         <option value="price">가격순</option>
         {matchInfos && matchInfos.length > 0 ? (
           matchInfos.map((info, index) => (
             <option key={index} value={index}>
-              {info.name}
+              {info.name} 시간순
             </option>
           ))
         ) : (

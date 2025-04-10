@@ -1,25 +1,50 @@
 import { useRef, useEffect } from 'react'
 import useSidebarStore from '@/store/sidebarStore'
 import useMatchInfoStore from '@/store/matchInfoStore'
+import useMatchSearchResultStore from '@/store/searchResultStore'
+import targetMarker from '@/assets/markers/mage_map-marker-fill.png'
+import homeIcon from '@/assets/markers/fa6-solid_house.png'
 
 interface MatchInfo {
-  id: string | number // 각 matchInfo 객체를 식별할 수 있는 고유한 ID 추가
+  id: string | number
   latitude?: number
   longitude?: number
-  // 다른 필요한 속성들
+}
+
+interface SearchResultProperty {
+  id: string | number
+  latitude?: number
+  longitude?: number
+}
+
+const createMarkerImage = (
+  iconPath: string,
+  size: [number, number],
+  offset: [number, number],
+) => {
+  return new window.kakao.maps.MarkerImage(
+    iconPath,
+    new window.kakao.maps.Size(...size),
+    { offset: new window.kakao.maps.Point(...offset) },
+  )
 }
 
 const MatchMap = () => {
   const { setTitles, clearTitles, setActiveTab } = useSidebarStore.getState()
-  const { matchInfos } = useMatchInfoStore() as { matchInfos: MatchInfo[] } // 타입 명시
+  const { matchInfos } = useMatchInfoStore()
+  const { results } = useMatchSearchResultStore()
+
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstance = useRef<kakao.maps.Map | null>(null)
-  const markersRef = useRef<Map<string | number, kakao.maps.Marker>>(new Map()) // 마커를 ID를 키로 관리하는 Map
+  const clustererRef = useRef<kakao.maps.MarkerClusterer | null>(null)
+  const searchResultMarkersRef = useRef<
+    Map<string | number, kakao.maps.Marker>
+  >(new Map())
+  const matchInfoMarkersRef = useRef<Map<string | number, kakao.maps.Marker>>(
+    new Map(),
+  )
 
-  useEffect(() => {
-    console.log('맞춤지도 오픈이용ㅇㅇ')
-  }, [])
-
+  // 지도 초기화 및 클러스터러 설정
   useEffect(() => {
     if (mapRef.current && window.kakao && !mapInstance.current) {
       const options = {
@@ -28,87 +53,197 @@ const MatchMap = () => {
         draggable: true,
         scrollwheel: true,
       }
-      const map = new window.kakao.maps.Map(mapRef.current, options)
-      mapInstance.current = map
+      mapInstance.current = new window.kakao.maps.Map(mapRef.current, options)
+
+      // 클러스터러 초기화
+      clustererRef.current = new window.kakao.maps.MarkerClusterer({
+        map: mapInstance.current,
+        averageCenter: true,
+        minLevel: 5,
+        calculator: [25, 50, 100, 300, 600],
+        styles: [
+          {
+            width: '40px',
+            height: '40px',
+            background: 'rgba(113, 113, 215, 0.70)',
+            borderRadius: '50%',
+            color: '#ffffff',
+            textAlign: 'center',
+            lineHeight: '25px',
+          },
+          {
+            width: '60px',
+            height: '60px',
+            background: 'rgba(113, 113, 215, 0.70)',
+            borderRadius: '50%',
+            color: '#ffffff',
+            textAlign: 'center',
+            lineHeight: '40px',
+          },
+          {
+            width: '80px',
+            height: '80px',
+            background: 'rgba(113, 113, 215, 0.70)',
+            borderRadius: '50%',
+            color: '#ffffff',
+            textAlign: 'center',
+            lineHeight: '50px',
+          },
+          {
+            width: '120px',
+            height: '120px',
+            background: 'rgba(113, 113, 215, 0.70)',
+            borderRadius: '50%',
+            color: '#ffffff',
+            textAlign: 'center',
+            lineHeight: '150px',
+          },
+          {
+            width: '200px',
+            height: '200px',
+            background: 'rgba(113, 113, 215, 0.70)',
+            borderRadius: '50%',
+            color: '#ffffff',
+            textAlign: 'center',
+            lineHeight: '150px',
+          },
+        ],
+      })
+
+      // 줌 변경 이벤트 리스너 추가[3][6]
+      window.kakao.maps.event.addListener(
+        mapInstance.current,
+        'zoom_changed',
+        () => {
+          const level = mapInstance.current?.getLevel() ?? 8
+          updateClustererGridSize(level)
+        },
+      )
+
+      // 초기 그리드 사이즈 설정
+      updateClustererGridSize(options.level)
     }
 
     return () => {
-      mapInstance.current = null
+      window.kakao.maps.event.removeListener(
+        mapInstance.current,
+        'zoom_changed',
+        updateClustererGridSize,
+      )
     }
-  }, [setTitles, clearTitles, setActiveTab])
+  }, [])
 
+  // 그리드 사이즈 업데이트 함수[1][5]
+  const updateClustererGridSize = (level: number) => {
+    if (!clustererRef.current) return
+
+    if (level > 8) {
+      clustererRef.current.setGridSize(100) // 넓은 영역 클러스터링
+    } else if (level > 5) {
+      clustererRef.current.setGridSize(100) // 중간 영역
+    }
+
+    // 클러스터 리빌드[2][6]
+    clustererRef.current.redraw()
+  }
+
+  // 검색 결과 마커 클러스터링 처리
   useEffect(() => {
-    if (mapInstance.current && matchInfos) {
-      const currentMarkerIds = new Set(matchInfos.map((info) => info.id))
-      const existingMarkerIds = new Set(markersRef.current.keys())
-
-      // 삭제할 마커 처리
-      existingMarkerIds.forEach((markerId) => {
-        if (!currentMarkerIds.has(markerId)) {
-          const markerToRemove = markersRef.current.get(markerId)
-          if (markerToRemove) {
-            markerToRemove.setMap(null) // 지도에서 마커 제거
-            markersRef.current.delete(markerId) // Map에서 마커 정보 제거
-          }
-        }
-      })
-
-      // 새로운 마커 및 업데이트된 마커 처리
-      matchInfos.forEach((info) => {
-        const { id, latitude, longitude } = info
-
-        if (latitude && longitude) {
-          const position = new window.kakao.maps.LatLng(latitude, longitude)
-          const existingMarker = markersRef.current.get(id)
-
-          if (existingMarker) {
-            // 기존 마커 위치 업데이트
-            existingMarker.setPosition(position)
-          } else {
-            // 새로운 마커 생성
-            const newMarker = new window.kakao.maps.Marker({
-              position: position,
-            })
-            newMarker.setMap(mapInstance.current)
-            markersRef.current.set(id, newMarker) // Map에 마커 정보 저장
-          }
-        } else {
-          console.warn('유효하지 않은 좌표 정보:', info)
-        }
-      })
-
-      // 필요하다면 지도의 중심 또는 범위 조정
-      if (
-        matchInfos.length > 0 &&
-        matchInfos[0].latitude &&
-        matchInfos[0].longitude
-      ) {
-        // 예시: 첫 번째 마커 위치로 지도 중심 이동 (선택 사항)
-        // const firstLocation = new window.kakao.maps.LatLng(
-        //   matchInfos[0].latitude,
-        //   matchInfos[0].longitude
-        // );
-        // mapInstance.current.panTo(firstLocation);
-
-        // 예시: 모든 마커가 보이도록 지도 범위 조정 (선택 사항)
-        const bounds = new window.kakao.maps.LatLngBounds()
-        markersRef.current.forEach((marker) => {
-          bounds.extend(marker.getPosition())
-        })
-        mapInstance.current.setBounds(bounds)
-      }
-    } else if (mapInstance.current) {
-      // matchInfos가 없으면 모든 마커 제거
-      markersRef.current.forEach((marker) => {
-        marker.setMap(null)
-      })
-      markersRef.current.clear()
+    if (!mapInstance.current || !clustererRef.current || !results?.properties) {
+      clustererRef.current?.clear()
+      searchResultMarkersRef.current.clear()
+      return
     }
-  }, [matchInfos, mapInstance])
+
+    const properties = results.properties
+    const markers = properties
+      .map((prop) => {
+        const { latitude, longitude } = prop
+        if (!latitude || !longitude) return null
+
+        const position = new window.kakao.maps.LatLng(latitude, longitude)
+        const marker = new window.kakao.maps.Marker({
+          position,
+          image: createMarkerImage(homeIcon, [24, 24], [12, 24]),
+        })
+
+        // 마커 클릭 이벤트 추가
+        window.kakao.maps.event.addListener(marker, 'click', () => {
+          console.log('검색 결과 마커 클릭:', prop)
+        })
+
+        return marker
+      })
+      .filter(Boolean) as kakao.maps.Marker[]
+
+    clustererRef.current.addMarkers(markers)
+    searchResultMarkersRef.current = new Map(
+      markers.map((marker, idx) => [properties[idx].id, marker]),
+    )
+
+    // 지도 범위 조정
+    if (markers.length > 0) {
+      const bounds = new window.kakao.maps.LatLngBounds()
+      markers.forEach((m) => bounds.extend(m.getPosition()))
+      mapInstance.current.setBounds(bounds)
+    }
+
+    return () => {
+      clustererRef.current?.removeMarkers(markers)
+    }
+  }, [results])
+
+  // 매치 정보 마커 처리 (기존 코드 유지)
+  useEffect(() => {
+    if (!mapInstance.current || !matchInfos) {
+      matchInfoMarkersRef.current.forEach((marker) => marker.setMap(null))
+      matchInfoMarkersRef.current.clear()
+      return
+    }
+
+    const currentIds = new Set(matchInfos.map((m) => m.id))
+    const markerImage = createMarkerImage(targetMarker, [48, 48], [12, 24])
+
+    // 삭제 처리
+    Array.from(matchInfoMarkersRef.current.keys()).forEach((id) => {
+      if (!currentIds.has(id)) {
+        const marker = matchInfoMarkersRef.current.get(id)!
+        marker.setMap(null)
+        matchInfoMarkersRef.current.delete(id)
+      }
+    })
+
+    // 추가/업데이트 처리
+    matchInfos.forEach((info) => {
+      const { id, latitude, longitude } = info
+      if (!latitude || !longitude) return
+
+      const position = new window.kakao.maps.LatLng(latitude, longitude)
+      const existingMarker = matchInfoMarkersRef.current.get(id)
+
+      if (existingMarker) {
+        existingMarker.setPosition(position)
+      } else {
+        const newMarker = new window.kakao.maps.Marker({
+          position,
+          image: markerImage,
+        })
+        newMarker.setMap(mapInstance.current)
+        matchInfoMarkersRef.current.set(id, newMarker)
+      }
+    })
+
+    // 지도 범위 조정 (선택적)
+    if (matchInfos.length > 0) {
+      const bounds = new window.kakao.maps.LatLngBounds()
+      matchInfoMarkersRef.current.forEach((m) => bounds.extend(m.getPosition()))
+      mapInstance.current.setBounds(bounds)
+    }
+  }, [matchInfos])
 
   return (
     <div className="relative w-full h-full m-0 p-0">
-      <div id="map" ref={mapRef} className="relative w-full h-full"></div>
+      <div ref={mapRef} className="w-full h-full" />
     </div>
   )
 }
