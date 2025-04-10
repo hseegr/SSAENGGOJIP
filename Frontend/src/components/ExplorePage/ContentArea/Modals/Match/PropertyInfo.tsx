@@ -6,6 +6,7 @@ import { fetchMatchSearchResults } from '@/services/mapService'
 import matchSearchStore from '@/store/matchSearchStore'
 import useSearchResultStore from '@/store/searchResultStore'
 import useMatchSearchResultStore from '@/store/searchResultStore'
+import { toast } from 'react-toastify'
 
 const PropertyFilter = () => {
   const {
@@ -69,18 +70,26 @@ const PropertyFilter = () => {
 
     try {
       console.log('요청 데이터', requestData)
-      setIsSearching(true)
       const data = await fetchMatchSearchResults(requestData) // API 호출
       console.log('API 응답 데이터 구조:', data)
       console.log('properties 배열:', data.properties)
       setResults(data)
+      setIsSearching(true)
       const storeState = useMatchSearchResultStore.getState()
       console.log('Current store state:', storeState)
       // 변환된 교통 수단 모드 저장
       setTransportModes(transportModes)
       console.log('Response:', data) // 응답 데이터 출력
     } catch (error) {
-      console.error('Error during search:', error) // 에러 처리
+      if (
+        error.response?.status === 400 &&
+        error.response?.data?.code === 'PROPERTY4013'
+      ) {
+        toast.error('5000개가 넘는 검색 조건입니다. 필터를 추가해 주세요.')
+      } else {
+        console.error('Error during search:', error) // 일반 에러 처리
+      }
+      setIsSearching(false)
     }
   }
 
