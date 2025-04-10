@@ -108,24 +108,31 @@ const CustomInfo: React.FC = () => {
     const confirmed = window.confirm('정말 삭제하시겠습니까?')
     if (confirmed) {
       console.log(`${id} 삭제됨`)
-      if (matchInfos.length > 1) {
-        // 2개 이상일 경우 해당 박스 제거
-        resetMatchInfos(matchInfos.filter((info) => info.id !== id))
-      } else {
-        // 1개만 있을 경우 내부 정보 초기화 (id는 유지)
-        resetMatchInfos([
-          {
-            id: matchInfos[0].id,
-            address: '',
-            name: '',
-            transportMode: '',
-            travelTime: 0,
-            walkTime: 0,
-            latitude: 0,
-            longitude: 0,
-          },
-        ])
+      const updated = matchInfos.filter((info) => info.id !== id);
+      resetMatchInfos(updated);
+
+      // 박스가 모두 사라졌다면 빈 박스 하나 다시 추가
+      if (updated.length === 0) {
+        addMatchInfo();
       }
+      // if (matchInfos.length > 1) {
+      //   // 2개 이상일 경우 해당 박스 제거
+      //   resetMatchInfos(matchInfos.filter((info) => info.id !== id))
+      // } else {
+      //   // 1개만 있을 경우 내부 정보 초기화 (id는 유지)
+      //   resetMatchInfos([
+      //     {
+      //       id: matchInfos[0].id,
+      //       address: '',
+      //       name: '',
+      //       transportMode: '',
+      //       travelTime: 0,
+      //       walkTime: 0,
+      //       latitude: 0,
+      //       longitude: 0,
+      //     },
+      //   ])
+      // }
     }
   }
 
@@ -188,12 +195,12 @@ const CustomInfo: React.FC = () => {
       ) : (
         <>
           {/* 상단 텍스트와 버튼 */}
-          <div className="flex items-center justify-between px-4 mt-8 mb-4">
+          <div className="flex items-center justify-between px-4 mt-6 mb-3">
             <div className="flex">
-              <h2 className="text-lg font-bold mr-2">맞춤 정보</h2>
+              <h2 className="text-lg font-bold mr-3">맞춤 정보</h2>
               <button
                 onClick={handleAddBox}
-                className="flex items-center justify-center w-6 h-6 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition"
+                className="flex items-center justify-center w-5 h-5 mt-1 bg-ssaeng-purple text-white text-2xl rounded-lg hover:bg-indigo-500 transition"
               >
                 +
               </button>
@@ -201,10 +208,10 @@ const CustomInfo: React.FC = () => {
             <div>
               {isLoggedIn && (
                 <button
-                  className="flex items-center justify-center bg-green-300 rounded"
+                  className="flex items-center justify-center bg-white border border-ssaeng-purple text-ssaeng-purple hover:border-ssaeng-purple hover:text-ssaeng-purple text-sm px-2 py-1 rounded-md transition"
                   onClick={handleAddressModalOpen}
                 >
-                  저장된 주소
+                  내 맞춤 정보
                 </button>
               )}
             </div>
@@ -214,27 +221,27 @@ const CustomInfo: React.FC = () => {
           {useMatchInfoStore.getState().matchInfos.map((info: MatchInfo) => (
             <div
               key={info.id}
-              className="flex flex-col justify-center mb-3 items-center w-full h-auto bg-gray-200 rounded-lg text-gray-700 cursor-pointer"
+              className="flex flex-col justify-center items-center w-[92%] max-w-3xl mx-auto h-[296px] bg-gray-100 rounded-lg text-gray-700 cursor-pointer mb-4"
               onClick={() => handleBoxClick(info.id)}
               role="button"
               aria-hidden="true"
             >
               {info.address ||
-              info.name ||
-              info.transportMode ||
-              info.travelTime ||
-              info.walkTime ? (
+                info.name ||
+                info.transportMode ||
+                info.travelTime ||
+                info.walkTime ? (
                 <>
-                  <div className="relative w-full p-4">
-                    <h3 className="text-lg font-bold mb-2">주소</h3>
+                  <div className="relative w-full px-4 py-2">
+                    <h3 className="text-sm font-semibold mt-3 mb-2">주소</h3>
                     <button
-                      className="absolute top-2 right-2 z-[9999] text-red-500"
+                      className="absolute top-3 right-4 z-[9999] text-gray-400 hover:text-red-500 text-base"
                       onClick={(e) => handleRemoveBox(e, info.id)}
                     >
-                      X
+                      ✖
                     </button>
                     <div
-                      className="flex items-center w-full h-24 justify-between bg-white p-4 rounded-lg shadow-md"
+                      className="flex items-center w-full h-[70px] justify-between bg-white px-3 py-2 rounded-lg shadow-md"
                       role="button"
                       aria-hidden="true"
                       onClick={(e) => {
@@ -243,21 +250,21 @@ const CustomInfo: React.FC = () => {
                       }}
                     >
                       <div className="flex flex-col">
-                        <span className="text-md font-semibold text-green-600 bg-green-100 px-2 py-1 rounded-lg inline-block">
+                        <span className="w-fit mb-2 text-xs font-semibold text-ssaeng-green bg-ssaeng-green-light-2 px-2 py-1 rounded-lg inline-block">
                           {info.name}
                         </span>
-                        <span className="text-sm text-gray-700 ml-3 truncate">
+                        <span className="text-xs text-gray-700 ml-1 truncate">
                           {info.address}
                         </span>
                       </div>
-                      <span className="text-gray-400 ml-auto">{'>'}</span>
+                      <span className="text-gray-400 ml-auto text-base">{'>'}</span>
                     </div>
                   </div>
 
-                  <div className="relative w-full p-4">
-                    <h3 className="text-lg font-bold mb-2">교통</h3>
+                  <div className="relative w-full px-4 py-2 mb-4">
+                    <h3 className="text-sm font-semibold mb-2">교통</h3>
                     <div
-                      className="flex w-full bg-white items-center p-4 rounded-lg shadow-md text-gray-700"
+                      className="flex items-center w-full h-[112px] justify-between bg-white px-3 py-2 rounded-lg shadow-md"
                       role="button"
                       aria-hidden="true"
                       onClick={(e) => {
@@ -266,30 +273,30 @@ const CustomInfo: React.FC = () => {
                       }}
                     >
                       <div className="flex flex-col">
-                        <span className="text-xs font-semibold text-purple-600 bg-purple-100 px-2 py-1 rounded-lg inline-block mb-2">
+                        <span className="w-fit mt-1 mb-3 text-xs font-semibold text-ssaeng-purple bg-ssaeng-purple-light px-2 py-1 rounded-lg inline-block">
                           {info.transportMode}
                         </span>
-                        <p className="text-sm mb-1">
-                          전체 이동시간은{' '}
-                          <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
+                        <p className="text-xs mb-1 ml-1">
+                          전체 이동시간은 {' '}
+                          <span className="text-xs font-medium text-ssaeng-purple bg-ssaeng-purple-light px-1 py-1 rounded-lg inline-block">
                             {info.travelTime}분 이내
                           </span>{' '}
                           이면 좋겠고,
                         </p>
-                        <p className="text-sm">
+                        <p className="text-xs ml-1">
                           도보 이동시간은{' '}
-                          <span className="text-blue-600 bg-blue-100 px-2 py-1 rounded-lg inline-block">
+                          <span className="text-xs font-medium text-ssaeng-purple bg-ssaeng-purple-light px-1 py-1 rounded-lg inline-block">
                             {info.walkTime}분 이내
                           </span>{' '}
                           이면 좋겠어요.
                         </p>
                       </div>
-                      <span className="text-gray-400 ml-auto">{'>'}</span>
+                      <span className="text-gray-400 ml-auto text-base">{'>'}</span>
                     </div>
                   </div>
                 </>
               ) : (
-                <span className="flex justify-center items-center w-full h-96 bg-gray-200 rounded-lg text-gray-500 cursor-pointer hover:bg-gray-300 transition">
+                <span className="flex justify-center items-center w-full inline-block h-[296px] bg-gray-100 rounded-lg text-sm text-gray-500 cursor-pointer hover:bg-gray-300 transition">
                   이곳을 클릭해 맞춤 정보를 설정해주세요.
                 </span>
               )}

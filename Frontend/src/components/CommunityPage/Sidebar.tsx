@@ -10,13 +10,15 @@ import {
 } from '@/hooks/useCommunity'
 import { useAllStationsQuery } from '@/hooks/useStation'
 import { useChatSocket } from '@/hooks/useChatSocket'
+import { toast } from 'react-toastify'
 
 type Props = {
   onChatOpen: () => void
   forceMyTab?: boolean
+  isChatOpen?: boolean
 }
 
-const Sidebar = ({ onChatOpen, forceMyTab }: Props) => {
+const Sidebar = ({ onChatOpen, forceMyTab, isChatOpen }: Props) => {
   // 탭 상태 관리 -> list : 채팅방 목록 / my : 내가 참여한 채팅방
   const [activeTab, setActiveTab] = useState<'list' | 'my'>('list')
 
@@ -123,23 +125,23 @@ const Sidebar = ({ onChatOpen, forceMyTab }: Props) => {
     const token = localStorage.getItem('accessToken')!
     const isAlreadyJoined = myChatRooms.some((r) => r.id === room.id)
 
-    // 선택한 채팅방을 상태에 저장 (오버레이 or 모달용)
-    setSelectedChatRoom(room)
+    // ✅ 1. 모달이 열려 있고 참여하지 않은 방이면 아무것도 안 함
+    if (isChatOpen && !isAlreadyJoined) {
+      toast.info('지금 열려있는 채팅방을 닫고 참여해주세요!', {
+        style: {
+          width: '400px',
+        },
+      })
+      return
+    }
 
+    // ✅ 2. 참여한 방일 때만 setSelectedChatRoom + 모달 열기
     if (isAlreadyJoined) {
-      console.log('🟢 이미 참여한 채팅방 → 모달 열기', room.id)
-
-      // connect({
-      //   chatRoomId: room.id,
-      //   token,
-      //   onMessage: (msg) => console.log('📩 받은 메시지:', msg),
-      // })
-
+      setSelectedChatRoom(room)
       onChatOpen()
     } else {
-      console.log('🟡 참여하지 않은 채팅방 → 오버레이만 표시', room.id)
-      // 참여하기 버튼 눌러야 입장/연결됨 (MapView.tsx에서 처리)
-      // 이미 모달이 열려있다면 닫기 (중요!)
+      // ✅ 3. 참여하지 않은 방은 선택만 (오버레이용), 모달은 열지 않음
+      setSelectedChatRoom(room)
     }
   }
 

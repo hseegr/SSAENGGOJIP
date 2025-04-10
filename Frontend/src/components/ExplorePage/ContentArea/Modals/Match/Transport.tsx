@@ -60,34 +60,34 @@ const Transport: React.FC<TransportProps> = ({
   }
 
   return (
-    <div className="flex flex-col items-center gap-y-8 mt-6">
-      <div className="flex space-x-4 justify-center">
+    <div className="flex flex-col items-center gap-y-8 mt-8">
+      <div className="flex gap-4 justify-center">
         <button
           onClick={() => handleTransportTypeChange('지하철')}
-          className={`py-2 px-4 rounded-md font-medium ${
+          className={`ml-3 w-[106px] py-2 text-sm rounded-lg border ${
             transportMode === '지하철'
-              ? 'bg-ssaeng-purple text-white'
-              : 'bg-gray-100 text-gray-500 hover:bg-gray-200 border border-gray-200'
+              ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
+              : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
           }`}
         >
           지하철
         </button>
         <button
           onClick={() => handleTransportTypeChange('자차')}
-          className={`py-2 px-4 rounded-md font-medium ${
+          className={`w-[106px] py-2 text-sm rounded-lg border ${
             transportMode === '자차'
-              ? 'bg-ssaeng-purple text-white'
-              : 'bg-gray-100 text-gray-500 hover:bg-gray-200 border border-gray-200'
+              ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
+              : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
           }`}
         >
           자차
         </button>
         <button
           onClick={() => handleTransportTypeChange('도보')}
-          className={`py-2 px-4 rounded-md font-medium ${
+          className={`mr-3 w-[106px] py-2 text-sm rounded-lg border ${
             transportMode === '도보'
-              ? 'bg-ssaeng-purple text-white'
-              : 'bg-gray-100 text-gray-500 hover:bg-gray-200 border border-gray-200'
+              ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
+              : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
           }`}
         >
           도보
@@ -141,7 +141,7 @@ const Transport: React.FC<TransportProps> = ({
                     ${
                       isSelected
                         ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
-                        : 'bg-gray-100 text-gray-500 border-transparent hover:bg-gray-200'
+                        : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
                     }`}
               >
                 {label}
