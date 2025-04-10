@@ -94,10 +94,11 @@ const PropertyFilter = () => {
           {['아파트', '빌라', '원룸', '오피스텔'].map((type) => (
             <button
               key={type}
-              className={`w-24 py-2 text-sm rounded-lg border transition ${propertyType.includes(type)
-                ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
-                : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
-                }`}
+              className={`w-24 py-2 text-sm rounded-lg border transition ${
+                propertyType.includes(type)
+                  ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
+                  : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
+              }`}
               onClick={() => togglePropertyType(type)}
             >
               {type}
@@ -113,10 +114,11 @@ const PropertyFilter = () => {
           {['전세', '월세', '매매'].map((type) => (
             <button
               key={type}
-              className={`w-28 py-2 text-sm rounded-lg border transition ${dealType === type
-                ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
-                : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
-                }`}
+              className={`w-28 py-2 text-sm rounded-lg border transition ${
+                dealType === type
+                  ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
+                  : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
+              }`}
               onClick={() => setDealType(type)}
             >
               {type}

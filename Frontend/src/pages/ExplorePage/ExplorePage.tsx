@@ -15,6 +15,7 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import matchSearchStore from '@/store/matchSearchStore'
 import useMatchSearchResultStore from '@/store/searchResultStore'
+import LoadingModal from '@/components/common/LoadingModal'
 
 const ExplorePage = () => {
   // React Router hooks
@@ -26,6 +27,7 @@ const ExplorePage = () => {
 
   // 로딩 상태
   const [isLoading, setIsLoading] = useState(false)
+  const [loadingMessage, setLoadingMessage] = useState('검색 중...')
 
   // 검색 파라미터 스토어
   const {
@@ -61,6 +63,9 @@ const ExplorePage = () => {
         generalSearchLat,
         generalSearchLng,
       )
+
+      // 로딩 메시지 설정
+      setLoadingMessage('일반 검색 중...')
 
       // API 호출 실행 - 함수 이름 변경
       setIsLoading(true)
@@ -113,6 +118,9 @@ const ExplorePage = () => {
         customSearchLat,
         customSearchLng,
       )
+
+      // 로딩 메시지 설정
+      setLoadingMessage('맞춤 검색 중...')
 
       // 시간 문자열을 분 단위로 변환 (예: "30분" -> 30)
       const timeValue = convertTimeStringToMinutes(travelTime)
@@ -194,14 +202,8 @@ const ExplorePage = () => {
 
   return (
     <div className="relative h-screen w-screen">
-      {/* 로딩 인디케이터 */}
-      {isLoading && (
-        <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50">
-          <div className="bg-white p-4 rounded-lg shadow-lg">
-            <p className="text-ssaeng-purple font-bold">검색 중...</p>
-          </div>
-        </div>
-      )}
+      {/* 로딩 모달 */}
+      <LoadingModal isOpen={isLoading} message={loadingMessage} />
 
       {/* Sidebar: 슬라이드 될 영역 */}
       <div className="absolute top-0 left-0 h-full z-10">

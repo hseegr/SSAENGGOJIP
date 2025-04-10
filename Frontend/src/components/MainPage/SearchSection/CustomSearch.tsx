@@ -4,6 +4,7 @@ import SearchDropdown from './SearchDropdown'
 import { useNavigate } from 'react-router-dom'
 import { useSearchParamsStore } from '@/store/searchParamsStore'
 import { searchLocations } from '@/services/searchService'
+import LoadingModal from '@/components/common/LoadingModal'
 
 const CustomSearch = () => {
   // 검색어 상태
@@ -24,6 +25,9 @@ const CustomSearch = () => {
 
   // 선택된 항목 상태
   const [selectedItem, setSelectedItem] = useState<any>(null)
+
+  // 로딩 상태
+  const [isLoading, setIsLoading] = useState(false)
 
   // 페이지 이동 훅
   const navigate = useNavigate()
@@ -89,18 +93,36 @@ const CustomSearch = () => {
     setQuery(item.name)
 
     // 선택 즉시 검색 실행
-    setCustomSearchParams(
+    handleSearchWithLocation(
       item.name,
       selectedTime,
       item.latitude,
       item.longitude,
     )
+  }
 
-    // 매물탐색 페이지로 이동
-    navigate('/explore?tab=match_search')
+  // 검색 실행 함수 (위치 정보 포함)
+  const handleSearchWithLocation = (
+    query: string,
+    time: string,
+    lat?: number,
+    lng?: number,
+  ) => {
+    // 검색 파라미터 설정
+    setCustomSearchParams(query, time, lat, lng)
 
-    // 드롭다운 닫기
-    setShowSearchDropdown(false)
+    // 로딩 시작
+    setIsLoading(true)
+
+    // 약간의 지연 후 페이지 이동 (로딩 모달이 보이게 하기 위해)
+    setTimeout(() => {
+      navigate('/explore?tab=match_search')
+
+      // 잠시 후 로딩 상태 해제 (ExplorePage에서 자체적으로 로딩을 처리하기 때문)
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 500)
+    }, 500)
   }
 
   // 키보드 이벤트 처리
@@ -149,13 +171,12 @@ const CustomSearch = () => {
 
     // 선택된 항목이 있으면 해당 항목으로 검색
     if (selectedItem) {
-      setCustomSearchParams(
+      handleSearchWithLocation(
         selectedItem.name,
         selectedTime,
         selectedItem.latitude,
         selectedItem.longitude,
       )
-      navigate('/explore?tab=match_search')
       return
     }
 
@@ -174,6 +195,8 @@ const CustomSearch = () => {
       handleSelect(searchResults[0])
     } else if (window.kakao && window.kakao.maps) {
       // 카카오맵 API로 좌표 검색 시도
+      setIsLoading(true)
+
       const geocoder = new window.kakao.maps.services.Geocoder()
       geocoder.addressSearch(query, (result, status) => {
         if (status === window.kakao.maps.services.Status.OK) {
@@ -181,12 +204,10 @@ const CustomSearch = () => {
           const longitude = parseFloat(result[0].x)
 
           // 맞춤 검색 파라미터 설정
-          setCustomSearchParams(query, selectedTime, latitude, longitude)
-
-          // 매물탐색 페이지로 이동
-          navigate(`/explore?tab=match_search`)
+          handleSearchWithLocation(query, selectedTime, latitude, longitude)
         } else {
           // 좌표 검색 실패 시
+          setIsLoading(false)
           alert('주소를 찾을 수 없습니다. 다른 검색어를 입력해주세요.')
         }
       })
@@ -195,6 +216,9 @@ const CustomSearch = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
+      {/* 로딩 모달 */}
+      <LoadingModal isOpen={isLoading} message="맞춤 검색 중..." />
+
       {/* 검색창 */}
       <div className="relative w-96">
         <div className="flex border-2 border-ssaeng-purple rounded-lg px-4 py-2 w-96">
