@@ -27,7 +27,7 @@ public class RecommendDetailResponse {
 
     private List<TransportInfo> transportInfos;
     private List<StationInfo> stations;
-    private List<FacilityInfo> facilities;
+
     @Data
     public static class TransportInfo{
         Integer totalTransportTime;
@@ -53,12 +53,4 @@ public class RecommendDetailResponse {
             this.line = station.getLineName();
         }
     }
-
-    @Data
-    public static class FacilityInfo{
-        FacilityType facilityType;
-        Double latitude;
-        Double longitude;
-    }
-
 }

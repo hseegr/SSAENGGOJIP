@@ -12,6 +12,7 @@ import com.ssaenggojip.property.dto.response.*;
 import com.ssaenggojip.property.entity.Property;
 import com.ssaenggojip.property.dto.request.SearchRequest;
 import com.ssaenggojip.property.dto.request.TransportTimeRequest;
+import com.ssaenggojip.recommend.service.RecommendService;
 import com.ssaenggojip.station.entity.Station;
 import com.ssaenggojip.station.service.StationService;
 import com.ssaenggojip.user.entity.User;
@@ -28,8 +29,8 @@ public class PropertyFacade {
     private final StationService stationService;
     private final PropertyService propertyService;
     private final FacilityService facilityService;
-    private final TransportTimeProvider transportTimeProvider;
     private final PropertyLikeService propertyLikeService;
+    private final RecommendService recommendService;
 
     public SearchResponse searchProperties(SearchRequest request, User user) {
         String search = request.getSearch();
@@ -47,16 +48,18 @@ public class PropertyFacade {
         // 조건으로 필터링
         SearchResponse searchResponse = propertyService.searchWithFilter(request, isStationSearch, lng, lat);;
 
+
         // 필터링 한 값에 관심/추천 부여
-//        for (SearchProperty searchProperty:searchResponse.getProperties()){
-//            searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
-            //TODO: 여기 아래처럼 추천
-            //searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
-//        }
         if(user != null) {
-            Set<Long> LikePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
-            for (SearchProperty searchProperty:searchResponse.getProperties())
-                searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
+            Set<Long> ids = new HashSet<>(searchResponse.getProperties().stream()
+                    .map(SearchProperty::getId)
+                    .toList());
+            Set<Long> recommendIds = recommendService.filterRecommendedIds(ids, user);
+            Set<Long> likePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
+            for (SearchProperty searchProperty:searchResponse.getProperties()) {
+                searchProperty.setIsInterest(likePropertyIds.contains(searchProperty.getId()));
+                searchProperty.setIsRecommend(recommendIds.contains(searchProperty.getId()));
+            }
         }
 
         return searchResponse;
@@ -163,19 +166,19 @@ public class PropertyFacade {
                 .properties(result)
                 .build();
         // 필터링 한 값에 관심/추천 부여
-
-//        Set<Long> LikePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
-//        for (RecommendSearchProperty recommendSearchProperty:response.getProperties())
-//            recommendSearchProperty.setIsInterest(LikePropertyIds.contains(recommendSearchProperty.getId()));
-        //TODO: 여기 아래처럼 추천
-        //searchProperty.setIsInterest(LikePropertyIds.contains(searchProperty.getId()));
-//        }
         if(user != null) {
+            Set<Long> ids = new HashSet<>(response.getProperties().stream()
+                    .map(RecommendSearchProperty::getId)
+                    .toList());
+            Set<Long> recommendIds = recommendService.filterRecommendedIds(ids, user);
             Set<Long> LikePropertyIds = new HashSet<>(propertyLikeService.getLikePropertyIds(user));
-            for (RecommendSearchProperty recommendSearchProperty:response.getProperties())
+            for (RecommendSearchProperty recommendSearchProperty:response.getProperties()) {
                 recommendSearchProperty.setIsInterest(LikePropertyIds.contains(recommendSearchProperty.getId()));
-        }
+                recommendSearchProperty.setIsRecommend(recommendIds.contains(recommendSearchProperty.getId()));
 
+            }
+
+        }
         return response;
 
     }
@@ -234,9 +237,6 @@ public class PropertyFacade {
             transportInfos.add(new RecommendDetailResponse.TransportInfo(response));
         }
 
-        //TODO: 주변 시설정보 추가 하기
-        List<RecommendDetailResponse.FacilityInfo> facilityInfos = new ArrayList<>();
-
         return RecommendDetailResponse.builder()
                 .id(property.getId())
                 .name(property.getName())
@@ -253,7 +253,6 @@ public class PropertyFacade {
                 .imageUrls(imageUrls)
                 .transportInfos(transportInfos)
                 .stations(stationInfos)
-                .facilities(facilityInfos)
                 .build();
     }
 }
