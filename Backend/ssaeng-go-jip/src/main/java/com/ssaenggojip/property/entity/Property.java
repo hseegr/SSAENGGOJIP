@@ -86,4 +86,8 @@ public class Property {
     @Column(name = "facility_nearness", columnDefinition = "vector(8)")
     private List<Double> facilityNearness;
 
+
+
+
+
 }

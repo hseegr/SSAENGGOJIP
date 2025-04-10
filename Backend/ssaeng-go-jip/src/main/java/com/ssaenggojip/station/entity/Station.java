@@ -16,7 +16,7 @@ public class Station {
     private Long id;
 
     @Column(nullable = false)
-    private Long communityId;
+    private String communityId;
 
     @Column(nullable = false)
     private String name;
