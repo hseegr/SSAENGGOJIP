@@ -132,7 +132,7 @@ const PropertyFilter = () => {
         className="text-sm text-ssaeng-purple mb-4 cursor-pointer hover:text-indigo-500"
         onClick={toggleModal}
       >
-        매물 및 생활권 선호도 설정 추가하기
+        가격 및 생활권 선호도 설정 추가하기
       </button>
 
       {/* 검색 버튼 */}
