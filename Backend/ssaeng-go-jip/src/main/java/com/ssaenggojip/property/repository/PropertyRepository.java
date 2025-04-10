@@ -134,16 +134,10 @@ WHERE (:dealType IS NULL OR p.deal_type::text = :dealType)
     @Query(nativeQuery = true,
             value = "SELECT * " +
                     "FROM property " +
-                    "WHERE ST_DWithin(" +
-                    "geography(ST_SetSRID(ST_Point(longitude, latitude), 4326)), " +
-                    "geography(ST_SetSRID(ST_Point(:lng, :lat), 4326)), " +
-                    ":radius) " +
-                    "ORDER BY ST_Distance(" +
-                    "   geom, " +
-                    "   geography(" +
-                    "       ST_SetSRID(ST_Point(:lng, :lat), 4326)" +
-                    "   )" +
-                    ") ASC " +
+                    "WHERE " +
+                    "   geom <-> geography(ST_Point(127.1, 37.5)) <= 1000 " +
+                    "ORDER BY " +
+                    "   geom <-> geography(ST_Point(127.1, 37.5)) ASC " +
                     "LIMIT 100 "
     )
     List<Property> findByLocation(
