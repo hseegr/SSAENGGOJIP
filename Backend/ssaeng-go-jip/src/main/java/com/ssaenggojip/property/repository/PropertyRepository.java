@@ -177,44 +177,43 @@ WITH user_point AS (
 station_a AS (
     SELECT
         s.id AS station_a_id,
+        ST_Distance(s.geom_3857, up.geom_3857) / 80 AS t1,
         s.latitude AS station_a_latitude,
-        s.longitude AS station_a_longitude,
-        ST_Distance(s.geom_3857, up.geom_3857) / 80 AS t1
+        s.longitude AS station_a_longitude
     FROM station s, user_point up
     WHERE ST_DWithin(s.geom_3857, up.geom_3857, :walkTime * 80)
 ),
 station_b AS (
     SELECT
         sm.destination_station_id AS station_b_id,
-        s.latitude AS station_b_latitude,
-        s.longitude AS station_b_longitude,
+        sm.transport_time AS t2,
         sa.station_a_id,
         sa.t1,
         sa.station_a_latitude,
         sa.station_a_longitude,
-        sm.transport_time AS t2
+        s.latitude AS station_b_latitude,
+        s.longitude AS station_b_longitude
     FROM station_route sm
     JOIN station_a sa ON sm.departure_station_id = sa.station_a_id
     JOIN station s ON sm.destination_station_id = s.id
-    WHERE sm.transport_time <= (:totalTime - sa.t1)
 ),
 property_candidates AS (
     SELECT
-        sb.station_b_id,
-        sb.station_a_id,
-        sb.t1,
-        sb.t2,
-        sb.station_a_latitude,
-        sb.station_a_longitude,
-        sb.station_b_latitude,
-        sb.station_b_longitude,
+        sb.*,
         ns.property_id,
-        ns.walk_time AS t3
+        ns.walk_time AS t3,
+        sb.t1 + ns.walk_time AS total_walk_time
     FROM station_b sb
     JOIN near_station ns ON sb.station_b_id = ns.station_id
-    WHERE ns.walk_time <= (:walkTime - sb.t1)
+    WHERE (sb.t1 + ns.walk_time) <= :walkTime
+),
+filtered AS (
+    SELECT *,
+           (:totalTime - (t1 + t3)) AS remaining_time
+    FROM property_candidates
+    WHERE t2 <= (:totalTime - (t1 + t3))
 )
-SELECT
+SELECT DISTINCT ON (p.id)
     p.id,
     false AS is_recommend,
     p.deal_type,
@@ -229,27 +228,27 @@ SELECT
     p.longitude,
     false AS is_interest,
     p.main_image AS image_url,
-    pc.t2 AS transport_time,
-    pc.station_a_latitude,
-    pc.station_a_longitude,
-    pc.station_b_latitude,
-    pc.station_b_longitude
-FROM property_candidates pc
-JOIN property p ON pc.property_id = p.id
+    filtered.t2 AS transport_time,
+    filtered.station_a_latitude,
+    filtered.station_a_longitude,
+    filtered.station_b_latitude,
+    filtered.station_b_longitude
+FROM filtered
+JOIN property p ON filtered.property_id = p.id
 WHERE (:dealType IS NULL OR p.deal_type::text = :dealType)
-    AND (:propertyTypesEmpty OR p.property_type::text IN (:propertyTypes))
-    AND p.price BETWEEN :minPrice AND :maxPrice
-    AND p.rent_price BETWEEN :minRentPrice AND :maxRentPrice
-    AND (:isHospitalNear IS NULL OR p.is_hospital_near = :isHospitalNear)
-    AND (:isPharmacyNear IS NULL OR p.is_pharmacy_near = :isPharmacyNear)
-    AND (:isVetNear IS NULL OR p.is_vet_near = :isVetNear)
-    AND (:isParkNear IS NULL OR p.is_park_near = :isParkNear)
-    AND (:isGovernmentNear IS NULL OR p.is_government_near = :isGovernmentNear)
-    AND (:isConvenienceStoreNear IS NULL OR p.is_convenience_store_near = :isConvenienceStoreNear)
-    AND (:isMartNear IS NULL OR p.is_mart_near = :isMartNear)
-    AND (:isLaundryNear IS NULL OR p.is_laundry_near = :isLaundryNear)
-ORDER BY pc.t2 ASC
-LIMIT 5001
+  AND (:propertyTypesEmpty OR p.property_type::text IN (:propertyTypes))
+  AND p.price BETWEEN :minPrice AND :maxPrice
+  AND p.rent_price BETWEEN :minRentPrice AND :maxRentPrice
+  AND (:isHospitalNear IS NULL OR p.is_hospital_near = :isHospitalNear)
+  AND (:isPharmacyNear IS NULL OR p.is_pharmacy_near = :isPharmacyNear)
+  AND (:isVetNear IS NULL OR p.is_vet_near = :isVetNear)
+  AND (:isParkNear IS NULL OR p.is_park_near = :isParkNear)
+  AND (:isGovernmentNear IS NULL OR p.is_government_near = :isGovernmentNear)
+  AND (:isConvenienceStoreNear IS NULL OR p.is_convenience_store_near = :isConvenienceStoreNear)
+  AND (:isMartNear IS NULL OR p.is_mart_near = :isMartNear)
+  AND (:isLaundryNear IS NULL OR p.is_laundry_near = :isLaundryNear)
+ORDER BY p.id, filtered.t2 ASC
+LIMIT 20001
 """, nativeQuery = true)
     List<PointStationPropertyDto> findReachableProperties(
             @Param("lng") Double lng,
@@ -272,6 +271,7 @@ LIMIT 5001
             @Param("isMartNear") Boolean isMartNear,
             @Param("isLaundryNear") Boolean isLaundryNear
     );
+
 
 
 

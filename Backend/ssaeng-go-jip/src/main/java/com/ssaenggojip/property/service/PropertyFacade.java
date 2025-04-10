@@ -3,7 +3,6 @@ package com.ssaenggojip.property.service;
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.enums.TransportationType;
-import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.facility.service.FacilityService;
 import com.ssaenggojip.property.dto.request.RecommendDetailRequest;
 import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
@@ -150,8 +149,9 @@ public class PropertyFacade {
                     }).collect(Collectors.toList());
         }
         else
-            throw new GeneralException(ErrorStatus.MISSING_ADDRESS_INFO_RECOMMEND);
-        if (result.size() > 5000)
+            throw new GeneralException(ErrorStatus.ADDRESS_INFO_COUNT);
+
+        if (result.size() > 20000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
         RecommendSearchResponse response = RecommendSearchResponse.builder()
                 .total(result.size())
@@ -170,6 +170,7 @@ public class PropertyFacade {
 
             }
         }
+        System.out.println("three");
         return response;
 
     }
