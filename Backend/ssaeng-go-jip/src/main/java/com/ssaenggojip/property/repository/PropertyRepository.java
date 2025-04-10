@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
@@ -149,6 +150,17 @@ WHERE (:dealType IS NULL OR p.deal_type::text = :dealType)
             @Param("lng") Double lng,
             @Param("lat") Double lat,
             @Param("radius") Double radius
+    );
+
+    @Query(nativeQuery = true,
+            value = "SELECT id " +
+                    "FROM property " +
+                    "WHERE id IN (:ids) " +
+                    "AND 1 - (cast(:pref as vector) <=> facility_nearness * cast(:pref as vector)) > 0.996 "
+    )
+    Set<Long> findIdsByIsRecommended(
+            @Param("ids") Set<Long> ids,
+            @Param("pref") String pref
     );
 
     @Query(value = """

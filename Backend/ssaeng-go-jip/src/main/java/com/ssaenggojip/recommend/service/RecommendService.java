@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -78,5 +80,14 @@ public class RecommendService {
                 k
         );
         return RecommendPropertyListResponse.from(properties);
+    }
+
+    @Transactional(readOnly = true)
+    public Set<Long> filterRecommendedIds(Set<Long> ids, User user) {
+        String preferences = Arrays.toString(user.getFacilityPreferences().toArray());
+        return propertyRepository.findIdsByIsRecommended(
+                ids,
+                preferences
+        );
     }
 }
