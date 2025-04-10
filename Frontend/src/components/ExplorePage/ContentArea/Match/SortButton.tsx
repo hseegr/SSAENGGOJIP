@@ -19,7 +19,7 @@ const SortButton = ({ onSortChange }) => {
 
   return (
     <div className="flex items-center">
-      <span className="mr-2">정렬:</span>
+      <span className="mr-2"></span>
       <select
         value={sortOption}
         onChange={(e) => handleSortChange(e.target.value)}
