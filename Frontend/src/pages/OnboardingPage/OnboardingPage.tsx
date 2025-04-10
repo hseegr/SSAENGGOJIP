@@ -9,24 +9,35 @@ const onboardingSlides = [
     title: '맞춤 매물',
     description:
       '타겟 주소와 이동 시간을 설정하고,\n내 상황에 딱 맞는 매물을 추천받아보세요.',
+    image: 'src/assets/images/01.png', // ✅ 이미지 경로 추가
   },
   {
     icon: '🚆',
     title: '교통 정보',
     description:
       '도보, 지하철, 자차!\n다양한 교통 수단을 선택하고,\n한눈에 소요 시간을 확인해요. 😉',
+    image: 'src/assets/images/02.png',
   },
   {
     icon: '🏪',
     title: '주변 인프라 체크',
     description:
       '병원, 약국, 세탁소 등\n생활 편의시설 선호도를 체크하면,\n그에 맞는 매물을 우선 추천해드려요!',
+    image: 'src/assets/images/03.png',
+  },
+  {
+    icon: '🏙️',
+    title: '매물 추천',
+    description:
+      '현재 내 위치 주변, \n내가 선호하는 인프라를 기반으로\n딱 맞는 매물을 추천해드려요!',
+    image: 'src/assets/images/04.png',
   },
   {
     icon: '🏠',
     title: '관심 매물 비교',
     description:
       '눈에 띄는 매물을 관심 매물로 등록하고 비교해서,\n내게 더 맞는 집을 선택해보세요!',
+    image: 'src/assets/images/05.png',
   },
 ]
 
@@ -75,7 +86,7 @@ const OnboardingPage = () => {
         </button>
 
         {/* 슬라이드 컨테이너 (가로 슬라이드 전환을 위한 transform 처리) */}
-        <div className="w-[1100px] h-[400px] overflow-hidden rounded-2xl bg-white">
+        <div className="w-[1100px] h-[380px] overflow-hidden rounded-2xl bg-white">
           <div
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -86,8 +97,17 @@ const OnboardingPage = () => {
                 className="min-w-[1100px] px-12 py-8 flex items-center justify-between"
               >
                 {/* 왼쪽: 이미지 자리 */}
-                <div className="w-[629px] h-[354px] bg-gray-100 rounded-xl flex items-center justify-center text-gray-400 text-sm">
-                  이미지 영역
+                <div
+                  className="overflow-hidden w-[629px] h-[328px] bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm border border-ssaeng-gray-1"
+                  style={{
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
+                  }}
+                >
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 {/* 오른쪽: 텍스트 설명 */}
                 <div className="text-left w-[300px]">
