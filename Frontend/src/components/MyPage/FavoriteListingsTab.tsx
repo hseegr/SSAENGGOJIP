@@ -155,7 +155,12 @@ const FavoriteListingsTab = () => {
 
       {/* 비교 모달 */}
       {isModalOpen && (
-        <CompareModal selectedIds={selectedIds} onClose={handleModalClose} />
+        <CompareModal
+          selectedProperties={
+            likedProperties?.filter((p) => selectedIds.includes(p.id)) || []
+          }
+          onClose={handleModalClose}
+        />
       )}
     </div>
   )
