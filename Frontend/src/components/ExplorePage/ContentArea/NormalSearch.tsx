@@ -71,11 +71,16 @@ const NormalSearch: React.FC = () => {
             additionalFilters,
           })
 
-          const searchResults = await fetchNormalSearchResults(searchQuery, filters)
+          const searchResults = await fetchNormalSearchResults(
+            searchQuery,
+            filters,
+          )
           setFilteredData(searchResults ?? { total: 0, properties: [] })
         } catch (error: any) {
           if (error.response?.data?.code === 'PROPERTY4013') {
-            toast.warning('검색 결과가 너무 많아요! 조건을 조금 더 구체적으로 설정해 주세요.')
+            toast.warning(
+              '검색 결과가 너무 많아요! 조건을 조금 더 구체적으로 설정해 주세요.',
+            )
           } else {
             console.error('검색 중 오류 발생:', error)
           }
@@ -100,7 +105,10 @@ const NormalSearch: React.FC = () => {
           MaxmonthlyPrice,
           additionalFilters,
         })
-        const searchResults = await fetchNormalSearchResults(generalSearchQuery, filters)
+        const searchResults = await fetchNormalSearchResults(
+          generalSearchQuery,
+          filters,
+        )
         setFilteredData(searchResults ?? { total: 0, properties: [] })
       } catch (err) {
         console.error('❌ Zustand 검색 자동 실행 중 오류:', err)
@@ -217,8 +225,8 @@ const NormalSearch: React.FC = () => {
               isInterest: item.isInterest,
               // title: item.title, // Property 타입에 title은 없으므로 제거하거나 Property 타입에 추가해야 합니다.
               // address: item.address, // Property 타입에 address는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
-              // latitude: item.latitude, // Property 타입에 latitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
-              // longitude: item.longitude, // Property 타입에 longitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
+              latitude: item.latitude, // Property 타입에 latitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
+              longitude: item.longitude, // Property 타입에 longitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
             }}
           />
         ))}

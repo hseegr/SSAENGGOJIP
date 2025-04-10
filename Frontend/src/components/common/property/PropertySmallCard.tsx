@@ -23,6 +23,8 @@ type Property = {
   imageUrl?: string
   isRecommend?: boolean
   isInterest?: boolean
+  latitude: number
+  longitude: number
 }
 
 type Props = {
@@ -32,10 +34,13 @@ type Props = {
 const PropertySmallCard = ({ property }: Props) => {
   const [isLiked, setIsLiked] = useState(property.isInterest ?? false)
   const [imageError, setImageError] = useState(false)
-  const { selectedCard, setSelectedCard } = useSidebarStore()
+  const { setSelectedCard, setSelectedLatitude, setSelectedLongitude } =
+    useSidebarStore()
   const { isLoggedIn } = useUserStore()
   const handleClick = () => {
     setSelectedCard(property.id) // 선택된 카드 ID 저장
+    setSelectedLatitude(property.latitude)
+    setSelectedLongitude(property.longitude)
   }
 
   const handleLikeClick = (e: React.MouseEvent) => {
