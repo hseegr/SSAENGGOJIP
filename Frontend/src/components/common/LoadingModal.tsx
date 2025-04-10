@@ -1,7 +1,7 @@
 // src/components/common/LoadingModal.tsx
 import ReactDOM from 'react-dom'
 import { motion } from 'framer-motion'
-import { gifSrc } from '@/assets/images/loading.gif'
+import gifSrc from '@/assets/images/loading.gif'
 
 interface LoadingModalProps {
   isOpen: boolean
