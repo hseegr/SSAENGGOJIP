@@ -64,7 +64,7 @@ const SearchDropdown = ({ query, onSelect, highlightedIndex }: Props) => {
   if (results.length === 0 && !loading) return null
 
   return (
-    <ul className="absolute w-96 left-0 mt-2 border-2 border-ssaeng-purple rounded-lg divide-y divide-ssaeng-gray-1 bg-white z-10 max-h-[300px] overflow-y-auto">
+    <ul className="absolute w-96 left-0 mt-2 border-2 border-ssaeng-purple rounded-lg divide-y divide-ssaeng-gray-1 bg-white z-40 max-h-[300px] overflow-y-auto">
       {/* 로딩 중일 때 표시 */}
       {loading ? (
         <li className="p-3 text-gray-500 text-center">검색 중...</li>
