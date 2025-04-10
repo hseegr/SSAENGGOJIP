@@ -12,6 +12,7 @@ import { convertTimeStringToMinutes } from '@/utils/timeUtiles'
 import useFilterStore from '@/store/filterStore'
 // import MatchCard from './Match/MatchCard'
 import { getTargetAddress } from '@/services/targetService'
+import LoadingModal from '@/components/common/LoadingModal'
 
 interface MatchInfo {
   id: number
@@ -32,6 +33,7 @@ const CustomInfo: React.FC = () => {
   const { resetMatchInfos, matchInfos, addMatchInfo } = useMatchInfoStore()
   const { isSearching } = matchSearchStore()
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   // Zustand 스토어에서 맞춤 검색 파라미터 가져오기
   // 메인 페이지 검색 관련 코드
@@ -108,12 +110,12 @@ const CustomInfo: React.FC = () => {
     const confirmed = window.confirm('정말 삭제하시겠습니까?')
     if (confirmed) {
       console.log(`${id} 삭제됨`)
-      const updated = matchInfos.filter((info) => info.id !== id);
-      resetMatchInfos(updated);
+      const updated = matchInfos.filter((info) => info.id !== id)
+      resetMatchInfos(updated)
 
       // 박스가 모두 사라졌다면 빈 박스 하나 다시 추가
       if (updated.length === 0) {
-        addMatchInfo();
+        addMatchInfo()
       }
       // if (matchInfos.length > 1) {
       //   // 2개 이상일 경우 해당 박스 제거
@@ -185,6 +187,9 @@ const CustomInfo: React.FC = () => {
 
   return (
     <div className="mb-6">
+      {/* ✅ 로딩 모달은 항상 렌더 */}
+      <LoadingModal isOpen={isLoading} />
+
       {isSearching ? (
         <MatchSearchResults />
       ) : customSearchQuery ? (
@@ -227,10 +232,10 @@ const CustomInfo: React.FC = () => {
               aria-hidden="true"
             >
               {info.address ||
-                info.name ||
-                info.transportMode ||
-                info.travelTime ||
-                info.walkTime ? (
+              info.name ||
+              info.transportMode ||
+              info.travelTime ||
+              info.walkTime ? (
                 <>
                   <div className="relative w-full px-4 py-2">
                     <h3 className="text-sm font-semibold mt-3 mb-2">주소</h3>
@@ -257,7 +262,9 @@ const CustomInfo: React.FC = () => {
                           {info.address}
                         </span>
                       </div>
-                      <span className="text-gray-400 ml-auto text-base">{'>'}</span>
+                      <span className="text-gray-400 ml-auto text-base">
+                        {'>'}
+                      </span>
                     </div>
                   </div>
 
@@ -277,7 +284,7 @@ const CustomInfo: React.FC = () => {
                           {info.transportMode}
                         </span>
                         <p className="text-xs mb-1 ml-1">
-                          전체 이동시간은 {' '}
+                          전체 이동시간은{' '}
                           <span className="text-xs font-medium text-ssaeng-purple bg-ssaeng-purple-light px-1 py-1 rounded-lg inline-block">
                             {info.travelTime}분 이내
                           </span>{' '}
@@ -291,7 +298,9 @@ const CustomInfo: React.FC = () => {
                           이면 좋겠어요.
                         </p>
                       </div>
-                      <span className="text-gray-400 ml-auto text-base">{'>'}</span>
+                      <span className="text-gray-400 ml-auto text-base">
+                        {'>'}
+                      </span>
                     </div>
                   </div>
                 </>
@@ -304,7 +313,7 @@ const CustomInfo: React.FC = () => {
           ))}
 
           {/* 공통 필터 컴포넌트 */}
-          <PropertyFilter />
+          <PropertyFilter setIsLoading={setIsLoading} />
 
           {/* 모달 컴포넌트 */}
           {selectedBoxId && (
