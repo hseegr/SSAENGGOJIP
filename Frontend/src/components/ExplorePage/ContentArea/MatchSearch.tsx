@@ -12,6 +12,7 @@ import { convertTimeStringToMinutes } from '@/utils/timeUtiles'
 import useFilterStore from '@/store/filterStore'
 // import MatchCard from './Match/MatchCard'
 import { getTargetAddress } from '@/services/targetService'
+import LoadingModal from '@/components/common/LoadingModal'
 
 interface MatchInfo {
   id: number
@@ -32,6 +33,7 @@ const CustomInfo: React.FC = () => {
   const { resetMatchInfos, matchInfos, addMatchInfo } = useMatchInfoStore()
   const { isSearching } = matchSearchStore()
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   // Zustand 스토어에서 맞춤 검색 파라미터 가져오기
   // 메인 페이지 검색 관련 코드
@@ -185,6 +187,9 @@ const CustomInfo: React.FC = () => {
 
   return (
     <div className="mb-6">
+      {/* ✅ 로딩 모달은 항상 렌더 */}
+      <LoadingModal isOpen={isLoading} />
+
       {isSearching ? (
         <MatchSearchResults />
       ) : customSearchQuery ? (
@@ -312,7 +317,7 @@ const CustomInfo: React.FC = () => {
           ))}
 
           {/* 공통 필터 컴포넌트 */}
-          <PropertyFilter />
+          <PropertyFilter setIsLoading={setIsLoading} />
 
           {/* 모달 컴포넌트 */}
           {selectedBoxId && (
