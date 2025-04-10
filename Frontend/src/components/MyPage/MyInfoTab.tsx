@@ -121,7 +121,7 @@ const MyInfoTab = () => {
                         )}
                     </div>
                     <button
-                        className="text-sm text-gray-400 mt-2 hover:underline"
+                        className="text-sm text-gray-400 mt-2 hover:underline mb-80"
                         onClick={() => setIsEditModalOpen(true)}
                     >
                         이메일 수정하기 &gt;

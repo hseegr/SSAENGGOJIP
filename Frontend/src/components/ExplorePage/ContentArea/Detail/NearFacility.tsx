@@ -8,7 +8,8 @@ import MallMarker from '@/assets/markers/Mall.png'
 import OfficeMarker from '@/assets/markers/Office.png'
 import ParkMarker from '@/assets/markers/Park.png'
 import ParmacyMarker from '@/assets/markers/Parmacy.png'
-// 역 정보를 나타내는 타입
+import { getNearFacilities } from '@/services/propertyDetailService'
+
 interface Location {
   latitude: number
   longitude: number
@@ -17,46 +18,43 @@ interface Location {
 const NearFacility: React.FC<{ Location: Location }> = ({ Location }) => {
   const { latitude, longitude } = Location
   const mapRef = useRef<HTMLDivElement>(null)
-
-  // 선택된 버튼 상태를 관리
-  const [selectedOption, setSelectedOption] = useState('')
-
-  // JSON 데이터 예제 (좌표값 포함)
-  const locations = {
-    병원: [
-      { lat: 37.5665, lng: 126.978 },
-      { lat: 37.5651, lng: 126.9769 },
-    ],
-    약국: [{ lat: 37.5675, lng: 126.9795 }],
-    동물병원: [{ lat: 37.5645, lng: 126.977 }],
-    편의점: [{ lat: 37.5635, lng: 126.975 }],
-    관광서: [{ lat: 37.5625, lng: 126.974 }],
-    세탁소: [{ lat: 37.5615, lng: 126.973 }],
-    공원: [{ lat: 37.5605, lng: 126.972 }],
-    대형마트: [{ lat: 37.5595, lng: 126.971 }],
-  }
-
-  // 버튼 클릭 핸들러
-  const handleClick = (option) => {
-    setSelectedOption(option)
-    console.log('좌표값:', locations[option]) // JSON 데이터에서 해당 좌표값 출력
-  }
+  const [facilities, setFacilities] = useState(null)
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([])
+  const [markers, setMarkers] = useState<{
+    [key: string]: kakao.maps.Marker[]
+  }>({})
+  const [mapInstance, setMapInstance] = useState<kakao.maps.Map | null>(null)
 
   useEffect(() => {
-    console.log('위치는?', latitude, longitude)
+    const fetchFacilities = async () => {
+      try {
+        const response = await getNearFacilities({
+          lat: latitude,
+          lng: longitude,
+        })
+        setFacilities(response.facilitiesList)
+      } catch (error) {
+        console.error('주변 시설 데이터를 가져오는 중 오류:', error)
+      }
+    }
+
+    fetchFacilities()
+  }, [latitude, longitude])
+
+  useEffect(() => {
     if (mapRef.current) {
       const container = mapRef.current
       const options = {
         center: new kakao.maps.LatLng(latitude, longitude),
-        level: 6, // 확대 레벨
+        level: 5,
         scrollwheel: false,
       }
       const map = new kakao.maps.Map(container, options)
+      setMapInstance(map)
 
-      // 집 마커 생성
-      const imageSrc = HomeMarker // 원 모양 이미지 파일 경로
-      const imageSize = new kakao.maps.Size(20, 25) // 원 이미지 크기 (적절하게 조절)
-      const imageOption = { offset: new kakao.maps.Point(12, 12) } // 원의 중심을 마커 위치에 맞춤
+      const imageSrc = HomeMarker
+      const imageSize = new kakao.maps.Size(20, 25)
+      const imageOption = { offset: new kakao.maps.Point(12, 12) }
 
       const markerImage = new kakao.maps.MarkerImage(
         imageSrc,
@@ -65,16 +63,60 @@ const NearFacility: React.FC<{ Location: Location }> = ({ Location }) => {
       )
       const marker = new kakao.maps.Marker({
         position: new kakao.maps.LatLng(latitude, longitude),
-        image: markerImage, // 원 모양 이미지 설정
+        image: markerImage,
       })
-      // 마커가 지도 위에 표시되도록 설정합니다
+
       marker.setMap(map)
     }
   }, [latitude, longitude])
 
+  const handleFacilityClick = (
+    facilityTypeName: string,
+    markerImageSrc: string,
+  ) => {
+    if (!facilities || !mapInstance) return
+
+    if (selectedOptions.includes(facilityTypeName)) {
+      markers[facilityTypeName]?.forEach((marker) => marker.setMap(null))
+      setMarkers((prev) => ({ ...prev, [facilityTypeName]: [] }))
+      setSelectedOptions((prev) =>
+        prev.filter((option) => option !== facilityTypeName),
+      )
+    } else {
+      const facilityData = facilities.find(
+        (facility) => facility.facilityTypeName === facilityTypeName,
+      )
+
+      if (facilityData) {
+        const newMarkers = facilityData.locations.map((location) => {
+          const markerPosition = new kakao.maps.LatLng(
+            location.latitude,
+            location.longitude,
+          )
+
+          const markerImage = new kakao.maps.MarkerImage(
+            markerImageSrc,
+            new kakao.maps.Size(15, 15),
+            { offset: new kakao.maps.Point(10, 10) },
+          )
+
+          const marker = new kakao.maps.Marker({
+            position: markerPosition,
+            image: markerImage,
+          })
+
+          marker.setMap(mapInstance)
+          return marker
+        })
+
+        setMarkers((prev) => ({ ...prev, [facilityTypeName]: newMarkers }))
+        setSelectedOptions((prev) => [...prev, facilityTypeName])
+      }
+    }
+  }
+
   return (
     <>
-      {/* 상단 헤더 */}
       <div className="mb-3 flex flex-col">
         <span className="text-xl font-bold">주변 시설 정보 🤓</span>
         <span className="text-xs text-gray-400 text-right">
@@ -82,7 +124,6 @@ const NearFacility: React.FC<{ Location: Location }> = ({ Location }) => {
         </span>
       </div>
 
-      {/* 지도 표시 */}
       <div className="mb-6">
         <div
           id="kakao-map"
@@ -91,94 +132,35 @@ const NearFacility: React.FC<{ Location: Location }> = ({ Location }) => {
         ></div>
       </div>
 
-      <div className="flex flex-col items-center gap-3">
-        {/* 첫 번째 줄 */}
-        <div className="flex gap-3">
+      <div className="flex flex-wrap gap-2">
+        {[
+          { name: '병원', markerSrc: HospitalMarker, color: 'ssaeng-purple' },
+          { name: '약국', markerSrc: ParmacyMarker, color: 'ssaeng-purple' },
+          {
+            name: '동물 병원',
+            markerSrc: AnimalHosMarker,
+            color: 'ssaeng-purple',
+          },
+          { name: '편의점', markerSrc: ConvStoreMarker, color: 'ssaeng-green' },
+          { name: '세탁소', markerSrc: LaundryMarker, color: 'ssaeng-green' },
+          { name: '대형 마트', markerSrc: MallMarker, color: 'ssaeng-green' },
+          { name: '공원', markerSrc: ParkMarker, color: 'ssaeng-green' },
+          { name: '관공서', markerSrc: OfficeMarker, color: 'ssaeng-green' },
+        ].map((facility) => (
           <button
-            className={`px-4 py-2 rounded-full font-bold border ${
-              selectedOption === '병원'
-                ? 'bg-ssaeng-purple text-white border-ssaeng-purple'
-                : 'border-ssaeng-purple text-ssaeng-purple'
+            key={facility.name}
+            className={`px-2 py-1 rounded-full font-medium text-sm border ${
+              selectedOptions.includes(facility.name)
+                ? `bg-${facility.color} text-white border-${facility.color}`
+                : `border-${facility.color} text-${facility.color}`
             }`}
-            onClick={() => handleClick('병원')}
+            onClick={() =>
+              handleFacilityClick(facility.name, facility.markerSrc)
+            }
           >
-            병원
+            {facility.name}
           </button>
-          <button
-            className={`px-4 py-2 rounded-full font-bold border ${
-              selectedOption === '약국'
-                ? 'bg-ssaeng-purple text-white border-ssaeng-purple'
-                : 'border-ssaeng-purple text-ssaeng-purple'
-            }`}
-            onClick={() => handleClick('약국')}
-          >
-            약국
-          </button>
-          <button
-            className={`px-3 py-2 rounded-full font-bold border ${
-              selectedOption === '동물병원'
-                ? 'bg-ssaeng-purple text-white border-ssaeng-purple'
-                : 'border-ssaeng-purple text-ssaeng-purple'
-            }`}
-            onClick={() => handleClick('동물병원')}
-          >
-            동물병원
-          </button>
-        </div>
-
-        {/* 두 번째 줄 */}
-        <div className="flex gap-2">
-          <button
-            className={`px-2 py-2 rounded-full font-bold border ${
-              selectedOption === '편의점'
-                ? 'bg-ssaeng-green text-white border-ssaeng-green'
-                : 'border-ssaeng-green text-ssaeng-green'
-            }`}
-            onClick={() => handleClick('편의점')}
-          >
-            편의점
-          </button>
-          <button
-            className={`px-2 py-2 rounded-full font-bold border ${
-              selectedOption === '관광서'
-                ? 'bg-ssaeng-green text-white border-ssaeng-green'
-                : 'border-ssaeng-green text-ssaeng-green'
-            }`}
-            onClick={() => handleClick('관광서')}
-          >
-            관광서
-          </button>
-          <button
-            className={`px-2 py-2 rounded-full font-bold border ${
-              selectedOption === '세탁소'
-                ? 'bg-ssaeng-green text-white border-ssaeng-green'
-                : 'border-ssaeng-green text-ssaeng-green'
-            }`}
-            onClick={() => handleClick('세탁소')}
-          >
-            세탁소
-          </button>
-          <button
-            className={`px-2 py-2 rounded-full font-bold border ${
-              selectedOption === '공원'
-                ? 'bg-ssaeng-green text-white border-ssaeng-green'
-                : 'border-ssaeng-green text-ssaeng-green'
-            }`}
-            onClick={() => handleClick('공원')}
-          >
-            공원
-          </button>
-          <button
-            className={`px-2 py-2 rounded-full font-bold border ${
-              selectedOption === '대형마트'
-                ? 'bg-ssaeng-green text-white border-ssaeng-green'
-                : 'border-ssaeng-green text-ssaeng-green'
-            }`}
-            onClick={() => handleClick('대형마트')}
-          >
-            대형마트
-          </button>
-        </div>
+        ))}
       </div>
     </>
   )

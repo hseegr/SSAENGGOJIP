@@ -44,8 +44,8 @@ const PropertyFilter = () => {
           transportationTypeForApi = '도보'
         }
         return {
-          latitude: info.latitude.toFixed(6),
-          longitude: info.longitude.toFixed(6),
+          latitude: Number(info.latitude.toFixed(6)),
+          longitude: Number(info.longitude.toFixed(6)),
           transportationType: transportationTypeForApi, // 변경된 부분
           totalTransportTime: info.travelTime,
           walkTime: info.walkTime,
@@ -68,7 +68,7 @@ const PropertyFilter = () => {
     })
 
     try {
-      console.log(requestData)
+      console.log('요청 데이터', requestData)
       setIsSearching(true)
       const data = await fetchMatchSearchResults(requestData) // API 호출
       console.log('API 응답 데이터 구조:', data)

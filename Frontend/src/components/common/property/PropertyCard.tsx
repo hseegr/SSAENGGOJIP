@@ -75,7 +75,7 @@ const PropertyCard = ({
                 {/* 이미지 출력 */}
                 {property.imageUrl && (
                     <img
-                        src={property.imageUrl}
+                        src={`${property.imageUrl}?w=800&h=600`}
                         alt="매물 이미지"
                         className="w-full h-full object-cover"
                     />
