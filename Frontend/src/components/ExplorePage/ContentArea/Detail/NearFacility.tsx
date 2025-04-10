@@ -146,21 +146,31 @@ const NearFacility: React.FC<{ Location: Location }> = ({ Location }) => {
           { name: '대형 마트', markerSrc: MallMarker, color: 'ssaeng-green' },
           { name: '공원', markerSrc: ParkMarker, color: 'ssaeng-green' },
           { name: '관공서', markerSrc: OfficeMarker, color: 'ssaeng-green' },
-        ].map((facility) => (
-          <button
-            key={facility.name}
-            className={`px-2 py-1 rounded-full font-medium text-sm border ${
-              selectedOptions.includes(facility.name)
-                ? `bg-${facility.color} text-white border-${facility.color}`
-                : `border-${facility.color} text-${facility.color}`
-            }`}
-            onClick={() =>
-              handleFacilityClick(facility.name, facility.markerSrc)
-            }
-          >
-            {facility.name}
-          </button>
-        ))}
+        ].map((facility) => {
+          const isPurple = facility.color === 'ssaeng-purple'
+          const mainColor = isPurple ? '#7171D7' : '#A4D232'
+
+          return (
+            <button
+              key={facility.name}
+              style={{
+                backgroundColor: selectedOptions.includes(facility.name)
+                  ? mainColor
+                  : 'transparent',
+                color: selectedOptions.includes(facility.name)
+                  ? 'white'
+                  : mainColor,
+                border: `1px solid ${mainColor}`,
+              }}
+              className="px-4 py-1 rounded-full font-medium text-sm transition-colors"
+              onClick={() =>
+                handleFacilityClick(facility.name, facility.markerSrc)
+              }
+            >
+              {facility.name}
+            </button>
+          )
+        })}
       </div>
     </>
   )
