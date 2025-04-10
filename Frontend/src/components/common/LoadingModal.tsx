@@ -1,6 +1,7 @@
 // src/components/common/LoadingModal.tsx
 import ReactDOM from 'react-dom'
 import { motion } from 'framer-motion'
+import { gifSrc } from '@/assets/images/loading.gif'
 
 interface LoadingModalProps {
   isOpen: boolean
@@ -13,7 +14,6 @@ const LoadingModal: React.FC<LoadingModalProps> = ({
   message = '검색 중...',
   // 기본 GIF는 프로젝트의 assets/images 폴더에 loading.gif라는 파일이 있다고 가정합니다.
   // 파일 위치에 맞게 경로를 조정해주세요.
-  gifSrc = '/src/assets/images/loading.gif',
 }) => {
   if (!isOpen) return null
 
