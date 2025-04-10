@@ -15,6 +15,8 @@ interface EditTargetModalProps {
     transportMode: string
     travelTime: number
     walkTime: number
+    latitude: number
+    longitude: number
   }
 }
 
@@ -40,8 +42,8 @@ const EditTargetModal = ({
   const [transportMode, setTransportMode] = useState(initialData.transportMode)
   const [travelTime, setTravelTime] = useState(initialData.travelTime)
   const [walkTime, setWalkTime] = useState(initialData.walkTime)
-  const [latitude, setLatitude] = useState(0)
-  const [longitude, setLongitude] = useState(0)
+  const [latitude, setLatitude] = useState(initialData.latitude)
+  const [longitude, setLongitude] = useState(initialData.longitude)
   const [isDefault, setIsDefault] = useState(initialIsDefault)
 
   const isNextButtonDisabled = !address || !name
