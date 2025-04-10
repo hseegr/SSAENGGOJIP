@@ -233,8 +233,13 @@ const ChatRoomModal = ({ onClose }: Props) => {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // 상단 요소가 보이면 이전 메시지 불러오기
-        if (entries[0].isIntersecting && hasMoreMessages && !isLoadingMore) {
+        // ✅ 조건 추가: 메시지가 충분히 로드된 이후에만 실행
+        if (
+          entries[0].isIntersecting &&
+          hasMoreMessages &&
+          !isLoadingMore &&
+          messages.length > 0 // 이 조건 추가
+        ) {
           fetchPreviousMessages()
         }
       },
@@ -246,7 +251,7 @@ const ChatRoomModal = ({ onClose }: Props) => {
     return () => {
       observer.disconnect()
     }
-  }, [fetchPreviousMessages, hasMoreMessages, isLoadingMore])
+  }, [fetchPreviousMessages, hasMoreMessages, isLoadingMore, messages.length])
 
   // ✅ WebSocket 메시지 수신 처리
   // useEffect(() => {
