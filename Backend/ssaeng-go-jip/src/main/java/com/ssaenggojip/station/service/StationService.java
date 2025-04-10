@@ -39,13 +39,13 @@ public class StationService {
     }
 
     public List<Station> findStationsWithin1km(Double longitude, Double latitude) {
-        return stationRepository.findStationsWithin1km(longitude, latitude);
+        return stationRepository.findStationsWithin1km(longitude, latitude,1);
     }
 
     public TransportTimeResponse getTransportTime(Double pointLongitude, Double pointLatitude, Double propertyLongitude, Double propertyLatitude) {
 
-        List<Station> stationsNearPoint = stationRepository.findStationsWithin1km(pointLongitude, pointLatitude);
-        List<Station> stationsNearProperty = stationRepository.findStationsWithin1km(propertyLongitude, propertyLatitude);
+        List<Station> stationsNearPoint = stationRepository.findStationsWithin1km(pointLongitude, pointLatitude,2);
+        List<Station> stationsNearProperty = stationRepository.findStationsWithin1km(propertyLongitude, propertyLatitude,2);
 
         if (stationsNearProperty.isEmpty() || stationsNearPoint.isEmpty())
             return null;

@@ -16,11 +16,13 @@ public interface StationRepository extends JpaRepository<Station, Long> {
     WHERE ST_DWithin(
        geom_3857,
        ST_Transform(ST_SetSRID(ST_MakePoint(:lng, :lat), 4326), 3857),
-       1250
+       :km * 1250
      )
      
     """, nativeQuery = true)
-    List<Station> findStationsWithin1km(@Param("lng") Double lng, @Param("lat") Double lat);
+    List<Station> findStationsWithin1km(@Param("lng") Double lng, @Param("lat") Double lat, @Param("km") Integer km);
+
+
 
 
 //    @Query(value = """
