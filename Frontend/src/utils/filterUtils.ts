@@ -40,22 +40,8 @@ export const buildSearchFilters = ({
   if (MinmonthlyPrice > 0) filters.minRentPrice = MinmonthlyPrice
   if (MaxmonthlyPrice < MONTHLY_MAX) filters.maxRentPrice = MaxmonthlyPrice
   if (additionalFilters.length > 0) {
-    filters.facilityTypes = additionalFilters.map(nameToEnum)
+    filters.facilityTypes = additionalFilters
   }
 
   return filters
-}
-
-const nameToEnum = (name: string): string => {
-  const map: Record<string, string> = {
-    '편의점': 'CONVENIENT',
-    '병원': 'HOSPITAL',
-    '약국': 'PHARMACY',
-    '공원': 'PARK',
-    '관공서': 'PUBLIC',
-    '동물 병원': 'VET',
-    '대형 마트': 'MART',
-    '세탁소': 'LAUNDRY',
-  }
-  return map[name] ?? name
 }

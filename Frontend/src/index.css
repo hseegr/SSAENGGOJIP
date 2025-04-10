@@ -77,7 +77,8 @@
 @font-face {
   font-family: 'Pretendard';
   src: url('/fonts/PretendardVariable.ttf');
-  font-weight: 100 900; /* 가변 폰트 지원 */
+  font-weight: 100 900;
+  /* 가변 폰트 지원 */
   font-style: normal;
 }
 

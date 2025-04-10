@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import useFilterStore from '@/store/filterStore'
 import Slider from 'rc-slider'
-import 'rc-slider/assets/index.css'
+import '@/styles/rc-slider.css'
 
 interface PropertyFilterStepProps {
     onNext: () => void
@@ -81,7 +81,7 @@ const PropertyFilterStep = ({ onNext, currentStep, totalStep }: PropertyFilterSt
 
     return (
         <div className="flex flex-col gap-4 w-[350px] h-[540px] mx-auto">
-            <h2 className="text-lg font-bold mt-4 mb-1">매물</h2>
+            <h2 className="text-lg font-bold mt-4">매물</h2>
 
             {/* 매물 유형 */}
             <div className="mb-2">
