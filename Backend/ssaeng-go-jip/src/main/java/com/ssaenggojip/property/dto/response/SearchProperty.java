@@ -1,6 +1,7 @@
 package com.ssaenggojip.property.dto.response;
 
 import com.ssaenggojip.common.enums.DealType;
+import com.ssaenggojip.common.enums.PropertyType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 public class SearchProperty {
     Long id;
     Boolean isRecommend;
+    PropertyType propertyType;
     DealType dealType;
     Long price;
     Long rentPrice;

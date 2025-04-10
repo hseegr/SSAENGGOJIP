@@ -1,7 +1,6 @@
 package com.ssaenggojip.property.repository;
 
 import com.ssaenggojip.property.dto.response.PointStationPropertyDto;
-import com.ssaenggojip.property.dto.response.RecommendSearchDto;
 import com.ssaenggojip.property.entity.Property;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -217,6 +216,7 @@ SELECT DISTINCT ON (p.id)
     p.id,
     false AS is_recommend,
     p.deal_type,
+    p.property_type::text AS property_type,
     p.price,
     p.rent_price,
     p.maintenance_price,

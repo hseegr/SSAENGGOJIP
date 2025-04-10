@@ -9,6 +9,7 @@ public class PointStationPropertyDto {
     Long id;
     Boolean isRecommend = false;
     String dealType;
+    String propertyType;
     Long price;
     Long rentPrice;
     Long maintenancePrice;
