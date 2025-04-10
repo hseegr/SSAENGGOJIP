@@ -85,19 +85,19 @@ const PropertyFilter = () => {
   }
 
   return (
-    <div className="p-6 bg-white rounded-lg">
+    <div className="px-4 bg-white rounded-lg mt-2">
       {/* 매물 유형 */}
       <div className="mb-4">
-        <h3 className="text-lg font-bold mb-2">매물</h3>
-        <div className="flex space-x-2">
-          {['아파트', '오피스텔', '빌라'].map((type) => (
+        <h2 className="text-lg font-bold mb-2">매물</h2>
+        <h2 className="text-base font-medium mb-2">매물 유형</h2>
+        <div className="flex gap-2">
+          {['아파트', '빌라', '원룸', '오피스텔'].map((type) => (
             <button
               key={type}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold ${
-                propertyType.includes(type)
-                  ? 'bg-purple-500 text-white'
-                  : 'bg-gray-200 text-gray-700'
-              }`}
+              className={`w-24 py-2 text-sm rounded-lg border transition ${propertyType.includes(type)
+                ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
+                : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
+                }`}
               onClick={() => togglePropertyType(type)}
             >
               {type}
@@ -108,16 +108,15 @@ const PropertyFilter = () => {
 
       {/* 거래 유형 */}
       <div className="mb-4">
-        <h3 className="text-lg font-bold mb-2">거래 유형</h3>
-        <div className="flex space-x-2">
+        <h2 className="text-base font-medium mb-2">거래 유형</h2>
+        <div className="flex gap-4">
           {['전세', '월세', '매매'].map((type) => (
             <button
               key={type}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold ${
-                dealType === type
-                  ? 'bg-purple-500 text-white'
-                  : 'bg-gray-200 text-gray-700'
-              }`}
+              className={`w-28 py-2 text-sm rounded-lg border transition ${dealType === type
+                ? 'bg-ssaeng-purple-light text-ssaeng-purple border-ssaeng-purple'
+                : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100'
+                }`}
               onClick={() => setDealType(type)}
             >
               {type}
@@ -128,7 +127,7 @@ const PropertyFilter = () => {
 
       {/* 추가 설정 */}
       <button
-        className="text-sm text-purple-500 mb-4 cursor-pointer hover:underline"
+        className="text-sm text-ssaeng-purple mb-4 cursor-pointer hover:text-indigo-500"
         onClick={toggleModal}
       >
         매물 및 생활권 선호도 설정 추가하기
@@ -136,7 +135,7 @@ const PropertyFilter = () => {
 
       {/* 검색 버튼 */}
       <button
-        className="w-full py-3 bg-purple-500 text-white rounded-lg font-bold hover:bg-purple-600 transition"
+        className="w-full h-[44px] bg-ssaeng-purple text-white text-md rounded-md shadow hover:bg-indigo-500 hover:shadow-lg hover:scale-[1.02] transition-all"
         onClick={handleSearch}
       >
         검색

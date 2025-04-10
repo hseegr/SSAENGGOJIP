@@ -7,6 +7,7 @@ import useFilterStore from '@/store/filterStore'
 import { fetchNormalSearchResults } from '@/services/propertyService'
 import { buildSearchFilters } from '@/utils/filterUtils'
 import { toast } from 'react-toastify' // ✅ 추가
+import 'rc-slider/assets/index.css'
 
 interface NormalSearchFilterModalProps {
   isOpen: boolean
