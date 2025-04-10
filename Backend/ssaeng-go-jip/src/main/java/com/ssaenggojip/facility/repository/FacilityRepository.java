@@ -23,7 +23,7 @@ public interface FacilityRepository extends JpaRepository<Facility, Long> {
                     "   longitude, " +
                     "   geography(geom) <-> ST_Point(:lon, :lat) AS distance " +
                     "FROM facility " +
-                    "WHERE geography(geom) <-> ST_Point(:lon, :lat) < 1500 " +
+                    "WHERE geography(geom) <-> ST_Point(:lon, :lat) < 2200 " +
                     "ORDER BY " +
                     "   facility_type_id, " +
                     "   distance ASC "

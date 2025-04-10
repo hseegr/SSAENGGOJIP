@@ -25,6 +25,6 @@ public class TransportTimeProvider {
     }
 
     public int walkTimeToDistance(int walkMinute){
-        return walkMinute * 80;
+        return walkMinute * 100;
     }
 }

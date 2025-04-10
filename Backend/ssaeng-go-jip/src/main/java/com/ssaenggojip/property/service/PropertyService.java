@@ -2,6 +2,7 @@ package com.ssaenggojip.property.service;
 
 import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
+import com.ssaenggojip.common.enums.FacilityType;
 import com.ssaenggojip.common.enums.TransportationType;
 import com.ssaenggojip.common.util.RoutingUtil;
 import com.ssaenggojip.common.util.TransportTimeProvider;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class PropertyService {
 
     public SearchResponse searchWithFilter(SearchRequest request, Boolean isStationSearch, Double lng, Double lat) {
         // lat, lng 기준 반경 1KM, 설정한 조건 기준으로 검색
-        Integer SEARCH_DISTANCE = 1200;
+        Integer SEARCH_DISTANCE = 1250;
         List<Property> properties = propertyRepository.searchFilteredProperties(
                 request.getDealType() != null ? request.getDealType().name() : null,
                 request.getPropertyTypes().stream().map(Enum::name).toList(),
@@ -46,7 +48,17 @@ public class PropertyService {
                 lng != null ? BigDecimal.valueOf(lng) : null,
                 lat != null ? BigDecimal.valueOf(lat) : null,
                 isStationSearch,
-                SEARCH_DISTANCE
+                SEARCH_DISTANCE,
+
+                // 사설 필터
+                request.getFacilityTypes().contains(FacilityType.병원) ? true : null,
+                request.getFacilityTypes().contains(FacilityType.약국) ? true : null,
+                request.getFacilityTypes().contains(FacilityType.동물병원) ? true : null,
+                request.getFacilityTypes().contains(FacilityType.공원) ? true : null,
+                request.getFacilityTypes().contains(FacilityType.관공서) ? true : null,
+                request.getFacilityTypes().contains(FacilityType.편의점) ? true : null,
+                request.getFacilityTypes().contains(FacilityType.대형마트) ? true : null,
+                request.getFacilityTypes().contains(FacilityType.세탁소) ? true : null
         );
 
         if(properties.size()>5000)
@@ -141,19 +153,31 @@ public class PropertyService {
                 lng != null ? BigDecimal.valueOf(lng) : null,
                 lat != null ? BigDecimal.valueOf(lat) : null,
                 true,
-                dist
+                dist,
+                // 사설 필터
+                request.getFacility().contains(FacilityType.병원) ? true : null,
+                request.getFacility().contains(FacilityType.약국) ? true : null,
+                request.getFacility().contains(FacilityType.동물병원) ? true : null,
+                request.getFacility().contains(FacilityType.공원) ? true : null,
+                request.getFacility().contains(FacilityType.관공서) ? true : null,
+                request.getFacility().contains(FacilityType.편의점) ? true : null,
+                request.getFacility().contains(FacilityType.대형마트) ? true : null,
+                request.getFacility().contains(FacilityType.세탁소) ? true : null
+
+
         );
 
-        if(properties.size()>2000)
+        if(properties.size()>5000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
         List<RecommendSearchDto> recommendSearchProperties = new ArrayList<>();
-        
+        // 도보 시간 정밀 검사 후 교체
         for (Property p: properties){
             TransportationType transportationType =  request.getAddresses().get(targetNum).getTransportationType();
             if (transportationType == TransportationType.지하철)
                 transportationType = TransportationType.도보;
             int totalTime = routingUtil.getRoute(lat, lng, p.getLatitude(), p.getLongitude(), transportationType);
+            // 도보 시간 초과시 추가 하지 않음
             if (totalTime > request.getAddresses().get(targetNum).getWalkTime())
                 continue;
             recommendSearchProperties.add(
@@ -180,9 +204,12 @@ public class PropertyService {
     }
 
     public List<RecommendSearchDto> getRecommendedProperties(RecommendSearchRequest request, Integer targetNum) {
-        return propertyRepository.findReachableProperties(
-                request.getAddresses().get(targetNum).getLongitude(),
-                request.getAddresses().get(targetNum).getLatitude(),
+        Double pointLatitude = request.getAddresses().get(targetNum).getLatitude();
+        Double pointLongitude = request.getAddresses().get(targetNum).getLongitude();
+
+        List<PointStationPropertyDto> pointStationPropertyDtos = propertyRepository.findReachableProperties(
+                pointLongitude,
+                pointLatitude,
                 request.getAddresses().get(targetNum).getWalkTime(),
                 request.getAddresses().get(targetNum).getTotalTransportTime(),
                 request.getDealType() != null ? request.getDealType().name() : null,
@@ -191,8 +218,51 @@ public class PropertyService {
                 request.getMinPrice(),
                 request.getMaxPrice(),
                 request.getMinRentPrice(),
-                request.getMaxRentPrice()
-        );
+                request.getMaxRentPrice(),
+                // 사설 필터
+                request.getFacility().contains(FacilityType.병원) ? true : null,
+                request.getFacility().contains(FacilityType.약국) ? true : null,
+                request.getFacility().contains(FacilityType.동물병원) ? true : null,
+                request.getFacility().contains(FacilityType.공원) ? true : null,
+                request.getFacility().contains(FacilityType.관공서) ? true : null,
+                request.getFacility().contains(FacilityType.편의점) ? true : null,
+                request.getFacility().contains(FacilityType.대형마트) ? true : null,
+                request.getFacility().contains(FacilityType.세탁소) ? true : null
+                );
+
+        List<RecommendSearchDto> result = new ArrayList<>();
+
+        for (PointStationPropertyDto dto : pointStationPropertyDtos) {
+            int route1 = routingUtil.getRoute(pointLatitude, pointLongitude, dto.getStationALatitude(), dto.getStationALongitude(), TransportationType.도보);
+            int route2 = routingUtil.getRoute(dto.getStationBLatitude(), dto.getStationBLongitude(), dto.getLatitude(), dto.getLongitude(), TransportationType.도보);
+            // 시간 초과시 추가 하지 않음
+            if(route1+route2 > request.getAddresses().get(targetNum).getWalkTime()
+                    || route1+route2+dto.getTotalTime() > request.getAddresses().get(targetNum).getTotalTransportTime())
+                continue;
+
+            RecommendSearchDto recommendSearchDto = new RecommendSearchDto(
+                    dto.getId(),
+                    dto.getIsRecommend(),
+                    dto.getDealType(),
+                    dto.getPrice(),
+                    dto.getRentPrice(),
+                    dto.getMaintenancePrice(),
+                    dto.getTotalFloor(),
+                    dto.getFloor(),
+                    dto.getArea(),
+                    dto.getAddress(),
+                    dto.getLatitude(),
+                    dto.getLongitude(),
+                    false,
+                    dto.getImageUrl(),
+                    route1 + dto.getTotalTime() + route2
+            );
+
+            result.add(recommendSearchDto);
+        }
+
+        return result;
+
     }
 
 }
