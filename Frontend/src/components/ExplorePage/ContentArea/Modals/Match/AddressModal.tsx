@@ -211,6 +211,8 @@ const AddressModal = ({ isOpen, onClose }: AddressModalProps) => {
                 transportMode: editAddress.transportMode,
                 travelTime: editAddress.travelTime,
                 walkTime: editAddress.walkTime,
+                latitude: editAddress.latitude,
+                longitude: editAddress.longitude,
               }}
             />
           )}

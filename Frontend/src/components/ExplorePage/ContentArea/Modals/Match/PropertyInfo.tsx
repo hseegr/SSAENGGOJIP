@@ -77,11 +77,11 @@ const PropertyFilter = ({ setIsLoading }: Props) => {
       setIsLoading(true) // ✅ 상위에서 관리
       console.log(requestData)
       console.log('요청 데이터', requestData)
-      setIsSearching(true)
       const data = await fetchMatchSearchResults(requestData) // API 호출
       console.log('API 응답 데이터 구조:', data)
       console.log('properties 배열:', data.properties)
       setResults(data)
+      setIsSearching(true)
       const storeState = useMatchSearchResultStore.getState()
       console.log('Current store state:', storeState)
       // 변환된 교통 수단 모드 저장
@@ -155,7 +155,7 @@ const PropertyFilter = ({ setIsLoading }: Props) => {
         className="text-sm text-ssaeng-purple mb-4 cursor-pointer hover:text-indigo-500"
         onClick={toggleModal}
       >
-        매물 및 생활권 선호도 설정 추가하기
+        가격 및 생활권 선호도 설정 추가하기
       </button>
 
       {/* 검색 버튼 */}

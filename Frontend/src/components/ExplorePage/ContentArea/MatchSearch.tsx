@@ -281,7 +281,9 @@ const CustomInfo: React.FC = () => {
                     >
                       <div className="flex flex-col">
                         <span className="w-fit mt-1 mb-3 text-xs font-semibold text-ssaeng-purple bg-ssaeng-purple-light px-2 py-1 rounded-lg inline-block">
-                          {info.transportMode}
+                          {info.transportMode === 'subway'
+                            ? '지하철'
+                            : info.transportMode}
                         </span>
                         <p className="text-xs mb-1 ml-1">
                           전체 이동시간은{' '}
