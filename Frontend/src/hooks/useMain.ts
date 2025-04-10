@@ -107,20 +107,63 @@ export const useLocationRecommendations = ({
   }
 }
 
-// 선호도 기반 추천 훅 (로그인 유저용)
-export const usePreferenceRecommendations = (k: number) => {
+// 선호도 기반 추천 훅 (로그인 유저용) - 사용자 위치 사용 버전
+export const usePreferenceRecommendations = (k: number = 8) => {
+  const [location, setLocation] = useState<{
+    latitude: number
+    longitude: number
+  } | null>(null)
+  const [error, setError] = useState<string | null>(null)
+  const radius = 1000 // 기본 반경 1km
+
+  // 사용자 위치 가져오기
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setLocation(DEFAULT_LOCATION) // 지오로케이션을 지원하지 않는 경우 기본 위치 사용
+      return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocation({
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        })
+      },
+      () => {
+        // 위치 가져오기 실패 시 기본 위치 사용
+        setLocation(DEFAULT_LOCATION)
+      },
+    )
+  }, [])
+
+  // 위치 정보와 k 값으로 추천 매물 요청
   const { data, isLoading, isError } = useQuery<PropertyRecommendResult>({
-    queryKey: ['preference-recommendations', k],
+    queryKey: [
+      'preference-recommendations',
+      location?.latitude,
+      location?.longitude,
+      radius,
+      k,
+    ],
     queryFn: async () => {
-      const res = await fetchPreferenceRecommendations(k)
-      return res.result // 핵심: result만 반환!
+      if (!location) throw new Error('위치 정보가 없습니다')
+      const res = await fetchPreferenceRecommendations(
+        location.latitude,
+        location.longitude,
+        radius,
+        k,
+      )
+      return res.result
     },
-    enabled: !!k, // k가 0 이상일 때만 요청
+    enabled: !!location, // 위치가 존재할 때만 요청
   })
 
   return {
-    data, // 추천 매물 리스트
-    isLoading, // 로딩 중 여부
-    isError, // 요청 에러 여부
+    data,
+    isLoading,
+    isError,
+    error,
+    location,
   }
 }

@@ -77,3 +77,18 @@ export const fetchMatchDetailResult = async (requestData: {
     throw error
   }
 }
+
+// 직장-매물 간 거리 구하기
+export const getTransportTime = async (requestData: any) => {
+  try {
+    const response = await http.post(
+      MAP_END_POINT.GET_TRANSPORT_TIME,
+      requestData,
+    )
+    console.log('직장-매물 간 거리 응답', response.data.result)
+    return response.data.result
+  } catch (error) {
+    console.error('직장-매물 간 거리 API 요청 중 오류 발생:', error)
+    throw error
+  }
+}

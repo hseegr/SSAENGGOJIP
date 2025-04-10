@@ -5,6 +5,7 @@ import useSidebarStore from '@/store/sidebarStore'
 import mockProperties from '@/mocks/mockProperty'
 import PropertySmallCard from '@/components/common/property/PropertySmallCard'
 import { toast } from 'react-toastify'
+import { fetchLikedProperties } from '@/services/propertyService'
 
 const Favorites: React.FC = () => {
   const isLoggedIn = useIsLoggedIn()
@@ -14,7 +15,17 @@ const Favorites: React.FC = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      setProperties(mockProperties)
+      fetchLikedProperties()
+        .then((data) => {
+          setProperties(data)
+        })
+        .catch((error) => {
+          console.error('관심 매물 데이터를 가져오는 데 실패했습니다:', error)
+          toast.error('관심 매물 정보를 불러오는 중 오류가 발생했습니다.')
+          // 필요에 따라 에러 처리 로직 추가
+        })
+    } else {
+      setProperties([])
     }
   }, [isLoggedIn])
 
@@ -66,7 +77,7 @@ const Favorites: React.FC = () => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500 text-md mt-2 ml-4">
+          <p className="text-gray-500 text-md mt-8 ml-6">
             관심 매물이 없습니다. 관심 매물을 등록해주세요!
           </p>
         )}

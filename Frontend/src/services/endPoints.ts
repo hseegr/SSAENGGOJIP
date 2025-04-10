@@ -67,6 +67,8 @@ export const MAP_END_POINT = {
   MATCH_SEARCH: '/properties/recommend-search',
   // 맞춤 검색 상세
   MATCH_DETAIL: '/properties/recommend-detail',
+  // 직장과 매물 사이 시간 - POST
+  GET_TRANSPORT_TIME: '/properties/get-transport-time',
 }
 
 // 맞춤 검색 페이지 타겟 주소 관련
@@ -89,4 +91,7 @@ export const MATCH_SEARCH_TARGET_END_POINT = {
 // 관심 매물 관련 API
 export const PROPERTY_END_POINT = {
   GET_LIKED_PROPERTIES: '/properties/likes',
+  // 일반 검색
+  NORMAL_SEARCH: '/properties/search',
+  TOGGLE_LIKE: (propertyId: number) => `/properties/likes/${propertyId}`,
 }

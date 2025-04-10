@@ -11,6 +11,8 @@ import ContentArea from './ContentArea'
 import PropertyDetail from '@/components/common/property/PropertyDetail'
 import useMatchInfoStore from '@/store/matchInfoStore'
 import { create } from 'zustand'
+import useMatchSearchResultStore from '@/store/searchResultStore'
+import matchSearchStore from '@/store/matchSearchStore'
 
 interface Property {
   id: number
@@ -51,8 +53,14 @@ const Sidebar: React.FC = () => {
     clearMatchCard,
     isContentAreaCollapsed,
     setContentAreaCollapsed,
+    selectedLatitude,
+    selectedLongitude,
+    setSelectedLatitude,
+    setSelectedLongitude,
   } = useSidebarStore()
   const { initializeStore } = useMatchInfoStore()
+  const { resetResults } = useMatchSearchResultStore()
+  const { setIsSearching } = matchSearchStore()
 
   const clickSidebar = (
     tab: 'normal_search' | 'match_search' | 'favorites' | null,
@@ -60,8 +68,12 @@ const Sidebar: React.FC = () => {
     if (activeTab === tab) {
       setActiveTab(null)
       setSelectedCard(null)
+      setSelectedLatitude(null)
+      setSelectedLongitude(null)
       clearMatchCard()
       setContentAreaCollapsed(false)
+      resetResults()
+      setIsSearching(false)
       return
     }
 
@@ -70,6 +82,8 @@ const Sidebar: React.FC = () => {
     clearMatchCard()
     initializeStore()
     setContentAreaCollapsed(false)
+    resetResults()
+    setIsSearching(false)
   }
 
   return (
@@ -161,6 +175,8 @@ const Sidebar: React.FC = () => {
           <div className="w-[400px] border-l border-gray-200 bg-white overflow-y-auto shadow-md z-50">
             <PropertyDetail
               id={selectedCard}
+              latitude={selectedLatitude}
+              longitude={selectedLongitude}
               onClose={() => setSelectedCard(null)}
             />
           </div>

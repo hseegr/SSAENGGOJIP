@@ -20,12 +20,22 @@ import NearbyStations from '@/components/ExplorePage/ContentArea/Detail/NearbySt
 import { getTargetAddress } from '@/services/targetService'
 import useMatchSearchResultStore from '@/store/searchResultStore'
 
+import NearFacility from '@/components/ExplorePage/ContentArea/Detail/NearFacility'
+
 interface PropertyDetailProps {
   id: number
+  latitude: number
+  longitude: number
   onClose: () => void
 }
 
-const PropertyDetail: React.FC<PropertyDetailProps> = ({ id, onClose }) => {
+const PropertyDetail: React.FC<PropertyDetailProps> = ({
+  id,
+  onClose,
+  isCompareMode = false, // ✅ 기본값 false
+  latitude,
+  longitude,
+}) => {
   const isLoggedIn = useIsLoggedIn()
   const [data, setData] = useState<any>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -115,13 +125,15 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ id, onClose }) => {
 
   return (
     <div className="relative w-full h-full p-6 overflow-y-auto bg-white">
-      {/* 닫기 버튼 */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 text-xl font-bold"
-      >
-        ✕
-      </button>
+      {/* 닫기 버튼 - 비교 모드일 땐 숨김 */}
+      {!isCompareMode && (
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-xl font-bold"
+        >
+          ✕
+        </button>
+      )}
 
       {/* 거래 정보 */}
       <div className="mb-2 text-sm text-gray-600">{data.propertyType}</div>
@@ -217,10 +229,18 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ id, onClose }) => {
       {/* 교통 정보 */}
       <div className="my-6">
         <h3 className="text-xl font-bold mb-2">교통 정보 🚇</h3>
-        <TrafficInfo trafficData={trafficData} />
+        <TrafficInfo trafficData={data} />
       </div>
       {/* 매물 주변 지하철 정보 */}
       <NearbyStations stations={data.stations} />
+
+      {/* 주변 시설 확인 */}
+      <NearFacility
+        Location={{
+          latitude: latitude || data.latitude,
+          longitude: longitude || data.longitude,
+        }}
+      />
     </div>
   )
 }

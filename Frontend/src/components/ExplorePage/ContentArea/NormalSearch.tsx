@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Search } from 'lucide-react'
 import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
-import Modal from './Modals/NormalModal'
+import NormalSearchFilterModal from '@/components/ExplorePage/Modals/Normal/NormalSearchFilterModal'
 import useSidebarStore from '@/store/sidebarStore'
-import useFilterStore from '@/store/filterStore' // 필터 스토어 가져오기
-import { fetchNormalSearchResults } from '@/services/mapService'
+import useFilterStore from '@/store/filterStore'
+import { fetchNormalSearchResults } from '@/services/propertyService'
 import { buildSearchFilters } from '@/utils/filterUtils'
 import { useSearchParamsStore } from '@/store/searchParamsStore'
+import { toast } from 'react-toastify'
 import usePropertyStore from '@/store/propertyStore'
 import PropertySmallCard from '@/components/common/property/PropertySmallCard'
 
+// ✅ Property 타입 정의 (필요 시 분리된 파일에서 import해도 됨)
 interface Property {
-  // 공통 필드
   id: number
   price: number
   propertyType: string
@@ -20,8 +21,6 @@ interface Property {
   totalFloor: number
   area: number
   imageUrl: string
-
-  // API 전용 필드 (옵셔널)
   isRecommend?: boolean
   rentPrice?: number
   address?: string
@@ -29,21 +28,23 @@ interface Property {
   longitude?: number
   isInterest?: boolean
   maintenancePrice?: number
-
-  // 초기 데이터 전용 필드 (옵셔널)
+  propertyId?: number
   title?: string
   details?: string
 }
 
+interface FilteredData {
+  total: number
+  properties: Property[]
+}
+
 const NormalSearch: React.FC = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('') // 검색어 상태 추가
+  const [searchQuery, setSearchQuery] = useState('')
   const { titles } = useSidebarStore()
-
+  const { generalSearchQuery } = useSearchParamsStore()
   const { properties } = usePropertyStore()
-  const { generalSearchQuery } = useSearchParamsStore() // ✅ Zustand에서 검색어 가져옴
 
-  // 필터 스토어에서 데이터 가져오기
   const {
     propertyTypes,
     dealType,
@@ -53,15 +54,13 @@ const NormalSearch: React.FC = () => {
     MaxmonthlyPrice,
     additionalFilters,
   } = useFilterStore()
+
   const [filteredData, setFilteredData] = useState<Property[]>(properties)
 
-  // 엔터 키 입력 시 검색 실행
   const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    console.log('🧪 handleKeyPress 호출됨:', e.key)
     if (e.key === 'Enter') {
       if (searchQuery.trim() !== '') {
         try {
-          // 필터 구성
           const filters = buildSearchFilters({
             propertyTypes,
             dealType,
@@ -72,41 +71,30 @@ const NormalSearch: React.FC = () => {
             additionalFilters,
           })
 
-          console.log('🔍 필터 정보:', filters)
-          console.log('🔎 검색어:', searchQuery)
-
           const searchResults = await fetchNormalSearchResults(
             searchQuery,
             filters,
           )
-          console.log('🎉 API 응답 로그:', searchResults)
-          console.log('🔢 총 매물 수:', searchResults?.total)
-          console.log('📋 매물 리스트:', searchResults?.properties)
-
-          // 검색 API 호출
-          // API 응답 구조에 따라 데이터 추출 방식 수정 필요
           setFilteredData(searchResults ?? { total: 0, properties: [] })
-          console.log('검색 결과:', searchResults)
-        } catch (error) {
-          console.error('검색 중 오류 발생:', error)
-          setFilteredData({ properties: [], total: 0 }) // 오류 발생 시 빈 배열 설정
+        } catch (error: any) {
+          if (error.response?.data?.code === 'PROPERTY4013') {
+            toast.warning(
+              '검색 결과가 너무 많아요! 조건을 조금 더 구체적으로 설정해 주세요.',
+            )
+          } else {
+            console.error('검색 중 오류 발생:', error)
+          }
+          setFilteredData({ total: 0, properties: [] })
         }
       } else {
-        // 검색어가 없으면 전체 properties 데이터 사용 (형식 맞춤)
-        const propertiesArray = Array.isArray(properties) ? properties : []
-        setFilteredData({
-          properties: propertiesArray,
-          total: propertiesArray.length,
-        })
+        setFilteredData({ total: 0, properties: [] })
       }
     }
   }
 
-  // ✅ Zustand 검색어(generalSearchQuery)가 변경될 때 자동 검색 실행
   useEffect(() => {
     const fetchData = async () => {
       if (!generalSearchQuery.trim()) return
-
       try {
         const filters = buildSearchFilters({
           propertyTypes,
@@ -117,15 +105,11 @@ const NormalSearch: React.FC = () => {
           MaxmonthlyPrice,
           additionalFilters,
         })
-
-        console.log('💬 Zustand로 받은 검색어:', generalSearchQuery)
         const searchResults = await fetchNormalSearchResults(
           generalSearchQuery,
           filters,
         )
-
         setFilteredData(searchResults ?? { total: 0, properties: [] })
-        // 상태를 업데이트하면 자동 렌더링됨
       } catch (err) {
         console.error('❌ Zustand 검색 자동 실행 중 오류:', err)
         setFilteredData({ total: 0, properties: [] })
@@ -168,16 +152,18 @@ const NormalSearch: React.FC = () => {
     fetchData()
   }, [generalSearchQuery])
 
-  // properties가 변경될 때마다 filteredData 업데이트
+  // properties 또는 titles가 변경될 때마다 filteredData 업데이트
   useEffect(() => {
     // properties가 배열인지 확인
     const propertiesArray = Array.isArray(properties) ? properties : []
 
-    // titles가 있으면 titles에 해당하는 항목만 필터링
+    // titles가 있으면 titles에 해당하는 propertyId를 가진 항목만 필터링
     if (titles?.length) {
-      const numericTitles = titles.map(Number)
+      console.log('타이틀은 잇어요', titles)
+      console.log('property도 이써용', propertiesArray)
+
       const newData = propertiesArray.filter((item) =>
-        numericTitles.includes(item.id),
+        titles.includes(String(item.propertyId)),
       )
 
       // 검색 결과와 동일한 형식으로 맞추기
@@ -239,8 +225,8 @@ const NormalSearch: React.FC = () => {
               isInterest: item.isInterest,
               // title: item.title, // Property 타입에 title은 없으므로 제거하거나 Property 타입에 추가해야 합니다.
               // address: item.address, // Property 타입에 address는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
-              // latitude: item.latitude, // Property 타입에 latitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
-              // longitude: item.longitude, // Property 타입에 longitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
+              latitude: item.latitude, // Property 타입에 latitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
+              longitude: item.longitude, // Property 타입에 longitude는 없으므로 제거하거나 Property 타입에 추가해야 합니다.
             }}
           />
         ))}
@@ -252,8 +238,14 @@ const NormalSearch: React.FC = () => {
           )}
       </div>
 
-      {/* 모달 */}
-      <Modal isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />
+      <NormalSearchFilterModal
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        onComplete={(results) => {
+          setFilteredData(results ?? { total: 0, properties: [] })
+        }}
+        searchQuery={searchQuery}
+      />
     </>
   )
 }

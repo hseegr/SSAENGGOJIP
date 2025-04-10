@@ -7,6 +7,8 @@ import {
   formatMaintenanceFee,
 } from '@/utils/formatUtils'
 import useSidebarStore from '@/store/sidebarStore'
+import { useUserStore } from '@/store/userStore'
+import { toggleLike } from '@/services/propertyService'
 
 type Property = {
   id: number
@@ -21,6 +23,8 @@ type Property = {
   imageUrl?: string
   isRecommend?: boolean
   isInterest?: boolean
+  latitude: number
+  longitude: number
 }
 
 type Props = {
@@ -30,14 +34,23 @@ type Props = {
 const PropertySmallCard = ({ property }: Props) => {
   const [isLiked, setIsLiked] = useState(property.isInterest ?? false)
   const [imageError, setImageError] = useState(false)
-  const { selectedCard, setSelectedCard } = useSidebarStore()
-
+  const { setSelectedCard, setSelectedLatitude, setSelectedLongitude } =
+    useSidebarStore()
+  const { isLoggedIn } = useUserStore()
   const handleClick = () => {
     setSelectedCard(property.id) // 선택된 카드 ID 저장
+    setSelectedLatitude(property.latitude)
+    setSelectedLongitude(property.longitude)
   }
 
-  const toggleLike = (e: React.MouseEvent) => {
+  const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation()
+    if (!isLoggedIn) {
+      console.log('로그인을 해야해요')
+      return
+    }
+    const t = toggleLike(property.id)
+    console.log(t)
     setIsLiked((prev) => !prev)
   }
 
@@ -54,7 +67,7 @@ const PropertySmallCard = ({ property }: Props) => {
       <div className="relative w-32 h-24 bg-gray-200 rounded-lg overflow-hidden shrink-0">
         {/* 찜 아이콘 */}
         <button
-          onClick={toggleLike}
+          onClick={handleLikeClick}
           className="absolute top-1.5 right-1.5 z-10"
         >
           <Heart

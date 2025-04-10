@@ -11,12 +11,16 @@ import { toast } from 'react-toastify'
 
 type Listing = {
   id: number
-  type: string
+  name: string
   price: string
-  floor: string
+  area: number
   address: string
-  station: string
-  imageUrl?: string
+  floor: string
+  latitude: number
+  longitude: number
+  mainImage: string | null
+  dealType: string
+  propertyType: string
 }
 
 // 목업 데이터
@@ -91,15 +95,21 @@ type Listing = {
 // API에서 받은 Property를 Listing 형태로 변환하는 함수
 const transformToListing = (property: Property): Listing => ({
   id: property.id,
-  type: '원룸', // 백엔드에서 타입이 없을 경우 기본값 지정
+  name: property.name,
   price: `${property.price.toLocaleString()}원`,
-  floor: `${property.floor}층 | ${property.area}평`,
+  area: property.area,
   address: property.address || '주소 정보 없음',
-  station: '내 주변', // 현재는 위치 기반 기준
+  floor: `${property.floor}층 |  ${Math.floor(property.area / 3.3058)}평`,
+  latitude: property.latitude,
+  longitude: property.longitude,
+  mainImage: property.mainImage,
+  dealType: property.dealType,
+  propertyType: property.propertyType,
 })
 
 const RecommendedSection = () => {
   // 전역 로그인 상태 가져오기 (Zustand 등에서 관리 중)
+  // 로그인 사용자용 선호도 기반 추천 (새로운 파라미터 형식으로 호출)
   const preference = usePreferenceRecommendations(8)
   const location = useLocationRecommendations()
   const isLoggedIn = useUserStore((state) => state.isLoggedIn)

@@ -83,7 +83,12 @@ const GeneralSearch = () => {
             onKeyDown={handleKeyDown}
             className="flex-1 text-ssaeng-purple focus:outline-none placeholder:text-ssaeng-gray-2 placeholder:text-sm"
           />
-
+          {/* 높이 조절 위한 임시 박스 */}
+          <div>
+            <button className="mr-3 text-[#ffffff] font-medium text-xs rounded-md px-2 py-1">
+              5분
+            </button>
+          </div>
           {/* 검색 버튼 */}
           <button className=" text-ssaeng-purple" onClick={handleSearch}>
             <Search size={20} />

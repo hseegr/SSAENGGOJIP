@@ -4,6 +4,7 @@ import SearchBlueIcon from '@/assets/search/mage_filter.svg?react'
 import { useState, useEffect } from 'react'
 import SortButton from './SortButton' // SortButton 컴포넌트 import
 import MatchCard from './MatchCard'
+import useSidebarStore from '@/store/sidebarStore'
 
 // 결과 아이템의 타입 정의
 interface ResultItem {
@@ -27,18 +28,24 @@ interface ResultItem {
 
 const MatchSearchResults = () => {
   const { setIsSearching } = matchSearchStore()
-  const { results, resetResults, transportModes, setTransportModes } =
+  const { results, resetResults, setTransportModes } =
     useMatchSearchResultStore()
   const [filteredResults, setFilteredResults] = useState<ResultItem[]>([])
+  const { setSelectedCard } = useSidebarStore()
 
   useEffect(() => {
+    console.log('Results from store:', results)
+    console.log('Results properties:', results?.properties)
+
     // results가 업데이트될 때 filteredResults를 초기화하고 가격순으로 정렬
     if (results && results.properties) {
       const initialSort = [...(results.properties as ResultItem[])].sort(
         (a, b) => a.price - b.price,
       )
+      console.log('Filtered results after sorting:', initialSort)
       setFilteredResults(initialSort)
     } else {
+      console.log('No results to filter')
       setFilteredResults([])
     }
   }, [results])
@@ -51,6 +58,7 @@ const MatchSearchResults = () => {
     setIsSearching(false)
     resetResults()
     setTransportModes([])
+    setSelectedCard(null)
   }
 
   const handleSortChange = (option: number | string) => {
