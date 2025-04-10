@@ -4,7 +4,6 @@ import com.ssaenggojip.apipayload.code.status.ErrorStatus;
 import com.ssaenggojip.apipayload.exception.GeneralException;
 import com.ssaenggojip.common.enums.TransportationType;
 import com.ssaenggojip.common.util.TransportTimeProvider;
-import com.ssaenggojip.facility.dto.NearFacilityResponse;
 import com.ssaenggojip.facility.service.FacilityService;
 import com.ssaenggojip.property.dto.request.RecommendDetailRequest;
 import com.ssaenggojip.property.dto.request.RecommendSearchRequest;
@@ -67,11 +66,7 @@ public class PropertyFacade {
 
     public DetailResponse getDetail(Long id) {
         Property property = propertyService.getDetail(id);
-        // 주변시설 조립
-        List<NearFacilityResponse> nearFacilities =  facilityService.findNearestFacilities(
-                property.getLatitude(),
-                property.getLongitude()
-        );
+
         // 주변 역 조립
         List<DetailStation> detailStations = new ArrayList<>();
         for(Station station: stationService.findStationsWithin1km(property.getLongitude(), property.getLatitude())){
@@ -99,7 +94,6 @@ public class PropertyFacade {
                 .area(property.getExclusiveArea())
                 .address(property.getAddress())
                 .stations(detailStations)
-                .facilities(nearFacilities)
                 .imageUrls(imageUrls)
                 .build();
     }
