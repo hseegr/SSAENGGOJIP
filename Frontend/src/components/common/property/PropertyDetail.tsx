@@ -43,6 +43,15 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({
   const [trafficData, setTrafficData] = useState<any>(null)
 
   const { matchTargetAddress } = useMatchSearchResultStore()
+  // ➔ 수정 코드 (컴포넌트 컨테이너 내 스크롤)
+  const detailContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (detailContainerRef.current) {
+      detailContainerRef.current.scrollTo({ top: 0, behavior: 'auto' })
+    }
+  }, [id, matchTargetAddress]) // ✅ ID/주소 변경 시 실행
+
   useEffect(() => {
     const fetchPropertyData = async () => {
       try {
@@ -124,7 +133,10 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({
   if (!data) return null
 
   return (
-    <div className="relative w-full h-full p-6 overflow-y-auto bg-white">
+    <div
+      ref={detailContainerRef}
+      className="relative w-full h-full p-6 overflow-y-auto bg-white"
+    >
       {/* 닫기 버튼 - 비교 모드일 땐 숨김 */}
       {!isCompareMode && (
         <button
