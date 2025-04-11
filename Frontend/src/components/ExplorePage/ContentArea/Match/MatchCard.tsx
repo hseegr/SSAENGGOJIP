@@ -10,6 +10,7 @@ import {
   formatMaintenanceFee,
 } from '@/utils/formatUtils'
 import clsx from 'clsx'
+import { toggleLike } from '@/services/propertyService'
 
 interface CardProps {
   id: number
@@ -75,8 +76,10 @@ const MatchCard: React.FC<CardProps> = ({
     })
   }
 
-  const toggleLike = (e: React.MouseEvent) => {
+  const handleClickLike = (e: React.MouseEvent) => {
     e.stopPropagation()
+    const t = toggleLike(id)
+    console.log(t)
     setIsLiked((prev) => !prev)
     if (!isLiked) {
       console.log(`매물 ${id}가 관심매물로 등록되었습니다.`)
@@ -107,7 +110,7 @@ const MatchCard: React.FC<CardProps> = ({
 
         {/* 찜 아이콘 */}
         <button
-          onClick={toggleLike}
+          onClick={handleClickLike}
           className="absolute top-1.5 right-1.5 z-10"
         >
           <Heart
