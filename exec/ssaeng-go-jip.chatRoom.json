@@ -1,0 +1,8102 @@
+[{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f57"
+  },
+  "name": "4.19 민주묘지",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.013718,
+  "latitude": 37.64941,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f58"
+  },
+  "name": "가능",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.04429,
+  "latitude": 37.74839,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f59"
+  },
+  "name": "가락시장",
+  "line": [
+    "3호선",
+    "8호선"
+  ],
+  "longitude": 127.11794,
+  "latitude": 37.492754,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f5a"
+  },
+  "name": "가산디지털단지",
+  "line": [
+    "1호선",
+    "7호선"
+  ],
+  "longitude": 126.882621,
+  "latitude": 37.480974,
+  "userCount": 1,
+  "lastMessage": "ㅠㅠㅠㅠㅠ쩨발"
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f5b"
+  },
+  "name": "가양",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.854419,
+  "latitude": 37.561396,
+  "userCount": 1,
+  "lastMessage": "안녕"
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f5c"
+  },
+  "name": "가오리",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.016708,
+  "latitude": 37.641476,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f5d"
+  },
+  "name": "가재울",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.683912,
+  "latitude": 37.484068,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f5e"
+  },
+  "name": "가정",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.675391,
+  "latitude": 37.524825,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f5f"
+  },
+  "name": "가정중앙시장",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.676872,
+  "latitude": 37.517562,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f60"
+  },
+  "name": "가좌",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.914691,
+  "latitude": 37.568799,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f61"
+  },
+  "name": "가천대",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.126747,
+  "latitude": 37.448651,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f62"
+  },
+  "name": "가평",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.510644,
+  "latitude": 37.814513,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f63"
+  },
+  "name": "간석",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.69352,
+  "latitude": 37.464702,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f64"
+  },
+  "name": "간석오거리",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.707853,
+  "latitude": 37.467065,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f65"
+  },
+  "name": "갈매",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.114705,
+  "latitude": 37.633918,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f66"
+  },
+  "name": "갈산",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.72158,
+  "latitude": 37.517196,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f67"
+  },
+  "name": "강남",
+  "line": [
+    "신분당선",
+    "2호선"
+  ],
+  "longitude": 127.028032,
+  "latitude": 37.497456,
+  "userCount": 1,
+  "lastMessage": "안녕~"
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f68"
+  },
+  "name": "강남구청",
+  "line": [
+    "수인분당선",
+    "7호선"
+  ],
+  "longitude": 127.041342,
+  "latitude": 37.516965,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f69"
+  },
+  "name": "강남대",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.126094,
+  "latitude": 37.270117,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f6a"
+  },
+  "name": "강동",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.132639,
+  "latitude": 37.535935,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f6b"
+  },
+  "name": "강동구청",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.120472,
+  "latitude": 37.53023,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f6c"
+  },
+  "name": "강매",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.844382,
+  "latitude": 37.612317,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f6d"
+  },
+  "name": "강변",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.094679,
+  "latitude": 37.535106,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f6e"
+  },
+  "name": "강일",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.17571,
+  "latitude": 37.557471,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f6f"
+  },
+  "name": "강촌",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.634061,
+  "latitude": 37.805715,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f70"
+  },
+  "name": "개롱",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.135132,
+  "latitude": 37.49796,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f71"
+  },
+  "name": "개봉",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.858747,
+  "latitude": 37.49462,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f72"
+  },
+  "name": "개포동",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.065993,
+  "latitude": 37.489021,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f73"
+  },
+  "name": "개화",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.796971,
+  "latitude": 37.578406,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f74"
+  },
+  "name": "개화산",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.806868,
+  "latitude": 37.572555,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f75"
+  },
+  "name": "거여",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.143597,
+  "latitude": 37.493422,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f76"
+  },
+  "name": "건대입구",
+  "line": [
+    "7호선",
+    "2호선"
+  ],
+  "longitude": 127.07008,
+  "latitude": 37.540678,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f77"
+  },
+  "name": "검단사거리",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.656488,
+  "latitude": 37.601655,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f78"
+  },
+  "name": "검단오류",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.628001,
+  "latitude": 37.594907,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f79"
+  },
+  "name": "검바위",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.677497,
+  "latitude": 37.561155,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f7a"
+  },
+  "name": "검암",
+  "line": [
+    "인천2호선",
+    "공항철도"
+  ],
+  "longitude": 126.674658,
+  "latitude": 37.568952,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f7b"
+  },
+  "name": "경기도청북부청사",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.071582,
+  "latitude": 37.750767,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f7c"
+  },
+  "name": "경마공원",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.007765,
+  "latitude": 37.443636,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f7d"
+  },
+  "name": "경복궁",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.973707,
+  "latitude": 37.575747,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f7e"
+  },
+  "name": "경인교대입구",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.722634,
+  "latitude": 37.538064,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f7f"
+  },
+  "name": "경전철의정부",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.043299,
+  "latitude": 37.737255,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f80"
+  },
+  "name": "경찰병원",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.124206,
+  "latitude": 37.495701,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f81"
+  },
+  "name": "계산",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.72764,
+  "latitude": 37.543291,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f82"
+  },
+  "name": "계양",
+  "line": [
+    "공항철도",
+    "인천1호선"
+  ],
+  "longitude": 126.736361,
+  "latitude": 37.571647,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f83"
+  },
+  "name": "고덕",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.154212,
+  "latitude": 37.55514,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f84"
+  },
+  "name": "고려대",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.036186,
+  "latitude": 37.590793,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f85"
+  },
+  "name": "고색",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 126.980289,
+  "latitude": 37.249668,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f86"
+  },
+  "name": "고속터미널",
+  "line": [
+    "9호선",
+    "7호선",
+    "3호선"
+  ],
+  "longitude": 127.004526,
+  "latitude": 37.504786,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f87"
+  },
+  "name": "고잔",
+  "line": [
+    "4호선",
+    "수인분당선"
+  ],
+  "longitude": 126.823253,
+  "latitude": 37.316865,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f88"
+  },
+  "name": "고진",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.214204,
+  "latitude": 37.244612,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f89"
+  },
+  "name": "곡산",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.801646,
+  "latitude": 37.645988,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f8a"
+  },
+  "name": "곤제",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.083797,
+  "latitude": 37.750551,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f8b"
+  },
+  "name": "공덕",
+  "line": [
+    "경의중앙선",
+    "공항철도",
+    "6호선",
+    "5호선"
+  ],
+  "longitude": 126.952043,
+  "latitude": 37.543274,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f8c"
+  },
+  "name": "공릉(서울산업대입구)",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.07293,
+  "latitude": 37.625655,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f8d"
+  },
+  "name": "공항시장",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.810622,
+  "latitude": 37.563646,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f8e"
+  },
+  "name": "공항화물청사",
+  "line": [
+    "공항철도"
+  ],
+  "longitude": 126.477471,
+  "latitude": 37.458984,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f8f"
+  },
+  "name": "과천",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.995827,
+  "latitude": 37.432837,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f90"
+  },
+  "name": "관악",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.908616,
+  "latitude": 37.419373,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f91"
+  },
+  "name": "광교",
+  "line": [
+    "신분당선"
+  ],
+  "longitude": 127.044379,
+  "latitude": 37.302237,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f92"
+  },
+  "name": "광교중앙",
+  "line": [
+    "신분당선"
+  ],
+  "longitude": 127.051374,
+  "latitude": 37.288746,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f93"
+  },
+  "name": "광나루(장신대)",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.103999,
+  "latitude": 37.545209,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f94"
+  },
+  "name": "광명",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.88502,
+  "latitude": 37.416747,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f95"
+  },
+  "name": "광명사거리",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.854573,
+  "latitude": 37.479368,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f96"
+  },
+  "name": "광운대",
+  "line": [
+    "1호선",
+    "경춘선"
+  ],
+  "longitude": 127.061687,
+  "latitude": 37.623946,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f97"
+  },
+  "name": "광화문",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.976826,
+  "latitude": 37.571718,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f98"
+  },
+  "name": "광흥창",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.931242,
+  "latitude": 37.547688,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f99"
+  },
+  "name": "교대",
+  "line": [
+    "3호선",
+    "2호선"
+  ],
+  "longitude": 127.013679,
+  "latitude": 37.493391,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f9a"
+  },
+  "name": "구로",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.882016,
+  "latitude": 37.502958,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f9b"
+  },
+  "name": "구로디지털단지",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.901115,
+  "latitude": 37.485529,
+  "userCount": 1,
+  "lastMessage": "20분만 지나면 괜찮아여"
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f9c"
+  },
+  "name": "구룡",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.05957,
+  "latitude": 37.487032,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f9d"
+  },
+  "name": "구리",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.143305,
+  "latitude": 37.603208,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f9e"
+  },
+  "name": "구반포",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.987451,
+  "latitude": 37.501439,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334f9f"
+  },
+  "name": "구산",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.917144,
+  "latitude": 37.611618,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa0"
+  },
+  "name": "구성",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.105705,
+  "latitude": 37.298952,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa1"
+  },
+  "name": "구의",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.086062,
+  "latitude": 37.537259,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa2"
+  },
+  "name": "구일",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.869656,
+  "latitude": 37.496225,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa3"
+  },
+  "name": "구파발",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.918832,
+  "latitude": 37.636403,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa4"
+  },
+  "name": "국수",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.399248,
+  "latitude": 37.516146,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa5"
+  },
+  "name": "국제업무지구",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.630377,
+  "latitude": 37.399874,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa6"
+  },
+  "name": "국회의사당",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.917784,
+  "latitude": 37.528131,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa7"
+  },
+  "name": "군자(능동)",
+  "line": [
+    "7호선",
+    "5호선"
+  ],
+  "longitude": 127.079403,
+  "latitude": 37.557387,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa8"
+  },
+  "name": "군포",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.948528,
+  "latitude": 37.354005,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fa9"
+  },
+  "name": "굴봉산",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.557705,
+  "latitude": 37.832011,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334faa"
+  },
+  "name": "굴포천",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.731336,
+  "latitude": 37.507027,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fab"
+  },
+  "name": "굽은다리(강동구민회관앞)",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.142639,
+  "latitude": 37.545288,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fac"
+  },
+  "name": "귤현",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.742585,
+  "latitude": 37.566344,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fad"
+  },
+  "name": "금곡",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.207402,
+  "latitude": 37.637306,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fae"
+  },
+  "name": "금릉",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.765323,
+  "latitude": 37.751382,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334faf"
+  },
+  "name": "금정",
+  "line": [
+    "1호선",
+    "4호선"
+  ],
+  "longitude": 126.943331,
+  "latitude": 37.372377,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb0"
+  },
+  "name": "금천구청",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.893634,
+  "latitude": 37.455969,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb1"
+  },
+  "name": "금촌",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.774614,
+  "latitude": 37.766228,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb2"
+  },
+  "name": "금호",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.015813,
+  "latitude": 37.548273,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb3"
+  },
+  "name": "기흥",
+  "line": [
+    "에버라인",
+    "수인분당선"
+  ],
+  "longitude": 127.11652,
+  "latitude": 37.27553,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb4"
+  },
+  "name": "길동",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.140038,
+  "latitude": 37.538292,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb5"
+  },
+  "name": "길음",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.02496,
+  "latitude": 37.603517,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb6"
+  },
+  "name": "김량장",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.198592,
+  "latitude": 37.237333,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb7"
+  },
+  "name": "김유정",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.714294,
+  "latitude": 37.818428,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb8"
+  },
+  "name": "김포공항",
+  "line": [
+    "공항철도",
+    "9호선",
+    "5호선"
+  ],
+  "longitude": 126.801778,
+  "latitude": 37.561953,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fb9"
+  },
+  "name": "까치산",
+  "line": [
+    "5호선",
+    "2호선"
+  ],
+  "longitude": 126.846673,
+  "latitude": 37.531799,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fba"
+  },
+  "name": "까치울",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.811426,
+  "latitude": 37.50621,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fbb"
+  },
+  "name": "낙성대",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.963383,
+  "latitude": 37.4772,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fbc"
+  },
+  "name": "남구로",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.887301,
+  "latitude": 37.486192,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fbd"
+  },
+  "name": "남동구청",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.736631,
+  "latitude": 37.448197,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fbe"
+  },
+  "name": "남동인더스파크",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.695419,
+  "latitude": 37.407744,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fbf"
+  },
+  "name": "남부터미널",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.016014,
+  "latitude": 37.485354,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc0"
+  },
+  "name": "남성",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.970935,
+  "latitude": 37.484787,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc1"
+  },
+  "name": "남영",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.970999,
+  "latitude": 37.541419,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc2"
+  },
+  "name": "남춘천",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.72367,
+  "latitude": 37.864096,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc3"
+  },
+  "name": "남태령",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.986818,
+  "latitude": 37.467662,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc4"
+  },
+  "name": "남한산성입구(성남법원.검찰청)",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.15984,
+  "latitude": 37.451723,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc5"
+  },
+  "name": "내방",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.9929,
+  "latitude": 37.487667,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc6"
+  },
+  "name": "노들",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.953148,
+  "latitude": 37.512624,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc7"
+  },
+  "name": "노량진",
+  "line": [
+    "1호선",
+    "9호선"
+  ],
+  "longitude": 126.941544,
+  "latitude": 37.513977,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc8"
+  },
+  "name": "노원",
+  "line": [
+    "4호선",
+    "7호선"
+  ],
+  "longitude": 127.061991,
+  "latitude": 37.655676,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fc9"
+  },
+  "name": "녹번",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.93583,
+  "latitude": 37.600754,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fca"
+  },
+  "name": "녹사평",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.986491,
+  "latitude": 37.534642,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fcb"
+  },
+  "name": "녹양",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.042266,
+  "latitude": 37.759386,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fcc"
+  },
+  "name": "녹천",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.051331,
+  "latitude": 37.644737,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fcd"
+  },
+  "name": "논현",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.021292,
+  "latitude": 37.511239,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fce"
+  },
+  "name": "능곡",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.820672,
+  "latitude": 37.618923,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fcf"
+  },
+  "name": "단대오거리",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.156709,
+  "latitude": 37.44505,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd0"
+  },
+  "name": "달미",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.809266,
+  "latitude": 37.349004,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd1"
+  },
+  "name": "달월",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.745434,
+  "latitude": 37.380135,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd2"
+  },
+  "name": "답십리",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.053103,
+  "latitude": 37.566613,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd3"
+  },
+  "name": "당고개",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.079058,
+  "latitude": 37.67025,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd4"
+  },
+  "name": "당산",
+  "line": [
+    "9호선",
+    "2호선"
+  ],
+  "longitude": 126.902346,
+  "latitude": 37.534465,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd5"
+  },
+  "name": "당정",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.948367,
+  "latitude": 37.343576,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd6"
+  },
+  "name": "대곡",
+  "line": [
+    "경의중앙선",
+    "3호선"
+  ],
+  "longitude": 126.810457,
+  "latitude": 37.631847,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd7"
+  },
+  "name": "대공원",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.006504,
+  "latitude": 37.435921,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd8"
+  },
+  "name": "대림",
+  "line": [
+    "7호선",
+    "2호선"
+  ],
+  "longitude": 126.895768,
+  "latitude": 37.493069,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fd9"
+  },
+  "name": "대모산입구",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.073086,
+  "latitude": 37.491557,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fda"
+  },
+  "name": "대방",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.926906,
+  "latitude": 37.51333,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fdb"
+  },
+  "name": "대성리",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.379663,
+  "latitude": 37.683993,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fdc"
+  },
+  "name": "대야미",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.917064,
+  "latitude": 37.328501,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fdd"
+  },
+  "name": "대청",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.079468,
+  "latitude": 37.493792,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fde"
+  },
+  "name": "대치",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.063363,
+  "latitude": 37.494652,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fdf"
+  },
+  "name": "대화",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.747417,
+  "latitude": 37.676096,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe0"
+  },
+  "name": "대흥(서강대앞)",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.942658,
+  "latitude": 37.547751,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe1"
+  },
+  "name": "덕계",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.056735,
+  "latitude": 37.818765,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe2"
+  },
+  "name": "덕소",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.20881,
+  "latitude": 37.586858,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe3"
+  },
+  "name": "덕정",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.061571,
+  "latitude": 37.84315,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe4"
+  },
+  "name": "도곡",
+  "line": [
+    "수인분당선",
+    "3호선"
+  ],
+  "longitude": 127.055185,
+  "latitude": 37.491294,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe5"
+  },
+  "name": "도농",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.161161,
+  "latitude": 37.608807,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe6"
+  },
+  "name": "도림천",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.882881,
+  "latitude": 37.514415,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe7"
+  },
+  "name": "도봉",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.045507,
+  "latitude": 37.679515,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe8"
+  },
+  "name": "도봉산",
+  "line": [
+    "1호선",
+    "7호선"
+  ],
+  "longitude": 127.046188,
+  "latitude": 37.689526,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fe9"
+  },
+  "name": "도심",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.2226,
+  "latitude": 37.579626,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fea"
+  },
+  "name": "도원",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.642506,
+  "latitude": 37.468734,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334feb"
+  },
+  "name": "도화",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.668625,
+  "latitude": 37.466067,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fec"
+  },
+  "name": "독립문",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.957883,
+  "latitude": 37.574444,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fed"
+  },
+  "name": "독바위",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.932373,
+  "latitude": 37.618955,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fee"
+  },
+  "name": "독산",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.888917,
+  "latitude": 37.466384,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fef"
+  },
+  "name": "독정",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.676014,
+  "latitude": 37.584846,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff0"
+  },
+  "name": "돌곶이",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.056337,
+  "latitude": 37.610719,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff1"
+  },
+  "name": "동대문",
+  "line": [
+    "4호선",
+    "1호선"
+  ],
+  "longitude": 127.010146,
+  "latitude": 37.571516,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff2"
+  },
+  "name": "동대문역사문화공원",
+  "line": [
+    "4호선",
+    "5호선",
+    "2호선"
+  ],
+  "longitude": 127.00747,
+  "latitude": 37.565158,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff3"
+  },
+  "name": "동대입구",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.005349,
+  "latitude": 37.55907,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff4"
+  },
+  "name": "동두천",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.054883,
+  "latitude": 37.927617,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff5"
+  },
+  "name": "동두천중앙",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.05638,
+  "latitude": 37.901794,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff6"
+  },
+  "name": "동막",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.67342,
+  "latitude": 37.398001,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff7"
+  },
+  "name": "동묘앞",
+  "line": [
+    "1호선",
+    "6호선"
+  ],
+  "longitude": 127.015973,
+  "latitude": 37.572883,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff8"
+  },
+  "name": "동백",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.152669,
+  "latitude": 37.269117,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ff9"
+  },
+  "name": "동수",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.718521,
+  "latitude": 37.485531,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ffa"
+  },
+  "name": "동암",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.702885,
+  "latitude": 37.470684,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ffb"
+  },
+  "name": "동오",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.056988,
+  "latitude": 37.7453,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ffc"
+  },
+  "name": "동인천",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.632579,
+  "latitude": 37.475389,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ffd"
+  },
+  "name": "동작",
+  "line": [
+    "4호선",
+    "9호선"
+  ],
+  "longitude": 126.979381,
+  "latitude": 37.502913,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334ffe"
+  },
+  "name": "동천",
+  "line": [
+    "신분당선"
+  ],
+  "longitude": 127.102867,
+  "latitude": 37.338051,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded334fff"
+  },
+  "name": "동춘",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.680789,
+  "latitude": 37.404533,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335000"
+  },
+  "name": "두정",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.148985,
+  "latitude": 36.833915,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335001"
+  },
+  "name": "둔전",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.213633,
+  "latitude": 37.267204,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335002"
+  },
+  "name": "둔촌동",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.136199,
+  "latitude": 37.527968,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335003"
+  },
+  "name": "둔촌오륜",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.138601,
+  "latitude": 37.519572,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335004"
+  },
+  "name": "등촌",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.865545,
+  "latitude": 37.550756,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335005"
+  },
+  "name": "디지털미디어시티",
+  "line": [
+    "경의중앙선",
+    "공항철도",
+    "6호선"
+  ],
+  "longitude": 126.899968,
+  "latitude": 37.577152,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335006"
+  },
+  "name": "뚝섬",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.047281,
+  "latitude": 37.547355,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335007"
+  },
+  "name": "뚝섬유원지",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.066835,
+  "latitude": 37.531583,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335008"
+  },
+  "name": "마곡",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.824667,
+  "latitude": 37.560178,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335009"
+  },
+  "name": "마곡나루",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.827478,
+  "latitude": 37.566714,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33500a"
+  },
+  "name": "마두",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.777638,
+  "latitude": 37.652121,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33500b"
+  },
+  "name": "마들",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.057607,
+  "latitude": 37.665249,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33500c"
+  },
+  "name": "마석",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.311631,
+  "latitude": 37.652852,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33500d"
+  },
+  "name": "마장",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.043095,
+  "latitude": 37.566459,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33500e"
+  },
+  "name": "마전",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.667309,
+  "latitude": 37.597606,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33500f"
+  },
+  "name": "마천",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.152899,
+  "latitude": 37.49499,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335010"
+  },
+  "name": "마포",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.945908,
+  "latitude": 37.539521,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335011"
+  },
+  "name": "마포구청",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.903269,
+  "latitude": 37.56357,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335012"
+  },
+  "name": "만수",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.731644,
+  "latitude": 37.45495,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335013"
+  },
+  "name": "망우",
+  "line": [
+    "경의중앙선",
+    "경춘선"
+  ],
+  "longitude": 127.092058,
+  "latitude": 37.599644,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335014"
+  },
+  "name": "망원",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.9102,
+  "latitude": 37.555948,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335015"
+  },
+  "name": "망월사",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.047276,
+  "latitude": 37.710644,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335016"
+  },
+  "name": "망포",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.056728,
+  "latitude": 37.245947,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335017"
+  },
+  "name": "매교",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.015769,
+  "latitude": 37.265644,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335018"
+  },
+  "name": "매봉",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.046387,
+  "latitude": 37.486893,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335019"
+  },
+  "name": "매탄권선",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.040696,
+  "latitude": 37.252644,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33501a"
+  },
+  "name": "먹골",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.077624,
+  "latitude": 37.611162,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33501b"
+  },
+  "name": "면목",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.087541,
+  "latitude": 37.588652,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33501c"
+  },
+  "name": "명동",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.985856,
+  "latitude": 37.561079,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33501d"
+  },
+  "name": "명일",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.144008,
+  "latitude": 37.552079,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33501e"
+  },
+  "name": "명지대",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.19028,
+  "latitude": 37.238057,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33501f"
+  },
+  "name": "명학",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.935574,
+  "latitude": 37.384366,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335020"
+  },
+  "name": "모란",
+  "line": [
+    "수인분당선",
+    "8호선"
+  ],
+  "longitude": 127.129511,
+  "latitude": 37.433058,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335021"
+  },
+  "name": "모래내시장",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.719646,
+  "latitude": 37.45587,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335022"
+  },
+  "name": "목동",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.864604,
+  "latitude": 37.526106,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335023"
+  },
+  "name": "몽촌토성(평화의문)",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.112922,
+  "latitude": 37.51775,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335024"
+  },
+  "name": "무악재",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.950234,
+  "latitude": 37.582552,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335025"
+  },
+  "name": "문래",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.894698,
+  "latitude": 37.518094,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335026"
+  },
+  "name": "문산",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.787383,
+  "latitude": 37.85468,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335027"
+  },
+  "name": "문정",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.122461,
+  "latitude": 37.486005,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335028"
+  },
+  "name": "문학경기장",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.698422,
+  "latitude": 37.434663,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335029"
+  },
+  "name": "미금",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.109002,
+  "latitude": 37.350227,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33502a"
+  },
+  "name": "미사",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.192932,
+  "latitude": 37.563118,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33502b"
+  },
+  "name": "미아",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.026013,
+  "latitude": 37.626658,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33502c"
+  },
+  "name": "미아사거리",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.030081,
+  "latitude": 37.613468,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33502d"
+  },
+  "name": "박촌",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.745038,
+  "latitude": 37.553709,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33502e"
+  },
+  "name": "반월",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.903799,
+  "latitude": 37.312325,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33502f"
+  },
+  "name": "반포",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.012379,
+  "latitude": 37.508551,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335030"
+  },
+  "name": "발곡",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.052915,
+  "latitude": 37.727142,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335031"
+  },
+  "name": "발산",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.837756,
+  "latitude": 37.558689,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335032"
+  },
+  "name": "방배",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.997306,
+  "latitude": 37.481488,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335033"
+  },
+  "name": "방이",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.125861,
+  "latitude": 37.508696,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335034"
+  },
+  "name": "방학",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.044264,
+  "latitude": 37.667567,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335035"
+  },
+  "name": "방화",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.812852,
+  "latitude": 37.577598,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335036"
+  },
+  "name": "배방",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.052847,
+  "latitude": 36.777652,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335037"
+  },
+  "name": "백마",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.79434,
+  "latitude": 37.658562,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335038"
+  },
+  "name": "백석",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.788061,
+  "latitude": 37.643027,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335039"
+  },
+  "name": "백양리",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.589185,
+  "latitude": 37.830829,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33503a"
+  },
+  "name": "백운",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.707301,
+  "latitude": 37.483327,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33503b"
+  },
+  "name": "버티고개",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.006722,
+  "latitude": 37.547918,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33503c"
+  },
+  "name": "범계",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.950642,
+  "latitude": 37.389964,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33503d"
+  },
+  "name": "범골",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.04366,
+  "latitude": 37.728778,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33503e"
+  },
+  "name": "별내",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.126887,
+  "latitude": 37.642014,
+  "userCount": 1,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33503f"
+  },
+  "name": "병점",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.033153,
+  "latitude": 37.206855,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335040"
+  },
+  "name": "보라매",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.920636,
+  "latitude": 37.49994,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335041"
+  },
+  "name": "보문",
+  "line": [
+    "6호선",
+    "우이신설선"
+  ],
+  "longitude": 127.019408,
+  "latitude": 37.585248,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335042"
+  },
+  "name": "보산",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.057207,
+  "latitude": 37.91415,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335043"
+  },
+  "name": "보정",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.108352,
+  "latitude": 37.312767,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335044"
+  },
+  "name": "보평",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.218478,
+  "latitude": 37.25894,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335045"
+  },
+  "name": "복정",
+  "line": [
+    "수인분당선",
+    "8호선"
+  ],
+  "longitude": 127.126636,
+  "latitude": 37.469981,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335046"
+  },
+  "name": "봉명",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.135972,
+  "latitude": 36.80142,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335047"
+  },
+  "name": "봉은사",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.060252,
+  "latitude": 37.514231,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335048"
+  },
+  "name": "봉천",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.941704,
+  "latitude": 37.482661,
+  "userCount": 1,
+  "lastMessage": "안녕하세요!"
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335049"
+  },
+  "name": "봉화산",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.091346,
+  "latitude": 37.617321,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33504a"
+  },
+  "name": "부개",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.740741,
+  "latitude": 37.488408,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33504b"
+  },
+  "name": "부천",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.783042,
+  "latitude": 37.484001,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33504c"
+  },
+  "name": "부천시청",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.763987,
+  "latitude": 37.504665,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33504d"
+  },
+  "name": "부천종합운동장",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.797187,
+  "latitude": 37.505433,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33504e"
+  },
+  "name": "부평",
+  "line": [
+    "1호선",
+    "인천1호선"
+  ],
+  "longitude": 126.72389,
+  "latitude": 37.489882,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33504f"
+  },
+  "name": "부평구청",
+  "line": [
+    "인천1호선",
+    "7호선"
+  ],
+  "longitude": 126.72098,
+  "latitude": 37.50788,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335050"
+  },
+  "name": "부평삼거리",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.710264,
+  "latitude": 37.477819,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335051"
+  },
+  "name": "부평시장",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.722242,
+  "latitude": 37.498486,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335052"
+  },
+  "name": "북한산보국문",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.008294,
+  "latitude": 37.61204,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335053"
+  },
+  "name": "북한산우이",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.012746,
+  "latitude": 37.662766,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335054"
+  },
+  "name": "불광",
+  "line": [
+    "6호선",
+    "3호선"
+  ],
+  "longitude": 126.929809,
+  "latitude": 37.610447,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335055"
+  },
+  "name": "사가정",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.088429,
+  "latitude": 37.580879,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335056"
+  },
+  "name": "사당",
+  "line": [
+    "4호선",
+    "2호선"
+  ],
+  "longitude": 126.981432,
+  "latitude": 37.476575,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335057"
+  },
+  "name": "사릉",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.176734,
+  "latitude": 37.651185,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335058"
+  },
+  "name": "사리",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 126.857179,
+  "latitude": 37.290913,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335059"
+  },
+  "name": "사평",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.01531,
+  "latitude": 37.504197,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33505a"
+  },
+  "name": "산곡",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.703558,
+  "latitude": 37.508655,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33505b"
+  },
+  "name": "산본",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.933084,
+  "latitude": 37.358251,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33505c"
+  },
+  "name": "산성",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.149865,
+  "latitude": 37.45658,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33505d"
+  },
+  "name": "삼가",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.168251,
+  "latitude": 37.242009,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33505e"
+  },
+  "name": "삼각지",
+  "line": [
+    "4호선",
+    "6호선"
+  ],
+  "longitude": 126.973226,
+  "latitude": 37.534991,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33505f"
+  },
+  "name": "삼산체육관",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.741426,
+  "latitude": 37.506486,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335060"
+  },
+  "name": "삼성",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.06298,
+  "latitude": 37.509019,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335061"
+  },
+  "name": "삼성중앙",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.053023,
+  "latitude": 37.512943,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335062"
+  },
+  "name": "삼송",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.895762,
+  "latitude": 37.653262,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335063"
+  },
+  "name": "삼양",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.018128,
+  "latitude": 37.62694,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335064"
+  },
+  "name": "삼양사거리",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.020577,
+  "latitude": 37.621218,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335065"
+  },
+  "name": "삼전",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.087603,
+  "latitude": 37.504493,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335066"
+  },
+  "name": "상갈",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.108703,
+  "latitude": 37.261895,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335067"
+  },
+  "name": "상계",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.073417,
+  "latitude": 37.660703,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335068"
+  },
+  "name": "상도(중앙대앞)",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.9479,
+  "latitude": 37.502835,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335069"
+  },
+  "name": "상동",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.753178,
+  "latitude": 37.505759,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33506a"
+  },
+  "name": "상록수",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.866597,
+  "latitude": 37.302828,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33506b"
+  },
+  "name": "상봉",
+  "line": [
+    "경의중앙선",
+    "7호선",
+    "경춘선"
+  ],
+  "longitude": 127.085292,
+  "latitude": 37.596433,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33506c"
+  },
+  "name": "상수",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.922266,
+  "latitude": 37.547931,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33506d"
+  },
+  "name": "상왕십리",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.02893,
+  "latitude": 37.564601,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33506e"
+  },
+  "name": "상월곡(한국과학기술연구원)",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.048249,
+  "latitude": 37.606438,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33506f"
+  },
+  "name": "상일동",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.165807,
+  "latitude": 37.556715,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335070"
+  },
+  "name": "상천",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.454449,
+  "latitude": 37.770186,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335071"
+  },
+  "name": "상현",
+  "line": [
+    "신분당선"
+  ],
+  "longitude": 127.069236,
+  "latitude": 37.297792,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335072"
+  },
+  "name": "새말",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.063752,
+  "latitude": 37.748851,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335073"
+  },
+  "name": "새절(신사)",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.913649,
+  "latitude": 37.591359,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335074"
+  },
+  "name": "샛강",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.928383,
+  "latitude": 37.517358,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335075"
+  },
+  "name": "서강대",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.93534,
+  "latitude": 37.552272,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335076"
+  },
+  "name": "서구청",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.676858,
+  "latitude": 37.543992,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335077"
+  },
+  "name": "서대문",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.966596,
+  "latitude": 37.565872,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335078"
+  },
+  "name": "서동탄",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.051832,
+  "latitude": 37.195716,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335079"
+  },
+  "name": "서부여성회관",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.675814,
+  "latitude": 37.50035,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33507a"
+  },
+  "name": "서빙고",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.988412,
+  "latitude": 37.519546,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33507b"
+  },
+  "name": "서울",
+  "line": [
+    "경의중앙선",
+    "4호선",
+    "공항철도",
+    "1호선"
+  ],
+  "longitude": 126.971416,
+  "latitude": 37.554957,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33507c"
+  },
+  "name": "서울대입구",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.952677,
+  "latitude": 37.481285,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33507d"
+  },
+  "name": "서울숲",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.044726,
+  "latitude": 37.543691,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33507e"
+  },
+  "name": "서정리",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.052905,
+  "latitude": 37.056615,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33507f"
+  },
+  "name": "서초",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.007228,
+  "latitude": 37.491834,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335080"
+  },
+  "name": "서현",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.123402,
+  "latitude": 37.385025,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335081"
+  },
+  "name": "석계",
+  "line": [
+    "1호선",
+    "6호선"
+  ],
+  "longitude": 127.065798,
+  "latitude": 37.614769,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335082"
+  },
+  "name": "석남",
+  "line": [
+    "인천2호선",
+    "7호선"
+  ],
+  "longitude": 126.676223,
+  "latitude": 37.506857,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335083"
+  },
+  "name": "석바위시장",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.692358,
+  "latitude": 37.457745,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335084"
+  },
+  "name": "석수",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.902337,
+  "latitude": 37.435041,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335085"
+  },
+  "name": "석천사거리",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.710631,
+  "latitude": 37.456767,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335086"
+  },
+  "name": "석촌",
+  "line": [
+    "9호선",
+    "8호선"
+  ],
+  "longitude": 127.106893,
+  "latitude": 37.505188,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335087"
+  },
+  "name": "석촌고분",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.096559,
+  "latitude": 37.502445,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335088"
+  },
+  "name": "선릉",
+  "line": [
+    "수인분당선",
+    "2호선"
+  ],
+  "longitude": 127.048821,
+  "latitude": 37.504835,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335089"
+  },
+  "name": "선바위",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.002213,
+  "latitude": 37.451659,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33508a"
+  },
+  "name": "선부",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.809909,
+  "latitude": 37.334515,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33508b"
+  },
+  "name": "선유도",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.893406,
+  "latitude": 37.538117,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33508c"
+  },
+  "name": "선정릉",
+  "line": [
+    "수인분당선",
+    "9호선"
+  ],
+  "longitude": 127.04381,
+  "latitude": 37.510696,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33508d"
+  },
+  "name": "선학",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.698937,
+  "latitude": 37.427014,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33508e"
+  },
+  "name": "성균관대",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.971204,
+  "latitude": 37.300262,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33508f"
+  },
+  "name": "성복",
+  "line": [
+    "신분당선"
+  ],
+  "longitude": 127.079993,
+  "latitude": 37.313461,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335090"
+  },
+  "name": "성수",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.056007,
+  "latitude": 37.544672,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335091"
+  },
+  "name": "성신여대입구",
+  "line": [
+    "4호선",
+    "우이신설선"
+  ],
+  "longitude": 127.016594,
+  "latitude": 37.592568,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335092"
+  },
+  "name": "성환",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.126838,
+  "latitude": 36.916014,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335093"
+  },
+  "name": "세류",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.013726,
+  "latitude": 37.243793,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335094"
+  },
+  "name": "세마",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.043361,
+  "latitude": 37.18715,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335095"
+  },
+  "name": "센트럴파크",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.634982,
+  "latitude": 37.392896,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335096"
+  },
+  "name": "소래포구",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.733427,
+  "latitude": 37.401028,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335097"
+  },
+  "name": "소사",
+  "line": [
+    "1호선",
+    "서해선"
+  ],
+  "longitude": 126.795302,
+  "latitude": 37.482916,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335098"
+  },
+  "name": "소새울",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.796861,
+  "latitude": 37.469041,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335099"
+  },
+  "name": "소요산",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.060905,
+  "latitude": 37.948188,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33509a"
+  },
+  "name": "솔밭공원",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.013289,
+  "latitude": 37.656034,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33509b"
+  },
+  "name": "솔샘",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.013561,
+  "latitude": 37.620262,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33509c"
+  },
+  "name": "송내",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.753239,
+  "latitude": 37.487608,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33509d"
+  },
+  "name": "송도",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.65445,
+  "latitude": 37.430143,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33509e"
+  },
+  "name": "송산",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.087213,
+  "latitude": 37.73726,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33509f"
+  },
+  "name": "송정",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.812469,
+  "latitude": 37.561118,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a0"
+  },
+  "name": "송탄",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.05426,
+  "latitude": 37.075629,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a1"
+  },
+  "name": "송파",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.112195,
+  "latitude": 37.499685,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a2"
+  },
+  "name": "송파나루",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.112594,
+  "latitude": 37.510792,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a3"
+  },
+  "name": "수내",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.114249,
+  "latitude": 37.378503,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a4"
+  },
+  "name": "수락산",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.055296,
+  "latitude": 37.67781,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a5"
+  },
+  "name": "수리산",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.92545,
+  "latitude": 37.350222,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a6"
+  },
+  "name": "수색",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.89557,
+  "latitude": 37.580973,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a7"
+  },
+  "name": "수서",
+  "line": [
+    "수인분당선",
+    "3호선"
+  ],
+  "longitude": 127.101143,
+  "latitude": 37.487613,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a8"
+  },
+  "name": "수원",
+  "line": [
+    "1호선",
+    "수인분당선"
+  ],
+  "longitude": 127.000056,
+  "latitude": 37.266095,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350a9"
+  },
+  "name": "수원시청",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.030727,
+  "latitude": 37.262053,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350aa"
+  },
+  "name": "수유",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.025274,
+  "latitude": 37.637924,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ab"
+  },
+  "name": "수지구청",
+  "line": [
+    "신분당선"
+  ],
+  "longitude": 127.094918,
+  "latitude": 37.322827,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ac"
+  },
+  "name": "수진",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.140969,
+  "latitude": 37.437605,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ad"
+  },
+  "name": "숙대입구",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.971921,
+  "latitude": 37.54461,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ae"
+  },
+  "name": "숭실대입구(살피재)",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.953648,
+  "latitude": 37.496293,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350af"
+  },
+  "name": "숭의",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.638255,
+  "latitude": 37.460843,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b0"
+  },
+  "name": "시민공원",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.680987,
+  "latitude": 37.458351,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b1"
+  },
+  "name": "시우",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.795643,
+  "latitude": 37.31323,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b2"
+  },
+  "name": "시청",
+  "line": [
+    "1호선",
+    "2호선"
+  ],
+  "longitude": 126.976087,
+  "latitude": 37.564678,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b3"
+  },
+  "name": "시청·용인대",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.178869,
+  "latitude": 37.239452,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b4"
+  },
+  "name": "시흥능곡",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.808629,
+  "latitude": 37.370104,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b5"
+  },
+  "name": "시흥대야",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.792915,
+  "latitude": 37.450165,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b6"
+  },
+  "name": "시흥시청",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.80581,
+  "latitude": 37.381738,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b7"
+  },
+  "name": "신갈",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.111029,
+  "latitude": 37.286328,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b8"
+  },
+  "name": "신금호",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.020203,
+  "latitude": 37.554634,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350b9"
+  },
+  "name": "신길",
+  "line": [
+    "1호선",
+    "5호선"
+  ],
+  "longitude": 126.916334,
+  "latitude": 37.517267,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ba"
+  },
+  "name": "신길온천",
+  "line": [
+    "4호선",
+    "수인분당선"
+  ],
+  "longitude": 126.767175,
+  "latitude": 37.337596,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350bb"
+  },
+  "name": "신내",
+  "line": [
+    "6호선",
+    "경춘선"
+  ],
+  "longitude": 127.103656,
+  "latitude": 37.612618,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350bc"
+  },
+  "name": "신논현",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.025445,
+  "latitude": 37.50477,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350bd"
+  },
+  "name": "신답",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.046703,
+  "latitude": 37.570126,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350be"
+  },
+  "name": "신당",
+  "line": [
+    "6호선",
+    "2호선"
+  ],
+  "longitude": 127.01776,
+  "latitude": 37.566127,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350bf"
+  },
+  "name": "신대방",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.913195,
+  "latitude": 37.487607,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c0"
+  },
+  "name": "신대방삼거리",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.92823,
+  "latitude": 37.499729,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c1"
+  },
+  "name": "신도림",
+  "line": [
+    "1호선",
+    "2호선"
+  ],
+  "longitude": 126.890988,
+  "latitude": 37.508882,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c2"
+  },
+  "name": "신림",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.929292,
+  "latitude": 37.484348,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c3"
+  },
+  "name": "신목동",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.883061,
+  "latitude": 37.544302,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c4"
+  },
+  "name": "신반포",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.996067,
+  "latitude": 37.503509,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c5"
+  },
+  "name": "신방화",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.81724,
+  "latitude": 37.567513,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c6"
+  },
+  "name": "신사",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.019932,
+  "latitude": 37.516474,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c7"
+  },
+  "name": "신설동",
+  "line": [
+    "1호선",
+    "2호선",
+    "우이신설선"
+  ],
+  "longitude": 127.024169,
+  "latitude": 37.575879,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c8"
+  },
+  "name": "신연수",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.693934,
+  "latitude": 37.418064,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350c9"
+  },
+  "name": "신용산",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.967524,
+  "latitude": 37.529302,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ca"
+  },
+  "name": "신원",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.37302,
+  "latitude": 37.525573,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350cb"
+  },
+  "name": "신이문",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.067313,
+  "latitude": 37.602209,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350cc"
+  },
+  "name": "신정(은행정)",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.856069,
+  "latitude": 37.525025,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350cd"
+  },
+  "name": "신정네거리",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.852869,
+  "latitude": 37.520041,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ce"
+  },
+  "name": "신중동",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.776833,
+  "latitude": 37.502969,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350cf"
+  },
+  "name": "신창",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.951355,
+  "latitude": 36.769569,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d0"
+  },
+  "name": "신천",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.787065,
+  "latitude": 37.439723,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d1"
+  },
+  "name": "신촌",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.936765,
+  "latitude": 37.555311,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d2"
+  },
+  "name": "신촌(경의중앙선)",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.942013,
+  "latitude": 37.559631,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d3"
+  },
+  "name": "신포",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.624514,
+  "latitude": 37.468451,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d4"
+  },
+  "name": "신풍",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.909824,
+  "latitude": 37.500083,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d5"
+  },
+  "name": "신현",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.787828,
+  "latitude": 37.40968,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d6"
+  },
+  "name": "신흥",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.147554,
+  "latitude": 37.441069,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d7"
+  },
+  "name": "쌍문",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.034453,
+  "latitude": 37.648569,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d8"
+  },
+  "name": "쌍용(나사렛대)",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.121443,
+  "latitude": 36.793723,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350d9"
+  },
+  "name": "아산",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.104096,
+  "latitude": 36.792082,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350da"
+  },
+  "name": "아시아드경기장",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.677085,
+  "latitude": 37.551349,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350db"
+  },
+  "name": "아신",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.443051,
+  "latitude": 37.513934,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350dc"
+  },
+  "name": "아차산(어린이대공원후문)",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.089454,
+  "latitude": 37.552178,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350dd"
+  },
+  "name": "아현",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.956101,
+  "latitude": 37.557464,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350de"
+  },
+  "name": "안국",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.985465,
+  "latitude": 37.576505,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350df"
+  },
+  "name": "안산",
+  "line": [
+    "4호선",
+    "수인분당선"
+  ],
+  "longitude": 126.788538,
+  "latitude": 37.327079,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e0"
+  },
+  "name": "안암(고대병원앞)",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.029116,
+  "latitude": 37.58645,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e1"
+  },
+  "name": "안양",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.922811,
+  "latitude": 37.401584,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e2"
+  },
+  "name": "암사",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.12753,
+  "latitude": 37.550145,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e3"
+  },
+  "name": "압구정",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.028499,
+  "latitude": 37.526531,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e4"
+  },
+  "name": "압구정로데오",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.040542,
+  "latitude": 37.527547,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e5"
+  },
+  "name": "애오개",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.956668,
+  "latitude": 37.55335,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e6"
+  },
+  "name": "야당",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.761485,
+  "latitude": 37.712588,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e7"
+  },
+  "name": "야목",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 126.884077,
+  "latitude": 37.26119,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e8"
+  },
+  "name": "야탑",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.128672,
+  "latitude": 37.411225,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350e9"
+  },
+  "name": "약수",
+  "line": [
+    "6호선",
+    "3호선"
+  ],
+  "longitude": 127.010358,
+  "latitude": 37.554065,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ea"
+  },
+  "name": "양수",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.329063,
+  "latitude": 37.545937,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350eb"
+  },
+  "name": "양원",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.107915,
+  "latitude": 37.606679,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ec"
+  },
+  "name": "양재",
+  "line": [
+    "신분당선",
+    "3호선"
+  ],
+  "longitude": 127.034472,
+  "latitude": 37.48416,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ed"
+  },
+  "name": "양재시민의숲",
+  "line": [
+    "신분당선"
+  ],
+  "longitude": 127.038455,
+  "latitude": 37.470114,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ee"
+  },
+  "name": "양정",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.194625,
+  "latitude": 37.604081,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ef"
+  },
+  "name": "양주",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.044709,
+  "latitude": 37.774095,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f0"
+  },
+  "name": "양천구청",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.865715,
+  "latitude": 37.512738,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f1"
+  },
+  "name": "양천향교",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.841957,
+  "latitude": 37.568081,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f2"
+  },
+  "name": "양평",
+  "line": [
+    "경의중앙선",
+    "5호선"
+  ],
+  "longitude": 127.189269,
+  "latitude": 37.509166,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f3"
+  },
+  "name": "어룡",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.085196,
+  "latitude": 37.742675,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f4"
+  },
+  "name": "어린이대공원(세종대)",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.074665,
+  "latitude": 37.547901,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f5"
+  },
+  "name": "어정",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.143705,
+  "latitude": 37.274931,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f6"
+  },
+  "name": "어천",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 126.908892,
+  "latitude": 37.25001,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f7"
+  },
+  "name": "언주",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.033984,
+  "latitude": 37.507313,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f8"
+  },
+  "name": "여의나루",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.933008,
+  "latitude": 37.527104,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350f9"
+  },
+  "name": "여의도",
+  "line": [
+    "9호선",
+    "5호선"
+  ],
+  "longitude": 126.924452,
+  "latitude": 37.521536,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350fa"
+  },
+  "name": "역곡",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.812027,
+  "latitude": 37.485328,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350fb"
+  },
+  "name": "역삼",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.036294,
+  "latitude": 37.500831,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350fc"
+  },
+  "name": "역촌",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.922742,
+  "latitude": 37.606168,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350fd"
+  },
+  "name": "연수",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.678497,
+  "latitude": 37.418111,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350fe"
+  },
+  "name": "연신내",
+  "line": [
+    "6호선",
+    "3호선"
+  ],
+  "longitude": 126.920612,
+  "latitude": 37.618805,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3350ff"
+  },
+  "name": "염창",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.874838,
+  "latitude": 37.547007,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335100"
+  },
+  "name": "영등포",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.907869,
+  "latitude": 37.515517,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335101"
+  },
+  "name": "영등포구청",
+  "line": [
+    "5호선",
+    "2호선"
+  ],
+  "longitude": 126.895924,
+  "latitude": 37.525055,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335102"
+  },
+  "name": "영등포시장",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.905175,
+  "latitude": 37.522703,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335103"
+  },
+  "name": "영종",
+  "line": [
+    "공항철도"
+  ],
+  "longitude": 126.525022,
+  "latitude": 37.512048,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335104"
+  },
+  "name": "영통",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.071181,
+  "latitude": 37.251544,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335105"
+  },
+  "name": "예술회관",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.700908,
+  "latitude": 37.448489,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335106"
+  },
+  "name": "오금",
+  "line": [
+    "5호선",
+    "3호선"
+  ],
+  "longitude": 127.127773,
+  "latitude": 37.50223,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335107"
+  },
+  "name": "오류동",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.844793,
+  "latitude": 37.49436,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335108"
+  },
+  "name": "오리",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.108953,
+  "latitude": 37.339897,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335109"
+  },
+  "name": "오목교(목동운동장앞)",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.875318,
+  "latitude": 37.524555,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33510a"
+  },
+  "name": "오목천",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 126.964121,
+  "latitude": 37.243486,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33510b"
+  },
+  "name": "오빈",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.473606,
+  "latitude": 37.50621,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33510c"
+  },
+  "name": "오산",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.066652,
+  "latitude": 37.144652,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33510d"
+  },
+  "name": "오산대",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.062989,
+  "latitude": 37.169456,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33510e"
+  },
+  "name": "오이도",
+  "line": [
+    "4호선",
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.73877,
+  "latitude": 37.362505,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33510f"
+  },
+  "name": "옥수",
+  "line": [
+    "경의중앙선",
+    "3호선"
+  ],
+  "longitude": 127.018081,
+  "latitude": 37.541062,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335110"
+  },
+  "name": "온수",
+  "line": [
+    "1호선",
+    "7호선"
+  ],
+  "longitude": 126.823808,
+  "latitude": 37.492006,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335111"
+  },
+  "name": "온양온천",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.003228,
+  "latitude": 36.780577,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335112"
+  },
+  "name": "올림픽공원",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.130439,
+  "latitude": 37.516199,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335113"
+  },
+  "name": "올림픽공원(한국체대)",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.130941,
+  "latitude": 37.516334,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335114"
+  },
+  "name": "완정",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.672968,
+  "latitude": 37.592793,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335115"
+  },
+  "name": "왕길",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.642482,
+  "latitude": 37.595082,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335116"
+  },
+  "name": "왕십리",
+  "line": [
+    "경의중앙선",
+    "수인분당선",
+    "5호선",
+    "2호선"
+  ],
+  "longitude": 127.037976,
+  "latitude": 37.561453,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335117"
+  },
+  "name": "외대앞",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.062832,
+  "latitude": 37.595412,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335118"
+  },
+  "name": "용답",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.05065,
+  "latitude": 37.56217,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335119"
+  },
+  "name": "용두",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.03792,
+  "latitude": 37.574105,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33511a"
+  },
+  "name": "용마산",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.086644,
+  "latitude": 37.573601,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33511b"
+  },
+  "name": "용문",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.593659,
+  "latitude": 37.481746,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33511c"
+  },
+  "name": "용산",
+  "line": [
+    "경의중앙선",
+    "1호선"
+  ],
+  "longitude": 126.964605,
+  "latitude": 37.529568,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33511d"
+  },
+  "name": "용유",
+  "line": [
+    "자기부상선"
+  ],
+  "longitude": 126.423629,
+  "latitude": 37.424919,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33511e"
+  },
+  "name": "우장산",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.836334,
+  "latitude": 37.548796,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33511f"
+  },
+  "name": "운길산",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.310147,
+  "latitude": 37.554637,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335120"
+  },
+  "name": "운동장·송담대",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.209005,
+  "latitude": 37.23789,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335121"
+  },
+  "name": "운서",
+  "line": [
+    "공항철도"
+  ],
+  "longitude": 126.49376,
+  "latitude": 37.492771,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335122"
+  },
+  "name": "운연",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.759642,
+  "latitude": 37.439676,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335123"
+  },
+  "name": "운정",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.767175,
+  "latitude": 37.725639,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335124"
+  },
+  "name": "워터파크",
+  "line": [
+    "자기부상선"
+  ],
+  "longitude": 126.434083,
+  "latitude": 37.429166,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335125"
+  },
+  "name": "원당",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.842863,
+  "latitude": 37.653144,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335126"
+  },
+  "name": "원덕",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.546524,
+  "latitude": 37.468764,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335127"
+  },
+  "name": "원시",
+  "line": [
+    "서해선"
+  ],
+  "longitude": 126.78671,
+  "latitude": 37.30271,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335128"
+  },
+  "name": "원인재",
+  "line": [
+    "수인선",
+    "수인분당선",
+    "인천1호선"
+  ],
+  "longitude": 126.686845,
+  "latitude": 37.412985,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335129"
+  },
+  "name": "원흥",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.872959,
+  "latitude": 37.650715,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33512a"
+  },
+  "name": "월계",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.058772,
+  "latitude": 37.633773,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33512b"
+  },
+  "name": "월곡(동덕여대)",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.041106,
+  "latitude": 37.601594,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33512c"
+  },
+  "name": "월곶",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.742641,
+  "latitude": 37.391924,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33512d"
+  },
+  "name": "월드컵경기장(성산)",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.898835,
+  "latitude": 37.57063,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33512e"
+  },
+  "name": "월롱",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.792528,
+  "latitude": 37.79608,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33512f"
+  },
+  "name": "을지로3가",
+  "line": [
+    "3호선",
+    "2호선"
+  ],
+  "longitude": 126.991584,
+  "latitude": 37.566372,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335130"
+  },
+  "name": "을지로4가",
+  "line": [
+    "5호선",
+    "2호선"
+  ],
+  "longitude": 126.997866,
+  "latitude": 37.567256,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335131"
+  },
+  "name": "을지로입구",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.982639,
+  "latitude": 37.566083,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335132"
+  },
+  "name": "응봉",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.034451,
+  "latitude": 37.549957,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335133"
+  },
+  "name": "응암순환(상선)",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.915601,
+  "latitude": 37.599057,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335134"
+  },
+  "name": "의왕",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.948007,
+  "latitude": 37.320374,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335135"
+  },
+  "name": "의정부",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.045963,
+  "latitude": 37.739045,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335136"
+  },
+  "name": "의정부시청",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.034838,
+  "latitude": 37.739234,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335137"
+  },
+  "name": "의정부중앙",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.049633,
+  "latitude": 37.743716,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335138"
+  },
+  "name": "이대",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 126.945803,
+  "latitude": 37.55682,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335139"
+  },
+  "name": "이매",
+  "line": [
+    "경강선",
+    "수인분당선"
+  ],
+  "longitude": 127.127993,
+  "latitude": 37.395398,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33513a"
+  },
+  "name": "이촌",
+  "line": [
+    "경의중앙선",
+    "4호선"
+  ],
+  "longitude": 126.973838,
+  "latitude": 37.52246,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33513b"
+  },
+  "name": "이태원",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.994522,
+  "latitude": 37.534682,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33513c"
+  },
+  "name": "인덕원",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.976614,
+  "latitude": 37.401681,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33513d"
+  },
+  "name": "인천",
+  "line": [
+    "1호선",
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.617222,
+  "latitude": 37.476381,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33513e"
+  },
+  "name": "인천가좌",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.67516,
+  "latitude": 37.48981,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33513f"
+  },
+  "name": "인천공항1터미널",
+  "line": [
+    "공항철도",
+    "자기부상선"
+  ],
+  "longitude": 126.452427,
+  "latitude": 37.447487,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335140"
+  },
+  "name": "인천공항2터미널",
+  "line": [
+    "공항철도"
+  ],
+  "longitude": 126.433371,
+  "latitude": 37.468696,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335141"
+  },
+  "name": "인천논현",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.722364,
+  "latitude": 37.400719,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335142"
+  },
+  "name": "인천대공원",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.752887,
+  "latitude": 37.448431,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335143"
+  },
+  "name": "인천대입구",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.639442,
+  "latitude": 37.38638,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335144"
+  },
+  "name": "인천시청",
+  "line": [
+    "인천2호선",
+    "인천1호선"
+  ],
+  "longitude": 126.701671,
+  "latitude": 37.457284,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335145"
+  },
+  "name": "인천터미널",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.699724,
+  "latitude": 37.441924,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335146"
+  },
+  "name": "인하대",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.64987,
+  "latitude": 37.448278,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335147"
+  },
+  "name": "일산",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.769676,
+  "latitude": 37.682107,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335148"
+  },
+  "name": "일원",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.084342,
+  "latitude": 37.484185,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335149"
+  },
+  "name": "임학",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.73863,
+  "latitude": 37.545083,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33514a"
+  },
+  "name": "작전",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.72256,
+  "latitude": 37.53037,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33514b"
+  },
+  "name": "잠실",
+  "line": [
+    "2호선",
+    "8호선"
+  ],
+  "longitude": 127.101717,
+  "latitude": 37.513783,
+  "userCount": 4,
+  "lastMessage": "출퇴근 시간에는 많이 복잡하고 20분정도 지나면 괜찮더라구요"
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33514c"
+  },
+  "name": "잠실나루",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.103757,
+  "latitude": 37.520631,
+  "userCount": 1,
+  "lastMessage": "반가워요"
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33514d"
+  },
+  "name": "잠실새내",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.0866,
+  "latitude": 37.511695,
+  "userCount": 1,
+  "lastMessage": "안녕하세요~~"
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33514e"
+  },
+  "name": "잠원",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.010884,
+  "latitude": 37.512817,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33514f"
+  },
+  "name": "장기주차장",
+  "line": [
+    "자기부상선"
+  ],
+  "longitude": 126.45566,
+  "latitude": 37.443986,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335150"
+  },
+  "name": "장승배기",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.938995,
+  "latitude": 37.50488,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335151"
+  },
+  "name": "장암",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.052857,
+  "latitude": 37.700004,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335152"
+  },
+  "name": "장지",
+  "line": [
+    "8호선"
+  ],
+  "longitude": 127.126172,
+  "latitude": 37.47863,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335153"
+  },
+  "name": "장한평",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.064567,
+  "latitude": 37.56152,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335154"
+  },
+  "name": "전대·에버랜드",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.219463,
+  "latitude": 37.28542,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335155"
+  },
+  "name": "정릉",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.013515,
+  "latitude": 37.602664,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335156"
+  },
+  "name": "정발산",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.773323,
+  "latitude": 37.659598,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335157"
+  },
+  "name": "정부과천청사",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.989747,
+  "latitude": 37.426316,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335158"
+  },
+  "name": "정왕",
+  "line": [
+    "4호선",
+    "수인분당선"
+  ],
+  "longitude": 126.743137,
+  "latitude": 37.351817,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335159"
+  },
+  "name": "정자",
+  "line": [
+    "수인분당선",
+    "신분당선"
+  ],
+  "longitude": 127.108228,
+  "latitude": 37.366853,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33515a"
+  },
+  "name": "제기동",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.03462,
+  "latitude": 37.578373,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33515b"
+  },
+  "name": "제물포",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.65745,
+  "latitude": 37.466794,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33515c"
+  },
+  "name": "종각",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.983156,
+  "latitude": 37.570384,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33515d"
+  },
+  "name": "종로3가",
+  "line": [
+    "1호선",
+    "5호선",
+    "3호선"
+  ],
+  "longitude": 126.991273,
+  "latitude": 37.571623,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33515e"
+  },
+  "name": "종로5가",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.001838,
+  "latitude": 37.571064,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33515f"
+  },
+  "name": "종합운동장",
+  "line": [
+    "9호선",
+    "2호선"
+  ],
+  "longitude": 127.074868,
+  "latitude": 37.511266,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335160"
+  },
+  "name": "주안",
+  "line": [
+    "1호선",
+    "인천2호선"
+  ],
+  "longitude": 126.679493,
+  "latitude": 37.465131,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335161"
+  },
+  "name": "주안국가산단",
+  "line": [
+    "인천2호선"
+  ],
+  "longitude": 126.681444,
+  "latitude": 37.474457,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335162"
+  },
+  "name": "주엽",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.761175,
+  "latitude": 37.67011,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335163"
+  },
+  "name": "죽전",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.107447,
+  "latitude": 37.324222,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335164"
+  },
+  "name": "중계",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.06417,
+  "latitude": 37.645068,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335165"
+  },
+  "name": "중곡",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.084259,
+  "latitude": 37.565873,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335166"
+  },
+  "name": "중동",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.764538,
+  "latitude": 37.486719,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335167"
+  },
+  "name": "중랑",
+  "line": [
+    "경의중앙선",
+    "경춘선"
+  ],
+  "longitude": 127.076255,
+  "latitude": 37.594926,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335168"
+  },
+  "name": "중앙",
+  "line": [
+    "4호선",
+    "수인분당선"
+  ],
+  "longitude": 126.838619,
+  "latitude": 37.316053,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335169"
+  },
+  "name": "중앙보훈병원",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.148395,
+  "latitude": 37.528341,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33516a"
+  },
+  "name": "중화",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.07927,
+  "latitude": 37.602686,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33516b"
+  },
+  "name": "증미",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.860638,
+  "latitude": 37.558094,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33516c"
+  },
+  "name": "증산(명지대앞)",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 126.909664,
+  "latitude": 37.584109,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33516d"
+  },
+  "name": "지석",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.136556,
+  "latitude": 37.26971,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33516e"
+  },
+  "name": "지식정보단지",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.645793,
+  "latitude": 37.377614,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33516f"
+  },
+  "name": "지제",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.070549,
+  "latitude": 37.018738,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335170"
+  },
+  "name": "지축",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.913764,
+  "latitude": 37.648132,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335171"
+  },
+  "name": "지평",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.628934,
+  "latitude": 37.476907,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335172"
+  },
+  "name": "지행",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.055764,
+  "latitude": 37.892267,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335173"
+  },
+  "name": "직산",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.143793,
+  "latitude": 36.871038,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335174"
+  },
+  "name": "진위",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.06229,
+  "latitude": 37.110057,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335175"
+  },
+  "name": "창동",
+  "line": [
+    "4호선",
+    "1호선"
+  ],
+  "longitude": 127.047544,
+  "latitude": 37.653236,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335176"
+  },
+  "name": "창신",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.015128,
+  "latitude": 37.580192,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335177"
+  },
+  "name": "천마산",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.285228,
+  "latitude": 37.659108,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335178"
+  },
+  "name": "천안",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.146452,
+  "latitude": 36.8104,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335179"
+  },
+  "name": "천왕",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.838596,
+  "latitude": 37.486906,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33517a"
+  },
+  "name": "천호(풍납토성)",
+  "line": [
+    "5호선",
+    "8호선"
+  ],
+  "longitude": 127.123441,
+  "latitude": 37.538271,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33517b"
+  },
+  "name": "철산",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.868107,
+  "latitude": 37.47619,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33517c"
+  },
+  "name": "청계산입구",
+  "line": [
+    "신분당선"
+  ],
+  "longitude": 127.054878,
+  "latitude": 37.448157,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33517d"
+  },
+  "name": "청구",
+  "line": [
+    "6호선",
+    "5호선"
+  ],
+  "longitude": 127.01399,
+  "latitude": 37.560439,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33517e"
+  },
+  "name": "청담",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.053685,
+  "latitude": 37.519408,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33517f"
+  },
+  "name": "청라국제도시",
+  "line": [
+    "공항철도"
+  ],
+  "longitude": 126.624495,
+  "latitude": 37.55646,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335180"
+  },
+  "name": "청량리",
+  "line": [
+    "경의중앙선",
+    "수인분당선",
+    "1호선",
+    "경춘선"
+  ],
+  "longitude": 127.047265,
+  "latitude": 37.580637,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335181"
+  },
+  "name": "청명",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.078875,
+  "latitude": 37.259593,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335182"
+  },
+  "name": "청평",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.426491,
+  "latitude": 37.735435,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335183"
+  },
+  "name": "초당",
+  "line": [
+    "에버라인"
+  ],
+  "longitude": 127.159456,
+  "latitude": 37.260822,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335184"
+  },
+  "name": "초지",
+  "line": [
+    "4호선",
+    "수인분당선",
+    "서해선"
+  ],
+  "longitude": 126.806788,
+  "latitude": 37.320322,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335185"
+  },
+  "name": "총신대입구(이수)",
+  "line": [
+    "4호선",
+    "7호선"
+  ],
+  "longitude": 126.981489,
+  "latitude": 37.486431,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335186"
+  },
+  "name": "춘의",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 126.786931,
+  "latitude": 37.503686,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335187"
+  },
+  "name": "춘천",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.716805,
+  "latitude": 37.884581,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335188"
+  },
+  "name": "충무로",
+  "line": [
+    "4호선",
+    "3호선"
+  ],
+  "longitude": 126.993699,
+  "latitude": 37.561235,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335189"
+  },
+  "name": "충정로",
+  "line": [
+    "5호선",
+    "2호선"
+  ],
+  "longitude": 126.963703,
+  "latitude": 37.560214,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33518a"
+  },
+  "name": "캠퍼스타운",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.662138,
+  "latitude": 37.388428,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33518b"
+  },
+  "name": "탄현",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.761019,
+  "latitude": 37.694062,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33518c"
+  },
+  "name": "탑석",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.088859,
+  "latitude": 37.733507,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33518d"
+  },
+  "name": "탕정",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.084638,
+  "latitude": 36.78827,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33518e"
+  },
+  "name": "태릉입구",
+  "line": [
+    "6호선",
+    "7호선"
+  ],
+  "longitude": 127.074807,
+  "latitude": 37.61805,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33518f"
+  },
+  "name": "태평",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.12772,
+  "latitude": 37.439807,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335190"
+  },
+  "name": "테크노파크",
+  "line": [
+    "인천1호선"
+  ],
+  "longitude": 126.656257,
+  "latitude": 37.382304,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335191"
+  },
+  "name": "퇴계원",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.143633,
+  "latitude": 37.648327,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335192"
+  },
+  "name": "파라다이스 시티",
+  "line": [
+    "자기부상선"
+  ],
+  "longitude": 126.459704,
+  "latitude": 37.43736,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335193"
+  },
+  "name": "파주",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.792682,
+  "latitude": 37.815421,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335194"
+  },
+  "name": "판교",
+  "line": [
+    "경강선",
+    "신분당선"
+  ],
+  "longitude": 127.111096,
+  "latitude": 37.394748,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335195"
+  },
+  "name": "팔당",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.243846,
+  "latitude": 37.547433,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335196"
+  },
+  "name": "평내호평",
+  "line": [
+    "경춘선"
+  ],
+  "longitude": 127.244394,
+  "latitude": 37.653204,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335197"
+  },
+  "name": "평촌",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.963649,
+  "latitude": 37.394407,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335198"
+  },
+  "name": "평택",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 127.08525,
+  "latitude": 36.990888,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded335199"
+  },
+  "name": "풍산",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.786193,
+  "latitude": 37.672481,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33519a"
+  },
+  "name": "하계",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.067913,
+  "latitude": 37.636642,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33519b"
+  },
+  "name": "하남검단산",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.2231,
+  "latitude": 37.539827,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33519c"
+  },
+  "name": "하남시청",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.206298,
+  "latitude": 37.541967,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33519d"
+  },
+  "name": "하남풍산",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.20388,
+  "latitude": 37.552059,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33519e"
+  },
+  "name": "학동",
+  "line": [
+    "7호선"
+  ],
+  "longitude": 127.031567,
+  "latitude": 37.514355,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded33519f"
+  },
+  "name": "학여울",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 127.069877,
+  "latitude": 37.49658,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a0"
+  },
+  "name": "한강진",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.001677,
+  "latitude": 37.539718,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a1"
+  },
+  "name": "한국항공대",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.868292,
+  "latitude": 37.603007,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a2"
+  },
+  "name": "한남",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 127.009159,
+  "latitude": 37.529449,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a3"
+  },
+  "name": "한대앞",
+  "line": [
+    "4호선",
+    "수인분당선"
+  ],
+  "longitude": 126.853825,
+  "latitude": 37.309675,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a4"
+  },
+  "name": "한성대입구",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.006008,
+  "latitude": 37.588519,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a5"
+  },
+  "name": "한성백제",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 127.11642,
+  "latitude": 37.516455,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a6"
+  },
+  "name": "한양대",
+  "line": [
+    "2호선"
+  ],
+  "longitude": 127.043507,
+  "latitude": 37.555756,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a7"
+  },
+  "name": "한티",
+  "line": [
+    "수인분당선"
+  ],
+  "longitude": 127.052855,
+  "latitude": 37.496365,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a8"
+  },
+  "name": "합동청사",
+  "line": [
+    "자기부상선"
+  ],
+  "longitude": 126.458589,
+  "latitude": 37.440682,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351a9"
+  },
+  "name": "합정",
+  "line": [
+    "6호선",
+    "2호선"
+  ],
+  "longitude": 126.914188,
+  "latitude": 37.549962,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351aa"
+  },
+  "name": "행당",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 127.029757,
+  "latitude": 37.557637,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351ab"
+  },
+  "name": "행신",
+  "line": [
+    "경의중앙선"
+  ],
+  "longitude": 126.834246,
+  "latitude": 37.61209,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351ac"
+  },
+  "name": "혜화",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 127.00177,
+  "latitude": 37.582476,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351ad"
+  },
+  "name": "호구포",
+  "line": [
+    "수인선",
+    "수인분당선"
+  ],
+  "longitude": 126.708598,
+  "latitude": 37.401731,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351ae"
+  },
+  "name": "홍대입구",
+  "line": [
+    "경의중앙선",
+    "공항철도",
+    "2호선"
+  ],
+  "longitude": 126.925885,
+  "latitude": 37.557276,
+  "userCount": 1,
+  "lastMessage": "하이"
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351af"
+  },
+  "name": "홍제",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.944132,
+  "latitude": 37.588832,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b0"
+  },
+  "name": "화계",
+  "line": [
+    "우이신설선"
+  ],
+  "longitude": 127.017503,
+  "latitude": 37.634121,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b1"
+  },
+  "name": "화곡",
+  "line": [
+    "5호선"
+  ],
+  "longitude": 126.840418,
+  "latitude": 37.541594,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b2"
+  },
+  "name": "화랑대(서울여대입구)",
+  "line": [
+    "6호선"
+  ],
+  "longitude": 127.083541,
+  "latitude": 37.619831,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b3"
+  },
+  "name": "화서",
+  "line": [
+    "1호선"
+  ],
+  "longitude": 126.989562,
+  "latitude": 37.28405,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b4"
+  },
+  "name": "화정",
+  "line": [
+    "3호선"
+  ],
+  "longitude": 126.832632,
+  "latitude": 37.634699,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b5"
+  },
+  "name": "회기",
+  "line": [
+    "경의중앙선",
+    "1호선",
+    "경춘선"
+  ],
+  "longitude": 127.058297,
+  "latitude": 37.589801,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b6"
+  },
+  "name": "회룡",
+  "line": [
+    "1호선",
+    "의정부"
+  ],
+  "longitude": 127.047142,
+  "latitude": 37.724768,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b7"
+  },
+  "name": "회현",
+  "line": [
+    "4호선"
+  ],
+  "longitude": 126.97816,
+  "latitude": 37.558708,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b8"
+  },
+  "name": "효자",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.077212,
+  "latitude": 37.753988,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351b9"
+  },
+  "name": "효창공원앞",
+  "line": [
+    "경의중앙선",
+    "6호선"
+  ],
+  "longitude": 126.961325,
+  "latitude": 37.539468,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351ba"
+  },
+  "name": "흑석",
+  "line": [
+    "9호선"
+  ],
+  "longitude": 126.963424,
+  "latitude": 37.509156,
+  "userCount": 0,
+  "lastMessage": null
+},
+{
+  "_id": {
+    "$oid": "67f768107bb1bfcded3351bb"
+  },
+  "name": "흥선",
+  "line": [
+    "의정부"
+  ],
+  "longitude": 127.037131,
+  "latitude": 37.743311,
+  "userCount": 0,
+  "lastMessage": null
+}]
