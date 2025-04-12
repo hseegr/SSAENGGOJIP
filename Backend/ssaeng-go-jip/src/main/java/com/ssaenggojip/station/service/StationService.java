@@ -8,8 +8,10 @@ import com.ssaenggojip.common.enums.UpDownType;
 import com.ssaenggojip.common.util.RoutingUtil;
 import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.dto.response.TransportTimeResponse;
+import com.ssaenggojip.station.dto.request.ShortestStationTimeGetRequest;
 import com.ssaenggojip.station.dto.response.Congestion;
 import com.ssaenggojip.station.dto.response.CongestionGetResponse;
+import com.ssaenggojip.station.dto.response.ShortestStationTimeGetResponse;
 import com.ssaenggojip.station.entity.Station;
 import com.ssaenggojip.station.entity.StationDetail;
 import com.ssaenggojip.station.entity.StationRoute;
@@ -123,5 +125,10 @@ public class StationService {
         return stationRoutes.stream()
                 .map(it -> List.of(it.getId(), it.getTransportTime().longValue()))
                 .collect(Collectors.toList());
+    }
+
+    public ShortestStationTimeGetResponse getShortestStationTime(ShortestStationTimeGetRequest request) {
+
+        return null;
     }
 }
