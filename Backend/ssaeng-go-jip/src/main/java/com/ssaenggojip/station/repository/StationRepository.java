@@ -22,7 +22,7 @@ public interface StationRepository extends JpaRepository<Station, Long> {
     """, nativeQuery = true)
     List<Station> findStationsWithin1km(@Param("lng") Double lng, @Param("lat") Double lat, @Param("km") Integer km);
 
-
+    Optional<Long> findByNameAndLineName(String startStationName, String startStationLineName);
 
 
 //    @Query(value = """

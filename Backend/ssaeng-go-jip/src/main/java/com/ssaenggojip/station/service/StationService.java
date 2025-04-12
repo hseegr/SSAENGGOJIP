@@ -128,7 +128,10 @@ public class StationService {
     }
 
     public ShortestStationTimeGetResponse getShortestStationTime(ShortestStationTimeGetRequest request) {
+        Long startStationId = stationRepository.findByNameAndLineName(request.getStartStationName(), request.getStartStationLineName()).orElseThrow(()-> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
+        Long endStationId = stationRepository.findByNameAndLineName(request.getStartStationName(), request.getStartStationLineName()).orElseThrow(()-> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
+        StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(startStationId,endStationId).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
 
-        return null;
+        return new ShortestStationTimeGetResponse(stationRoute.getTransportTime());
     }
 }
