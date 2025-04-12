@@ -6,22 +6,27 @@ import com.ssaenggojip.common.enums.DayType;
 import com.ssaenggojip.common.enums.TransportationType;
 import com.ssaenggojip.common.enums.UpDownType;
 import com.ssaenggojip.common.util.RoutingUtil;
-import com.ssaenggojip.common.util.TransportTimeProvider;
 import com.ssaenggojip.property.dto.response.TransportTimeResponse;
+import com.ssaenggojip.station.dto.request.ShortestStationTimeGetRequest;
+import com.ssaenggojip.station.dto.request.TransportTimeGetRequest;
 import com.ssaenggojip.station.dto.response.Congestion;
 import com.ssaenggojip.station.dto.response.CongestionGetResponse;
+import com.ssaenggojip.station.dto.response.ShortestStationTimeGetResponse;
+import com.ssaenggojip.station.dto.response.TransportTimeGetResponse;
 import com.ssaenggojip.station.entity.Station;
 import com.ssaenggojip.station.entity.StationDetail;
 import com.ssaenggojip.station.entity.StationRoute;
-import com.ssaenggojip.station.repository.NearStationRepository;
 import com.ssaenggojip.station.repository.StationDetailRepository;
 import com.ssaenggojip.station.repository.StationRepository;
 import com.ssaenggojip.station.repository.StationRouteReporitory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -39,13 +44,13 @@ public class StationService {
     }
 
     public List<Station> findStationsWithin1km(Double longitude, Double latitude) {
-        return stationRepository.findStationsWithin1km(longitude, latitude,1);
+        return stationRepository.findStationsWithinKm(longitude, latitude,1);
     }
 
     public TransportTimeResponse getTransportTime(Double pointLongitude, Double pointLatitude, Double propertyLongitude, Double propertyLatitude) {
 
-        List<Station> stationsNearPoint = stationRepository.findStationsWithin1km(pointLongitude, pointLatitude,2);
-        List<Station> stationsNearProperty = stationRepository.findStationsWithin1km(propertyLongitude, propertyLatitude,2);
+        List<Station> stationsNearPoint = stationRepository.findStationsWithinKm(pointLongitude, pointLatitude,2);
+        List<Station> stationsNearProperty = stationRepository.findStationsWithinKm(propertyLongitude, propertyLatitude,2);
 
         if (stationsNearProperty.isEmpty() || stationsNearPoint.isEmpty())
             return null;
@@ -123,5 +128,74 @@ public class StationService {
         return stationRoutes.stream()
                 .map(it -> List.of(it.getId(), it.getTransportTime().longValue()))
                 .collect(Collectors.toList());
+    }
+
+    public ShortestStationTimeGetResponse getShortestStationTime(ShortestStationTimeGetRequest request) {
+        Station startStation = stationRepository.findByNameAndLineName(request.getStartStationName(), request.getStartStationLineName()).orElseThrow(()-> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
+        Station endStation = stationRepository.findByNameAndLineName(request.getStartStationName(), request.getStartStationLineName()).orElseThrow(()-> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
+        StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(startStation.getId(),endStation.getId()).orElseThrow(() -> new GeneralException(ErrorStatus.NO_STATION_TO_STATION_MAPPER));
+
+        return new ShortestStationTimeGetResponse(stationRoute.getTransportTime());
+    }
+
+
+    @Transactional(readOnly = true)
+    public TransportTimeGetResponse getTransportTimeSuper(TransportTimeGetRequest request) {
+
+        // 도보만 이용하는 경우
+        TransportTimeGetResponse answer = new TransportTimeGetResponse(routingUtil.getRoute(request.getStartLatitude(), request.getStartLongitude(), request.getEndLatitude(), request.getEndLongitude(), TransportationType.도보));
+        if(request.getTransportationType() == TransportationType.도보)
+            return answer;
+
+        // 2KM 내로 이동 가능한 역들
+        List<Station> stationsNearStart = null;
+        List<Station> stationsNearEnd = null;
+        for (int i = 1; i<5;i++){
+            stationsNearStart = stationRepository.findStationsWithinKm(request.getStartLongitude(), request.getStartLatitude(), i);
+            if(stationsNearStart!=null)
+                break;
+        }
+        for (int i = 1; i<5;i++){
+            stationsNearEnd = stationRepository.findStationsWithinKm(request.getEndLongitude(), request.getEndLatitude(), i);
+            if(stationsNearEnd!=null)
+                break;
+        }
+
+        // 없는 경우 도보만 응답
+        if(stationsNearStart.isEmpty() || stationsNearEnd.isEmpty())
+            return answer;
+
+        // 지하철 이용시 최소 시간 구하기
+        Map<Long, Integer> endStationWalkTime = new HashMap<>();
+
+        for (Station startStation : stationsNearStart){
+            Integer startStationTime = routingUtil.getRoute(request.getStartLatitude(), request.getStartLongitude(), startStation.getLatitude(),startStation.getLongitude(), TransportationType.도보);
+            for (Station endStation : stationsNearEnd) {
+                System.out.println(startStation.getName()+" "+endStation.getName());
+                if(startStation.getId().equals(endStation.getId()))
+                    continue;
+
+                StationRoute stationRoute = stationRouteReporitory.findByDepartureStationIdAndDestinationStationId(startStation.getId(), endStation.getId()).orElse(null);
+                if (stationRoute == null)
+                    continue;
+
+                Integer stationToStationTime = stationRoute.getTransportTime();
+                if (!endStationWalkTime.containsKey(endStation.getId()))
+                    endStationWalkTime.put(endStation.getId(), routingUtil.getRoute(endStation.getLatitude(), endStation.getLongitude(), request.getEndLatitude(), request.getEndLongitude(), TransportationType.도보));
+
+                if(answer.getTimeList().stream().mapToInt(Integer::intValue).sum() > startStationTime + stationToStationTime + endStationWalkTime.get(endStation.getId())) {
+                    answer = TransportTimeGetResponse.builder()
+                            .startStation(startStation.getName())
+                            .startLineName(startStation.getLineName())
+                            .endStation(endStation.getName())
+                            .endLineName(endStation.getLineName())
+                            .timeList(new ArrayList<>(List.of(startStationTime, stationToStationTime, endStationWalkTime.get(endStation.getId()))))
+                            .build();
+                }
+            }
+        }
+
+        return answer;
+
     }
 }
