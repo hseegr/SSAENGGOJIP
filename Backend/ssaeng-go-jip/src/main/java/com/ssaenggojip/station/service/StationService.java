@@ -148,8 +148,19 @@ public class StationService {
             return answer;
 
         // 2KM 내로 이동 가능한 역들
-        List<Station> stationsNearStart = stationRepository.findStationsWithinKm(request.getStartLongitude(), request.getStartLatitude(), 2);
-        List<Station> stationsNearEnd = stationRepository.findStationsWithinKm(request.getEndLongitude(), request.getEndLatitude(), 2);
+        List<Station> stationsNearStart = null;
+        List<Station> stationsNearEnd = null;
+        for (int i = 1; i<5;i++){
+            stationsNearStart = stationRepository.findStationsWithinKm(request.getStartLongitude(), request.getStartLatitude(), i);
+            if(stationsNearStart!=null)
+                break;
+        }
+        for (int i = 1; i<5;i++){
+            stationsNearEnd = stationRepository.findStationsWithinKm(request.getEndLongitude(), request.getEndLatitude(), i);
+            if(stationsNearEnd!=null)
+                break;
+        }
+
         // 없는 경우 도보만 응답
         if(stationsNearStart.isEmpty() || stationsNearEnd.isEmpty())
             return answer;
