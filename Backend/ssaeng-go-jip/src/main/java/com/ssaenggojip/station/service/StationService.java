@@ -37,6 +37,7 @@ public class StationService {
     private final StationDetailRepository stationDetailRepository;
     private final RoutingUtil routingUtil;
 
+    @Transactional(readOnly = true)
     public Station findByName(String search) {
         if (search.endsWith("역"))
             return stationRepository.findTopByNameOrderByIdAsc(search.substring(0, search.length() - 1)).orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
@@ -47,6 +48,7 @@ public class StationService {
         return stationRepository.findStationsWithinKm(longitude, latitude,1);
     }
 
+    @Transactional(readOnly = true)
     public TransportTimeResponse getTransportTime(Double pointLongitude, Double pointLatitude, Double propertyLongitude, Double propertyLatitude) {
 
         List<Station> stationsNearPoint = stationRepository.findStationsWithinKm(pointLongitude, pointLatitude,2);
@@ -84,6 +86,7 @@ public class StationService {
                 .build();
     }
 
+    @Transactional(readOnly = true)
     public CongestionGetResponse getCongestion(Long stationId) {
         List<StationDetail> stationDetails = stationDetailRepository.findAllByStationId(stationId);
         if(stationDetails.isEmpty())
@@ -116,6 +119,7 @@ public class StationService {
 
         return congestionGetResponse;
     }
+
     private StationDetail findDetail(List<StationDetail> list, UpDownType upDownType, DayType dayType) {
         return list.stream()
                 .filter(d -> d.getUpDown() == upDownType && d.getDayType() == dayType)
@@ -123,6 +127,7 @@ public class StationService {
                 .orElseThrow(() -> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
     }
 
+    @Transactional(readOnly = true)
     public List<List<Long>> findStationToStation(Long id, Integer totalTransportTime) {
         List<StationRoute> stationRoutes = stationRouteReporitory.findByDepartureStationIdAndTransportTime(id, totalTransportTime);
         return stationRoutes.stream()
@@ -130,6 +135,7 @@ public class StationService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public ShortestStationTimeGetResponse getShortestStationTime(ShortestStationTimeGetRequest request) {
         Station startStation = stationRepository.findByNameAndLineName(request.getStartStationName(), request.getStartStationLineName()).orElseThrow(()-> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
         Station endStation = stationRepository.findByNameAndLineName(request.getStartStationName(), request.getStartStationLineName()).orElseThrow(()-> new GeneralException(ErrorStatus.UNABLE_TO_GET_STATION_INFO));
