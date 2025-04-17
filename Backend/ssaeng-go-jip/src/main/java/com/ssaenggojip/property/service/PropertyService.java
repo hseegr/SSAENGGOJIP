@@ -23,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -63,7 +65,7 @@ public class PropertyService {
                 request.getFacilityTypes().contains(FacilityType.세탁소) ? true : null
         );
 
-        if(properties.size()>20000)
+        if(properties.size()>10000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
         // dto로 변경
@@ -207,7 +209,6 @@ public class PropertyService {
     }
     @Transactional(readOnly = true)
     public List<RecommendSearchDto> getRecommendedProperties(RecommendSearchRequest request, Integer targetNum) {
-        System.out.println("FFFF");
         Double pointLatitude = request.getAddresses().get(targetNum).getLatitude();
         Double pointLongitude = request.getAddresses().get(targetNum).getLongitude();
         List<PointStationPropertyDto> pointStationPropertyDtos = propertyRepository.findReachableProperties(
@@ -239,16 +240,38 @@ public class PropertyService {
 //                .distinct()
 //                .count();
 //        System.out.println("고유 propertyId 수: " + uniqueCount);
-        if (pointStationPropertyDtos.size() > 20000)
+        if (pointStationPropertyDtos.size() > 10000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
 
         // 정밀계산
+
+        // stationA까지의 도보 시간 캐싱
+        Map<Long, Integer> stationARouteCache = new ConcurrentHashMap<>();
+
         List<RecommendSearchDto> result = pointStationPropertyDtos.parallelStream()
                 .map(dto -> {
                     try {
-                        int route1 = routingUtil.getRoute(pointLatitude, pointLongitude, dto.getStationALatitude(), dto.getStationALongitude(), TransportationType.도보);
-                        int route2 = routingUtil.getRoute(dto.getStationBLatitude(), dto.getStationBLongitude(), dto.getLatitude(), dto.getLongitude(), TransportationType.도보);
+                        long stationAId = dto.getStationAId();
+
+                        // 캐시에 존재하면 계산 안함, 존재 안하면 계산하고 넣음
+                        int route1 = stationARouteCache.computeIfAbsent(stationAId, id -> {
+                            return routingUtil.getRoute(
+                                    pointLatitude,
+                                    pointLongitude,
+                                    dto.getStationALatitude(),
+                                    dto.getStationALongitude(),
+                                    TransportationType.도보
+                            );
+                        });
+
+                        int route2 = routingUtil.getRoute(
+                                dto.getStationBLatitude(),
+                                dto.getStationBLongitude(),
+                                dto.getLatitude(),
+                                dto.getLongitude(),
+                                TransportationType.도보
+                        );
 
                         int walkTime = request.getAddresses().get(targetNum).getWalkTime();
                         int totalTime = request.getAddresses().get(targetNum).getTotalTransportTime();
@@ -276,12 +299,12 @@ public class PropertyService {
                                 route1 + dto.getTotalTime() + route2
                         );
                     } catch (Exception e) {
-                        // 예외 발생 시 무시하고 제외
                         return null;
                     }
                 })
                 .filter(Objects::nonNull)
                 .toList();
+
 //        List<RecommendSearchDto> result = new ArrayList<>();
 //        for (PointStationPropertyDto dto : pointStationPropertyDtos) {
 //            int route1 = routingUtil.getRoute(pointLatitude, pointLongitude, dto.getStationALatitude(), dto.getStationALongitude(), TransportationType.도보);

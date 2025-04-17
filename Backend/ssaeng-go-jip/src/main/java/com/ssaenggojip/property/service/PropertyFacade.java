@@ -151,7 +151,7 @@ public class PropertyFacade {
         else
             throw new GeneralException(ErrorStatus.ADDRESS_INFO_COUNT);
 
-        if (result.size() > 20000)
+        if (result.size() > 10000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
         RecommendSearchResponse response = RecommendSearchResponse.builder()
                 .total(result.size())
@@ -170,7 +170,6 @@ public class PropertyFacade {
 
             }
         }
-        System.out.println("three");
         return response;
 
     }

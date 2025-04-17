@@ -51,7 +51,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 부동산 관련 에러
     UNABLE_TO_GET_PROPERTY_INFO(HttpStatus.BAD_REQUEST, "PROPERTY4001", "존재하지 않는 부동산 입니다."),
-    TOO_MANY_PROPERTY_SEARCH(HttpStatus.BAD_REQUEST, "PROPERTY4013", "20000개가 넘는 검색 조건 입니다."),
+    TOO_MANY_PROPERTY_SEARCH(HttpStatus.BAD_REQUEST, "PROPERTY4013", "10000개가 넘는 검색 조건 입니다."),
     ADDRESS_INFO_COUNT(HttpStatus.BAD_REQUEST, "PROPERTY4001", "맞춤형 주소는 1개 혹은 2개를 입력해야 합니다."),
     NOT_SUPPORTED_ENUM_TYPE(HttpStatus.BAD_REQUEST, "PROPERTY4001", "존재하지 않는 ENUM 타입입니다."),
 
