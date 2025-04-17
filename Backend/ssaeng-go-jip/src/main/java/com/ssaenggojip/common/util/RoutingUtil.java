@@ -44,13 +44,22 @@ public class RoutingUtil {
             GHResponse response = graphHopper.route(request);
 
             if (response.hasErrors()) {
-                System.err.println("GraphHopper 오류: " + response.getErrors());
-                throw new GeneralException(ErrorStatus._BAD_REQUEST);
+                for (Throwable error : response.getErrors()) {
+                    if (error instanceof com.graphhopper.util.exceptions.PointOutOfBoundsException) {
+                        System.out.println("GraphHopper 오류: " + error.getMessage());
+                        throw new GeneralException(ErrorStatus.POINT_OUT_OF_BOUND);
+                    }
+                }
+
+                System.out.println("GraphHopper 오류: " + response.getErrors());
+                throw new GeneralException(ErrorStatus.GRAPHHOPPER_ERROR);
             }
 
             var path = response.getBest();
             return (int) Math.ceil(path.getTime() / 1000.0 / 60.0);
 
+        } catch (GeneralException e) {
+            throw e;
         } catch (Exception e) {
             System.err.println("GraphHopper 예외 발생: " + e.getMessage());
             e.printStackTrace();

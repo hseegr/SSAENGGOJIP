@@ -55,8 +55,12 @@ public enum ErrorStatus implements BaseErrorCode {
     ADDRESS_INFO_COUNT(HttpStatus.BAD_REQUEST, "PROPERTY4001", "맞춤형 주소는 1개 혹은 2개를 입력해야 합니다."),
     NOT_SUPPORTED_ENUM_TYPE(HttpStatus.BAD_REQUEST, "PROPERTY4001", "존재하지 않는 ENUM 타입입니다."),
 
+    // Graphhopper 관련 에러
+    GRAPHHOPPER_ERROR(HttpStatus.BAD_REQUEST, "GRAPHHOPPER4001", "Graphhopper 관련 에러가 발생했습니다."),
+    POINT_OUT_OF_BOUND(HttpStatus.BAD_REQUEST, "GRAPHHOPPER4002", "한국을 벗어난 위도 혹은 경도입니다."),
+
     // 역 관련 에러
-    UNABLE_TO_GET_STATION_INFO(HttpStatus.BAD_REQUEST, "STATION4001", "존재하지 않는 역 입니다."),
+    UNABLE_TO_GET_STATION_INFO(HttpStatus.BAD_REQUEST, "STATION4001", "존재하지 않는 역이거나 잘못된 호선입니다."),
     NO_STATION_NEAR_POINT(HttpStatus.NOT_FOUND, "STATION4004", "좌표 주변 1km 이내에 역이 없습니다"),
     NO_STATION_TO_STATION_MAPPER(HttpStatus.NOT_FOUND, "STATION4004", "역 과 역을 이어주는 테이블이 없습니다.");
 
