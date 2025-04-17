@@ -229,8 +229,10 @@ SELECT DISTINCT ON (p.id)
     false AS is_interest,
     p.main_image AS image_url,
     filtered.t2 AS transport_time,
+    filtered.station_a_id AS station_a_id,
     filtered.station_a_latitude,
     filtered.station_a_longitude,
+    filtered.station_b_id AS station_b_id,
     filtered.station_b_latitude,
     filtered.station_b_longitude
 FROM filtered

@@ -22,8 +22,10 @@ public class PointStationPropertyDto {
     Boolean isInterest;
     String imageUrl;
     Integer totalTime;
+    Long stationAId;
     Double stationALatitude;
     Double stationALongitude;
+    Long stationBId;
     Double stationBLatitude;
     Double stationBLongitude;
 
