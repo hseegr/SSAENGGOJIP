@@ -65,7 +65,7 @@ public class PropertyService {
                 request.getFacilityTypes().contains(FacilityType.세탁소) ? true : null
         );
 
-        if(properties.size()>20000)
+        if(properties.size()>10000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
         // dto로 변경
@@ -240,7 +240,7 @@ public class PropertyService {
 //                .distinct()
 //                .count();
 //        System.out.println("고유 propertyId 수: " + uniqueCount);
-        if (pointStationPropertyDtos.size() > 20000)
+        if (pointStationPropertyDtos.size() > 10000)
             throw new GeneralException(ErrorStatus.TOO_MANY_PROPERTY_SEARCH);
 
 
