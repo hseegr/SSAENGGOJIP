@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import one from '@/assets/images/01.png'
 import two from '@/assets/images/02.png'
@@ -7,14 +6,14 @@ import three from '@/assets/images/03.png'
 import four from '@/assets/images/04.png'
 import five from '@/assets/images/05.png'
 
-// 온보딩에 표시할 슬라이드 데이터 배열 (아이콘, 제목, 설명 포함)
+// 온보딩 슬라이드 데이터 배열
 const onboardingSlides = [
   {
     icon: '✅',
     title: '맞춤 매물',
     description:
       '타겟 주소와 이동 시간을 설정하고,\n내 상황에 딱 맞는 매물을 추천받아보세요.',
-    image: one, // ✅ 이미지 경로 추가
+    image: one,
   },
   {
     icon: '🚆',
@@ -48,23 +47,10 @@ const onboardingSlides = [
 
 const OnboardingPage = () => {
   const navigate = useNavigate()
-  // 현재 보여줄 슬라이드의 인덱스를 상태로 관리
-  const [currentSlide, setCurrentSlide] = useState(0)
-
-  // 이전 슬라이드로 이동 (첫 번째일 경우 비활성화)
-  const goPrev = () => {
-    if (currentSlide > 0) setCurrentSlide((prev) => prev - 1)
-  }
-
-  // 다음 슬라이드로 이동 (마지막일 경우 비활성화)
-  const goNext = () => {
-    if (currentSlide < onboardingSlides.length - 1)
-      setCurrentSlide((prev) => prev + 1)
-  }
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-white px-4 mt-16">
-      {/* 상단 안내 문구 + 시작하기 버튼 */}
+      {/* 상단 텍스트 + 시작하기 버튼 */}
       <div className="text-center mb-8">
         <p className="text-base">간편하게 로그인하고,</p>
         <p className="text-base font-semibold">
@@ -79,63 +65,33 @@ const OnboardingPage = () => {
         </button>
       </div>
 
-      {/* 슬라이드 영역 전체 */}
-      <div className="flex items-center justify-center gap-4">
-        {/* 왼쪽 화살표 버튼 */}
-        <button
-          onClick={goPrev}
-          disabled={currentSlide === 0}
-          className="p-2 text-gray-200 hover:text-[#7171D7] disabled:opacity-30"
-        >
-          <ChevronLeft size={32} />
-        </button>
-
-        {/* 슬라이드 컨테이너 (가로 슬라이드 전환을 위한 transform 처리) */}
-        <div className="w-[1100px] h-[380px] overflow-hidden rounded-2xl bg-white">
+      {/* 슬라이드들을 수직으로 나열 */}
+      <div className="flex flex-col gap-10 w-full max-w-[1100px]">
+        {onboardingSlides.map((slide, index) => (
           <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+            key={index}
+            className="w-full flex items-center justify-between px-12 py-8 bg-white rounded-2xl"
           >
-            {onboardingSlides.map((slide, index) => (
-              <div
-                key={index}
-                className="min-w-[1100px] px-12 py-8 flex items-center justify-between"
-              >
-                {/* 왼쪽: 이미지 자리 */}
-                <div
-                  className="overflow-hidden w-[629px] h-[328px] bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm border border-ssaeng-gray-1"
-                  style={{
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.06)',
-                  }}
-                >
-                  <img
-                    src={slide.image}
-                    alt={slide.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* 오른쪽: 텍스트 설명 */}
-                <div className="text-left w-[300px]">
-                  <p className="text-2xl font-semibold mb-2">
-                    {slide.icon} {slide.title}
-                  </p>
-                  <p className="text-gray-600 whitespace-pre-line text-sm font-medium">
-                    {slide.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+            {/* 왼쪽: 이미지 */}
+            <div className="overflow-hidden w-[629px] h-[328px] bg-gray-100 rounded-lg flex items-center justify-center border border-ssaeng-gray-1">
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
 
-        {/* 오른쪽 화살표 버튼 */}
-        <button
-          onClick={goNext}
-          disabled={currentSlide === onboardingSlides.length - 1}
-          className="p-2 text-gray-200 hover:text-[#7171D7] disabled:opacity-30"
-        >
-          <ChevronRight size={32} />
-        </button>
+            {/* 오른쪽: 텍스트 설명 */}
+            <div className="text-left w-[300px]">
+              <p className="text-2xl font-semibold mb-2">
+                {slide.icon} {slide.title}
+              </p>
+              <p className="text-gray-600 whitespace-pre-line text-sm font-medium">
+                {slide.description}
+              </p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
